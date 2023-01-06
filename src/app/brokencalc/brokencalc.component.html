@@ -1,0 +1,24 @@
+<div fxLayout="row">
+  <div class="builder">
+    <mat-grid-list cols="18" rowHeight="100px" class="gui">
+      <mat-grid-tile
+        *ngFor="let tile of tilesTop"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.background]="tile.color">
+        <div matBadge="1" matBadgeSize="large">
+          <img src="assets/barbarian/{{tile.image}}.png" alt="{{tile.image}}" width="70">
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="18" rowHeight="120px" class="gui">
+      <mat-grid-tile
+        *ngFor="let tile of tilesBottom"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.background]="tile.color">
+        <img src="assets/{{tile.image}}.png" alt="{{tile.image}}">
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
