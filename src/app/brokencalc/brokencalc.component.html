@@ -1,24 +1,69 @@
-<div fxLayout="row">
-  <div class="builder">
-    <mat-grid-list cols="18" rowHeight="100px" class="gui">
-      <mat-grid-tile
-        *ngFor="let tile of tilesTop"
-        [colspan]="tile.cols"
-        [rowspan]="tile.rows"
-        [style.background]="tile.color">
-        <div matBadge="1" matBadgeSize="large">
-          <img src="assets/barbarian/{{tile.image}}.png" alt="{{tile.image}}" width="70">
+<div class="content">
+  <mat-card>
+    <mat-card-content>
+      <div fxFlex fxLayoutAlign="start center" fxLayoutGap="10">
+          <mat-form-field appearance="fill">
+            <mat-label>Wybierz profesję</mat-label>
+            <mat-select>
+              <mat-option value="option1">Barbarzyńca</mat-option>
+              <mat-option value="option2">Mag Ognia</mat-option>
+              <mat-option value="option3">Łucznik</mat-option>
+              <mat-option value="option4">Sheed</mat-option>
+              <mat-option value="option5">Voodoo</mat-option>
+              <mat-option value="option6">Rycerz</mat-option>
+              <mat-option value="option7">Druid</mat-option>
+            </mat-select>
+            <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field hintLabel="Level z przedziału 1-140" appearance="fill">
+            <mat-label>Level postaci</mat-label>
+            <input matInput>
+          </mat-form-field>
+
+        <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10">
+
+
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <img class="points" src="assets/calculator/uczen.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3>
+                <img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3>
+                <img class="points" src="assets/calculator/mistrz.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3>
+              </div>
+
+
         </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-    <mat-grid-list cols="18" rowHeight="120px" class="gui">
-      <mat-grid-tile
-        *ngFor="let tile of tilesBottom"
-        [colspan]="tile.cols"
-        [rowspan]="tile.rows"
-        [style.background]="tile.color">
-        <img src="assets/{{tile.image}}.png" alt="{{tile.image}}">
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+
+      </div>
+
+
+
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+
+          <div *ngFor="let skill of skills">
+
+            <div>
+              <div matBadge="{{skill.level}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
+                <img class="skillImg" src="assets/barbarian/{{skill.image}}.png" alt="{{skill.image}}">
+              </div>
+            </div>
+
+            <div fxLayoutAlign="center" class="upgrade">
+              <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
+              <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+  </mat-card>
 </div>
+
+<!--<a routerLink="#" (click)="$event.preventDefault()"><img class="levelButton" src="assets/{{tile.image}}.png" alt="{{tile.image}}"></a>-->

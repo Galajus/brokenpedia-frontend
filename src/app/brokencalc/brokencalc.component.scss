@@ -1,7 +1,75 @@
-.builder {
-  margin-top: 100px;
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.content {
+  margin: 30px auto auto auto;
+}
+
+mat-card {
+  margin-top: 10px;
+  padding: 25px 25px 25px 25px;
+}
+
+h3 {
+  text-align: center;
+  font-weight: bold;
+  margin: auto;
+}
+
+h3.red {
+  color: red;
+}
+
+h3.yellow {
+  color: yellow;
+}
+
+h3.orange {
+  color: orange;
+}
+
+img.points {
+
+}
+
+mat-card img.skillImg{
+  object-fit: cover; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 100%;
+}
+
+mat-card img.upgradeImg, img.downgradeImg{
+  object-fit: cover; /*this makes the image in src fit to the size specified below*/
+  width: 30%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 30%;
+}
+
+mat-card img.upgradeImg:active {
+  transform: translateY(-2px);
+}
+
+mat-card img.downgradeImg:active {
+  transform: translateY(2px);
+}
+
+mat-card button {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.upgrade {
+  padding-top: 10px;
 }
 
 .gui {
-  margin: 0 400px 5px 400px;
+  margin: 0 400px 0 400px;
+}
+
+.upgrade :hover {
+  cursor: pointer !important;
 }
