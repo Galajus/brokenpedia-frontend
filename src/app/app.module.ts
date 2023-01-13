@@ -14,12 +14,27 @@ import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import { HomeComponent } from './home/home.component';
+import {FormsModule} from "@angular/forms";
+import { InfoDialogComponent } from './brokencalc/info-dialog/info-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatIconModule} from "@angular/material/icon";
+import { FooterComponent } from './shared/components/footer/footer.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+import { DefaultComponent } from './layouts/default/default.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalculatorComponent,
-    BrokencalcComponent
+    BrokencalcComponent,
+    HomeComponent,
+    InfoDialogComponent,
+    FooterComponent,
+    DefaultComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +48,13 @@ import {MatSelectModule} from "@angular/material/select";
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

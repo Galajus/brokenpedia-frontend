@@ -32,8 +32,26 @@ h3.orange {
   color: orange;
 }
 
-img.points {
+h3.blue {
+  color: cornflowerblue;
+}
 
+.make-space {
+  margin-bottom: 8px !important;
+}
+
+.iconButton {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.upgradeStat {
+  background-color: rgba(137, 255, 137, 0.1);
+}
+
+.reduceStat {
+  background-color: rgba(255, 137, 137, 0.1);
 }
 
 mat-card img.skillImg{
@@ -66,10 +84,36 @@ mat-card button {
   padding-top: 10px;
 }
 
-.gui {
-  margin: 0 400px 0 400px;
+.ng-trigger {
+  max-height: 80vh !important;
 }
 
 .upgrade :hover {
   cursor: pointer !important;
+}
+
+.student  span {
+  background-color: rgba(23, 21, 21, 0.45);
+  color: yellow;
+}
+
+.adept  span {
+  background-color: rgba(23, 21, 21, 0.45);
+  color: orange;
+}
+
+.master  span {
+  background-color: rgba(23, 21, 21, 0.45);
+  color: red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

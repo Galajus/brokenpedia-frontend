@@ -1,69 +1,129 @@
 <div class="content">
-  <mat-card>
-    <mat-card-content>
-      <div fxFlex fxLayoutAlign="start center" fxLayoutGap="10">
-          <mat-form-field appearance="fill">
-            <mat-label>Wybierz profesję</mat-label>
-            <mat-select>
-              <mat-option value="option1">Barbarzyńca</mat-option>
-              <mat-option value="option2">Mag Ognia</mat-option>
-              <mat-option value="option3">Łucznik</mat-option>
-              <mat-option value="option4">Sheed</mat-option>
-              <mat-option value="option5">Voodoo</mat-option>
-              <mat-option value="option6">Rycerz</mat-option>
-              <mat-option value="option7">Druid</mat-option>
-            </mat-select>
-            <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
-          </mat-form-field>
 
-          <mat-form-field hintLabel="Level z przedziału 1-140" appearance="fill">
-            <mat-label>Level postaci</mat-label>
-            <input matInput>
-          </mat-form-field>
-
-        <div fxFlex fxLayoutAlign="center center" fxLayoutGap="10">
-
-
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <img class="points" src="assets/calculator/uczen.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3>
-                <img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3>
-                <img class="points" src="assets/calculator/mistrz.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3>
+  <div style="padding-bottom: 10px">
+    <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
+      <div fxFlex="65">
+        <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+          <mat-card-content>
+            <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
+              <div>
+                <button mat-raised-button (click)="openDialog('500ms', '500ms')">Info.</button>
               </div>
+              <mat-form-field appearance="outline" color="accent">
+                <mat-label>Wybierz profesję</mat-label>
+                <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
+                  <mat-option value="bb">Barbarzyńca</mat-option>
+                  <mat-option value="fm">Mag Ognia</mat-option>
+                  <mat-option value="ar">Łucznik</mat-option>
+                  <mat-option value="sh">Sheed</mat-option>
+                  <mat-option value="vd">Voodoo</mat-option>
+                  <mat-option value="kn">Rycerz</mat-option>
+                  <mat-option value="dr">Druid</mat-option>
+                </mat-select>
+                <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
+              </mat-form-field>
 
-
-        </div>
+              <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent">
+                <mat-label>Level postaci</mat-label>
+                <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
       </div>
-
-
-
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
-      <div>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-
-          <div *ngFor="let skill of skills">
+      <div fxFlex="35">
+        <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+          <mat-card-content>
 
             <div>
-              <div matBadge="{{skill.level}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
-                <img class="skillImg" src="assets/barbarian/{{skill.image}}.png" alt="{{skill.image}}">
+              <div fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
+                <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
+              </div>
+              <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
               </div>
             </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 
-            <div fxLayoutAlign="center" class="upgrade">
-              <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
-              <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <div>
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+
+            <div *ngFor="let skill of currentClassSkills">
+
+              <div>
+                <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
+                  <img class="skillImg" src="../../assets/skills/class/{{skill.image}}.png" alt="{{skill.image}}">
+                </div>
+              </div>
+
+              <div fxLayoutAlign="center" class="upgrade">
+                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
+                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+              </div>
+
             </div>
-
           </div>
+
         </div>
 
-      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-    </mat-card-content>
-  </mat-card>
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <div>
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+
+            <div *ngFor="let skill of currentBasicSkills">
+
+              <div>
+                <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
+                  <img class="skillImg" src="../../assets/skills/basic/{{skill.image}}.png" alt="{{skill.image}}">
+                </div>
+              </div>
+
+              <div fxLayoutAlign="center" class="upgrade">
+                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
+                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutGap="2" fxLayoutAlign="center center">
+          <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
+            <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
+            <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
+            <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
+            <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
+            <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
+            <div class="make-space"></div>
+            <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
+            <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 
-<!--<a routerLink="#" (click)="$event.preventDefault()"><img class="levelButton" src="assets/{{tile.image}}.png" alt="{{tile.image}}"></a>-->

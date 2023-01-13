@@ -1,8 +1,7 @@
-export interface Skill {
+export interface Statistic {
   name: string;
   image: string;
   id: number;
   level: number;
-  maxLevel: number;
   minLevel: number;
 }
