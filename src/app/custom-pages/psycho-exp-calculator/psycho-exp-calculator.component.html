@@ -1,0 +1,129 @@
+<div fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center stretch">
+    <!--options-->
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutGap="20" fxLayoutAlign="center center">
+          <div>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Wybierz rangę itema</mat-label>
+              <mat-select [(ngModel)]="itemRank" (selectionChange)="rankUpdate($event.value)">
+                <mat-option value="1">I</mat-option>
+                <mat-option value="2">II</mat-option>
+                <mat-option value="3">III</mat-option>
+                <mat-option value="4">IV</mat-option>
+                <mat-option value="5">V</mat-option>
+                <mat-option value="6">VI</mat-option>
+                <mat-option value="7">VII</mat-option>
+                <mat-option value="8">VIII</mat-option>
+                <mat-option value="9">IX</mat-option>
+                <mat-option value="10">X</mat-option>
+                <mat-option value="11">XI</mat-option>
+                <mat-option value="12">XII</mat-option>
+              </mat-select>
+              <mat-hint align="end">ranga przedmiotu od I do XII</mat-hint>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-label>Wybierz posiadany level</mat-label>
+              <mat-select [(ngModel)]="actualLevel" (selectionChange)="targetLevelUpdate($event.value)">
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+                <mat-option value="5">5</mat-option>
+                <mat-option value="6">6</mat-option>
+                <mat-option value="7">7</mat-option>
+                <mat-option value="8">8</mat-option>
+              </mat-select>
+              <mat-hint align="end">Posiadany lvl psycho od 1 do 8</mat-hint>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field hintLabel="Procent wyexpienia od 0 do 99" appearance="outline" color="accent">
+              <mat-label>Procent wyexpienia</mat-label>
+              <input type="text" matInput #inputPercent (input)="onInput($event, this.inputPercent, 'percent')">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field hintLabel="Koszt za instancję" appearance="outline" color="accent">
+              <mat-label>Koszt w złocie</mat-label>
+              <input type="text" matInput #inputCost (input)="onInput($event, this.inputCost, 'cost')">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field hintLabel="Psycho za instancję" appearance="outline" color="accent">
+              <mat-label>Psycho na jeden item</mat-label>
+              <input type="text" matInput #inputEarn (input)="onInput($event, this.inputEarn, 'earn')">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field hintLabel="Czas na instancję w sekundach" appearance="outline" color="accent">
+              <mat-label>Czas w sekundach</mat-label>
+              <input type="text" matInput #inputTime (input)="onInput($event, this.inputTime, 'time')">
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!--result-->
+    <mat-card  class="mat-elevation-z6" fxLayoutAlign="center center">
+      <mat-card-content fxLayout="column">
+        <div fxLayoutAlign="center center">
+          <mat-list>
+            <mat-list-item class="bold">Posiadany psychoexp: {{currentPsycho}}xp</mat-list-item>
+          </mat-list>
+        </div>
+        <div>
+          <table mat-table [dataSource]="calculations">
+            <ng-container matColumnDef="Do lvla">
+              <th mat-header-cell *matHeaderCellDef> Do lvla</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.level)}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Psychoexp">
+              <th mat-header-cell *matHeaderCellDef> Psychoexp</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.psychoexp)}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Instancji">
+              <th mat-header-cell *matHeaderCellDef> Instancji</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.instances)}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Koszt">
+              <th mat-header-cell *matHeaderCellDef> Koszt</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.price)}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Czas w minutach">
+              <th mat-header-cell *matHeaderCellDef> Czas w minutach</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.time)}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Czas w godzinach">
+              <th mat-header-cell *matHeaderCellDef> Czas w godzinach</th>
+              <td mat-cell *matCellDef="let element">
+                {{simpleFormatValue(element.timeInHours)}}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div>
+            <h5>
+              * Wartości są zawsze zaokrąglane w górę
+            </h5>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

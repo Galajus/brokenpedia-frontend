@@ -8,6 +8,51 @@
   right: 0;
 }
 
+.menu-gal {
+  height: 100% !important;
+}
+
+mat-sidenav-content {
+  background-color: #282727;
+}
+
+mat-nav-list a {
+  font-size: 14px !important;
+  height: 32px !important;
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+mat-nav-list p {
+  margin-bottom: 0;
+}
+
+.sidebar-icon {
+  padding-right: 4px;
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+
+.logo {
+  cursor: pointer !important;
+}
+
+.love {
+  color: red;
+  font-size: 16px;
+  height: 14px;
+  width: 16px;
+}
+
+.own {
+  font-size: 10px;
+}
+
+p .owner {
+  font-size: 8px !important;
+  font-weight: bold;
+}
+
 .mat-toolbar {
   position: relative;
   z-index: 2;
@@ -15,7 +60,7 @@
 
 mat-sidenav {
   background-color: #212121;
-  padding-right: 12px;
+  padding-right: 2px;
 }
 
 .is-mobile .toolbar {

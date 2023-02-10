@@ -1,6 +1,5 @@
-<div class="content">
-
-  <div style="padding-bottom: 10px">
+<div fxLayout="column" fxLayoutGap="10">
+  <div>
     <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
       <div fxFlex="65">
         <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
@@ -35,16 +34,15 @@
       <div fxFlex="35">
         <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
           <mat-card-content>
-
             <div>
               <div fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
                 <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
               </div>
               <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
+                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
               </div>
             </div>
           </mat-card-content>
@@ -58,9 +56,7 @@
       <mat-card-content>
         <div>
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-
             <div *ngFor="let skill of currentClassSkills">
-
               <div>
                 <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
                   <img class="skillImg" src="../../assets/skills/class/{{skill.image}}.png" alt="{{skill.image}}">
@@ -68,10 +64,9 @@
               </div>
 
               <div fxLayoutAlign="center" class="upgrade">
-                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
-                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../../assets/calculator/skilldown.png" alt="skill down">
+                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../../assets/calculator/skillup.png" alt="skill up">
               </div>
-
             </div>
           </div>
 
@@ -86,9 +81,7 @@
       <mat-card-content>
         <div>
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-
             <div *ngFor="let skill of currentBasicSkills">
-
               <div>
                 <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
                   <img class="skillImg" src="../../assets/skills/basic/{{skill.image}}.png" alt="{{skill.image}}">
@@ -96,8 +89,8 @@
               </div>
 
               <div fxLayoutAlign="center" class="upgrade">
-                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../assets/calculator/skilldown.png" alt="skill down">
-                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../assets/calculator/skillup.png" alt="skill up">
+                <img (click)="updateLevelById(false, skill.id)" class="downgradeImg" src="../../../assets/calculator/skilldown.png" alt="skill down">
+                <img (click)="updateLevelById(true, skill.id)" class="upgradeImg" src="../../../assets/calculator/skillup.png" alt="skill up">
               </div>
 
             </div>
@@ -110,20 +103,21 @@
   <div>
     <mat-card class="mat-elevation-z6">
       <mat-card-content>
-        <div fxLayout="row" fxLayoutGap="2" fxLayoutAlign="center center">
-          <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
-            <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
-            <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
-            <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
-            <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
-            <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
-            <div class="make-space"></div>
-            <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
-            <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
+        <div>
+          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
+            <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
+              <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
+              <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
+              <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
+              <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
+              <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
+              <div class="make-space"></div>
+              <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
+              <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
+            </div>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
   </div>
 </div>
-

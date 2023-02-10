@@ -15,6 +15,57 @@ mat-card {
   background-color: rgba(52, 52, 52, 0.68) !important;
 }
 
+.special {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  overflow: hidden;
+
+  flex-direction: column;
+  position: relative;
+}
+
+.specialLeft {
+  margin: 30px auto auto auto;
+}
+
+.specialRight {
+  margin: 30px auto auto auto;
+}
+
+.content {
+  max-width: 1000px;
+  min-width: 700px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  margin: 30px auto auto auto;
+  background-color: #282727;
+  overflow: hidden;
+
+  flex-direction: column;
+  position: relative;
+}
+
+app-brokencalc .content {
+  min-width: 900px !important;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+a:visited {
+  color: white;
+}
+
 mat-sidenav-container{
   box-shadow: none !important;
 }
@@ -41,3 +92,20 @@ mat-sidenav-container{
   background: #555;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.example-form {
+  width: 100% !important;
+}
+
+.example-full-width {
+  width: 100%;
+}

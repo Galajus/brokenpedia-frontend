@@ -1,16 +1,4 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  height: 100%;
-}
-
-.content {
-  margin: 30px auto auto auto;
-}
-
 mat-card {
-  margin-top: 10px;
   padding: 25px 25px 25px 25px;
 }
 
@@ -105,15 +93,4 @@ mat-card button {
 .master  span {
   background-color: rgba(23, 21, 21, 0.45);
   color: red;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
 }

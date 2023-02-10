@@ -1,0 +1,51 @@
+mat-list {
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+  font-weight: bold;
+}
+
+.standard-form {
+  width: 100% !important;
+}
+
+.gal {
+  display: inline !important;
+}
+
+th {
+  text-align: center !important;
+}
+
+.mat-row:nth-child(even){
+  background-color: #646464;
+}
+
+.mat-row:nth-child(odd){
+  background-color: #4b4b4b;
+}
+
+
+
+
+
+form {
+  width: 100% !important;
+}
+
+input {
+  width: 100% !important;
+}
+
+matInput {
+  width: 100% !important;
+}
+
+mat-label {
+  width: 100% !important;
+}
+

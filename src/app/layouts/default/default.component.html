@@ -1,19 +1,62 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar color="disabled" class="toolbar mat-elevation-z4">
-    <button mat-icon-button  (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-    <img src="assets/logo.svg" alt="Broken Pedia logo" width="200">
+    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+    <img class="logo" routerLink="" src="assets/logo.svg" alt="Broken Pedia logo" width="200">
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #sidenav fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
-      <mat-nav-list>
-        <a mat-list-item routerLink=".">Aktualności</a>
-        <a mat-list-item routerLink="/build-calculator">Kalkulator Buildów</a>
-      </mat-nav-list>
-    </mat-sidenav>
+      <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
+        <div class="menu-gal" fxLayout="column">
+          <mat-nav-list fxFlex>
+            <a mat-list-item routerLink=""><mat-icon class="sidebar-icon">today</mat-icon> Aktualności</a>
+            <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> Kalkulator Buildów</a>
+            <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> Kalkulator Psychoexpa</a>
+            <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> Kalkulator Esencji</a>
+            <a mat-list-item routerLink="/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>
+          </mat-nav-list>
+          <mat-nav-list fxLayout="column" fxLayoutAlign="end center">
+            <p>Made with <mat-icon class="love">favorite</mat-icon> by Galajus</p>
+            <p class="own">Grafiki na stronie są własnością <a class="owner" href="https://www.whitemoon.com">Whitemoon.pl</a></p>
+          </mat-nav-list>
+        </div>
+      </mat-sidenav>
 
     <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      <div fxLayout="row" fxLayoutGap="10">
+        <div fxFlex="12" class="special specialLeft">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+                  crossorigin="anonymous"></script>
+          <!-- pedia -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-8605997221846310"
+               data-ad-slot="8943128827"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+
+        <div class="content" style="{{additionalStyle}}"> <!--fxFlex fxLayoutAlign="center"-->
+          <router-outlet></router-outlet>
+        </div>
+
+        <div fxFlex="12" class="special specialRight">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+                  crossorigin="anonymous"></script>
+          <!-- pedia -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-8605997221846310"
+               data-ad-slot="8943128827"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

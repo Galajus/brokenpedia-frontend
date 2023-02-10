@@ -1,13 +1,11 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Skill} from "./model/skill";
-import * as events from "events";
 import {SkillCost} from "./model/skillCost";
 import {MatDialog} from "@angular/material/dialog";
 import {InfoDialogComponent} from "./info-dialog/info-dialog.component";
 import {Statistic} from "./model/statistic";
 import {Build} from "./model/build";
-import {filter, Subscription} from "rxjs";
-import {NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-brokencalc',
@@ -16,98 +14,98 @@ import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 })
 export class BrokencalcComponent implements OnInit, OnDestroy {
   bbClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "bb1", id: 10},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "bb2", id: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "bb3", id: 12},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "bb4", id: 13},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "bb5", id: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "bb6", id: 15},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "bb7", id: 16},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "bb8", id: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "bb9", id: 18},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "bb1", id: 10, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "bb2", id: 11, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "bb3", id: 12, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "bb4", id: 13, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "bb5", id: 14, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "bb6", id: 15, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "bb7", id: 16, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "bb8", id: 17, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "bb9", id: 18, beginLevel: 26},
   ];
 
   fmClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "mo1", id: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "mo2", id: 21},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "mo3", id: 22},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "mo4", id: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "mo5", id: 24},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "mo6", id: 25},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "mo7", id: 26},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "mo8", id: 27},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "mo9", id: 28},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "mo1", id: 20, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "mo2", id: 21, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "mo3", id: 22, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "mo4", id: 23, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "mo5", id: 24, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "mo6", id: 25, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "mo7", id: 26, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "mo8", id: 27, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "mo9", id: 28, beginLevel: 26},
   ];
 
   knClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "kn1", id: 30},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "kn2", id: 31},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "kn3", id: 32},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "kn4", id: 33},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "kn5", id: 34},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "kn6", id: 35},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "kn7", id: 36},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "kn8", id: 37},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "kn9", id: 38},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "kn1", id: 30, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "kn2", id: 31, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "kn3", id: 32, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "kn4", id: 33, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "kn5", id: 34, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "kn6", id: 35, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "kn7", id: 36, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "kn8", id: 37, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "kn9", id: 38, beginLevel: 26},
   ];
 
   drClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "dr1", id: 40},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "dr2", id: 41},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "dr3", id: 42},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "dr4", id: 43},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "dr5", id: 44},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "dr6", id: 45},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "dr7", id: 46},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "dr8", id: 47},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "dr9", id: 48},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "dr1", id: 40, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "dr2", id: 41, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "dr3", id: 42, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "dr4", id: 43, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "dr5", id: 44, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "dr6", id: 45, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "dr7", id: 46, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "dr8", id: 47, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "dr9", id: 48, beginLevel: 26},
   ];
 
   shClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "sh1", id: 50},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "sh2", id: 51},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "sh3", id: 52},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "sh4", id: 53},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "sh5", id: 54},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "sh6", id: 55},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "sh7", id: 56},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "sh8", id: 57},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "sh9", id: 58},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "sh1", id: 50, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "sh2", id: 51, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "sh3", id: 52, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "sh4", id: 53, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "sh5", id: 54, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "sh6", id: 55, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "sh7", id: 56, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "sh8", id: 57, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "sh9", id: 58, beginLevel: 26},
   ];
 
   arClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "uk1", id: 60},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "uk2", id: 61},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "uk3", id: 62},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "uk4", id: 63},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "uk5", id: 64},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "uk6", id: 65},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "uk7", id: 66},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "uk8", id: 67},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "uk9", id: 68},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "uk1", id: 60, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "uk2", id: 61, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "uk3", id: 62, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "uk4", id: 63, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "uk5", id: 64, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "uk6", id: 65, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "uk7", id: 66, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "uk8", id: 67, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "uk9", id: 68, beginLevel: 26},
   ];
 
   vdClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "vd1", id: 70},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "vd2", id: 71},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "vd3", id: 72},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "vd4", id: 73},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "vd5", id: 74},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "vd6", id: 75},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "vd7", id: 76},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "vd8", id: 77},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "vd9", id: 78},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "vd1", id: 70, beginLevel: 2},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "vd2", id: 71, beginLevel: 5},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "vd3", id: 72, beginLevel: 8},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "vd4", id: 73, beginLevel: 11},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "vd5", id: 74, beginLevel: 14},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "vd6", id: 75, beginLevel: 17},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "vd7", id: 76, beginLevel: 20},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "vd8", id: 77, beginLevel: 23},
+    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "vd9", id: 78, beginLevel: 26},
   ];
 
   basicSkillsTemplate: Skill[] = [
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Cios pięścią', image: "b1", id: 1},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Okrzyk bojowy', image: "b2", id: 2},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Rzut kamieniem', image: "b3", id: 3},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Strzał', image: "b4", id: 4},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Zwykły atak', image: "b5", id: 5},
-    {level: 1, maxLevel: 1, minLevel: 1, name: 'Wyrwanie z korzeni', image: "b6", id: 6},
-    {level: 1, maxLevel: 1, minLevel: 1, name: 'Ucieczka', image: "b7", id: 7},
-    {level: 0, maxLevel: 14, minLevel: 0, name: 'Wataha', image: "b8", id: 8},
+    {level: 1, maxLevel: 21, minLevel: 1, name: 'Cios pięścią', image: "b1", id: 1, beginLevel: 1},
+    {level: 1, maxLevel: 21, minLevel: 1, name: 'Okrzyk bojowy', image: "b2", id: 2, beginLevel: 1},
+    {level: 1, maxLevel: 21, minLevel: 1, name: 'Rzut kamieniem', image: "b3", id: 3, beginLevel: 1},
+    {level: 1, maxLevel: 21, minLevel: 1, name: 'Strzał', image: "b4", id: 4, beginLevel: 1},
+    {level: 1, maxLevel: 21, minLevel: 1, name: 'Zwykły atak', image: "b5", id: 5, beginLevel: 1},
+    {level: 1, maxLevel: 1, minLevel: 1, name: 'Wyrwanie z korzeni', image: "b6", id: 6, beginLevel: 1},
+    {level: 1, maxLevel: 1, minLevel: 1, name: 'Ucieczka', image: "b7", id: 7, beginLevel: 1},
+    {level: 0, maxLevel: 14, minLevel: 0, name: 'Wataha', image: "b8", id: 8, beginLevel: 35},
   ]
 
   statsTemplate: Statistic[] = [
@@ -166,8 +164,10 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   masterPoints: number = 0;
   statPoints: number = 0;
   remainingStatsPoints: number = 0;
+  technicalRefresh: boolean = false;
   constructor(
     public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -230,6 +230,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   updateStatById(upgrade: boolean, amount: number, id: number) {
     let targetStat = this.currentStats.find(stat => stat.id == id);
     if (targetStat == null) {
+      this.snackBar.open("Wystąpił błąd - zgłoś go proszę!", "ok!", {duration: 3000});
       return;
     }
 
@@ -239,6 +240,9 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       } else {
         let validNumber = targetStat.level + this.remainingStatsPoints;
         if (validNumber >= targetStat.minLevel) {
+          if (this.remainingStatsPoints < 0 && targetStat.level != targetStat.minLevel) {
+            this.snackBar.open("Nadmiarowo rozdane statystyki zostały usunięte", "ok!", {duration: 3000});
+          }
           targetStat.level += this.remainingStatsPoints;
         } else {
           targetStat.level = targetStat.minLevel;
@@ -251,32 +255,65 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         targetStat.level = newLevel;
       } else {
         targetStat.level = targetStat.minLevel;
+        this.snackBar.open("Ta statystyka jest już na minimalnym poziomie", "ok!", {duration: 3000});
       }
     }
     this.calculatePoints();
   }
 
   updateLevelById(upgrade: boolean, id: number) {
+    let isBasicSkill: boolean = false;
     let targetSkill = this.currentClassSkills.find(skill => skill.id == id);
     if (targetSkill == null) {
       targetSkill = this.currentBasicSkills.find(skill => skill.id == id);
+      isBasicSkill = true;
     }
     if (targetSkill == null) {
+      this.snackBar.open("Wystąpił błąd - zgłoś go proszę!", "ok!", {duration: 3000});
       return;
     }
     if (upgrade) {
       if (targetSkill.level == targetSkill.maxLevel) {
+        this.snackBar.open("Ten skill ma już maksymalny poziom", "ok!", {duration: 3000});
+        return;
+      }
+
+      let requiredLevel: number;
+      if (isBasicSkill) {
+        if (targetSkill.beginLevel == 35) {
+          //Pack skill
+          requiredLevel = (targetSkill.level * 5) + 35;
+
+        } else {
+          requiredLevel = targetSkill.level + 1;
+        }
+      } else {
+        //Class skills
+        requiredLevel = targetSkill.level + targetSkill.beginLevel;
+      }
+
+      if (Number.isNaN(requiredLevel)) {
+        localStorage.removeItem("build");
+        this.snackBar.open("BŁĄD PO AKTUALIZACJI - ODŚWIEŻ STRONĘ!", "ok!", {duration: 5000});
+        this.technicalRefresh = true;
+        return;
+      }
+
+      if (this.level < requiredLevel) {
+        this.snackBar.open("Masz zbyt niski poziom postaci, wymagany: " + requiredLevel, "ok!", {duration: 3000});
         return;
       }
 
       let upgradeCost: number = this.skillCosts.find(cost => cost.level == targetSkill!.level + 1)!.singleCost;
       if (upgradeCost > this.remainingSkillPoints) {
+        this.snackBar.open("Za mało punktów na ulepszenie", "ok!", {duration: 3000});
         return;
       }
       targetSkill.level++;
 
     } else {
       if (targetSkill.level == targetSkill.minLevel) {
+        this.snackBar.open("Ten skill jest już na minimalnym poziomie", "ok!", {duration: 3000});
         return;
       }
       targetSkill.level--;
@@ -367,6 +404,10 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   }
 
   private saveBuild() {
+    if (this.technicalRefresh) {
+      return;
+    }
+
     this.build.level = this.level;
     this.build.currentClass = this.newClass;
     this.build.currentClassSkills = this.currentClassSkills;
@@ -378,13 +419,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   private loadBuild() {
     let data = localStorage.getItem('build');
     if (data == null) {
-      console.log("local build not found");
       this.rewriteCurrentClassSkills(this.bbClassSkills);
       return;
     }
     let build: Build = JSON.parse(data);
     if (build != null) {
-      console.log("local build found");
       this.level = build.level;
       this.newLevel = this.level.toString();
       this.newClass = build.currentClass;
