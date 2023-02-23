@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {User} from "../../../../layouts/default/model/user";
+import {User} from "../../../../../../layouts/default/model/user";
 
 @Component({
   selector: 'app-discord-auth',

@@ -1,17 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BrokencalcComponent} from "./custom-pages/build-calculator/brokencalc.component";
-import {HomeComponent} from "./home/home.component";
+import {BrokencalcComponent} from "./modules/user/build-calculator/brokencalc.component";
+import {HomeComponent} from "./modules/user/home/home.component";
 import {DefaultComponent} from "./layouts/default/default.component";
 import {PageNotFoundComponent} from "./error/page-not-found/page-not-found.component";
-import {BrokenHelperComponent} from "./custom-pages/broken-helper/broken-helper.component";
-import {EssenceCalculatorComponent} from "./custom-pages/essence-calculator/essence-calculator.component";
-import {PsychoExpCalculatorComponent} from "./custom-pages/psycho-exp-calculator/psycho-exp-calculator.component";
-import {TestsComponent} from "./custom-pages/tests/tests.component";
+import {BrokenHelperComponent} from "./modules/user/broken-helper/broken-helper.component";
+import {EssenceCalculatorComponent} from "./modules/user/essence-calculator/essence-calculator.component";
+import {PsychoExpCalculatorComponent} from "./modules/user/psycho-exp-calculator/psycho-exp-calculator.component";
+import {TestsComponent} from "./modules/user/tests/tests.component";
 
 const routes: Routes = [
 
   {
+
     path:'', component: DefaultComponent, title: "Aktualności", children: [
       { path: '', component: HomeComponent, title: "Aktualności" },
       { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów" },
@@ -28,7 +29,8 @@ const routes: Routes = [
       { path: 'acc/dashboard', component: DashboardComponent },*/
 
       { path: '**', component: PageNotFoundComponent, title: "404"}
-      ]
+      ],
+
 
   },
 
