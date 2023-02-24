@@ -1,21 +1,21 @@
-<div class="centered" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="30">
+<div class="simpleFormatted" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="30">
     <mat-card class="mat-elevation-z6">
       <mat-card-content>
         <h2>Logowanie</h2>
         <form [formGroup]="loginForm" fxLayout="column" (submit)="login()" class="loginForm">
-          <div *ngIf="loginError" class="error">Podaj poprawne dane logowania</div>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput formControlName="username" placeholder="Podaj swój email">
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Hasło</mat-label>
             <input type="password" matInput formControlName="password">
           </mat-form-field>
           <button mat-flat-button color="primary">Zaloguj</button>
           <div class="lostPassword">
-            <a routerLink="/lostPassword">Zapomniałeś hasła?</a>
+            <a routerLink="/lost-password">Zapomniałeś hasła?</a>
           </div>
+          <div *ngIf="loginError" class="error">Podaj poprawne dane logowania</div>
         </form>
       </mat-card-content>
     </mat-card>
@@ -24,20 +24,21 @@
       <mat-card-content>
         <h2>Rejestracja</h2>
         <form [formGroup]="registerForm" fxLayout="column" (submit)="register()" class="registerForm">
-          <div *ngIf="registerError" class="error">{{registerErrorMessage}}</div>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput formControlName="username" placeholder="Podaj swój email">
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Hasło</mat-label>
             <input type="password" matInput formControlName="password">
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Powtórz hasło</mat-label>
             <input type="password" matInput formControlName="repeatPassword" placeholder="Powtórz hasło">
           </mat-form-field>
           <button mat-flat-button color="primary">Zarejestruj</button>
+          <div *ngIf="registerError" class="error">{{registerErrorMessage}}</div>
+          <div *ngIf="registerSuccess" class="success">{{registerSuccessMessage}}</div>
         </form>
       </mat-card-content>
     </mat-card>

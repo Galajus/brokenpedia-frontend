@@ -1,6 +1,8 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
 import {NavigationEnd, Router} from "@angular/router";
+import {JwtService} from "../../common/service/jwt.service";
+import {LoginButtonService} from "../../common/service/login-button.service";
 
 @Component({
   selector: 'app-default',
@@ -12,10 +14,13 @@ export class DefaultComponent implements OnInit, OnDestroy {
   mobileQuery!: MediaQueryList;
   sidebarOpened!: string;
   additionalStyle: string = "";
+  isLoggedIn = false;
 
   private readonly _mobileQueryListener!: () => void;
   constructor(
     private router: Router,
+    private jwtService: JwtService,
+    private loginButtonService: LoginButtonService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -38,6 +43,9 @@ export class DefaultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sidenavIsOpened();
+    this.isLoggedIn = this.jwtService.isLoggedIn();
+    this.loginButtonService.subject
+      .subscribe(loggedIn => this.isLoggedIn = loggedIn);
   }
 
   ngOnDestroy(): void {

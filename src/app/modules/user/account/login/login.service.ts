@@ -12,7 +12,6 @@ export class LoginService {
   ) { }
 
   register(register: any): Observable<any> {
-    console.log("/api/login");
     return this.http.post("/api/register", register);
   }
 
@@ -20,8 +19,8 @@ export class LoginService {
     return this.http.post("/api/login", login);
   }
 
-  activateAccount(activate: any): Observable<any> {
-    return this.http.post("/api/activate", activate);
+  activateAccount(hash: any): Observable<any> {
+    return this.http.post("/api/confirmAccount", hash);
   }
 
   lostPassword(emailObject: any): Observable<any> {

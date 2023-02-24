@@ -24,6 +24,10 @@ export class JwtService {
 
   }
 
+  logOut() {
+    localStorage.removeItem("token");
+  }
+
   private notExpired(token: string): boolean {
     let tokenDecoded = jwtDecode<any>(token);
     return (tokenDecoded.exp * 1000) > new Date().getTime();

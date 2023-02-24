@@ -1,7 +1,14 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="disabled" class="toolbar mat-elevation-z4">
-    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-    <img class="logo" routerLink="" src="assets/logo.svg" alt="Broken Pedia logo" width="200">
+  <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayoutAlign="center center">
+        <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+        <img class="logo" routerLink="" src="assets/logo.svg" alt="Broken Pedia logo" width="200">
+      </div>
+      <div fxLayoutAlign="center center">
+        <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>ZALOGUJ</strong></button>
+        <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>PROFIL</strong></button>
+      </div>
+
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">

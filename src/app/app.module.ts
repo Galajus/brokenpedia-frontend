@@ -33,7 +33,11 @@ import {PsychoExpCalculatorComponent} from './modules/user/psycho-exp-calculator
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {TestsComponent} from './modules/user/tests/tests.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { ConfirmAccountComponent } from './modules/user/account/login/confirm-account/confirm-account.component';
+import {ProfileAuthorizationGuard} from "./common/guard/profileAuthorizationGuard";
+import {JwtInterceptor} from "./common/interceptor/jwt.interceptor";
+import { LostPasswordComponent } from './modules/user/account/login/lost-password/lost-password.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -79,7 +83,9 @@ const cookieConfig:NgcCookieConsentConfig = {
     BrokenHelperComponent,
     EssenceCalculatorComponent,
     PsychoExpCalculatorComponent,
-    TestsComponent
+    TestsComponent,
+    ConfirmAccountComponent,
+    LostPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -106,7 +112,10 @@ const cookieConfig:NgcCookieConsentConfig = {
     NgcCookieConsentModule.forRoot(cookieConfig),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    ProfileAuthorizationGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

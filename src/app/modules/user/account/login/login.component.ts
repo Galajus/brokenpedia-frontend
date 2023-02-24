@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {JwtService} from "../../../../common/service/jwt.service";
 import {LoginService} from "./login.service";
+import {LoginButtonService} from "../../../../common/service/login-button.service";
 
 @Component({
   selector: 'app-login',
@@ -18,11 +19,14 @@ export class LoginComponent implements OnInit {
   registerForm!: FormGroup;
   registerError = false;
   registerErrorMessage = "";
+  registerSuccess = false;
+  registerSuccessMessage = "Link z potwierdzeniem konta został wysłany!"
 
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private jwtService: JwtService,
+    private loginButtonService: LoginButtonService,
     private router: Router
   ) { }
 
@@ -54,6 +58,7 @@ export class LoginComponent implements OnInit {
         next: (response) => {
           this.jwtService.setToken(response.token);
           this.loginError = false;
+          this.loginButtonService.loggedIn(true);
           this.router.navigate([this.REDIRECT_ROUTE]);
         },
         error: err => {
@@ -73,19 +78,26 @@ export class LoginComponent implements OnInit {
       this.registerError = true;
       return;
     }
+
+    if(!this.validatePassword(this.registerForm.value.password)) {
+      this.registerErrorMessage = "Hasło musi mieć conajmniej 8 znaków, jedną małą i dużą literę oraz cyfrę";
+      this.registerError = true;
+      return;
+    }
+
     this.loginService.register(this.registerForm.value)
       .subscribe({
           next: (response) => {
-            this.jwtService.setToken(response.token);
-            this.router.navigate([this.REDIRECT_ROUTE]);
+            if (response.confirmed) {
+              this.registerSuccess = true;
+              this.registerError = false;
+              this.registerForm.reset();
+            }
           },
           error: (err) => {
             this.registerError = true;
-            if (err.error.message) {
-              this.registerErrorMessage = err.error.message;
-            } else {
-              this.registerErrorMessage = "Coś poszło nie tak, spróbuj ponownie później";
-            }
+            this.registerSuccess = false;
+            this.registerErrorMessage = "Coś poszło nie tak, spróbuj ponownie później";
           }
         }
       );
@@ -93,6 +105,11 @@ export class LoginComponent implements OnInit {
 
   private isPasswordNotIdentical(register: any): boolean {
     return !register.password === register.repeatPassword;
+  }
+
+  validatePassword(password: string): boolean {
+    let passwordRegExp = /^(?=.*\d)(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ]).{8,}$/;
+    return passwordRegExp.test(password);
   }
 
 }

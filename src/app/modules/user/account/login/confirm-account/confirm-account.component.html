@@ -1,0 +1,8 @@
+<div class="simpleFormatted" fxLayout="row" fxFlexAlign="center center" fxLayoutGap="6">
+  <mat-card class="mat-elevation-z6">
+    <mat-card-content>
+      <h2 *ngIf="success == true">Konto aktywowane, możesz się teraz <a routerLink="/login">zalogować</a>.</h2>
+      <h2 *ngIf="success == false">Link został już wcześniej użyty lub wystąpił błąd.</h2>
+    </mat-card-content>
+  </mat-card>
+</div>

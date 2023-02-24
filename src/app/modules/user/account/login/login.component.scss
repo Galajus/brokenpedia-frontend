@@ -1,13 +1,22 @@
-.centered {
-  margin: auto;
-  padding-bottom: 25px;
-}
-
 .loginForm, .registerForm {
-  width: 350px;
+  width: 300px;
   margin: 0 auto;
 }
 
 .lostPassword{
   margin-top: 7px;
+}
+
+.error {
+  padding-top: 7px;
+  color: red;
+}
+
+.success {
+  padding-top: 7px;
+  color: limegreen;
+}
+
+.simpleFormatted {
+  padding-bottom: 25px !important;
 }

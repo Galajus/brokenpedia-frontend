@@ -10,6 +10,9 @@ import {PsychoExpCalculatorComponent} from "./modules/user/psycho-exp-calculator
 import {TestsComponent} from "./modules/user/tests/tests.component";
 import {LoginComponent} from "./modules/user/account/login/login.component";
 import {DashboardComponent} from "./modules/user/account/dashboard/dashboard.component";
+import {ConfirmAccountComponent} from "./modules/user/account/login/confirm-account/confirm-account.component";
+import {ProfileAuthorizationGuard} from "./common/guard/profileAuthorizationGuard";
+import {LostPasswordComponent} from "./modules/user/account/login/lost-password/lost-password.component";
 
 const routes: Routes = [
 
@@ -22,14 +25,15 @@ const routes: Routes = [
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
-      { path: 'login', component: LoginComponent, title: "Logowanie/rejestracja" },
-      /*{ path: 'tests', component: TestsComponent, title: "test" },
-      { path: 'login', component: LoginComponent },
-      { path: 'login/discord-api', component: DiscordApiRedirectComponent },
-      { path: 'login/auth/discord', component: DiscordAuthComponent },*/
 
-      { path: 'acc', component: DashboardComponent, title: "Profil"},
-      { path: 'acc/dashboard', component: DashboardComponent,title: "Profil"},
+      { path: 'login', component: LoginComponent, title: "Logowanie/rejestracja" },
+      { path: 'confirm-account/:hash', component: ConfirmAccountComponent, title: "Aktywacja konta" },
+      { path: 'lost-password', component: LostPasswordComponent, title: "Reset hasła" },
+      { path: 'lost-password/:hash', component: LostPasswordComponent, title: "Reset hasła" },
+
+
+      { path: 'acc', component: DashboardComponent, title: "Profil", canActivate: [ProfileAuthorizationGuard]},
+      { path: 'acc/dashboard', component: DashboardComponent,title: "Profil", canActivate: [ProfileAuthorizationGuard]},
 
       { path: '**', component: PageNotFoundComponent, title: "404"}
       ],
