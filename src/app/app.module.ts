@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -14,7 +13,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {HomeComponent} from './modules/user/home/home.component';
-import {FormsModule} from "@angular/forms";
 import {InfoDialogComponent} from './modules/user/build-calculator/info-dialog/info-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -26,9 +24,7 @@ import {MatListModule} from "@angular/material/list";
 import {DefaultComponent} from './layouts/default/default.component';
 import {LoginComponent} from './modules/user/account/login/login.component';
 import {DashboardComponent} from './modules/user/account/dashboard/dashboard.component';
-import {DiscordApiRedirectComponent} from './modules/user/account/login/discord-api-redirect/discord-api-redirect.component';
 import {PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
-import {DiscordAuthComponent} from './modules/user/account/login/auth/discord/discord-auth.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {BrokenHelperComponent} from './modules/user/broken-helper/broken-helper.component';
 import {EssenceCalculatorComponent} from './modules/user/essence-calculator/essence-calculator.component';
@@ -36,6 +32,8 @@ import {MatTableModule} from "@angular/material/table";
 import {PsychoExpCalculatorComponent} from './modules/user/psycho-exp-calculator/psycho-exp-calculator.component';
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {TestsComponent} from './modules/user/tests/tests.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -77,9 +75,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     DefaultComponent,
     LoginComponent,
     DashboardComponent,
-    DiscordApiRedirectComponent,
     PageNotFoundComponent,
-    DiscordAuthComponent,
     BrokenHelperComponent,
     EssenceCalculatorComponent,
     PsychoExpCalculatorComponent,
@@ -88,6 +84,7 @@ const cookieConfig:NgcCookieConsentConfig = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatGridListModule,
@@ -106,7 +103,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatListModule,
     MatSnackBarModule,
     MatTableModule,
-    NgcCookieConsentModule.forRoot(cookieConfig)
+    NgcCookieConsentModule.forRoot(cookieConfig),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

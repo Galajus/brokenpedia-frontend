@@ -8,6 +8,8 @@ import {BrokenHelperComponent} from "./modules/user/broken-helper/broken-helper.
 import {EssenceCalculatorComponent} from "./modules/user/essence-calculator/essence-calculator.component";
 import {PsychoExpCalculatorComponent} from "./modules/user/psycho-exp-calculator/psycho-exp-calculator.component";
 import {TestsComponent} from "./modules/user/tests/tests.component";
+import {LoginComponent} from "./modules/user/account/login/login.component";
+import {DashboardComponent} from "./modules/user/account/dashboard/dashboard.component";
 
 const routes: Routes = [
 
@@ -20,13 +22,14 @@ const routes: Routes = [
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
-      { path: 'tests', component: TestsComponent, title: "test" },
-      /*{ path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginComponent, title: "Logowanie/rejestracja" },
+      /*{ path: 'tests', component: TestsComponent, title: "test" },
+      { path: 'login', component: LoginComponent },
       { path: 'login/discord-api', component: DiscordApiRedirectComponent },
-      { path: 'login/auth/discord', component: DiscordAuthComponent },
+      { path: 'login/auth/discord', component: DiscordAuthComponent },*/
 
-      { path: 'acc', component: DashboardComponent },
-      { path: 'acc/dashboard', component: DashboardComponent },*/
+      { path: 'acc', component: DashboardComponent, title: "Profil"},
+      { path: 'acc/dashboard', component: DashboardComponent,title: "Profil"},
 
       { path: '**', component: PageNotFoundComponent, title: "404"}
       ],
