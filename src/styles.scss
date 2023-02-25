@@ -62,8 +62,9 @@ app-brokencalc .content {
   font-weight: bold;
 }
 
-a:visited {
+a, a:visited {
   color: white !important;
+  text-shadow: 0 0 2px #181716, 0 0 4px #181716;
 }
 
 mat-sidenav-container{

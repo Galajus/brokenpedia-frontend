@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
       this.registerError = true;
       return;
     }
-    if (this.isPasswordNotIdentical(this.registerForm.value)) {
+    if (!this.isPasswordIdentical(this.registerForm.value)) {
       this.registerErrorMessage = "Podane hasła nie są identyczne";
       this.registerError = true;
       return;
@@ -92,6 +92,10 @@ export class LoginComponent implements OnInit {
               this.registerSuccess = true;
               this.registerError = false;
               this.registerForm.reset();
+            } else {
+              this.registerError = true;
+              this.registerSuccess = false;
+              this.registerErrorMessage = "Prawdopodobnie mail jest już zajęty";
             }
           },
           error: (err) => {
@@ -103,8 +107,8 @@ export class LoginComponent implements OnInit {
       );
   }
 
-  private isPasswordNotIdentical(register: any): boolean {
-    return !register.password === register.repeatPassword;
+  private isPasswordIdentical(register: any): boolean {
+    return register.password === register.repeatPassword;
   }
 
   validatePassword(password: string): boolean {
