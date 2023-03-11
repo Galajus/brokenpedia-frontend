@@ -59,6 +59,14 @@ export class LoginComponent implements OnInit {
           this.jwtService.setToken(response.token);
           this.loginError = false;
           this.loginButtonService.loggedIn(true);
+          if(response.moderatorAccess) {
+            this.jwtService.setModeratorAccess(true);
+          }
+          if(response.adminAccess) {
+            this.jwtService.setAdminAccess(true);
+            this.router.navigate(['/admin']);
+            return;
+          }
           this.router.navigate([this.REDIRECT_ROUTE]);
         },
         error: err => {

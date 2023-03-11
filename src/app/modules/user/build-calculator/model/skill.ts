@@ -1,3 +1,5 @@
+import {SkillBasic} from "./skillBasic";
+
 export interface Skill {
   name: string;
   image: string;
@@ -6,4 +8,6 @@ export interface Skill {
   maxLevel: number;
   minLevel: number;
   beginLevel: number;
+  profession: string;
+  skillBasics: SkillBasic[]
 }

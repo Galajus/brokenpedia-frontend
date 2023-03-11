@@ -1,21 +1,21 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {Observable} from "rxjs/internal/Observable";
 import {JwtService} from "../service/jwt.service";
-import {Observable} from "rxjs";
-import {LoginButtonService} from "../service/login-button.service";
 
 @Injectable()
-export class ProfileAuthorizationGuard implements CanActivate {
+export class AdminAuthorizationGuard implements CanActivate {
+
   constructor(private jwtService: JwtService,
-              private loginButtonService: LoginButtonService,
               private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.jwtService.isLoggedIn()) {
-      this.loginButtonService.loggedIn(false);
-      this.router.navigate(["/login"]);
+    console.log(this.jwtService)
+    if (!this.jwtService.isLoggedIn() || !this.jwtService.hasAdminAccess()) {
+      this.router.navigate(["/404"]);
     }
     return true;
   }
+
 }

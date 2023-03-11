@@ -3,7 +3,10 @@
     <h1>Welcome to the dashboard!</h1>
   </div>
 
-  <div>
+  <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center">
+    <p>E-mail: {{profile.username}}</p>
+    <p>Typ konta: {{profile.authorities}}</p>
+    <p>Unikalny numer konta: {{profile.uuid}}</p>
     <button mat-raised-button color="warn" (click)="logOut()">Logout</button>
   </div>
 </div>

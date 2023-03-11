@@ -7,6 +7,7 @@
       <div fxLayoutAlign="center center">
         <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>ZALOGUJ</strong></button>
         <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>PROFIL</strong></button>
+        <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
       </div>
 
   </mat-toolbar>

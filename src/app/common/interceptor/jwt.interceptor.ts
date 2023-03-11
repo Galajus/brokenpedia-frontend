@@ -13,7 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (!req.url.startsWith("/acc")) {
+    if (!req.url.startsWith("/api/profile")) {
       return next.handle(req);
     }
 

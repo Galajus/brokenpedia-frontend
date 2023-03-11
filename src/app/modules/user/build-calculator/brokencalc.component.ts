@@ -6,6 +6,10 @@ import {InfoDialogComponent} from "./info-dialog/info-dialog.component";
 import {Statistic} from "./model/statistic";
 import {Build} from "./model/build";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BuildCalculatorService} from "./build-calculator.service";
+import {SkillBasic} from "./model/skillBasic";
+import {SkillLevelSelectComponent} from "./skill-level-select/skill-level-select.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-brokencalc',
@@ -13,7 +17,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./brokencalc.component.scss']
 })
 export class BrokencalcComponent implements OnInit, OnDestroy {
-  bbClassSkills: Skill[] = [
+  /*bbClassSkills: Skill[] = [
     {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "bb1", id: 10, beginLevel: 2},
     {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "bb2", id: 11, beginLevel: 5},
     {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "bb3", id: 12, beginLevel: 8},
@@ -106,9 +110,9 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     {level: 1, maxLevel: 1, minLevel: 1, name: 'Wyrwanie z korzeni', image: "b6", id: 6, beginLevel: 1},
     {level: 1, maxLevel: 1, minLevel: 1, name: 'Ucieczka', image: "b7", id: 7, beginLevel: 1},
     {level: 0, maxLevel: 14, minLevel: 0, name: 'Wataha', image: "b8", id: 8, beginLevel: 35},
-  ]
+  ]*/
 
-  statsTemplate: Statistic[] = [
+  /*statsTemplate: Statistic[] = [
     {name: "Zdrowie", image: "health", level: 20, minLevel: 20, id: 1},
     {name: "Mana", image: "mana", level: 20, minLevel: 20, id: 2},
     {name: "Kondycja", image: "stamina", level: 20, minLevel: 20, id: 3},
@@ -116,32 +120,44 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     {name: "Zręczność", image: "dexterity", level: 10, minLevel: 10, id: 5},
     {name: "Moc", image: "power", level: 10, minLevel: 10, id: 6},
     {name: "Wiedza", image: "knowledge", level: 10, minLevel: 10, id: 7},
-  ]
+  ]*/
 
-  skillCosts: SkillCost[] = [
-    {level: 0, singleCost: 0, sumCost: 0},
-    {level: 1, singleCost: 1, sumCost: 1},
-    {level: 2, singleCost: 2, sumCost: 3},
-    {level: 3, singleCost: 3, sumCost: 6},
-    {level: 4, singleCost: 4, sumCost: 10},
-    {level: 5, singleCost: 5, sumCost: 15},
-    {level: 6, singleCost: 6, sumCost: 21},
-    {level: 7, singleCost: 7, sumCost: 28},
-    {level: 8, singleCost: 14, sumCost: 42},
-    {level: 9, singleCost: 28, sumCost: 70},
-    {level: 10, singleCost: 42, sumCost: 112},
-    {level: 11, singleCost: 56, sumCost: 168},
-    {level: 12, singleCost: 70, sumCost: 238},
-    {level: 13, singleCost: 84, sumCost: 322},
-    {level: 14, singleCost: 98, sumCost: 420},
-    {level: 15, singleCost: 196, sumCost: 616},
-    {level: 16, singleCost: 392, sumCost: 1008},
-    {level: 17, singleCost: 588, sumCost: 1596},
-    {level: 18, singleCost: 784, sumCost: 2380},
-    {level: 19, singleCost: 980, sumCost: 3360},
-    {level: 20, singleCost: 1176, sumCost: 4536},
-    {level: 21, singleCost: 1372, sumCost: 5908}
-  ]
+  /*skillCosts: SkillCost[] = [
+    {id: 1, level: 0, singleCost: 0, sumCost: 0},
+    {id: 2, level: 1, singleCost: 1, sumCost: 1},
+    {id: 3, level: 2, singleCost: 2, sumCost: 3},
+    {id: 4, level: 3, singleCost: 3, sumCost: 6},
+    {id: 5, level: 4, singleCost: 4, sumCost: 10},
+    {id: 6, level: 5, singleCost: 5, sumCost: 15},
+    {id: 7, level: 6, singleCost: 6, sumCost: 21},
+    {id: 8, level: 7, singleCost: 7, sumCost: 28},
+    {id: 9, level: 8, singleCost: 14, sumCost: 42},
+    {id: 10, level: 9, singleCost: 28, sumCost: 70},
+    {id: 11, level: 10, singleCost: 42, sumCost: 112},
+    {id: 12, level: 11, singleCost: 56, sumCost: 168},
+    {id: 13, level: 12, singleCost: 70, sumCost: 238},
+    {id: 14, level: 13, singleCost: 84, sumCost: 322},
+    {id: 15, level: 14, singleCost: 98, sumCost: 420},
+    {id: 16, level: 15, singleCost: 196, sumCost: 616},
+    {id: 17, level: 16, singleCost: 392, sumCost: 1008},
+    {id: 18, level: 17, singleCost: 588, sumCost: 1596},
+    {id: 19, level: 18, singleCost: 784, sumCost: 2380},
+    {id: 20, level: 19, singleCost: 980, sumCost: 3360},
+    {id: 21, level: 20, singleCost: 1176, sumCost: 4536},
+    {id: 22, level: 21, singleCost: 1372, sumCost: 5908}
+  ]*/
+
+  bbClassSkills: Skill[] = [];
+  fmClassSkills: Skill[] = [];
+  knClassSkills: Skill[] = [];
+  drClassSkills: Skill[] = [];
+  shClassSkills: Skill[] = [];
+  vdClassSkills: Skill[] = [];
+  arClassSkills: Skill[] = [];
+  basicSkillsTemplate: Skill[] = [];
+  statsTemplate: Statistic[] = [];
+  skillCosts: SkillCost[] = [];
+
   build: Build = {
     level: 0,
     currentClass: "bb",
@@ -153,9 +169,9 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   currentBasicSkills: Skill[] = [];
   currentClassSkills: Skill[] = [];
   currentStats: Statistic[] = [];
+  resetOnLevelChange: boolean = false;
   newLevel: string = "2";
   newClass: string = "bb";
-  resetOnLevelChange: boolean = false;
   level: number = 2;
   skillPoints: number = 0;
   remainingSkillPoints: number = 0;
@@ -164,18 +180,71 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   masterPoints: number = 0;
   statPoints: number = 0;
   remainingStatsPoints: number = 0;
+  activeSkillImageName: string = "bb1";
+  activeSkill!: Skill;
+
   technicalRefresh: boolean = false;
+  subscription!: Subscription;
+
   constructor(
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private buildCalculatorService: BuildCalculatorService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.loadBuild();
+    this.subscription = this.buildCalculatorService.subject
+      .subscribe(newLevel => this.activeSkill.level = newLevel);
+    this.prepareData();
   }
 
   ngOnDestroy() {
     this.saveBuild();
+    this.subscription.unsubscribe();
+  }
+
+  prepareData() {
+    this.buildCalculatorService.getInitData()
+      .subscribe(data => {
+        this.statsTemplate = data.defaultStatistics;
+        this.skillCosts = data.skillCosts;
+        this.assignClassSkills(data.classSkills);
+        this.loadBuild();
+      })
+  }
+
+  assignClassSkills(skills: Skill[]) {
+    skills.forEach(skill => {
+      switch (skill.profession) {
+        case "DEFAULT":
+          this.basicSkillsTemplate.push(skill);
+          break;
+        case "BARBARIAN":
+          this.bbClassSkills.push(skill);
+          break;
+        case "FIRE_MAGE":
+          this.fmClassSkills.push(skill);
+          break;
+        case "KNIGHT":
+          this.knClassSkills.push(skill);
+          break;
+        case "DRUID":
+          this.drClassSkills.push(skill);
+          break;
+        case "SHEED":
+          this.shClassSkills.push(skill);
+          break;
+        case "ARCHER":
+          this.arClassSkills.push(skill);
+          break;
+        case "VOODOO":
+          this.vdClassSkills.push(skill);
+          break;
+        default:
+          console.log("ERROR");
+      }
+    })
   }
 
   calculatePoints() {
@@ -392,7 +461,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     if (level > 7 && level <= 14) {
       return level - 7;
     }
-    return level -14;
+    return level - 14;
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
@@ -407,13 +476,25 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     if (this.technicalRefresh) {
       return;
     }
+    if (this.build != null &&
+      this.build.currentStatistics &&
+      this.build.currentBasicSkills &&
+      this.build.currentClassSkills &&
+      this.build.currentStatistics.length != 0 &&
+      this.build.currentBasicSkills.length != 0 &&
+      this.build.currentClassSkills.length != 0 &&
+      this.build.currentClass) {
+      return;
+    }
 
     this.build.level = this.level;
     this.build.currentClass = this.newClass;
     this.build.currentClassSkills = this.currentClassSkills;
     this.build.currentBasicSkills = this.currentBasicSkills;
     this.build.currentStatistics = this.currentStats;
-    localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {return value}));
+    localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {
+      return value
+    }));
   }
 
   private loadBuild() {
@@ -423,7 +504,14 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       return;
     }
     let build: Build = JSON.parse(data);
-    if (build != null) {
+    if (build != null &&
+      build.currentStatistics &&
+      build.currentBasicSkills &&
+      build.currentClassSkills &&
+      build.currentStatistics.length != 0 &&
+      build.currentBasicSkills.length != 0 &&
+      build.currentClassSkills.length != 0 &&
+      build.currentClass) {
       this.level = build.level;
       this.newLevel = this.level.toString();
       this.newClass = build.currentClass;
@@ -433,9 +521,41 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       this.calculatePoints();
       return;
     }
+    this.rewriteCurrentClassSkills(this.bbClassSkills);
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
     this.saveBuild();
+  }
+
+  setCurrentActive(image: string) {
+    this.activeSkillImageName = image;
+    this.updateDescription();
+  }
+
+  updateDescription() {
+    this.activeSkill = structuredClone(this.currentClassSkills.filter(s => s.image === this.activeSkillImageName)[0]);
+    if (!this.activeSkill) {
+      this.activeSkill = structuredClone(this.currentBasicSkills.filter(s => s.image === this.activeSkillImageName)[0]);
+    }
+  }
+
+  getActiveSkillBasic(level: number): SkillBasic {
+    if (level - 1 < 0) {
+      level = 1;
+    }
+    return this.activeSkill.skillBasics[level - 1];
+  }
+
+  getLevelString(level: number) {
+    return this.buildCalculatorService.getLevelString(level);
+  }
+
+  openSkillLevelSelectDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(SkillLevelSelectComponent, {
+      width: '300px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
   }
 }

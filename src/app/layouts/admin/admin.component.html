@@ -1,0 +1,25 @@
+<div class="container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayoutAlign="center center">
+      <img class="logo" routerLink="" src="assets/logo.svg" alt="Broken Pedia logo" width="200">
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav opened="true" fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
+      <div class="menu-gal" fxLayout="column">
+        <mat-nav-list fxFlex>
+          <a mat-list-item routerLink="/admin/skills"><mat-icon class="sidebar-icon">hub</mat-icon> Skille</a>
+        </mat-nav-list>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div fxLayout="row" fxLayoutGap="10">
+        <div class="content"> <!--fxFlex fxLayoutAlign="center"-->
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

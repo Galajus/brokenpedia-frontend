@@ -15,6 +15,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
   sidebarOpened!: string;
   additionalStyle: string = "";
   isLoggedIn = false;
+  isAdmin = false;
 
   private readonly _mobileQueryListener!: () => void;
   constructor(
@@ -44,6 +45,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sidenavIsOpened();
     this.isLoggedIn = this.jwtService.isLoggedIn();
+    this.isAdmin = this.jwtService.hasAdminAccess();
     this.loginButtonService.subject
       .subscribe(loggedIn => this.isLoggedIn = loggedIn);
   }

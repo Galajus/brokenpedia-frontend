@@ -28,6 +28,26 @@ h3.blue {
   margin-bottom: 8px !important;
 }
 
+.centered div {
+  text-align: center !important;
+}
+
+.reactions {
+  z-index:1001;
+  position: absolute;
+  right: 6px;
+}
+
+.sample, .sample mat-icon {
+  display: flex;
+  justify-content: center !important;
+  text-align: center !important;
+  font-size: 18px;
+  line-height: 35px;
+  padding-bottom: 6px;
+  font-weight: bold;
+}
+
 .iconButton {
   font-size: 16px;
   font-weight: bold;
@@ -42,10 +62,41 @@ h3.blue {
   background-color: rgba(255, 137, 137, 0.1);
 }
 
+.select-icon {
+  font-size: 1em;
+  width: 1em;
+  height: 1em;
+  color: cornflowerblue;
+}
+.select-icon:hover {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+mat-card img.activeImg {
+  border: 2px solid transparent !important;
+  border-radius: 80px !important;
+  background-image: linear-gradient(white, white), linear-gradient(to right, yellow, orange) !important;
+  background-origin: border-box !important;
+  background-clip: content-box, border-box !important;
+}
+
+mat-card img.skillImg:hover {
+  cursor: pointer;
+}
+
 mat-card img.skillImg{
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
   height: 100%;
+  border: 2px solid transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(white, white), linear-gradient(to right, white, white);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 mat-card img.upgradeImg, img.downgradeImg{

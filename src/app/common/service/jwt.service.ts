@@ -21,7 +21,15 @@ export class JwtService {
   isLoggedIn():boolean {
     let token = this.getToken();
     return (token != null && this.notExpired(token));
+  }
 
+  getUuid(): string | null {
+    let token = this.getToken();
+    if (token == null) {
+      return null;
+    }
+    let tokenDecoded = jwtDecode<any>(token);
+    return tokenDecoded.sub;
   }
 
   logOut() {
@@ -37,7 +45,7 @@ export class JwtService {
     this.adminAccess = adminAccess;
   }
 
-  public getAdminAccess(): boolean {
+  public hasAdminAccess(): boolean {
     return this.adminAccess;
   }
 

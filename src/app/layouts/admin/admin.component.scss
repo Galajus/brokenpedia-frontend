@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.menu-gal {
+  height: 100% !important;
+}
+
+mat-sidenav-content {
+  background-color: #282727;
+}
+
+mat-nav-list a {
+  font-size: 14px !important;
+  height: 32px !important;
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+mat-nav-list p {
+  margin-bottom: 0;
+}
+
+.sidebar-icon {
+  padding-right: 4px;
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+
+.logo {
+  cursor: pointer !important;
+}
+
+.own {
+  font-size: 10px;
+}
+
+p .owner {
+  font-size: 8px !important;
+  font-weight: bold;
+}
+
+.mat-toolbar {
+  position: relative;
+  z-index: 2;
+}
+
+mat-sidenav {
+  background-color: #212121;
+  padding-right: 2px;
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}

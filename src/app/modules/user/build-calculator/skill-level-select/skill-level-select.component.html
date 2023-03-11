@@ -1,0 +1,7 @@
+<div class="background">
+  <h1 mat-dialog-title>Wybierz lvl skilla</h1>
+  <div class="container">
+    <div *ngFor="let lvl of levels"><button mat-raised-button color="primary" (click)="pushLevel(lvl)">{{getLevelString(lvl)}}</button></div>
+  </div>
+</div>
+

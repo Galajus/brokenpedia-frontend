@@ -13,6 +13,9 @@ import {DashboardComponent} from "./modules/user/account/dashboard/dashboard.com
 import {ConfirmAccountComponent} from "./modules/user/account/login/confirm-account/confirm-account.component";
 import {ProfileAuthorizationGuard} from "./common/guard/profileAuthorizationGuard";
 import {LostPasswordComponent} from "./modules/user/account/login/lost-password/lost-password.component";
+import {AdminComponent} from "./layouts/admin/admin.component";
+import {SkillsComponent} from "./modules/admin/skills/skills.component";
+import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
 
 const routes: Routes = [
 
@@ -34,12 +37,19 @@ const routes: Routes = [
 
       { path: 'acc', component: DashboardComponent, title: "Profil", canActivate: [ProfileAuthorizationGuard]},
       { path: 'acc/dashboard', component: DashboardComponent,title: "Profil", canActivate: [ProfileAuthorizationGuard]},
-
-      { path: '**', component: PageNotFoundComponent, title: "404"}
       ],
 
-
   },
+  {
+    path:'admin', component: AdminComponent, title:"Admin panel", children: [
+      { path: '', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] },
+      { path: 'skills', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] }
+    ]
+  },
+  { path: '**', component: DefaultComponent, title: "404", children: [
+      { path: '', component: PageNotFoundComponent, title: "404"}
+    ]
+  }
 
 ];
 
