@@ -1,7 +1,5 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
-import {JwtService} from "../../common/service/jwt.service";
-import {LoginButtonService} from "../../common/service/login-button.service";
+import {Router} from "@angular/router";
 import {MediaMatcher} from "@angular/cdk/layout";
 
 @Component({

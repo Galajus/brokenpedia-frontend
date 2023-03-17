@@ -16,13 +16,13 @@
               <mat-form-field appearance="outline" color="accent">
                 <mat-label>Wybierz profesję</mat-label>
                 <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
-                  <mat-option value="bb">Barbarzyńca</mat-option>
-                  <mat-option value="fm">Mag Ognia</mat-option>
-                  <mat-option value="ar">Łucznik</mat-option>
-                  <mat-option value="sh">Sheed</mat-option>
-                  <mat-option value="vd">Voodoo</mat-option>
-                  <mat-option value="kn">Rycerz</mat-option>
-                  <mat-option value="dr">Druid</mat-option>
+                  <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
+                  <mat-option value="FIRE_MAGE">Mag Ognia</mat-option>
+                  <mat-option value="ARCHER">Łucznik</mat-option>
+                  <mat-option value="SHEED">Sheed</mat-option>
+                  <mat-option value="VOODOO">Voodoo</mat-option>
+                  <mat-option value="KNIGHT">Rycerz</mat-option>
+                  <mat-option value="DRUID">Druid</mat-option>
                 </mat-select>
                 <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
               </mat-form-field>
@@ -64,7 +64,7 @@
             <div *ngFor="let skill of currentClassSkills">
               <div>
                 <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
-                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/class/{{skill.image}}.png" alt="{{skill.image}}">
+                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
                 </div>
               </div>
 
@@ -89,7 +89,7 @@
             <div *ngFor="let skill of currentBasicSkills">
               <div>
                 <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
-                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/basic/{{skill.image}}.png" alt="{{skill.image}}">
+                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
                 </div>
               </div>
 

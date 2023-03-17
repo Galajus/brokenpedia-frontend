@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BuildCalculatorService} from "../build-calculator.service";
 
 @Component({

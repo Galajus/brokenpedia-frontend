@@ -1,13 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtService {
-
-  adminAccess = false;
-  moderatorAccess = false;
 
   constructor() { }
 
@@ -41,19 +38,21 @@ export class JwtService {
     return (tokenDecoded.exp * 1000) > new Date().getTime();
   }
 
-  public setAdminAccess(adminAccess: boolean) {
-    this.adminAccess = adminAccess;
-  }
-
   public hasAdminAccess(): boolean {
-    return this.adminAccess;
+    let token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    let tokenDecoded = jwtDecode<any>(token);
+    return tokenDecoded.var.includes('a');
   }
 
-  public setModeratorAccess(moderatorAccess: boolean) {
-    this.moderatorAccess = moderatorAccess;
-  }
-
-  public getModeratorAccess(): boolean {
-    return this.moderatorAccess;
+  public hasModeratorAccess(): boolean {
+    let token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    let tokenDecoded = jwtDecode<any>(token);
+    return tokenDecoded.var.includes('b');
   }
 }

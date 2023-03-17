@@ -1,20 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {
-  ActivatedRoute,
-  ActivationEnd,
-  ActivationStart,
-  ChildActivationEnd,
-  ChildActivationStart,
-  GuardsCheckEnd,
-  GuardsCheckStart,
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart, ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart,
-  Router,
-  RouterEvent, RouterOutlet, RouterStateSnapshot,
-  RoutesRecognized, Scroll
-} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter, Subscription} from "rxjs";
 import {
   NgcCookieConsentService,
@@ -23,8 +8,6 @@ import {
   NgcNoCookieLawEvent,
   NgcStatusChangeEvent
 } from "ngx-cookieconsent";
-import {Title} from "@angular/platform-browser";
-import {waitForAsync} from "@angular/core/testing";
 
 declare let gtag: Function;
 

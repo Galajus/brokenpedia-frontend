@@ -1,9 +1,9 @@
 import {SkillBasic} from "./skillBasic";
 
 export interface Skill {
+  id: number;
   name: string;
   image: string;
-  id: number;
   level: number;
   maxLevel: number;
   minLevel: number;

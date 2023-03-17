@@ -10,6 +10,9 @@ import {BuildCalculatorService} from "./build-calculator.service";
 import {SkillBasic} from "./model/skillBasic";
 import {SkillLevelSelectComponent} from "./skill-level-select/skill-level-select.component";
 import {Subscription} from "rxjs";
+import {SimpleBuild} from "./model/simpleBuild";
+import {BuildSkillStatData} from "./model/buildSkillStatData";
+import {SkillStatType} from "./model/skillStatType";
 
 @Component({
   selector: 'app-brokencalc',
@@ -17,135 +20,6 @@ import {Subscription} from "rxjs";
   styleUrls: ['./brokencalc.component.scss']
 })
 export class BrokencalcComponent implements OnInit, OnDestroy {
-  /*bbClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "bb1", id: 10, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "bb2", id: 11, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "bb3", id: 12, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "bb4", id: 13, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "bb5", id: 14, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "bb6", id: 15, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "bb7", id: 16, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "bb8", id: 17, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "bb9", id: 18, beginLevel: 26},
-  ];
-
-  fmClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "mo1", id: 20, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "mo2", id: 21, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "mo3", id: 22, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "mo4", id: 23, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "mo5", id: 24, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "mo6", id: 25, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "mo7", id: 26, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "mo8", id: 27, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "mo9", id: 28, beginLevel: 26},
-  ];
-
-  knClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "kn1", id: 30, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "kn2", id: 31, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "kn3", id: 32, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "kn4", id: 33, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "kn5", id: 34, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "kn6", id: 35, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "kn7", id: 36, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "kn8", id: 37, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "kn9", id: 38, beginLevel: 26},
-  ];
-
-  drClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "dr1", id: 40, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "dr2", id: 41, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "dr3", id: 42, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "dr4", id: 43, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "dr5", id: 44, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "dr6", id: 45, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "dr7", id: 46, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "dr8", id: 47, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "dr9", id: 48, beginLevel: 26},
-  ];
-
-  shClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "sh1", id: 50, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "sh2", id: 51, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "sh3", id: 52, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "sh4", id: 53, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "sh5", id: 54, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "sh6", id: 55, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "sh7", id: 56, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "sh8", id: 57, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "sh9", id: 58, beginLevel: 26},
-  ];
-
-  arClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "uk1", id: 60, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "uk2", id: 61, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "uk3", id: 62, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "uk4", id: 63, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "uk5", id: 64, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "uk6", id: 65, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "uk7", id: 66, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "uk8", id: 67, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "uk9", id: 68, beginLevel: 26},
-  ];
-
-  vdClassSkills: Skill[] = [
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Rozprucie', image: "vd1", id: 70, beginLevel: 2},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Wirujące ostrze', image: "vd2", id: 71, beginLevel: 5},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Furia', image: "vd3", id: 72, beginLevel: 8},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Dyńka', image: "vd4", id: 73, beginLevel: 11},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Gruboskórność', image: "vd5", id: 74, beginLevel: 14},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Krytyczne uderzenie', image: "vd6", id: 75, beginLevel: 17},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Taran', image: "vd7", id: 76, beginLevel: 20},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Fala gniewu', image: "vd8", id: 77, beginLevel: 23},
-    {level: 0, maxLevel: 21, minLevel: 0, name: 'Amok', image: "vd9", id: 78, beginLevel: 26},
-  ];
-
-  basicSkillsTemplate: Skill[] = [
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Cios pięścią', image: "b1", id: 1, beginLevel: 1},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Okrzyk bojowy', image: "b2", id: 2, beginLevel: 1},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Rzut kamieniem', image: "b3", id: 3, beginLevel: 1},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Strzał', image: "b4", id: 4, beginLevel: 1},
-    {level: 1, maxLevel: 21, minLevel: 1, name: 'Zwykły atak', image: "b5", id: 5, beginLevel: 1},
-    {level: 1, maxLevel: 1, minLevel: 1, name: 'Wyrwanie z korzeni', image: "b6", id: 6, beginLevel: 1},
-    {level: 1, maxLevel: 1, minLevel: 1, name: 'Ucieczka', image: "b7", id: 7, beginLevel: 1},
-    {level: 0, maxLevel: 14, minLevel: 0, name: 'Wataha', image: "b8", id: 8, beginLevel: 35},
-  ]*/
-
-  /*statsTemplate: Statistic[] = [
-    {name: "Zdrowie", image: "health", level: 20, minLevel: 20, id: 1},
-    {name: "Mana", image: "mana", level: 20, minLevel: 20, id: 2},
-    {name: "Kondycja", image: "stamina", level: 20, minLevel: 20, id: 3},
-    {name: "Siła", image: "strength", level: 10, minLevel: 10, id: 4},
-    {name: "Zręczność", image: "dexterity", level: 10, minLevel: 10, id: 5},
-    {name: "Moc", image: "power", level: 10, minLevel: 10, id: 6},
-    {name: "Wiedza", image: "knowledge", level: 10, minLevel: 10, id: 7},
-  ]*/
-
-  /*skillCosts: SkillCost[] = [
-    {id: 1, level: 0, singleCost: 0, sumCost: 0},
-    {id: 2, level: 1, singleCost: 1, sumCost: 1},
-    {id: 3, level: 2, singleCost: 2, sumCost: 3},
-    {id: 4, level: 3, singleCost: 3, sumCost: 6},
-    {id: 5, level: 4, singleCost: 4, sumCost: 10},
-    {id: 6, level: 5, singleCost: 5, sumCost: 15},
-    {id: 7, level: 6, singleCost: 6, sumCost: 21},
-    {id: 8, level: 7, singleCost: 7, sumCost: 28},
-    {id: 9, level: 8, singleCost: 14, sumCost: 42},
-    {id: 10, level: 9, singleCost: 28, sumCost: 70},
-    {id: 11, level: 10, singleCost: 42, sumCost: 112},
-    {id: 12, level: 11, singleCost: 56, sumCost: 168},
-    {id: 13, level: 12, singleCost: 70, sumCost: 238},
-    {id: 14, level: 13, singleCost: 84, sumCost: 322},
-    {id: 15, level: 14, singleCost: 98, sumCost: 420},
-    {id: 16, level: 15, singleCost: 196, sumCost: 616},
-    {id: 17, level: 16, singleCost: 392, sumCost: 1008},
-    {id: 18, level: 17, singleCost: 588, sumCost: 1596},
-    {id: 19, level: 18, singleCost: 784, sumCost: 2380},
-    {id: 20, level: 19, singleCost: 980, sumCost: 3360},
-    {id: 21, level: 20, singleCost: 1176, sumCost: 4536},
-    {id: 22, level: 21, singleCost: 1372, sumCost: 5908}
-  ]*/
 
   bbClassSkills: Skill[] = [];
   fmClassSkills: Skill[] = [];
@@ -160,7 +34,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
 
   build: Build = {
     level: 0,
-    currentClass: "bb",
+    currentClass: "BARBARIAN",
     currentBasicSkills: [],
     currentClassSkills: [],
     currentStatistics: []
@@ -171,7 +45,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   currentStats: Statistic[] = [];
   resetOnLevelChange: boolean = false;
   newLevel: string = "2";
-  newClass: string = "bb";
+  newClass: string = "BARBARIAN";
   level: number = 2;
   skillPoints: number = 0;
   remainingSkillPoints: number = 0;
@@ -200,7 +74,8 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.saveBuild();
+    //this.saveBuild();
+    this.saveSimpleBuild();
     this.subscription.unsubscribe();
   }
 
@@ -210,7 +85,8 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         this.statsTemplate = data.defaultStatistics;
         this.skillCosts = data.skillCosts;
         this.assignClassSkills(data.classSkills);
-        this.loadBuild();
+        //this.loadBuild();
+        this.loadSimpleBuild();
       })
   }
 
@@ -403,31 +279,31 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
 
   classUpdate(value: string) {
     switch (value) {
-      case "bb": {
+      case "BARBARIAN": {
         this.rewriteCurrentClassSkills(this.bbClassSkills);
         break;
       }
-      case "fm": {
+      case "FIRE_MAGE": {
         this.rewriteCurrentClassSkills(this.fmClassSkills);
         break;
       }
-      case "dr": {
+      case "DRUID": {
         this.rewriteCurrentClassSkills(this.drClassSkills);
         break;
       }
-      case "kn": {
+      case "KNIGHT": {
         this.rewriteCurrentClassSkills(this.knClassSkills);
         break;
       }
-      case "ar": {
+      case "ARCHER": {
         this.rewriteCurrentClassSkills(this.arClassSkills);
         break;
       }
-      case "sh": {
+      case "SHEED": {
         this.rewriteCurrentClassSkills(this.shClassSkills);
         break;
       }
-      case "vd": {
+      case "VOODOO": {
         this.rewriteCurrentClassSkills(this.vdClassSkills);
         break;
       }
@@ -472,10 +348,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     });
   }
 
-  private saveBuild() {
-    if (this.technicalRefresh) {
-      return;
-    }
+  private saveSimpleBuild() {
     if (this.build != null &&
       this.build.currentStatistics &&
       this.build.currentBasicSkills &&
@@ -486,46 +359,93 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       this.build.currentClass) {
       return;
     }
+    let stats = this.currentStats.map(stat => {
+      let x: BuildSkillStatData = {
+        id: stat.id,
+        level: stat.level,
+        skillStatType: SkillStatType.STAT
+      }
+      return x;
+    });
+    let basicsSkills = this.currentBasicSkills.map(basic => {
+      let x: BuildSkillStatData = {
+        id: basic.id,
+        level: basic.level,
+        skillStatType: SkillStatType.BASIC_SKILL
+      }
+      return x;
+    });
+    let classSkills = this.currentClassSkills.map(clas => {
+      let x: BuildSkillStatData = {
+        id: clas.id,
+        level: clas.level,
+        skillStatType: SkillStatType.CLASS_SKILL
+      }
+      return x;
+    });
 
-    this.build.level = this.level;
-    this.build.currentClass = this.newClass;
-    this.build.currentClassSkills = this.currentClassSkills;
-    this.build.currentBasicSkills = this.currentBasicSkills;
-    this.build.currentStatistics = this.currentStats;
-    localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {
-      return value
+    let buildSkillStatData = stats.concat(basicsSkills, classSkills);
+    let build: SimpleBuild = {
+      id: 0,
+      buildId: 0,
+      profession: this.newClass,
+      level: this.level,
+      skillStatData: buildSkillStatData,
+    }
+    localStorage.setItem("simple-build", JSON.stringify(build, function replacer(key, value) {
+        return value;
     }));
   }
 
-  private loadBuild() {
-    let data = localStorage.getItem('build');
+  private loadSimpleBuild() {
+    let data = localStorage.getItem('simple-build');
     if (data == null) {
+      console.log("build not saved");
       this.rewriteCurrentClassSkills(this.bbClassSkills);
       return;
     }
-    let build: Build = JSON.parse(data);
-    if (build != null &&
-      build.currentStatistics &&
-      build.currentBasicSkills &&
-      build.currentClassSkills &&
-      build.currentStatistics.length != 0 &&
-      build.currentBasicSkills.length != 0 &&
-      build.currentClassSkills.length != 0 &&
-      build.currentClass) {
-      this.level = build.level;
-      this.newLevel = this.level.toString();
-      this.newClass = build.currentClass;
-      this.currentStats = build.currentStatistics;
-      this.currentClassSkills = build.currentClassSkills;
-      this.currentBasicSkills = build.currentBasicSkills;
-      this.calculatePoints();
+    let build: SimpleBuild = JSON.parse(data)
+
+    if (!build) {
+      console.log("build null");
+      this.rewriteCurrentClassSkills(this.bbClassSkills);
       return;
     }
-    this.rewriteCurrentClassSkills(this.bbClassSkills);
+
+    this.classUpdate(build.profession);
+    this.level = build.level;
+    this.newLevel = build.level.toString();
+    this.newClass = build.profession;
+    build.skillStatData.forEach(data => {
+      if (data.skillStatType == SkillStatType.STAT) {
+          let stat = this.currentStats.find(s => s.id == data.id);
+          if (stat) {
+            stat.level = data.level;
+          }
+          return;
+        }
+      if (data.skillStatType == SkillStatType.BASIC_SKILL) {
+          let stat = this.currentBasicSkills.find(s => s.id == data.id);
+          if (stat) {
+            stat.level = data.level;
+          }
+        return;
+        }
+      if (data.skillStatType == SkillStatType.CLASS_SKILL) {
+          let stat = this.currentClassSkills.find(s => s.id == data.id);
+          if (stat) {
+            stat.level = data.level;
+          }
+        return;
+        }
+    });
+
+    this.calculatePoints();
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
-    this.saveBuild();
+    //this.saveBuild();
+    this.saveSimpleBuild();
   }
 
   setCurrentActive(image: string) {
@@ -558,4 +478,57 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       exitAnimationDuration,
     });
   }
+
+
+  /*private loadBuild() {
+    let data = localStorage.getItem('build');
+    if (data == null) {
+      this.rewriteCurrentClassSkills(this.bbClassSkills);
+      return;
+    }
+    let build: Build = JSON.parse(data);
+    if (build != null &&
+      build.currentStatistics &&
+      build.currentBasicSkills &&
+      build.currentClassSkills &&
+      build.currentStatistics.length != 0 &&
+      build.currentBasicSkills.length != 0 &&
+      build.currentClassSkills.length != 0 &&
+      build.currentClass) {
+      this.level = build.level;
+      this.newLevel = this.level.toString();
+      this.newClass = build.currentClass;
+      this.currentStats = build.currentStatistics;
+      this.currentClassSkills = build.currentClassSkills;
+      this.currentBasicSkills = build.currentBasicSkills;
+      this.calculatePoints();
+      return;
+    }
+    this.rewriteCurrentClassSkills(this.bbClassSkills);
+  }*/
+
+  /*private saveBuild() {
+    if (this.technicalRefresh) {
+      return;
+    }
+    if (this.build != null &&
+      this.build.currentStatistics &&
+      this.build.currentBasicSkills &&
+      this.build.currentClassSkills &&
+      this.build.currentStatistics.length != 0 &&
+      this.build.currentBasicSkills.length != 0 &&
+      this.build.currentClassSkills.length != 0 &&
+      this.build.currentClass) {
+      return;
+    }
+
+    this.build.level = this.level;
+    this.build.currentClass = this.newClass;
+    this.build.currentClassSkills = this.currentClassSkills;
+    this.build.currentBasicSkills = this.currentBasicSkills;
+    this.build.currentStatistics = this.currentStats;
+    localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {
+      return value
+    }));
+  }*/
 }

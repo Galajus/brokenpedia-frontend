@@ -2,6 +2,8 @@ import {SkillPsychoEffect} from "./skillPsychoEffect";
 import {SkillCustomEffect} from "./skillCustomEffect";
 
 export interface SkillBasic {
+  id: number,
+  classSkillId: number,
   skillLevel: number,
   damage: number,
   hitChance: number,

@@ -34,14 +34,17 @@ import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent"
 import {TestsComponent} from './modules/user/tests/tests.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { ConfirmAccountComponent } from './modules/user/account/login/confirm-account/confirm-account.component';
+import {ConfirmAccountComponent} from './modules/user/account/login/confirm-account/confirm-account.component';
 import {ProfileAuthorizationGuard} from "./common/guard/profileAuthorizationGuard";
 import {JwtInterceptor} from "./common/interceptor/jwt.interceptor";
-import { LostPasswordComponent } from './modules/user/account/login/lost-password/lost-password.component';
-import { SkillLevelSelectComponent } from './modules/user/build-calculator/skill-level-select/skill-level-select.component';
-import { AdminComponent } from './layouts/admin/admin.component';
-import { SkillsComponent } from './modules/admin/skills/skills.component';
+import {LostPasswordComponent} from './modules/user/account/login/lost-password/lost-password.component';
+import {
+  SkillLevelSelectComponent
+} from './modules/user/build-calculator/skill-level-select/skill-level-select.component';
+import {AdminComponent} from './layouts/admin/admin.component';
+import {SkillsComponent} from './modules/admin/skills/skills.component';
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
+import { SkillUpdateComponent } from './modules/admin/skills/skill-update/skill-update.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -92,7 +95,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     LostPasswordComponent,
     SkillLevelSelectComponent,
     AdminComponent,
-    SkillsComponent
+    SkillsComponent,
+    SkillUpdateComponent
   ],
   imports: [
     BrowserModule,

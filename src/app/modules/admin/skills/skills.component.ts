@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatTable} from "@angular/material/table";
+import {Skill} from "../../user/build-calculator/model/skill";
+import {SkillsService} from "./skills.service";
 
 @Component({
   selector: 'app-skills',
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.scss']
 })
-export class SkillsComponent implements OnInit {
+export class SkillsComponent implements AfterViewInit {
 
-  constructor() { }
+  @ViewChild(MatTable) table!: MatTable<any>;
 
-  ngOnInit(): void {
+  displayedColumns: string[] = ["image", "id", "name", "actions"];
+  dataSource: Skill[] = []; //TO DO ADD SKILL TO COMMON
+  constructor(private skillsService: SkillsService) { }
+
+  ngAfterViewInit(): void {
+    this.skillsService.getSkills()
+      .subscribe(data => this.dataSource = data);
   }
 
 }

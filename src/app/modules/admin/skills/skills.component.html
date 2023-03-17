@@ -1,1 +1,37 @@
-<p>skills works!</p>
+<h1>SKILLE</h1>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef> Img </th>
+    <td mat-cell *matCellDef="let element">
+      <a routerLink="{{'/admin/skills/update/' + element.id}}">
+        <img *ngIf="!element?.image" src="/assets/image-placeholder.png" mat-card-lg-image width="50" alt="placeholder">
+        <img *ngIf="element?.image" src="/assets/skills/{{element.image}}.png" width="50" alt="placeholder">
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Akcje</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button [routerLink]="['/admin/skills/update/', element.id]">
+        <mat-icon color="prmiary">edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+</table>

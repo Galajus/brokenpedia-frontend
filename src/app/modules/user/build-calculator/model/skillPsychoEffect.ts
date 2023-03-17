@@ -1,5 +1,6 @@
 export interface SkillPsychoEffect {
   id: number,
   psychoEffect: string,
-  value: number
+  value: number,
+  skillBasicId: number
 }

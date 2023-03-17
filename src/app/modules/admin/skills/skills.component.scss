@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+  font-weight: bold;
+}
+
+th {
+  text-align: center !important;
+}
+
+.mat-column-id{
+  width: 60px;
+}
+
+.mat-column-actions {
+  width: 140px;
+}
+
+.mat-column-image{
+  width: 155px;
+  padding-right: 6px !important;
+}

@@ -11,7 +11,7 @@ export class AdminAuthorizationGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(this.jwtService)
+
     if (!this.jwtService.isLoggedIn() || !this.jwtService.hasAdminAccess()) {
       this.router.navigate(["/404"]);
     }

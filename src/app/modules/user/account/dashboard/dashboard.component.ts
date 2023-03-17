@@ -28,8 +28,6 @@ export class DashboardComponent implements OnInit {
     }
     this.dashboardService.getProfile(uuid)
       .subscribe(profile => this.profile = profile);
-
-    console.log(this.jwtService)
   }
 
   logOut() {

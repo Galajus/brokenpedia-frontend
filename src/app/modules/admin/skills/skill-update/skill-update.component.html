@@ -1,0 +1,199 @@
+<div *ngIf="skill" fxLayoutAlign="center center">
+  <div [formGroup]="skillForm" fxLayout="column" fxLayoutGap="10">
+    <mat-card>
+      <mat-card-title>
+        SKILL
+        <button mat-mini-fab [disabled]="!skillForm.dirty" (click)="save()">
+          <mat-icon class>save</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="addBasic(null)">
+          <mat-icon color="warn">add</mat-icon>
+        </button>
+      </mat-card-title>
+      <mat-card-content fxLayout="row" fxLayoutGap="5">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Nazwa</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Poziom aby odblokować</mat-label>
+          <input matInput formControlName="beginLevel">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Minimalny poziom</mat-label>
+          <input matInput formControlName="minLevel">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Maksymalny poziom</mat-label>
+          <input matInput formControlName="maxLevel">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Nazwa obrazka</mat-label>
+          <input matInput formControlName="image">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Profesja</mat-label>
+          <mat-select [(value)]="skillForm.value.profession" formControlName="profession">
+            <mat-option *ngFor="let prof of professions" value="{{prof}}">{{prof}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card fxFlex formArrayName="skillBasics" *ngFor="let basicForm of basics.controls; let i = index">
+      <mat-card-title>
+        BASICS
+        <button mat-mini-fab (click)="deleteBasic(basicForm, i)">
+          <mat-icon class>delete</mat-icon>
+        </button>
+        <button mat-mini-fab [disabled]="!basicForm.dirty" (click)="saveBasic(basicForm)">
+          <mat-icon class>save</mat-icon>
+        </button>
+      </mat-card-title>
+      <mat-card-content fxLayout="column" fxLayoutGap="5">
+        <div>
+          <div fxLayoutGap="5" [formGroupName]="i" fxLayout="column">
+            <div fxLayout="row" fxLayoutGap="5">
+              <mat-form-field style="width: 60px !important" appearance="fill" color="accent">
+                <mat-label>Poziom</mat-label>
+                <input matInput formControlName="skillLevel">
+              </mat-form-field>
+              <mat-form-field style="width: 60px !important" appearance="fill" color="accent">
+                <mat-label>Obrażenia</mat-label>
+                <input matInput formControlName="damage">
+              </mat-form-field>
+              <mat-form-field style="width: 90px !important" appearance="fill" color="accent">
+                <mat-label>Szansa trafienia</mat-label>
+                <input matInput formControlName="hitChance">
+              </mat-form-field>
+              <mat-form-field style="width: 60px !important" appearance="fill" color="accent">
+                <mat-label>Mana</mat-label>
+                <input matInput formControlName="manaCost">
+              </mat-form-field>
+              <mat-form-field style="width: 60px !important" appearance="fill" color="accent">
+                <mat-label>Kondycja</mat-label>
+                <input matInput formControlName="staminaCost">
+              </mat-form-field>
+              <mat-form-field style="width: 60px !important" appearance="fill" color="accent">
+                <mat-label>Rundy</mat-label>
+                <input matInput formControlName="roundsTime">
+              </mat-form-field>
+              <mat-form-field style="width: 90px !important" appearance="fill" color="accent">
+                <mat-label>Rundy efektu</mat-label>
+                <input matInput formControlName="effectRoundsTime">
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Szansa na dodatkowy efekt</mat-label>
+                <input matInput formControlName="additionalEffectChance">
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Opis specjalnego efektu</mat-label>
+                <input matInput formControlName="specialEffectDescription">
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Wartość specjalnego efektu</mat-label>
+                <input matInput formControlName="specialEffectValue">
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Trudność</mat-label>
+                <mat-select [(value)]="basicForm.value.skillDifficulty" formControlName="skillDifficulty">
+                  <mat-option *ngFor="let dif of difficulties" value="{{dif}}">{{dif}}</mat-option>
+                  <mat-option>None</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <h4>PSYCHO</h4>
+            <div fxLayout="row" fxLayoutGap="5">
+              <div formArrayName="skillPsychoEffects" *ngFor="let psychoEffect of getFriendlyPsychoEffects(i).controls; let iP = index">
+                <div fxLayoutGap="5" [formGroupName]="iP" fxLayout="column">
+                  <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Efekt psycho</mat-label>
+                    <mat-select [(value)]="psychoEffect.value.psychoEffect" formControlName="psychoEffect">
+                      <mat-option *ngFor="let psych of psychoEffects" value="{{psych}}">{{psych}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Wartość</mat-label>
+                    <input matInput formControlName="value">
+                  </mat-form-field>
+                  <button color="accent" mat-raised-button (click)="removePsychoEffect(iP)">
+                    <mat-icon color="warn">remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <button color="accent" mat-raised-button (click)="addPsychoEffect(getFriendlySkillBasic(i), null, basicForm.value.id)">
+                <mat-icon color="warn">add</mat-icon>
+              </button>
+            </div>
+            <h4>CUSTOM</h4>
+            <div fxLayout="row" fxLayoutGap="5">
+              <div formArrayName="skillCustomEffects" *ngFor="let customEffect of getFriendlyCustomEffects(i).controls; let iC = index">
+                <div fxLayoutGap="5" [formGroupName]="iC" fxLayout="column">
+                  <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Customowy efekt</mat-label>
+                    <input matInput formControlName="description">
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" color="accent">
+                    <mat-label>Wartość</mat-label>
+                    <input matInput formControlName="value">
+                  </mat-form-field>
+                  <button color="accent" mat-raised-button (click)="removeCustomEffect(iC)">
+                    <mat-icon color="warn">remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <button color="accent" mat-raised-button (click)="addCustomEffect(getFriendlySkillBasic(i), null, basicForm.value.id)">
+                <mat-icon color="warn">add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!--<h3>BASICS</h3>
+  <div *ngFor="let basic of skill.skillBasics">
+    <h4>skillLevel: {{basic.skillLevel}}</h4>
+    <h4>damage: {{basic.damage}}</h4>
+    <h4>hitChance: {{basic.hitChance}}</h4>
+    <h4>manaCost: {{basic.manaCost}}</h4>
+    <h4>staminaCost: {{basic.staminaCost}}</h4>
+    <h4>roundsTime: {{basic.roundsTime}}</h4>
+    <h4>effectRoundsTime: {{basic.effectRoundsTime}}</h4>
+    <h4>additionalEffectChance: {{basic.additionalEffectChance}}</h4>
+    <h4>specialEffectDescription: {{basic.specialEffectDescription}}</h4>
+    <h4>specialEffectValue: {{basic.specialEffectValue}}</h4>
+    <h4>skillDifficulty: {{basic.skillDifficulty}}</h4>
+
+    <br>
+    <h3>PSYCHO EFFECTS</h3>
+    <div *ngFor="let psycho of basic.skillPsychoEffects">
+      <h4>id: {{psycho.id}}</h4>
+      <h4>effect: {{psycho.psychoEffect}}</h4>
+      <h4>value: {{psycho.value}}</h4>
+    </div>
+
+    <br>
+    <h3>CUSTOM EFFECTS</h3>
+    <div *ngFor="let custom of basic.skillCustomEffects">
+      <h4>id: {{custom.id}}</h4>
+      <h4>effect: {{custom.description}}</h4>
+      <h4>value: {{custom.value}}</h4>
+    </div>
+  </div>-->
+</div>
+
+<!--
+<h2>SKILL</h2>
+<h4>id: {{skill.id}}</h4>
+<h4>name: {{skill.name}}</h4>
+<h4>level: {{skill.level}}</h4>
+<h4>begin level: {{skill.beginLevel}}</h4>
+<h4>min level: {{skill.minLevel}}</h4>
+<h4>max level: {{skill.maxLevel}}</h4>
+<h4>image: {{skill.image}}</h4>
+<h4>proffesion: {{skill.profession}}</h4>
+<br>-->

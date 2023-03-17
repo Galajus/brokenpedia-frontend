@@ -7,7 +7,6 @@ import {PageNotFoundComponent} from "./error/page-not-found/page-not-found.compo
 import {BrokenHelperComponent} from "./modules/user/broken-helper/broken-helper.component";
 import {EssenceCalculatorComponent} from "./modules/user/essence-calculator/essence-calculator.component";
 import {PsychoExpCalculatorComponent} from "./modules/user/psycho-exp-calculator/psycho-exp-calculator.component";
-import {TestsComponent} from "./modules/user/tests/tests.component";
 import {LoginComponent} from "./modules/user/account/login/login.component";
 import {DashboardComponent} from "./modules/user/account/dashboard/dashboard.component";
 import {ConfirmAccountComponent} from "./modules/user/account/login/confirm-account/confirm-account.component";
@@ -16,6 +15,7 @@ import {LostPasswordComponent} from "./modules/user/account/login/lost-password/
 import {AdminComponent} from "./layouts/admin/admin.component";
 import {SkillsComponent} from "./modules/admin/skills/skills.component";
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
+import {SkillUpdateComponent} from "./modules/admin/skills/skill-update/skill-update.component";
 
 const routes: Routes = [
 
@@ -43,7 +43,8 @@ const routes: Routes = [
   {
     path:'admin', component: AdminComponent, title:"Admin panel", children: [
       { path: '', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] },
-      { path: 'skills', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] }
+      { path: 'skills', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] },
+      { path: 'skills/update/:id', component: SkillUpdateComponent, title: "Admin skill update", canActivate: [AdminAuthorizationGuard] }
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [
