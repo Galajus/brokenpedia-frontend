@@ -45,6 +45,7 @@ import {AdminComponent} from './layouts/admin/admin.component';
 import {SkillsComponent} from './modules/admin/skills/skills.component';
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
 import { SkillUpdateComponent } from './modules/admin/skills/skill-update/skill-update.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -98,31 +99,32 @@ const cookieConfig:NgcCookieConsentConfig = {
     SkillsComponent,
     SkillUpdateComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatBadgeModule,
-    FlexLayoutModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatTableModule,
-    NgcCookieConsentModule.forRoot(cookieConfig),
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatGridListModule,
+        MatBadgeModule,
+        FlexLayoutModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        FormsModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatSnackBarModule,
+        MatTableModule,
+        NgcCookieConsentModule.forRoot(cookieConfig),
+        ReactiveFormsModule,
+        MatTabsModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     ProfileAuthorizationGuard,

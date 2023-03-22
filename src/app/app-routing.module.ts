@@ -25,6 +25,7 @@ const routes: Routes = [
       { path: '', component: HomeComponent, title: "Aktualności" },
       { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów" },
+      { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },

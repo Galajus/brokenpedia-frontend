@@ -2,7 +2,9 @@ import {SkillStatType} from "./skillStatType";
 
 export interface BuildSkillStatData {
 
+  id?: number,
   skillStatType: SkillStatType,
-  id: number,
+  skillStatId: number,
+  buildDetailsId: number | undefined
   level: number
 }

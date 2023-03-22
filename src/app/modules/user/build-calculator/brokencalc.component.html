@@ -1,153 +1,200 @@
-<div fxLayout="column" fxLayoutGap="10" style="margin-bottom: 10px">
-  <div fxLayout="row" class="reactions" style="" fxLayoutGap="10">
-    <div class="sample"><mat-icon >thumb_up</mat-icon> 12</div>
-  </div>
-  <div>
-    <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
-      <div fxFlex="65">
-        <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
-          <mat-card-content>
-            <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
-              <div fxLayout="column" fxLayoutGap="5">
-                <button mat-raised-button (click)="openDialog('500ms', '500ms')">Meta</button>
-                <button mat-raised-button (click)="openDialog('500ms', '500ms')">Social</button>
-                <button mat-raised-button (click)="openDialog('500ms', '500ms')">Zapisz</button>
-              </div>
-              <mat-form-field appearance="outline" color="accent">
-                <mat-label>Wybierz profesję</mat-label>
-                <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
-                  <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
-                  <mat-option value="FIRE_MAGE">Mag Ognia</mat-option>
-                  <mat-option value="ARCHER">Łucznik</mat-option>
-                  <mat-option value="SHEED">Sheed</mat-option>
-                  <mat-option value="VOODOO">Voodoo</mat-option>
-                  <mat-option value="KNIGHT">Rycerz</mat-option>
-                  <mat-option value="DRUID">Druid</mat-option>
-                </mat-select>
-                <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
-              </mat-form-field>
+<mat-tab-group>
 
-              <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent">
-                <mat-label>Level postaci</mat-label>
-                <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
-              </mat-form-field>
+  <!--BUILD-->
+
+  <mat-tab label="Build">
+    <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
+      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+        <mat-card-content>
+          <h2>Buildu nie znaleziono bądź jest prywatny</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="!buildNotFound" fxLayout="column" fxLayoutGap="10" style="margin-bottom: 10px">
+      <div *ngIf="databaseBuild" class="reactions" style="" fxLayoutGap="10">
+        <div fxLayout="row">
+
+          <button class="sample" mat-icon-button (click)="upvote()">
+            <mat-icon >thumb_up</mat-icon>
+          </button>
+          <div class="sample">
+            {{databaseBuild.liking.length}}
+          </div>
+        </div>
+      </div>
+      <div>
+        <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
+          <div fxFlex="65">
+            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+              <mat-card-content>
+                <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
+                  <div fxLayout="column" fxLayoutGap="5">
+                    <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">Zapisz</button>
+                    <button *ngIf="databaseBuild && databaseBuild.ownerUuid == jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
+                  </div>
+                  <mat-form-field appearance="outline" color="accent">
+                    <mat-label>Wybierz profesję</mat-label>
+                    <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
+                      <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
+                      <mat-option value="FIRE_MAGE">Mag Ognia</mat-option>
+                      <mat-option value="ARCHER">Łucznik</mat-option>
+                      <mat-option value="SHEED">Sheed</mat-option>
+                      <mat-option value="VOODOO">Voodoo</mat-option>
+                      <mat-option value="KNIGHT">Rycerz</mat-option>
+                      <mat-option value="DRUID">Druid</mat-option>
+                    </mat-select>
+                    <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important">
+                    <mat-label>Level postaci</mat-label>
+                    <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+          <div fxFlex="35">
+            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+              <mat-card-content>
+                <div>
+                  <div fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
+                    <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
+                  </div>
+                  <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <mat-card class="mat-elevation-z6">
+          <mat-card-content>
+            <div>
+              <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+                <div *ngFor="let skill of currentClassSkills">
+                  <div>
+                    <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
+                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
+                    </div>
+                  </div>
+
+                  <div fxLayoutAlign="center" class="upgrade">
+                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
+                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div>
+        <mat-card class="mat-elevation-z6">
+          <mat-card-content>
+            <div>
+              <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+                <div *ngFor="let skill of currentBasicSkills">
+                  <div>
+                    <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
+                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
+                    </div>
+                  </div>
+
+                  <div fxLayoutAlign="center" class="upgrade">
+                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
+                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
+                  </div>
+
+                </div>
+              </div>
             </div>
           </mat-card-content>
         </mat-card>
-
       </div>
-      <div fxFlex="35">
-        <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+
+      <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10" style="height: 300px">
+        <mat-card fxFlex="70" class="mat-elevation-z6" fxLayoutAlign="center center">
           <mat-card-content>
-            <div>
-              <div fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
-                <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
+            <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
+              <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
+                <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
+                <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
+                <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
+                <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
+                <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
+                <div class="make-space"></div>
+                <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
+                <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
               </div>
-              <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
-                <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card fxFlex class="mat-elevation-z6">
+          <mat-card-content>
+            <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
+              <h4><strong>{{activeSkill.name}}</strong></h4>
+              <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">Poziom: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
+              <div *ngIf="activeSkill.level != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">Obrażenia: {{getActiveSkillBasic(activeSkill.level).damage}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">Szansa trafienia: {{getActiveSkillBasic(activeSkill.level).hitChance}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">Mana: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">Kondycja: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">Szansa na dodatkowy efekt: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{getActiveSkillBasic(activeSkill.level).specialEffectDescription}}: {{getActiveSkillBasic(activeSkill.level).specialEffectValue}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty">Trudność: {{getActiveSkillBasic(activeSkill.level).skillDifficulty}}</h5>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
+                   *ngIf="activeSkill.level != 0 &&
+                  (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
+                  getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0)">
+                <h5>Efekt:</h5>
+                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{psycho.psychoEffect + ": " + psycho.value}}%</h5>
+                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{psycho.description + ": " + psycho.value}}%</h5>
+                <h5>Rundy: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
               </div>
             </div>
           </mat-card-content>
         </mat-card>
       </div>
     </div>
-  </div>
+  </mat-tab>
 
-  <div>
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
-        <div>
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-            <div *ngFor="let skill of currentClassSkills">
-              <div>
-                <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
-                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
-                </div>
-              </div>
+  <!--BUILD DESCRIPTION-->
 
-              <div fxLayoutAlign="center" class="upgrade">
-                <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
-                <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
-              </div>
-            </div>
-          </div>
+  <mat-tab label="Opis">
+    <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
+      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+        <mat-card-content>
+          <h2>Buildu nie znaleziono bądź jest prywatny</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-        </div>
+    <div *ngIf="!buildNotFound" fxLayout="column" fxLayoutGap="10">
+      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+        <mat-card-content>
+          <h2>Buildu nie znaleziono bądź jest prywatny</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
 
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <!--BUILD COMMENTS-->
 
-  <div>
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
-        <div>
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-            <div *ngFor="let skill of currentBasicSkills">
-              <div>
-                <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
-                  <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
-                </div>
-              </div>
-
-              <div fxLayoutAlign="center" class="upgrade">
-                <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
-                <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10" style="height: 300px">
-    <mat-card fxFlex="70" class="mat-elevation-z6" fxLayoutAlign="center center">
-      <mat-card-content>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
-          <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
-            <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
-            <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
-            <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
-            <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
-            <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
-            <div class="make-space"></div>
-            <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
-            <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card fxFlex class="mat-elevation-z6">
-      <mat-card-content>
-        <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-          <h4><strong>{{activeSkill.name}}</strong></h4>
-          <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">Poziom: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
-          <div *ngIf="activeSkill.level != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">Obrażenia: {{getActiveSkillBasic(activeSkill.level).damage}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">Szansa trafienia: {{getActiveSkillBasic(activeSkill.level).hitChance}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">Mana: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">Kondycja: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">Szansa na dodatkowy efekt: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{getActiveSkillBasic(activeSkill.level).specialEffectDescription}}: {{getActiveSkillBasic(activeSkill.level).specialEffectValue}}</h5>
-            <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty">Trudność: {{getActiveSkillBasic(activeSkill.level).skillDifficulty}}</h5>
-          </div>
-          <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
-            *ngIf="activeSkill.level != 0 &&
-                  (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
-                  getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0)">
-            <h5>Efekt:</h5>
-            <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{psycho.psychoEffect + ": " + psycho.value}}%</h5>
-            <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{psycho.description + ": " + psycho.value}}%</h5>
-            <h5>Rundy: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+  <mat-tab label="Społeczność">
+    Content 3
+  </mat-tab>
+</mat-tab-group>

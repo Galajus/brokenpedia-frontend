@@ -32,7 +32,8 @@ export class DefaultComponent implements OnInit, OnDestroy {
       if (value instanceof NavigationEnd) {
         if (
           value.url == "/broken-helper" ||
-          value.url == "/build-calculator"
+          value.url == "/build-calculator" ||
+          value.url.includes("/build-calculator/build")
         ) {
           this.additionalStyle = "min-width: 900px";
         } else {

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Skill} from "./model/skill";
 import {SkillCost} from "./model/skillCost";
 import {MatDialog} from "@angular/material/dialog";
@@ -13,6 +13,12 @@ import {Subscription} from "rxjs";
 import {SimpleBuild} from "./model/simpleBuild";
 import {BuildSkillStatData} from "./model/buildSkillStatData";
 import {SkillStatType} from "./model/skillStatType";
+import {DatabaseBuild} from "./model/databaseBuild";
+import {JwtService} from "../../../common/service/jwt.service";
+import {MatTable} from "@angular/material/table";
+import {MatButton} from "@angular/material/button";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BuildLiker} from "./model/buildLiker";
 
 @Component({
   selector: 'app-brokencalc',
@@ -21,6 +27,7 @@ import {SkillStatType} from "./model/skillStatType";
 })
 export class BrokencalcComponent implements OnInit, OnDestroy {
 
+  @ViewChild('saveButton') saveButton!: MatButton;
   bbClassSkills: Skill[] = [];
   fmClassSkills: Skill[] = [];
   knClassSkills: Skill[] = [];
@@ -59,15 +66,22 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
 
   technicalRefresh: boolean = false;
   subscription!: Subscription;
+  buildNotFound: boolean = false;
+  databaseBuild!: DatabaseBuild;
 
   constructor(
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private buildCalculatorService: BuildCalculatorService
+    private buildCalculatorService: BuildCalculatorService,
+    protected jwtService: JwtService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
+
   }
 
   ngOnInit(): void {
+    let id = Number(this.activatedRoute.snapshot.params['id']);
     this.subscription = this.buildCalculatorService.subject
       .subscribe(newLevel => this.activeSkill.level = newLevel);
     this.prepareData();
@@ -85,8 +99,18 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         this.statsTemplate = data.defaultStatistics;
         this.skillCosts = data.skillCosts;
         this.assignClassSkills(data.classSkills);
-        //this.loadBuild();
+        let build: DatabaseBuild = history.state.build;
+        if (build) {
+          this.loadSavedBuild(build);
+          return;
+        }
+        let id = Number(this.activatedRoute.snapshot.params['id']);
+        if (id) {
+          this.loadBuildFromDatabase(id);
+          return;
+        }
         this.loadSimpleBuild();
+
       })
   }
 
@@ -348,7 +372,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     });
   }
 
-  private saveSimpleBuild() {
+  private saveSimpleBuild(): SimpleBuild | undefined {
     if (this.build != null &&
       this.build.currentStatistics &&
       this.build.currentBasicSkills &&
@@ -357,11 +381,13 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       this.build.currentBasicSkills.length != 0 &&
       this.build.currentClassSkills.length != 0 &&
       this.build.currentClass) {
-      return;
+      return undefined;
     }
     let stats = this.currentStats.map(stat => {
       let x: BuildSkillStatData = {
-        id: stat.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == stat.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.STAT])?.id,
+        skillStatId: stat.id,
+        buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: stat.level,
         skillStatType: SkillStatType.STAT
       }
@@ -369,7 +395,9 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     });
     let basicsSkills = this.currentBasicSkills.map(basic => {
       let x: BuildSkillStatData = {
-        id: basic.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == basic.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.BASIC_SKILL])?.id,
+        skillStatId: basic.id,
+        buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: basic.level,
         skillStatType: SkillStatType.BASIC_SKILL
       }
@@ -377,7 +405,9 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     });
     let classSkills = this.currentClassSkills.map(clas => {
       let x: BuildSkillStatData = {
-        id: clas.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == clas.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.CLASS_SKILL])?.id,
+        skillStatId: clas.id,
+        buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: clas.level,
         skillStatType: SkillStatType.CLASS_SKILL
       }
@@ -386,28 +416,53 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
 
     let buildSkillStatData = stats.concat(basicsSkills, classSkills);
     let build: SimpleBuild = {
-      id: 0,
-      buildId: 0,
+      id: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : 0,
+      buildId: this.databaseBuild?.id ? this.databaseBuild.id : 0,
       profession: this.newClass,
       level: this.level,
       skillStatData: buildSkillStatData,
     }
     localStorage.setItem("simple-build", JSON.stringify(build, function replacer(key, value) {
-        return value;
+      return value;
     }));
+    return build;
+  }
+
+  private loadBuildFromDatabase(id: number) {
+    if(!this.jwtService.isLoggedIn()) {
+      this.buildCalculatorService.getBuildWithoutAccount(id)
+        .subscribe({
+          next: build => this.loadSavedBuild(build),
+          error: err => this.buildNotFound = true
+        });
+      return;
+    }
+    this.buildCalculatorService.getBuild(id)
+      .subscribe({
+        next: build => this.loadSavedBuild(build),
+        error: err => this.buildNotFound = true
+      });
+  }
+
+  private loadSavedBuild(build: DatabaseBuild) {
+    this.classUpdate(build.buildDetails.profession);
+    this.level = build.buildDetails.level;
+    this.newLevel = build.buildDetails.level.toString();
+    this.newClass = build.buildDetails.profession;
+    this.readSkillStatData(build.buildDetails.skillStatData);
+    this.databaseBuild = build;
+    this.calculatePoints();
   }
 
   private loadSimpleBuild() {
     let data = localStorage.getItem('simple-build');
     if (data == null) {
-      console.log("build not saved");
       this.rewriteCurrentClassSkills(this.bbClassSkills);
       return;
     }
     let build: SimpleBuild = JSON.parse(data)
 
     if (!build) {
-      console.log("build null");
       this.rewriteCurrentClassSkills(this.bbClassSkills);
       return;
     }
@@ -416,31 +471,34 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.level = build.level;
     this.newLevel = build.level.toString();
     this.newClass = build.profession;
-    build.skillStatData.forEach(data => {
-      if (data.skillStatType == SkillStatType.STAT) {
-          let stat = this.currentStats.find(s => s.id == data.id);
-          if (stat) {
-            stat.level = data.level;
-          }
-          return;
-        }
-      if (data.skillStatType == SkillStatType.BASIC_SKILL) {
-          let stat = this.currentBasicSkills.find(s => s.id == data.id);
-          if (stat) {
-            stat.level = data.level;
-          }
-        return;
-        }
-      if (data.skillStatType == SkillStatType.CLASS_SKILL) {
-          let stat = this.currentClassSkills.find(s => s.id == data.id);
-          if (stat) {
-            stat.level = data.level;
-          }
-        return;
-        }
-    });
-
+    this.readSkillStatData(build.skillStatData);
     this.calculatePoints();
+  }
+
+  private readSkillStatData(skillStatData: BuildSkillStatData[]) {
+    skillStatData.forEach(data => {
+      if (data.skillStatType == SkillStatType.STAT || data.skillStatType.toString() == SkillStatType[SkillStatType.STAT]) {
+        let stat = this.currentStats.find(s => s.id == data.skillStatId);
+        if (stat) {
+          stat.level = data.level;
+        }
+        return;
+      }
+      if (data.skillStatType == SkillStatType.BASIC_SKILL || data.skillStatType.toString() == SkillStatType[SkillStatType.BASIC_SKILL]) {
+        let stat = this.currentBasicSkills.find(s => s.id == data.skillStatId);
+        if (stat) {
+          stat.level = data.level;
+        }
+        return;
+      }
+      if (data.skillStatType == SkillStatType.CLASS_SKILL || data.skillStatType == SkillStatType[SkillStatType.CLASS_SKILL]) {
+        let stat = this.currentClassSkills.find(s => s.id == data.skillStatId);
+        if (stat) {
+          stat.level = data.level;
+        }
+        return;
+      }
+    });
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
@@ -479,6 +537,92 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateOnServer() {
+    let uuid = this.jwtService.getUuid();
+    if (!uuid) {
+      this.snackBar.open("Musisz być zalogowany!", "ok", {duration: 3000});
+      return;
+    }
+
+    let simpleBuild = this.saveSimpleBuild();
+    if (!simpleBuild) {
+      this.snackBar.open("Wystąpił problem z zapisaniem buildu", "ok", {duration: 3000});
+      return;
+    }
+    this.saveButton.disabled = true;
+
+    this.databaseBuild.buildDetails = simpleBuild;
+
+    this.buildCalculatorService.saveBuild(this.databaseBuild)
+      .subscribe({
+        next: build => {
+          this.databaseBuild = build;
+          this.saveButton.disabled = false;
+          this.snackBar.open("Build zaktualizowany", "ok", {duration: 3000});
+        },
+        error: err => {
+          this.saveButton.disabled = false;
+          this.snackBar.open("Wystąpił błąd podczas zapisu", "ok", {duration: 3000});
+        }
+      })
+  }
+
+  saveOnServer() {
+    let uuid = this.jwtService.getUuid();
+    if (!uuid) {
+      this.snackBar.open("Musisz być zalogowany!", "ok", {duration: 3000});
+      return;
+    }
+
+    let simpleBuild = this.saveSimpleBuild();
+    if (!simpleBuild) {
+      this.snackBar.open("Wystąpił problem z zapisaniem buildu", "ok", {duration: 3000});
+      return;
+    }
+
+    this.saveButton.disabled = true;
+    let databaseBuild: DatabaseBuild = {
+      id: 0,
+      ownerUuid: uuid,
+      buildName: "test byuild " + Date.now(),
+      pvpBuild: true,
+      hidden: true,
+      liking: [],
+      shortDescription: "krótko",
+      description: "z kurwami elo benc",
+      buildDetails: simpleBuild
+    };
+
+    this.buildCalculatorService.saveBuild(databaseBuild)
+      .subscribe({
+        next: build => this.router.navigate(["/build-calculator/build/" + build.id], {state: {build: build}}),
+        error: err => {
+          this.snackBar.open("Build nie mógł być zapisany, prawdopodobnie jego dane zostały zmanipulowane", "ok", {duration: 3000});
+          this.saveButton.disabled = false;
+        }
+      });
+  }
+
+  upvote() {
+    let uuid = this.jwtService.getUuid();
+    if (!uuid) {
+      this.snackBar.open("Musisz być zalogowany aby polubić ten build", "ok", {duration: 3000});
+      return;
+    }
+    if (this.databaseBuild.ownerUuid === uuid) {
+      this.snackBar.open("Nie możesz polubić swojego buildu", "ok", {duration: 3000});
+      return;
+    }
+    let liker: BuildLiker = {
+      buildId: this.databaseBuild.id,
+      likerUuid: uuid
+    }
+    this.buildCalculatorService.addLiker(liker)
+      .subscribe({
+        next: like => this.databaseBuild.liking.push(like),
+        error: err => this.snackBar.open("Już polubiłeś ten build", "ok", {duration: 3000})
+      });
+  }
 
   /*private loadBuild() {
     let data = localStorage.getItem('build');

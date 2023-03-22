@@ -1,14 +1,14 @@
 import {SimpleBuild} from "./simpleBuild";
+import {BuildLiker} from "./buildLiker";
 
 export interface DatabaseBuild {
   id: number,
-  ownerUUID: string,
-  name: string,
+  ownerUuid: string,
+  buildName: string,
   shortDescription: string,
   description: string,
-  likes: number,
+  liking: Array<BuildLiker>,
   hidden: boolean,
   pvpBuild: boolean,
-  //comments: Comment[],
-  build: SimpleBuild
+  buildDetails: SimpleBuild
 }
