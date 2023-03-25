@@ -1,0 +1,56 @@
+<table *ngIf="builds" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
+  <ng-container matColumnDef="id">
+    <th style="width: 40px" mat-header-cell *matHeaderCellDef> id</th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+  <ng-container matColumnDef="profession">
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Profesja</th>
+    <td mat-cell *matCellDef="let element"><img src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
+  </ng-container>
+  <ng-container matColumnDef="level">
+    <th style="width: 55px" mat-header-cell *matHeaderCellDef> Poziom</th>
+    <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+  </ng-container>
+  <ng-container matColumnDef="likes">
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Polubień</th>
+    <td mat-cell *matCellDef="let element"> {{element.likes}} </td>
+  </ng-container>
+  <ng-container matColumnDef="buildName">
+    <th mat-header-cell *matHeaderCellDef> Nazwa</th>
+    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.buildName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="shortDescription">
+    <th mat-header-cell *matHeaderCellDef> Krótki opis</th>
+    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
+  </ng-container>
+  <ng-container matColumnDef="pvpBuild">
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Pod PvP</th>
+    <td mat-cell *matCellDef="let element">
+      <div *ngIf="element.pvpBuild">
+        <mat-icon style="color: limegreen">check_circle</mat-icon>
+      </div>
+      <div *ngIf="!element.pvpBuild">
+        <mat-icon style="color: gray">highlight_off</mat-icon>
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
+    <td mat-cell *matCellDef="let element" fxLayoutGap="5">
+      <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
+        <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
+      </button>
+      <button *ngIf="isAdmin" mat-icon-button (click)="deleteBuild(element.id)">
+        <mat-icon style="color: red">delete</mat-icon>
+      </button>
+
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator #paginator *ngIf="builds && builds.pageableBuilds.totalElements > 0"
+               [length]="builds.pageableBuilds.totalElements" [pageSize]="25"
+               aria-label="Select page" (page)="onPageEvent($event)">
+</mat-paginator>
