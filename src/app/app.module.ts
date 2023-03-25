@@ -46,6 +46,11 @@ import {SkillsComponent} from './modules/admin/skills/skills.component';
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
 import { SkillUpdateComponent } from './modules/admin/skills/skill-update/skill-update.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {AngularEditorModule} from "@kolkov/angular-editor";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatExpansionModule} from "@angular/material/expansion";
+import { BuildsListComponent } from './modules/user/build-calculator/builds-list/builds-list.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -97,7 +102,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     SkillLevelSelectComponent,
     AdminComponent,
     SkillsComponent,
-    SkillUpdateComponent
+    SkillUpdateComponent,
+    BuildsListComponent
   ],
     imports: [
         BrowserModule,
@@ -123,7 +129,11 @@ const cookieConfig:NgcCookieConsentConfig = {
         MatTableModule,
         NgcCookieConsentModule.forRoot(cookieConfig),
         ReactiveFormsModule,
-        MatTabsModule
+        MatTabsModule,
+        AngularEditorModule,
+        MatTreeModule,
+        MatExpansionModule,
+        MatPaginatorModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

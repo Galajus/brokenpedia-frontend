@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Profile} from "./model/profile";
 import {DatabaseBuild} from "../../build-calculator/model/databaseBuild";
-import {BuildListDto} from "./model/buildListDto";
+import {BuildListDto} from "../../../../common/model/buildListDto";
 
 @Injectable({
   providedIn: 'root'

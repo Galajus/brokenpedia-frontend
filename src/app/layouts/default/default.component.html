@@ -15,9 +15,37 @@
   <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
         <div class="menu-gal" fxLayout="column">
+          <!--<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            &lt;!&ndash; This is the tree node template for leaf nodes &ndash;&gt;
+            <mat-tree-node style="min-height: 20px !important; height: 20px; margin-left: 0 !important" *matTreeNodeDef="let node" matTreeNodePadding >
+              &lt;!&ndash; use a disabled button to provide padding for tree leaf &ndash;&gt;
+              <button mat-icon-button disabled></button>
+              {{node.name}}
+            </mat-tree-node>
+            &lt;!&ndash; This is the tree node template for expandable nodes &ndash;&gt;
+            <mat-tree-node style="min-height: 20px !important; height: 20px" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding="0">
+              <button mat-icon-button matTreeNodeToggle disableRipple
+                      [attr.aria-label]="'Toggle ' + node.name">
+                <mat-icon style="font-size: 20px">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+                {{node.name}}
+              </button>
+            </mat-tree-node>
+          </mat-tree>-->
           <mat-nav-list fxFlex>
             <a mat-list-item routerLink=""><mat-icon class="sidebar-icon">today</mat-icon> Aktualności</a>
-            <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> Kalkulator Buildów</a>
+            <mat-accordion>
+              <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
+                <mat-expansion-panel-header style="height: 32px">
+                  <mat-panel-title>
+                    <mat-icon class="sidebar-icon">toc</mat-icon>Kalkulator buildów
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> Kalkulator </a>
+                <a mat-list-item routerLink="/build-calculator/builds"><mat-icon class="sidebar-icon">view_list</mat-icon> Lista buildów</a>
+              </mat-expansion-panel>
+            </mat-accordion>
             <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> Kalkulator Psychoexpa</a>
             <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> Kalkulator Esencji</a>
             <a mat-list-item routerLink="/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>

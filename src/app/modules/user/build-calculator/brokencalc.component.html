@@ -157,7 +157,7 @@
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty">Trudność: {{getActiveSkillBasic(activeSkill.level).skillDifficulty}}</h5>
               </div>
               <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
-                   *ngIf="activeSkill.level != 0 &&
+                   *ngIf="activeSkill?.level != 0 &&
                   (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0)">
                 <h5>Efekt:</h5>
@@ -183,10 +183,54 @@
       </mat-card>
     </div>
 
-    <div *ngIf="!buildNotFound" fxLayout="column" fxLayoutGap="10">
+    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.ownerUuid == jwtService.getUuid())" fxLayout="column" fxLayoutGap="10" style="padding-bottom: 10px">
       <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
         <mat-card-content>
-          <h2>Buildu nie znaleziono bądź jest prywatny</h2>
+          <div fxLayoutGap="15" fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20">
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <h3>NAZWA BUILDU</h3>
+                <mat-form-field appearance="fill" color="accent" style="width: 300px">
+                  <mat-label>NAZWA BUILDU</mat-label>
+                  <input matInput #blName maxlength="30" [(ngModel)]="buildName" placeholder="Nazwa buildu">
+                  <mat-hint align="end">{{blName.value.length}} / 30</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <h3>SKRÓCONY OPIS BUILDU</h3>
+              <mat-form-field appearance="fill" color="accent" style="width: 800px">
+                <mat-label>SKRÓCONY OPIS BUILDU</mat-label>
+                <input matInput #blShortDesc maxlength="150" [(ngModel)]="shortDescription" placeholder="Skrócony opis buildu">
+                <mat-hint align="end">{{blShortDesc.value.length}} / 150</mat-hint>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15">
+              <mat-slide-toggle [(ngModel)]="privateBuild">Build prywatny (widzisz go tylko Ty)</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="pvpBuild">Build pod PvP</mat-slide-toggle>
+            </div>
+            <div style="max-width: 800px">
+              <h3>OPIS</h3>
+              <angular-editor [(ngModel)]="description" [config]="editorConfig"></angular-editor>
+              <div style="text-align: end">{{description?.toString().length ? description?.toString().length : 0}} / 6000</div>
+            </div>
+            <div>
+              <h3>REZULTAT</h3>
+            </div>
+            <div style="max-width: 800px; word-wrap: break-word;" fxFill [innerHTML]="description">
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf=" databaseBuild && !buildNotFound && databaseBuild?.ownerUuid != jwtService.getUuid()" style="padding-bottom: 10px">
+      <mat-card class="mat-elevation-z6" style="min-width: 800px">
+        <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+          <h1>{{buildName}}</h1>
+          <mat-divider></mat-divider>
+          <h2>{{shortDescription}}</h2>
+          <mat-divider></mat-divider>
+          <div style="max-width: 800px; word-wrap: break-word;" fxFill [innerHTML]="description"></div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -194,7 +238,7 @@
 
   <!--BUILD COMMENTS-->
 
-  <mat-tab label="Społeczność">
+  <!--<mat-tab label="Społeczność">
     Content 3
-  </mat-tab>
+  </mat-tab>-->
 </mat-tab-group>

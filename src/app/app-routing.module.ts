@@ -16,6 +16,7 @@ import {AdminComponent} from "./layouts/admin/admin.component";
 import {SkillsComponent} from "./modules/admin/skills/skills.component";
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
 import {SkillUpdateComponent} from "./modules/admin/skills/skill-update/skill-update.component";
+import {BuildsListComponent} from "./modules/user/build-calculator/builds-list/builds-list.component";
 
 const routes: Routes = [
 
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów" },
+      { path: 'build-calculator/builds', component: BuildsListComponent, title: "Lista buildów" },
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },

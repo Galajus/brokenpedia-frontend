@@ -19,6 +19,8 @@ import {MatTable} from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BuildLiker} from "./model/buildLiker";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
+import {MatFormField} from "@angular/material/form-field";
 
 @Component({
   selector: 'app-brokencalc',
@@ -28,6 +30,52 @@ import {BuildLiker} from "./model/buildLiker";
 export class BrokencalcComponent implements OnInit, OnDestroy {
 
   @ViewChild('saveButton') saveButton!: MatButton;
+  buildName: string = "";
+  shortDescription: string = "";
+  privateBuild: boolean = false;
+  pvpBuild: boolean = false;
+  description: any;
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '450',
+    maxHeight: 'auto',
+    width: '800',
+    minWidth: '400',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Opis Twojego buildu jak np. co ubierać, jakie mody wybierać czy taktyki ustawiać na bossach.',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'removeFormat',
+        'fontName',
+        'heading',
+        'justifyLeft',
+        'justifyCenter',
+        'justifyRight',
+        'justifyFull',
+        'indent',
+        'outdent',
+        'toggleEditorMode']
+    ]
+  };
   bbClassSkills: Skill[] = [];
   fmClassSkills: Skill[] = [];
   knClassSkills: Skill[] = [];
@@ -451,6 +499,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.newClass = build.buildDetails.profession;
     this.readSkillStatData(build.buildDetails.skillStatData);
     this.databaseBuild = build;
+    this.description = build.description;
+    this.buildName = build.buildName;
+    this.shortDescription = build.shortDescription;
+    this.privateBuild = build.hidden;
+    this.pvpBuild = build.pvpBuild;
     this.calculatePoints();
   }
 
@@ -552,6 +605,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.saveButton.disabled = true;
 
     this.databaseBuild.buildDetails = simpleBuild;
+    this.databaseBuild.buildName = this.buildName ? this.buildName : "No name";
+    this.databaseBuild.shortDescription = this.shortDescription;
+    this.databaseBuild.description = this.description;
+    this.databaseBuild.pvpBuild = this.pvpBuild;
+    this.databaseBuild.hidden = this.privateBuild;
 
     this.buildCalculatorService.saveBuild(this.databaseBuild)
       .subscribe({
@@ -584,12 +642,12 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     let databaseBuild: DatabaseBuild = {
       id: 0,
       ownerUuid: uuid,
-      buildName: "test byuild " + Date.now(),
-      pvpBuild: true,
-      hidden: true,
+      buildName: this.buildName ? this.buildName : "No name",
+      pvpBuild: this.pvpBuild,
+      hidden: this.privateBuild,
       liking: [],
-      shortDescription: "krótko",
-      description: "z kurwami elo benc",
+      shortDescription: this.shortDescription,
+      description: this.description,
       buildDetails: simpleBuild
     };
 
@@ -675,4 +733,5 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       return value
     }));
   }*/
+
 }

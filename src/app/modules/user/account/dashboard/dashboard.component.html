@@ -1,75 +1,82 @@
-<div fxLayout="column" fxFlex fxLayoutAlign="center center">
-  <div>
-    <h1>Welcome to the dashboard!</h1>
-  </div>
+<mat-card class="mat-elevation-z6">
+  <mat-card-content fxLayout="column" fxFlex fxLayoutAlign="center center">
 
-  <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center">
-    <p>E-mail: {{profile.username}}</p>
-    <p>Typ konta: {{profile.authorities}}</p>
-    <p>Unikalny numer konta: {{profile.uuid}}</p>
-    <button mat-raised-button color="warn" (click)="logOut()">Logout</button>
-  </div>
+    <div>
+      <h1>Witaj na swoim profilu!</h1>
+    </div>
 
-  <br>
+    <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center">
+      <p>E-mail: {{profile.username}}</p>
+      <p>Typ konta: {{profile.authorities}}</p>
+      <button mat-raised-button color="warn" (click)="logOut()">Logout</button>
+    </div>
 
-  <h1>ZAPISANE BUILDY</h1>
+    <br>
 
-  <table #table mat-table [dataSource]="builds" [trackBy]="trackBy">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> id</th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-    <ng-container matColumnDef="profession">
-      <th mat-header-cell *matHeaderCellDef> Profesja</th>
-      <td mat-cell *matCellDef="let element"><img src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
-    </ng-container>
-    <ng-container matColumnDef="level">
-      <th mat-header-cell *matHeaderCellDef> Poziom</th>
-      <td mat-cell *matCellDef="let element"> {{element.level}} </td>
-    </ng-container>
-    <ng-container matColumnDef="buildName">
-      <th mat-header-cell *matHeaderCellDef> Nazwa</th>
-      <td mat-cell *matCellDef="let element"> {{element.buildName}} </td>
-    </ng-container>
-    <ng-container matColumnDef="shortDescription">
-      <th mat-header-cell *matHeaderCellDef> Krótki opis</th>
-      <td mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
-    </ng-container>
-    <ng-container matColumnDef="hidden">
-      <th mat-header-cell *matHeaderCellDef> Ukryty</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.hidden">
-          <mat-icon style="color: limegreen">check_circle</mat-icon>
-        </div>
-        <div *ngIf="!element.hidden">
-          <mat-icon style="color: gray">highlight_off</mat-icon>
-        </div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="pvpBuild">
-      <th mat-header-cell *matHeaderCellDef> Pod PvP</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.pvpBuild">
-          <mat-icon style="color: limegreen">check_circle</mat-icon>
-        </div>
-        <div *ngIf="!element.pvpBuild">
-          <mat-icon style="color: gray">highlight_off</mat-icon>
-        </div>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Akcje</th>
-      <td mat-cell *matCellDef="let element" fxLayoutGap="5">
-        <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
-          <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
-        </button>
-        <button mat-icon-button (click)="deleteBuild(element.id)">
-          <mat-icon style="color: red">delete</mat-icon>
-        </button>
+    <h1>ZAPISANE BUILDY</h1>
 
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+    <table #table mat-table [dataSource]="builds" [trackBy]="trackBy">
+      <ng-container matColumnDef="id">
+        <th style="width: 40px" mat-header-cell *matHeaderCellDef> id</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="profession">
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Profesja</th>
+        <td mat-cell *matCellDef="let element"><img
+          src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
+      </ng-container>
+      <ng-container matColumnDef="level">
+        <th style="width: 55px" mat-header-cell *matHeaderCellDef> Poziom</th>
+        <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+      </ng-container>
+      <ng-container matColumnDef="likes">
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Polubień</th>
+        <td mat-cell *matCellDef="let element"> {{element.likes}} </td>
+      </ng-container>
+      <ng-container matColumnDef="buildName">
+        <th mat-header-cell *matHeaderCellDef> Nazwa</th>
+        <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.buildName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="shortDescription">
+        <th mat-header-cell *matHeaderCellDef> Krótki opis</th>
+        <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
+      </ng-container>
+      <ng-container matColumnDef="hidden">
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Ukryty</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.hidden">
+            <mat-icon style="color: limegreen">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!element.hidden">
+            <mat-icon style="color: gray">highlight_off</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pvpBuild">
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Pod PvP</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.pvpBuild">
+            <mat-icon style="color: limegreen">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!element.pvpBuild">
+            <mat-icon style="color: gray">highlight_off</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
+        <td mat-cell *matCellDef="let element" fxLayoutGap="5">
+          <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
+            <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteBuild(element.id)">
+            <mat-icon style="color: red">delete</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

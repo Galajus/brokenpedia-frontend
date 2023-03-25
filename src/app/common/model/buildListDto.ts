@@ -5,6 +5,7 @@ export interface BuildListDto {
   pvpBuild: boolean,
   hidden: boolean,
   profession: string,
-  level: number
+  level: number,
+  likes: number
 
 }

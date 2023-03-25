@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {LoginButtonService} from "../../../../common/service/login-button.service";
 import {DashboardService} from "./dashboard.service";
 import {Profile} from "./model/profile";
-import {BuildListDto} from "./model/buildListDto";
+import {BuildListDto} from "../../../../common/model/buildListDto";
 import {MatTable} from "@angular/material/table";
 
 @Component({
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
 
   profile!: Profile;
   builds!: Array<BuildListDto>;
-  displayedColumns = ["id", "profession", "level", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
+  displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
 
   ngOnInit(): void {
     let uuid = this.jwtService.getUuid();

@@ -16,6 +16,16 @@ mat-sidenav-content {
   background-color: #282727;
 }
 
+.soft-panel {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+mat-panel-title {
+  font-family: 'Merriweather Sans', sans-serif;
+  font-size: 14px !important;
+}
+
 mat-nav-list a {
   font-size: 14px !important;
   height: 32px !important;

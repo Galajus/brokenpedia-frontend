@@ -46,7 +46,7 @@ mat-card {
   align-items: center;
   width: 100%;
 
-  margin: 30px auto auto auto;
+  margin: 30px auto 15px auto;
   background-color: #282727;
   overflow: hidden;
 
@@ -67,7 +67,19 @@ a, a:visited {
   text-shadow: 0 0 2px #181716, 0 0 4px #181716;
 }
 
-mat-sidenav-container{
+.mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.mat-expansion-panel-body a {
+  padding-left: 16px !important;
+}
+
+.mat-expansion-panel-header {
+  padding: 0 16px !important;
+}
+
+mat-sidenav-container {
   box-shadow: none !important;
 }
 

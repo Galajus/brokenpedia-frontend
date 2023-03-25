@@ -5,6 +5,9 @@ import {InitBuildCalculator} from "./model/initBuildCalculator";
 import {DatabaseBuild} from "./model/databaseBuild";
 import {Skill} from "./model/skill";
 import {BuildLiker} from "./model/buildLiker";
+import {Page} from "../../../common/model/page";
+import {BuildListDto} from "../../../common/model/buildListDto";
+import {PageableBuildsDto} from "./builds-list/model/pageableBuildsDto";
 
 @Injectable({
   providedIn: 'root'
@@ -31,12 +34,28 @@ export class BuildCalculatorService {
     return this.http.put<BuildLiker>("/api/profile/builds/add-liker", liker);
   }
 
+  deleteBuild(id: number): Observable<void> {
+    return this.http.delete<void>("/api/profile/builds/delete/" + id);
+  }
+
   getBuild(id: number): Observable<DatabaseBuild> {
     return this.http.get<DatabaseBuild>("/api/profile/builds/" + id);
   }
 
   getBuildWithoutAccount(id: number): Observable<DatabaseBuild> {
     return this.http.get<DatabaseBuild>("/api/builds/" + id);
+  }
+
+  getBuildsByLevel(less: number, greater: number, page: number): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-level?less=${less}&greater=${greater}&page=${page}`);
+  }
+
+  getBuildsByPvp(isPvp: boolean): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-pvp/${isPvp}`);
+  }
+
+  getBuildsByProfession(profession: string): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-profession/${profession}`);
   }
 
   showSkillDataBySelectedLevel(level: number) {
