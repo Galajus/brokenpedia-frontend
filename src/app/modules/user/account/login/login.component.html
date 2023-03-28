@@ -36,6 +36,10 @@
             <mat-label>Powtórz hasło</mat-label>
             <input type="password" matInput formControlName="repeatPassword" placeholder="Powtórz hasło">
           </mat-form-field>
+          <mat-form-field color="accent" appearance="fill">
+            <mat-label>Nick</mat-label>
+            <input matInput formControlName="nickname" placeholder="Podaj swój nick">
+          </mat-form-field>
           <button mat-flat-button color="primary">Zarejestruj</button>
           <div *ngIf="registerError" class="error">{{registerErrorMessage}}</div>
           <div *ngIf="registerSuccess" class="success">{{registerSuccessMessage}}</div>

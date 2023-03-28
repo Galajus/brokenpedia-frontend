@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      repeatPassword: ['', Validators.required]
+      repeatPassword: ['', Validators.required],
+      nickname: ['', Validators.required]
     })
   }
 
@@ -85,6 +86,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    if (!this.validateNickname(this.registerForm.value.nickname)) {
+      this.registerErrorMessage = "Nick musi mieć od 5 do 18 znaków, zaczynać się od litery oraz nie może zawierać znaków specjalnych";
+      this.registerError = true;
+      return;
+    }
+
     this.loginService.register(this.registerForm.value)
       .subscribe({
           next: (response) => {
@@ -114,6 +121,17 @@ export class LoginComponent implements OnInit {
   validatePassword(password: string): boolean {
     let passwordRegExp = /^(?=.*\d)(?=.*[a-zżźćńółęąś])(?=.*[A-ZŻŹĆĄŚĘŁÓŃ]).{8,}$/;
     return passwordRegExp.test(password);
+  }
+
+  validateNickname(nickname: string): boolean {
+    let nicknameReqExp = /^[a-zA-Z]\w*$/;
+    if (nickname.length < 5) {
+      return false;
+    }
+    if (nickname.length > 18) {
+      return false;
+    }
+    return nicknameReqExp.test(nickname);
   }
 
 }

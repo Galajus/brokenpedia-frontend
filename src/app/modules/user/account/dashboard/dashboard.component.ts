@@ -6,6 +6,8 @@ import {DashboardService} from "./dashboard.service";
 import {Profile} from "./model/profile";
 import {BuildListDto} from "../../../../common/model/buildListDto";
 import {MatTable} from "@angular/material/table";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProfileNicknameDto} from "./model/profileNicknameDto";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,20 +20,25 @@ export class DashboardComponent implements OnInit {
     private jwtService: JwtService,
     private dashboardService: DashboardService,
     private loginButtonService: LoginButtonService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   profile!: Profile;
   builds!: Array<BuildListDto>;
   displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
-
+  isChangingNick: boolean = false;
+  newNick: string = "";
   ngOnInit(): void {
     let uuid = this.jwtService.getUuid();
     if (uuid == null) {
       return;
     }
     this.dashboardService.getProfile(uuid)
-      .subscribe(profile => this.profile = profile);
+      .subscribe(profile => {
+        this.profile = profile;
+        this.newNick = profile.nickname;
+      });
     this.dashboardService.getBuildsList(uuid)
       .subscribe(builds => this.builds = builds);
   }
@@ -53,5 +60,30 @@ export class DashboardComponent implements OnInit {
 
   trackBy(index: number, item: BuildListDto) {
     return item.id;
+  }
+
+  changeEditNick() {
+    if (this.isChangingNick) {
+      this.isChangingNick = false;
+      let nickString = this.newNick;
+      if (nickString !== this.profile.nickname) {
+        let uuid = this.jwtService.getUuid();
+        if (uuid == null) {
+          return;
+        }
+        let updateNick = {
+          nickname: nickString
+        } as ProfileNicknameDto;
+        this.dashboardService.updateNick(updateNick, uuid)
+          .subscribe({
+            next: value => {
+              this.snackBar.open("Nick zaktualizowany", "ok", {duration: 3000});
+              this.profile.nickname = nickString;
+            }
+          })
+      }
+    } else {
+      this.isChangingNick = true;
+    }
   }
 }

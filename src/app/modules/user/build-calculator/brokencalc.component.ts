@@ -682,6 +682,33 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       });
   }
 
+  getPrettyProfession(value: string): string {
+    switch (value) {
+      case "BARBARIAN": {
+        return "Barbarzyńca";
+      }
+      case "FIRE_MAGE": {
+        return "Mag ognia";
+      }
+      case "DRUID": {
+        return "Druid";
+      }
+      case "KNIGHT": {
+        return "Rycerz";
+      }
+      case "ARCHER": {
+        return "Łucznik";
+      }
+      case "SHEED": {
+        return "Sheed";
+      }
+      case "VOODOO": {
+        return "Voodoo";
+      }
+      default: return "Unknown";
+    }
+  }
+
   /*private loadBuild() {
     let data = localStorage.getItem('build');
     if (data == null) {

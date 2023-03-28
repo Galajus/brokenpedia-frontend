@@ -30,9 +30,9 @@
                 <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
                   <div fxLayout="column" fxLayoutGap="5">
                     <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">Zapisz</button>
-                    <button *ngIf="databaseBuild && databaseBuild.ownerUuid == jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
+                    <button *ngIf="databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
                   </div>
-                  <mat-form-field appearance="outline" color="accent">
+                  <mat-form-field appearance="outline" color="accent" *ngIf="(databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()) || !databaseBuild">
                     <mat-label>Wybierz profesję</mat-label>
                     <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
                       <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
@@ -46,10 +46,13 @@
                     <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
                   </mat-form-field>
 
-                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important">
+
+                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()) || !databaseBuild">
                     <mat-label>Level postaci</mat-label>
                     <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
                   </mat-form-field>
+
+                  <h1 *ngIf="databaseBuild && databaseBuild.ownerUuid !== jwtService.getUuid()">{{getPrettyProfession(newClass)}} {{newLevel}} LVL</h1>
                 </div>
               </mat-card-content>
             </mat-card>

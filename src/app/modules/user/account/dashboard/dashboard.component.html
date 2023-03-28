@@ -5,8 +5,16 @@
       <h1>Witaj na swoim profilu!</h1>
     </div>
 
-    <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center">
+    <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
       <p>E-mail: {{profile.username}}</p>
+      <p *ngIf="!isChangingNick">Nick: {{profile.nickname}} <button mat-icon-button (click)="changeEditNick()"><mat-icon>edit</mat-icon></button></p>
+      <p *ngIf="isChangingNick">
+        <mat-form-field color="accent" appearance="fill">
+          <mat-label>Nick</mat-label>
+          <input [(ngModel)]="newNick" type="text" matInput>
+        </mat-form-field>
+        <button mat-icon-button (click)="changeEditNick()"><mat-icon>edit</mat-icon></button>
+      </p>
       <p>Typ konta: {{profile.authorities}}</p>
       <button mat-raised-button color="warn" (click)="logOut()">Logout</button>
     </div>
