@@ -17,6 +17,8 @@ import {SkillsComponent} from "./modules/admin/skills/skills.component";
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
 import {SkillUpdateComponent} from "./modules/admin/skills/skill-update/skill-update.component";
 import {BuildsListComponent} from "./modules/user/build-calculator/builds-list/builds-list.component";
+import {DrifSimulatorComponent} from "./modules/user/drif-simulator/drif-simulator.component";
+import {ImportantModsComponent} from "./modules/user/tips/important-mods/important-mods.component";
 
 const routes: Routes = [
 
@@ -31,6 +33,8 @@ const routes: Routes = [
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
+      { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
+      { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
 
       { path: 'login', component: LoginComponent, title: "Logowanie/rejestracja" },
       { path: 'confirm-account/:hash', component: ConfirmAccountComponent, title: "Aktywacja konta" },

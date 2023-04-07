@@ -30,9 +30,9 @@
                 <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
                   <div fxLayout="column" fxLayoutGap="5">
                     <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">Zapisz</button>
-                    <button *ngIf="databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
+                    <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
                   </div>
-                  <mat-form-field appearance="outline" color="accent" *ngIf="(databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()) || !databaseBuild">
+                  <mat-form-field appearance="outline" color="accent" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
                     <mat-label>Wybierz profesję</mat-label>
                     <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
                       <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
@@ -47,12 +47,14 @@
                   </mat-form-field>
 
 
-                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.ownerUuid === jwtService.getUuid()) || !databaseBuild">
+                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
                     <mat-label>Level postaci</mat-label>
                     <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
                   </mat-form-field>
 
-                  <h1 *ngIf="databaseBuild && databaseBuild.ownerUuid !== jwtService.getUuid()">{{getPrettyProfession(newClass)}} {{newLevel}} LVL</h1>
+                  <h1 *ngIf="databaseBuild && databaseBuild.profile.uuid !== jwtService.getUuid()">
+                    <strong>{{getPrettyProfession(newClass)}}</strong> {{newLevel}} LVL <i>by </i> <strong>{{databaseBuild.profile.nickname}}</strong>
+                  </h1>
                 </div>
               </mat-card-content>
             </mat-card>
@@ -186,7 +188,7 @@
       </mat-card>
     </div>
 
-    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.ownerUuid == jwtService.getUuid())" fxLayout="column" fxLayoutGap="10" style="padding-bottom: 10px">
+    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.profile?.uuid === jwtService.getUuid())" fxLayout="column" fxLayoutGap="10" style="padding-bottom: 10px">
       <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
         <mat-card-content>
           <div fxLayoutGap="15" fxLayout="column" fxLayoutAlign="center center">
@@ -226,7 +228,7 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div *ngIf=" databaseBuild && !buildNotFound && databaseBuild?.ownerUuid != jwtService.getUuid()" style="padding-bottom: 10px">
+    <div *ngIf="databaseBuild && !buildNotFound && databaseBuild?.profile?.uuid !== jwtService.getUuid()" style="padding-bottom: 10px">
       <mat-card class="mat-elevation-z6" style="min-width: 800px">
         <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
           <h1>{{buildName}}</h1>
@@ -245,3 +247,44 @@
     Content 3
   </mat-tab>-->
 </mat-tab-group>
+
+
+<!--
+<div class="container">
+  <div class="item">
+    <div class="circle-content">1</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">2</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">3</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">4</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">5</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">6</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">7</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">8</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">9</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">10</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">11</div>
+  </div>
+  <div class="item">
+    <div class="circle-content">12</div>
+  </div>
+</div>-->

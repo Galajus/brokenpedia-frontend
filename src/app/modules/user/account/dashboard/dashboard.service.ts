@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Profile} from "./model/profile";
-import {DatabaseBuild} from "../../build-calculator/model/databaseBuild";
 import {BuildListDto} from "../../../../common/model/buildListDto";
 import {ProfileNicknameDto} from "./model/profileNicknameDto";
 
@@ -24,11 +23,10 @@ export class DashboardService {
   }
 
   deleteBuild(id: number): Observable<void> {
-    return this.http.delete<void>("/api/profile/builds/delete/" + id);
+    return this.http.delete<void>("/api/profile/builds/" + id);
   }
 
   updateNick(update: ProfileNicknameDto, uuid: string): Observable<void> {
-    console.log(update)
     return this.http.put<void>("/api/profile/nickname/" + uuid, update);
   }
 }

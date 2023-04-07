@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatTable} from "@angular/material/table";
 import {Skill} from "../../user/build-calculator/model/skill";
 import {SkillsService} from "./skills.service";

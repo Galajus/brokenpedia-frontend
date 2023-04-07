@@ -1,5 +1,6 @@
 export interface BuildListDto {
   id: number,
+  buildAuthor: string,
   buildName: string,
   shortDescription: string,
   pvpBuild: boolean,

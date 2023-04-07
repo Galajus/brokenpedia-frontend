@@ -44,13 +44,15 @@ import {
 import {AdminComponent} from './layouts/admin/admin.component';
 import {SkillsComponent} from './modules/admin/skills/skills.component';
 import {AdminAuthorizationGuard} from "./common/guard/adminAuthorizationGuard";
-import { SkillUpdateComponent } from './modules/admin/skills/skill-update/skill-update.component';
+import {SkillUpdateComponent} from './modules/admin/skills/skill-update/skill-update.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AngularEditorModule} from "@kolkov/angular-editor";
 import {MatTreeModule} from "@angular/material/tree";
 import {MatExpansionModule} from "@angular/material/expansion";
-import { BuildsListComponent } from './modules/user/build-calculator/builds-list/builds-list.component';
+import {BuildsListComponent} from './modules/user/build-calculator/builds-list/builds-list.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { DrifSimulatorComponent } from './modules/user/drif-simulator/drif-simulator.component';
+import { ImportantModsComponent } from './modules/user/tips/important-mods/important-mods.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -103,7 +105,9 @@ const cookieConfig:NgcCookieConsentConfig = {
     AdminComponent,
     SkillsComponent,
     SkillUpdateComponent,
-    BuildsListComponent
+    BuildsListComponent,
+    DrifSimulatorComponent,
+    ImportantModsComponent
   ],
     imports: [
         BrowserModule,

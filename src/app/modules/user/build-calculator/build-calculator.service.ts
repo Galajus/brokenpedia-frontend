@@ -5,7 +5,6 @@ import {InitBuildCalculator} from "./model/initBuildCalculator";
 import {DatabaseBuild} from "./model/databaseBuild";
 import {Skill} from "./model/skill";
 import {BuildLiker} from "./model/buildLiker";
-import {Page} from "../../../common/model/page";
 import {BuildListDto} from "../../../common/model/buildListDto";
 import {PageableBuildsDto} from "./builds-list/model/pageableBuildsDto";
 
@@ -27,7 +26,11 @@ export class BuildCalculatorService {
     return this.http.post<Skill>("/api/admin/skills", skill);
   }
   saveBuild(build: DatabaseBuild): Observable<DatabaseBuild> {
-    return this.http.post<DatabaseBuild>("/api/profile/builds/save", build);
+    return this.http.post<DatabaseBuild>("/api/profile/builds", build);
+  }
+
+  updateBuild(build: DatabaseBuild): Observable<DatabaseBuild> {
+    return this.http.put<DatabaseBuild>("/api/profile/builds", build);
   }
 
   addLiker(liker: BuildLiker):Observable<BuildLiker> {
@@ -35,7 +38,7 @@ export class BuildCalculatorService {
   }
 
   deleteBuild(id: number): Observable<void> {
-    return this.http.delete<void>("/api/profile/builds/delete/" + id);
+    return this.http.delete<void>("/api/profile/builds/" + id);
   }
 
   getBuild(id: number): Observable<DatabaseBuild> {

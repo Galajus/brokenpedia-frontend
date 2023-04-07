@@ -1,11 +1,20 @@
-<table *ngIf="builds" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
-  <ng-container matColumnDef="id">
-    <th style="width: 40px" mat-header-cell *matHeaderCellDef> id</th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+<mat-paginator #paginator *ngIf="builds && builds.pageableBuilds.totalElements > 0"
+               [length]="builds.pageableBuilds.totalElements" [pageSize]="25"
+               aria-label="Select page" (page)="onPageEvent($event)">
+</mat-paginator>
+
+<table *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
+  <ng-container matColumnDef="lp">
+    <th style="width: 40px" mat-header-cell *matHeaderCellDef> lp.</th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{i + 1 + (paginator.pageIndex * paginator.pageSize)}} </td>
   </ng-container>
   <ng-container matColumnDef="profession">
     <th style="width: 75px" mat-header-cell *matHeaderCellDef> Profesja</th>
     <td mat-cell *matCellDef="let element"><img src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
+  </ng-container>
+  <ng-container matColumnDef="author">
+    <th style="width: 100px" mat-header-cell *matHeaderCellDef> Autor</th>
+    <td mat-cell *matCellDef="let element"> {{element.buildAuthor}} </td>
   </ng-container>
   <ng-container matColumnDef="level">
     <th style="width: 55px" mat-header-cell *matHeaderCellDef> Poziom</th>
@@ -49,8 +58,3 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
-<mat-paginator #paginator *ngIf="builds && builds.pageableBuilds.totalElements > 0"
-               [length]="builds.pageableBuilds.totalElements" [pageSize]="25"
-               aria-label="Select page" (page)="onPageEvent($event)">
-</mat-paginator>

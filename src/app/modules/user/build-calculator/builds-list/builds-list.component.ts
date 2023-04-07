@@ -1,7 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {BuildCalculatorService} from "../build-calculator.service";
-import {DatabaseBuild} from "../model/databaseBuild";
-import {Page} from "../../../../common/model/page";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginationType} from "./model/paginationType";
 import {BuildListDto} from "../../../../common/model/buildListDto";
@@ -18,11 +16,12 @@ export class BuildsListComponent implements OnInit {
   @ViewChild('paginator') paginator!: MatPaginator;
   builds!: PageableBuildsDto<BuildListDto>;
   paginationType: PaginationType = PaginationType.LEVEL;
-  displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "pvpBuild", "actions"];
+  displayedColumns = ["lp", "author", "profession", "level", "likes", "buildName", "shortDescription", "pvpBuild", "actions"];
   isAdmin: boolean = false;
   constructor(
     private buildCalculatorService: BuildCalculatorService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +32,10 @@ export class BuildsListComponent implements OnInit {
   private loadBuildsByLevel(less: number, greater: number, page: number) {
     this.buildCalculatorService.getBuildsByLevel(less, greater, page)
       .subscribe({
-        next: builds => this.builds = builds
+        next: builds => {
+          this.builds = builds;
+          this.changeDetectorRef.detectChanges();
+        }
       });
   }
 
@@ -73,4 +75,6 @@ export class BuildsListComponent implements OnInit {
   trackBy(index: number, item: BuildListDto) {
     return item.id;
   }
+
+    protected readonly indexedDB = indexedDB;
 }

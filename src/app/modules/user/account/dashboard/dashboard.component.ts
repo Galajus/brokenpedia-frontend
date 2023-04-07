@@ -1,11 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {JwtService} from "../../../../common/service/jwt.service";
 import {Router} from "@angular/router";
 import {LoginButtonService} from "../../../../common/service/login-button.service";
 import {DashboardService} from "./dashboard.service";
 import {Profile} from "./model/profile";
 import {BuildListDto} from "../../../../common/model/buildListDto";
-import {MatTable} from "@angular/material/table";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProfileNicknameDto} from "./model/profileNicknameDto";
 

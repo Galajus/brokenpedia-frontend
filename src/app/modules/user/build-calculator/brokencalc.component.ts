@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Skill} from "./model/skill";
 import {SkillCost} from "./model/skillCost";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,12 +15,11 @@ import {BuildSkillStatData} from "./model/buildSkillStatData";
 import {SkillStatType} from "./model/skillStatType";
 import {DatabaseBuild} from "./model/databaseBuild";
 import {JwtService} from "../../../common/service/jwt.service";
-import {MatTable} from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BuildLiker} from "./model/buildLiker";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {MatFormField} from "@angular/material/form-field";
+import {ProfileDto} from "./model/profileDto";
 
 @Component({
   selector: 'app-brokencalc',
@@ -611,7 +610,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.databaseBuild.pvpBuild = this.pvpBuild;
     this.databaseBuild.hidden = this.privateBuild;
 
-    this.buildCalculatorService.saveBuild(this.databaseBuild)
+    this.buildCalculatorService.updateBuild(this.databaseBuild)
       .subscribe({
         next: build => {
           this.databaseBuild = build;
@@ -641,7 +640,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.saveButton.disabled = true;
     let databaseBuild: DatabaseBuild = {
       id: 0,
-      ownerUuid: uuid,
+      profile: {uuid: uuid} as ProfileDto,
       buildName: this.buildName ? this.buildName : "No name",
       pvpBuild: this.pvpBuild,
       hidden: this.privateBuild,
@@ -667,7 +666,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       this.snackBar.open("Musisz być zalogowany aby polubić ten build", "ok", {duration: 3000});
       return;
     }
-    if (this.databaseBuild.ownerUuid === uuid) {
+    if (this.databaseBuild.profile.uuid === uuid) {
       this.snackBar.open("Nie możesz polubić swojego buildu", "ok", {duration: 3000});
       return;
     }
