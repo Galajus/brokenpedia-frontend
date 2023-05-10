@@ -17,6 +17,13 @@ th {
   text-align: center !important;
 }
 
+
+tr.mat-row {
+  height: 35px !important;
+}
+
+
+
 .mat-row:nth-child(even){
   background-color: #646464;
 }

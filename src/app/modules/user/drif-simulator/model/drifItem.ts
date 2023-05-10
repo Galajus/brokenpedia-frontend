@@ -1,5 +1,9 @@
 export interface DrifItem {
-  rank: number,
+  tier: number,
   psychoMod: string,
-  level: number
+  level: number,
+  startPower: number,
+  psychoGrowByLevel: number,
+  category: string,
+  shortName: string
 }

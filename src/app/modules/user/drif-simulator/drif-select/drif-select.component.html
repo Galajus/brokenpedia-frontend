@@ -1,0 +1,119 @@
+<div class="background">
+  <div mat-dialog-title fxLayout="row">
+    <div fxFlex="50" fxLayoutAlign="center center">
+      <h1>Wybierz Drif i jego wielkość [{{leftPower}}]:</h1>
+    </div>
+    <div fxFlex="50" fxLayoutAlign="center center" fxLayoutGap="3">
+      <button mat-stroked-button (click)="removeMod()" color="warn">Usuń mod</button>
+      <button *ngIf="drifTier == 1" mat-stroked-button (click)="setTier(1)" color="accent">Subdrif</button>
+      <button *ngIf="drifTier != 1" mat-stroked-button (click)="setTier(1)">Subdrif</button>
+      <button *ngIf="drifTier == 2" mat-stroked-button (click)="setTier(2)" color="accent">Bidrif</button>
+      <button *ngIf="drifTier != 2 && rarRank >= 4" mat-stroked-button (click)="setTier(2)"> Bidrif</button>
+      <button *ngIf="drifTier != 2 && rarRank < 4" mat-stroked-button disabled> Bidrif</button>
+      <button *ngIf="drifTier == 3" mat-stroked-button (click)="setTier(3)" color="accent">Magnidrif</button>
+      <button *ngIf="drifTier != 3 && rarRank >= 7" mat-stroked-button (click)="setTier(3)">Magnidrif</button>
+      <button *ngIf="drifTier != 3 && rarRank < 7" mat-stroked-button disabled>Magnidrif</button>
+      <button *ngIf="drifTier == 4" mat-stroked-button (click)="setTier(4)" color="accent">Arcydrif</button>
+      <button *ngIf="drifTier != 4 && rarRank >= 10" mat-stroked-button (click)="setTier(4)">Arcydrif</button>
+      <button *ngIf="drifTier != 4 && rarRank < 10" mat-stroked-button disabled>Arcydrif</button>
+    </div>
+  </div>
+  <br>
+  <div mat-dialog-content>
+    <h2>OBRAŻEŃ</h2>
+    <div class="container">
+      <div *ngFor="let drif of getDamage()">
+        <button *ngIf="
+       (getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_COLD_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_ENERGY_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
+       itemSlot === 'weapon' &&
+       drif.startPower * drifTier <= leftPower"
+                mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="
+       (getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_COLD_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_ENERGY_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
+       itemSlot === 'weapon' &&
+       drif.startPower * drifTier > leftPower"
+                mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="
+       (getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_COLD_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_ENERGY_DAMAGE ||
+       getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
+       itemSlot !== 'weapon'"
+                mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="
+      (getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_COLD_DAMAGE &&
+       getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
+       getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
+       drif.startPower * drifTier <= leftPower"
+                mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="
+       (getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_COLD_DAMAGE &&
+       getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
+       getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
+       drif.startPower * drifTier > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+      </div>
+    </div>
+    <h2>SPECJALNY</h2>
+    <div class="container">
+      <div *ngFor="let drif of getSpecial()">
+        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="specialDrif"
+                (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+      </div>
+    </div>
+    <h2>CELNOŚCI</h2>
+    <div class="container">
+      <div *ngFor="let drif of getAccuracy()">
+        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="accuracyDrif"
+                (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+      </div>
+    </div>
+    <h2>OBRONY</h2>
+    <div class="container">
+      <div *ngFor="let drif of getDefence()">
+        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="defenceDrif"
+                (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+      </div>
+    </div>
+    <h2>REDUKCJI</h2>
+    <div class="container">
+      <div *ngFor="let drif of getReduction()">
+        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="reductionDrif"
+                (click)="close(drif)">
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -31,125 +31,28 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
   ];
   itemsLevels: ItemPsycho[] = [
     {rank: 1, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 40},
-        {level: 2, startExpSum: 40, endExpSum: 120},
-        {level: 3, startExpSum: 120, endExpSum: 240},
-        {level: 4, startExpSum: 240, endExpSum: 480},
-        {level: 5, startExpSum: 480, endExpSum: 832},
-        {level: 6, startExpSum: 832, endExpSum: 2000},
-        {level: 7, startExpSum: 2000, endExpSum: 8000},
-        {level: 8, startExpSum: 8000, endExpSum: 8000}
-    ]},
-    {rank: 2, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 100},
-        {level: 2, startExpSum: 100, endExpSum: 300},
-        {level: 3, startExpSum: 300, endExpSum: 600},
-        {level: 4, startExpSum: 600, endExpSum: 1200},
-        {level: 5, startExpSum: 1200, endExpSum: 2080},
-        {level: 6, startExpSum: 2080, endExpSum: 5000},
-        {level: 7, startExpSum: 5000, endExpSum: 20000},
-        {level: 8, startExpSum: 20000, endExpSum: 20000}
-      ]},
-    {rank: 3, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 200},
-        {level: 2, startExpSum: 200, endExpSum: 600},
-        {level: 3, startExpSum: 600, endExpSum: 1200},
-        {level: 4, startExpSum: 1200, endExpSum: 2400},
-        {level: 5, startExpSum: 2400, endExpSum: 4160},
-        {level: 6, startExpSum: 4160, endExpSum: 10000},
-        {level: 7, startExpSum: 10000, endExpSum: 40000},
-        {level: 8, startExpSum: 40000, endExpSum: 40000}
-      ]},
-    {rank: 4, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 300},
-        {level: 2, startExpSum: 300, endExpSum: 900},
-        {level: 3, startExpSum: 900, endExpSum: 1800},
-        {level: 4, startExpSum: 1800, endExpSum: 3600},
-        {level: 5, startExpSum: 3600, endExpSum: 6240},
-        {level: 6, startExpSum: 6240, endExpSum: 15000},
-        {level: 7, startExpSum: 15000, endExpSum: 60000},
-        {level: 8, startExpSum: 60000, endExpSum: 60000}
-      ]},
-    {rank: 5, levels: [
-      {level: 1, startExpSum: 0, endExpSum: 400},
-      {level: 2, startExpSum: 400, endExpSum: 1200},
-      {level: 3, startExpSum: 1200, endExpSum: 2400},
-      {level: 4, startExpSum: 2400, endExpSum: 4800},
-      {level: 5, startExpSum: 4800, endExpSum: 8320},
-      {level: 6, startExpSum: 8320, endExpSum: 20000},
-      {level: 7, startExpSum: 20000, endExpSum: 80000},
-      {level: 8, startExpSum: 80000, endExpSum: 80000}
-    ]},
-    {rank: 6, levels: [
-      {level: 1, startExpSum: 0, endExpSum: 500},
-      {level: 2, startExpSum: 500, endExpSum: 1500},
-      {level: 3, startExpSum: 1500, endExpSum: 3000},
-      {level: 4, startExpSum: 3000, endExpSum: 6000},
-      {level: 5, startExpSum: 6000, endExpSum: 10400},
-      {level: 6, startExpSum: 10400, endExpSum: 25000},
-      {level: 7, startExpSum: 25000, endExpSum: 100000},
-      {level: 8, startExpSum: 100000, endExpSum: 100000}
-    ]},
-    {rank: 7, levels: [
-      {level: 1, startExpSum: 0, endExpSum: 600},
-      {level: 2, startExpSum: 600, endExpSum: 1800},
-      {level: 3, startExpSum: 1800, endExpSum: 3600},
-      {level: 4, startExpSum: 3600, endExpSum: 7200},
-      {level: 5, startExpSum: 7200, endExpSum: 12480},
-      {level: 6, startExpSum: 12480, endExpSum: 30000},
-      {level: 7, startExpSum: 30000, endExpSum: 120000},
-      {level: 8, startExpSum: 120000, endExpSum: 120000}
-    ]},
-    {rank: 8, levels: [
-      {level: 1, startExpSum: 0, endExpSum: 700},
-      {level: 2, startExpSum: 700, endExpSum: 2100},
-      {level: 3, startExpSum: 2100, endExpSum: 4200},
-      {level: 4, startExpSum: 4200, endExpSum: 8400},
-      {level: 5, startExpSum: 8400, endExpSum: 14560},
-      {level: 6, startExpSum: 14560, endExpSum: 35000},
-      {level: 7, startExpSum: 35000, endExpSum: 140000},
-      {level: 8, startExpSum: 140000, endExpSum: 140000}
-    ]},
-    {rank: 9, levels: [
-      {level: 1, startExpSum: 0, endExpSum: 800},
-      {level: 2, startExpSum: 800, endExpSum: 2400},
-      {level: 3, startExpSum: 2400, endExpSum: 4800},
-      {level: 4, startExpSum: 4800, endExpSum: 9600},
-      {level: 5, startExpSum: 9600, endExpSum: 16640},
-      {level: 6, startExpSum: 16640, endExpSum: 40000},
-      {level: 7, startExpSum: 40000, endExpSum: 160000},
-      {level: 8, startExpSum: 160000, endExpSum: 160000}
-    ]},
-    {rank: 10,  levels: [
         {level: 1, startExpSum: 0, endExpSum: 1000},
-        {level: 2, startExpSum: 1000, endExpSum: 3000},
-        {level: 3, startExpSum: 3000, endExpSum: 6000},
-        {level: 4, startExpSum: 6000, endExpSum: 12000},
-        {level: 5, startExpSum: 12000, endExpSum: 20800},
-        {level: 6, startExpSum: 20800, endExpSum: 50000},
-        {level: 7, startExpSum: 50000, endExpSum: 200000},
-        {level: 8, startExpSum: 200000, endExpSum: 200000}
-      ]},
-    {rank: 11, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 1000},
-        {level: 2, startExpSum: 1000, endExpSum: 3000},
-        {level: 3, startExpSum: 3000, endExpSum: 6000},
-        {level: 4, startExpSum: 6000, endExpSum: 12000},
-        {level: 5, startExpSum: 12000, endExpSum: 20800},
-        {level: 6, startExpSum: 20800, endExpSum: 50000},
-        {level: 7, startExpSum: 50000, endExpSum: 200000},
-        {level: 8, startExpSum: 200000, endExpSum: 200000}
-      ]},
-    {rank: 12, levels: [
-        {level: 1, startExpSum: 0, endExpSum: 1000},
-        {level: 2, startExpSum: 1000, endExpSum: 3000},
-        {level: 3, startExpSum: 3000, endExpSum: 6000},
-        {level: 4, startExpSum: 6000, endExpSum: 12000},
-        {level: 5, startExpSum: 12000, endExpSum: 20800},
-        {level: 6, startExpSum: 20800, endExpSum: 50000},
-        {level: 7, startExpSum: 50000, endExpSum: 200000},
-        {level: 8, startExpSum: 200000, endExpSum: 200000}
-      ]}
+        {level: 2, startExpSum: 1000, endExpSum: 4000},
+        {level: 3, startExpSum: 4000, endExpSum: 12000},
+        {level: 4, startExpSum: 12000, endExpSum: 24000},
+        {level: 5, startExpSum: 24000, endExpSum: 40000},
+        {level: 6, startExpSum: 40000, endExpSum: 68000},
+        {level: 7, startExpSum: 68000, endExpSum: 100000},
+        {level: 8, startExpSum: 100000, endExpSum: 140000},
+        {level: 9, startExpSum: 140000, endExpSum: 190000},
+        {level: 10, startExpSum: 190000, endExpSum: 250000},
+        {level: 11, startExpSum: 250000, endExpSum: 320000},
+        {level: 12, startExpSum: 320000, endExpSum: 400000},
+        {level: 13, startExpSum: 400000, endExpSum: 500000},
+        {level: 14, startExpSum: 500000, endExpSum: 700000},
+        {level: 15, startExpSum: 700000, endExpSum: 1000000},
+        {level: 16, startExpSum: 1000000, endExpSum: 1500000},
+        {level: 17, startExpSum: 1500000, endExpSum: 2000000},
+        {level: 18, startExpSum: 2000000, endExpSum: 3000000},
+        {level: 19, startExpSum: 3000000, endExpSum: 4000000},
+        {level: 20, startExpSum: 4000000, endExpSum: 5000000},
+        {level: 21, startExpSum: 5000000, endExpSum: 5000000}
+    ]}
   ]
   calculations: Calculation[] = [
     {level: 2, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
@@ -159,8 +62,21 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
     {level: 6, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
     {level: 7, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
     {level: 8, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
-  ];
-  itemRank!: string;
+    {level: 9, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 10, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 11, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 12, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 13, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 14, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 15, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 16, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 17, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 18, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 19, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 20, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+    {level: 21, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
+  ]
+
   actualLevel!: string;
   cost: number = 0;
   earn: number = 0;
@@ -186,14 +102,10 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
   }
 
   calculate() {
-    if (this.itemRank == undefined || this.actualLevel == undefined) {
-      return;
-    }
 
-    let rank: number = parseInt(this.itemRank);
     let level: number = parseInt(this.actualLevel);
 
-    let itemPsycho = this.itemsLevels.find(i => i.rank == rank);
+    let itemPsycho = this.itemsLevels[0];
     let actualPsychoLevel = itemPsycho!.levels.find(psychoLevel => psychoLevel.level == level);
 
     let onePercent = (actualPsychoLevel!.endExpSum - actualPsychoLevel!.startExpSum) / 100;
@@ -278,10 +190,7 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
   }
 
   private saveData() {
-    if(this.itemRank != null || this.itemRank != undefined) {
-      localStorage.setItem("psycho-calc-item-rank", this.itemRank);
-    }
-    if (this.actualLevel != null || this.itemRank != undefined) {
+    if (this.actualLevel != null) {
       localStorage.setItem("psycho-calc-actual-level", this.actualLevel);
     }
     localStorage.setItem("psycho-calc-cost", String(this.cost));
@@ -291,12 +200,8 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
   }
 
   private loadData() {
-    let itemRank = localStorage.getItem("psycho-calc-item-rank");
     let actualLevel = localStorage.getItem("psycho-calc-actual-level");
 
-    if (itemRank != null) {
-      this.itemRank = itemRank;
-    }
     if (actualLevel != null) {
       this.actualLevel = actualLevel;
     }
@@ -329,3 +234,115 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
   }
 
 }
+
+/*,
+{rank: 2, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 100},
+  {level: 2, startExpSum: 100, endExpSum: 300},
+  {level: 3, startExpSum: 300, endExpSum: 600},
+  {level: 4, startExpSum: 600, endExpSum: 1200},
+  {level: 5, startExpSum: 1200, endExpSum: 2080},
+  {level: 6, startExpSum: 2080, endExpSum: 5000},
+  {level: 7, startExpSum: 5000, endExpSum: 20000},
+  {level: 8, startExpSum: 20000, endExpSum: 20000}
+]},
+{rank: 3, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 200},
+  {level: 2, startExpSum: 200, endExpSum: 600},
+  {level: 3, startExpSum: 600, endExpSum: 1200},
+  {level: 4, startExpSum: 1200, endExpSum: 2400},
+  {level: 5, startExpSum: 2400, endExpSum: 4160},
+  {level: 6, startExpSum: 4160, endExpSum: 10000},
+  {level: 7, startExpSum: 10000, endExpSum: 40000},
+  {level: 8, startExpSum: 40000, endExpSum: 40000}
+]},
+{rank: 4, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 300},
+  {level: 2, startExpSum: 300, endExpSum: 900},
+  {level: 3, startExpSum: 900, endExpSum: 1800},
+  {level: 4, startExpSum: 1800, endExpSum: 3600},
+  {level: 5, startExpSum: 3600, endExpSum: 6240},
+  {level: 6, startExpSum: 6240, endExpSum: 15000},
+  {level: 7, startExpSum: 15000, endExpSum: 60000},
+  {level: 8, startExpSum: 60000, endExpSum: 60000}
+]},
+{rank: 5, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 400},
+  {level: 2, startExpSum: 400, endExpSum: 1200},
+  {level: 3, startExpSum: 1200, endExpSum: 2400},
+  {level: 4, startExpSum: 2400, endExpSum: 4800},
+  {level: 5, startExpSum: 4800, endExpSum: 8320},
+  {level: 6, startExpSum: 8320, endExpSum: 20000},
+  {level: 7, startExpSum: 20000, endExpSum: 80000},
+  {level: 8, startExpSum: 80000, endExpSum: 80000}
+]},
+{rank: 6, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 500},
+  {level: 2, startExpSum: 500, endExpSum: 1500},
+  {level: 3, startExpSum: 1500, endExpSum: 3000},
+  {level: 4, startExpSum: 3000, endExpSum: 6000},
+  {level: 5, startExpSum: 6000, endExpSum: 10400},
+  {level: 6, startExpSum: 10400, endExpSum: 25000},
+  {level: 7, startExpSum: 25000, endExpSum: 100000},
+  {level: 8, startExpSum: 100000, endExpSum: 100000}
+]},
+{rank: 7, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 600},
+  {level: 2, startExpSum: 600, endExpSum: 1800},
+  {level: 3, startExpSum: 1800, endExpSum: 3600},
+  {level: 4, startExpSum: 3600, endExpSum: 7200},
+  {level: 5, startExpSum: 7200, endExpSum: 12480},
+  {level: 6, startExpSum: 12480, endExpSum: 30000},
+  {level: 7, startExpSum: 30000, endExpSum: 120000},
+  {level: 8, startExpSum: 120000, endExpSum: 120000}
+]},
+{rank: 8, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 700},
+  {level: 2, startExpSum: 700, endExpSum: 2100},
+  {level: 3, startExpSum: 2100, endExpSum: 4200},
+  {level: 4, startExpSum: 4200, endExpSum: 8400},
+  {level: 5, startExpSum: 8400, endExpSum: 14560},
+  {level: 6, startExpSum: 14560, endExpSum: 35000},
+  {level: 7, startExpSum: 35000, endExpSum: 140000},
+  {level: 8, startExpSum: 140000, endExpSum: 140000}
+]},
+{rank: 9, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 800},
+  {level: 2, startExpSum: 800, endExpSum: 2400},
+  {level: 3, startExpSum: 2400, endExpSum: 4800},
+  {level: 4, startExpSum: 4800, endExpSum: 9600},
+  {level: 5, startExpSum: 9600, endExpSum: 16640},
+  {level: 6, startExpSum: 16640, endExpSum: 40000},
+  {level: 7, startExpSum: 40000, endExpSum: 160000},
+  {level: 8, startExpSum: 160000, endExpSum: 160000}
+]},
+{rank: 10,  levels: [
+  {level: 1, startExpSum: 0, endExpSum: 1000},
+  {level: 2, startExpSum: 1000, endExpSum: 3000},
+  {level: 3, startExpSum: 3000, endExpSum: 6000},
+  {level: 4, startExpSum: 6000, endExpSum: 12000},
+  {level: 5, startExpSum: 12000, endExpSum: 20800},
+  {level: 6, startExpSum: 20800, endExpSum: 50000},
+  {level: 7, startExpSum: 50000, endExpSum: 200000},
+  {level: 8, startExpSum: 200000, endExpSum: 200000}
+]},
+{rank: 11, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 1000},
+  {level: 2, startExpSum: 1000, endExpSum: 3000},
+  {level: 3, startExpSum: 3000, endExpSum: 6000},
+  {level: 4, startExpSum: 6000, endExpSum: 12000},
+  {level: 5, startExpSum: 12000, endExpSum: 20800},
+  {level: 6, startExpSum: 20800, endExpSum: 50000},
+  {level: 7, startExpSum: 50000, endExpSum: 200000},
+  {level: 8, startExpSum: 200000, endExpSum: 200000}
+]},
+{rank: 12, levels: [
+  {level: 1, startExpSum: 0, endExpSum: 1000},
+  {level: 2, startExpSum: 1000, endExpSum: 3000},
+  {level: 3, startExpSum: 3000, endExpSum: 6000},
+  {level: 4, startExpSum: 6000, endExpSum: 12000},
+  {level: 5, startExpSum: 12000, endExpSum: 20800},
+  {level: 6, startExpSum: 20800, endExpSum: 50000},
+  {level: 7, startExpSum: 50000, endExpSum: 200000},
+  {level: 8, startExpSum: 200000, endExpSum: 200000}
+]}*/

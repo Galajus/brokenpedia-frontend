@@ -1,0 +1,142 @@
+<div style="padding-bottom: 15px">
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4" style="padding-bottom: 15px">
+          <div *ngFor="let userRars of userRarsWithDrifs">
+            <button *ngIf="activeBuild === userRars.name" style="width: 80px" mat-flat-button color="primary"
+                    (click)="setActiveBuild(userRars.name)">
+              {{userRars.name}}
+            </button>
+            <button *ngIf="activeBuild !== userRars.name" style="width: 80px" mat-flat-button color="accent"
+                    (click)="setActiveBuild(userRars.name)">
+              {{userRars.name}}
+            </button>
+          </div>
+
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
+          <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
+            <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
+              <img src="assets/equipment/placeholders/{{eq.slot}}.png" alt="{{eq.slot}}">
+              <div *ngIf="eq.rank <= 12" class="capacity">{{printUsedCapacity(eq)}}</div>
+            </div>
+            <div>
+              <mat-form-field style="width: 70px" appearance="fill" color="accent">
+                <mat-label>Ranga</mat-label>
+                <mat-select [(ngModel)]="eq.rank" (selectionChange)="calculateModSummary()">
+                  <mat-option [value]="Number(2)">II</mat-option>
+                  <mat-option [value]="Number(3)">III</mat-option>
+                  <mat-option [value]="Number(4)">IV</mat-option>
+                  <mat-option [value]="Number(5)">V</mat-option>
+                  <mat-option [value]="Number(6)">VI</mat-option>
+                  <mat-option [value]="Number(7)">VII</mat-option>
+                  <mat-option [value]="Number(8)">VIII</mat-option>
+                  <mat-option [value]="Number(9)">IX</mat-option>
+                  <mat-option [value]="Number(10)">X</mat-option>
+                  <mat-option [value]="Number(11)">XI</mat-option>
+                  <mat-option [value]="Number(12)">XII</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(13)">Żmij</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(14)">Gorthdar</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(15)">Attawa</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(16)">Imisindo</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(17)">Washi</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(18)">Allenor</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(19)">Latarnia Życia</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center">
+                <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                  [MOD 1]
+                </button>
+                <button *ngIf="!eq.drifItem1 && countUsedPower(eq) === getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
+                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                  [MOD 1]
+                </button>
+                <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem1)" mat-flat-button color="warn"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                  {{eq.drifItem1.shortName}} T{{eq.drifItem1.tier}}
+                </button>
+
+                <button *ngIf="eq.rank > 3 && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                  [MOD 2]
+                </button>
+                <button *ngIf="eq.rank > 3 && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
+                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                  [MOD 2]
+                </button>
+                <button *ngIf="eq.rank > 3 && eq.drifItem2" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                  {{eq.drifItem2.shortName}} T{{eq.drifItem2.tier}}
+                </button>
+
+                <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) !== getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                  [MOD 3]
+                </button>
+                <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) === getPowerCapacityByRank(eq.rank)"
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
+                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                  [MOD 3]
+                </button>
+                <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem3)" mat-flat-button color="warn"
+                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                  {{eq.drifItem3.shortName}} T{{eq.drifItem3.tier}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <ul>
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DAMAGE')"
+                class="damageDrifText">{{prepareModSummaryRow(mod)}}</li>
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'SPECIAL')"
+                class="specialDrifText">{{prepareModSummaryRow(mod)}}</li>
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DEFENCE')"
+                class="defenceDrifText">{{prepareModSummaryRow(mod)}}</li>
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'ACCURACY')"
+                class="accuracyDrifText">{{prepareModSummaryRow(mod)}}</li>
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'REDUCTION')"
+                class="reductionDrifText">{{prepareModSummaryRow(mod)}}</li>
+          </ul>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+          <button  mat-flat-button color="warn"
+                  (click)="resetBuild(activeBuild)">
+            ZRESETUJ BUILD
+          </button>
+          <mat-form-field appearance="fill" color="accent" class="cloneForm">
+            <mat-label>Sklonuj build</mat-label>
+            <mat-select [(ngModel)]="buildToClone" (selectionChange)="cloneBuild()">
+              <mat-option value="temp">temp</mat-option>
+              <mat-option value="build 1">build 1</mat-option>
+              <mat-option value="build 2">build 2</mat-option>
+              <mat-option value="build 3">build 3</mat-option>
+              <mat-option value="build 4">build 4</mat-option>
+              <mat-option value="build 5">build 5</mat-option>
+              <mat-option value="build 6">build 6</mat-option>
+              <mat-option value="build 7">build 7</mat-option>
+              <mat-option value="build 8">build 8</mat-option>
+              <mat-option value="build 9">build 9</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+

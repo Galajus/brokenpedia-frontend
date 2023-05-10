@@ -1,0 +1,39 @@
+.container {
+  display: grid;
+  align-items: center;
+  align-content: center;
+  grid-template-columns: repeat(3, 3fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  justify-items: center;
+  padding-bottom: 5px;
+}
+
+h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.damageDrif {
+  background-color: orangered;
+}
+
+.specialDrif {
+  background-color: green;
+}
+
+.accuracyDrif {
+  background-color: orange;
+}
+
+.defenceDrif {
+  background-color: mediumpurple;
+}
+
+.reductionDrif {
+  background-color: dodgerblue;
+}
+
+mat-dialog-content {
+  height: 900px !important;
+}

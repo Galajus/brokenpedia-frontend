@@ -53,6 +53,10 @@ import {BuildsListComponent} from './modules/user/build-calculator/builds-list/b
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { DrifSimulatorComponent } from './modules/user/drif-simulator/drif-simulator.component';
 import { ImportantModsComponent } from './modules/user/tips/important-mods/important-mods.component';
+import { DrifSelectComponent } from './modules/user/drif-simulator/drif-select/drif-select.component';
+import {registerLocaleData} from "@angular/common";
+import localePl from '@angular/common/locales/pl'
+import localePlExtra from '@angular/common/locales/extra/pl'
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -84,6 +88,8 @@ const cookieConfig:NgcCookieConsentConfig = {
   }
 };
 
+registerLocaleData(localePl, localePlExtra);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -107,7 +113,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     SkillUpdateComponent,
     BuildsListComponent,
     DrifSimulatorComponent,
-    ImportantModsComponent
+    ImportantModsComponent,
+    DrifSelectComponent
   ],
     imports: [
         BrowserModule,
