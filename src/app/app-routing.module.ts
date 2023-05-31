@@ -19,6 +19,9 @@ import {SkillUpdateComponent} from "./modules/admin/skills/skill-update/skill-up
 import {BuildsListComponent} from "./modules/user/build-calculator/builds-list/builds-list.component";
 import {DrifSimulatorComponent} from "./modules/user/drif-simulator/drif-simulator.component";
 import {ImportantModsComponent} from "./modules/user/tips/important-mods/important-mods.component";
+import {PostsComponent} from "./modules/admin/posts/posts.component";
+import {PostAddComponent} from "./modules/admin/posts/post-add/post-add.component";
+import {PostEditComponent} from "./modules/admin/posts/post-edit/post-edit.component";
 
 const routes: Routes = [
 
@@ -51,7 +54,10 @@ const routes: Routes = [
     path:'admin', component: AdminComponent, title:"Admin panel", children: [
       { path: '', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] },
       { path: 'skills', component: SkillsComponent, title: "Admin skills", canActivate: [AdminAuthorizationGuard] },
-      { path: 'skills/update/:id', component: SkillUpdateComponent, title: "Admin skill update", canActivate: [AdminAuthorizationGuard] }
+      { path: 'skills/update/:id', component: SkillUpdateComponent, title: "Admin skill update", canActivate: [AdminAuthorizationGuard] },
+      { path: 'posts', component: PostsComponent, title: "Admin posts", canActivate: [AdminAuthorizationGuard] },
+      { path: 'posts/add', component: PostAddComponent, title: "Admin post create", canActivate: [AdminAuthorizationGuard] },
+      { path: 'posts/update/:id', component: PostEditComponent, title: "Admin post update", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

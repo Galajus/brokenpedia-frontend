@@ -16,6 +16,7 @@ export class DrifSelectComponent implements OnInit {
 
   drifTier: number = 1;
   leftPower: number = 0;
+  drifLevel: number = 0;
   rarRank: number = 1;
   drifSlot: number = 1;
   itemSlot: string = "";
@@ -28,10 +29,12 @@ export class DrifSelectComponent implements OnInit {
     this.rarRank = data.rarRank;
     this.drifSlot = data.drifSlot;
     this.itemSlot = data.itemSlot;
+    this.drifLevel = data.drifLevel;
   }
 
   ngOnInit(): void {
-
+    this.dialogRef.backdropClick()
+      .subscribe(e => this.updateLevel());
   }
 
   getPsychoModByString(mod: string) {
@@ -60,12 +63,24 @@ export class DrifSelectComponent implements OnInit {
 
   close(drif: DrifItem) {
     drif.tier = this.drifTier;
+    if (this.drifLevel === 0) {
+      this.drifLevel = 1;
+    }
+    drif.level = this.drifLevel;
     this.dialogRef.close({drif: drif});
+  }
+
+  updateLevel() {
+    if (this.drifLevel > 0) {
+      this.dialogRef.close({newLevel: this.drifLevel});
+    }
   }
 
   removeMod() {
     this.dialogRef.close({removeMod: true});
   }
+
+  protected readonly Number = Number;
 }
 
 const drifs: DrifItem[] = [

@@ -32,7 +32,8 @@
                     <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">Zapisz</button>
                     <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
                   </div>
-                  <mat-form-field appearance="outline" color="accent" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
+
+                  <mat-form-field appearance="outline" color="accent" *ngIf="!databaseBuild">
                     <mat-label>Wybierz profesję</mat-label>
                     <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
                       <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
@@ -45,6 +46,7 @@
                     </mat-select>
                     <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
                   </mat-form-field>
+
 
 
                   <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
@@ -64,7 +66,7 @@
             <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
               <mat-card-content>
                 <div>
-                  <div fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
+                  <div *ngIf="!databaseBuild" fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
                     <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
                   </div>
                   <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">

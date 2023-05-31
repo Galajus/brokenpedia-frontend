@@ -14,19 +14,19 @@ export class DashboardService {
     private http: HttpClient
   ) { }
 
-  getProfile(uuid: string): Observable<Profile> {
-    return this.http.get<Profile>("/api/profile/" + uuid);
+  getProfile(): Observable<Profile> {
+    return this.http.get<Profile>("/api/profile");
   }
 
-  getBuildsList(uuid: string): Observable<Array<BuildListDto>> {
-    return this.http.get<Array<BuildListDto>>("/api/profile/builds/builds-list/" + uuid);
+  getBuildsList(): Observable<Array<BuildListDto>> {
+    return this.http.get<Array<BuildListDto>>("/api/profile/builds/builds-list");
   }
 
   deleteBuild(id: number): Observable<void> {
     return this.http.delete<void>("/api/profile/builds/" + id);
   }
 
-  updateNick(update: ProfileNicknameDto, uuid: string): Observable<void> {
-    return this.http.put<void>("/api/profile/nickname/" + uuid, update);
+  updateNick(update: ProfileNicknameDto): Observable<void> {
+    return this.http.put<void>("/api/profile/nickname", update);
   }
 }

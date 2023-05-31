@@ -1,7 +1,35 @@
 <div class="background">
   <div mat-dialog-title fxLayout="row">
-    <div fxFlex="50" fxLayoutAlign="center center">
+    <div fxFlex="30" fxLayoutAlign="center center">
       <h1>Wybierz Drif i jego wielkość [{{leftPower}}]:</h1>
+    </div>
+    <div fxFlex="20" fxLayoutAlign="center center" fxLayoutGap="3">
+      <mat-form-field color="accent">
+        <mat-label>Wybierz poziom drifa</mat-label>
+        <mat-select [(ngModel)]="drifLevel">
+          <mat-option [value]="Number(1)">1</mat-option>
+          <mat-option [value]="Number(2)">2</mat-option>
+          <mat-option [value]="Number(3)">3</mat-option>
+          <mat-option [value]="Number(4)">4</mat-option>
+          <mat-option [value]="Number(5)">5</mat-option>
+          <mat-option [value]="Number(6)">6</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(7)">7</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(8)">8</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(9)">9</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(10)">10</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(11)">11</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(12)">12</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(13)">13</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(14)">14</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(15)">15</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(16)">16</mat-option>
+          <mat-option *ngIf="drifTier >= 4" [value]="Number(17)">17</mat-option>
+          <mat-option *ngIf="drifTier >= 4" [value]="Number(18)">18</mat-option>
+          <mat-option *ngIf="drifTier >= 4" [value]="Number(19)">19</mat-option>
+          <mat-option *ngIf="drifTier >= 4" [value]="Number(20)">20</mat-option>
+          <mat-option *ngIf="drifTier >= 4" [value]="Number(21)">21</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div fxFlex="50" fxLayoutAlign="center center" fxLayoutGap="3">
       <button mat-stroked-button (click)="removeMod()" color="warn">Usuń mod</button>

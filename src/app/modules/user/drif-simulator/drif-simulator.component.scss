@@ -1,8 +1,8 @@
 .circle {
   border-radius: 50%;
   background-color: rgba(189, 189, 189, 0.25);
-  width: 70px;
-  height: 70px;
+  width: 72px;
+  height: 72px;
   overflow: hidden;
   position: relative;
 }
@@ -18,6 +18,10 @@ mat-form-field {
   transform: translate(-50%, -50%);
   font-weight: bold;
   color: greenyellow;
+}
+
+sup {
+  font-size: 9px;
 }
 
 .cloneForm {

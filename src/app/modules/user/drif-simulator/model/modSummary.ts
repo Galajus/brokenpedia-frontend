@@ -6,5 +6,7 @@ export interface ModSummary {
   amountDrifs: number,
   modSum: number,
   category: string,
+  reducedValue?: number
+  reducedPercent?: number
   max?: number
 }

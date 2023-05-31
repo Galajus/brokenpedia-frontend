@@ -15,7 +15,7 @@
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1">
           <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
             <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
               <img src="assets/equipment/placeholders/{{eq.slot}}.png" alt="{{eq.slot}}">
@@ -25,26 +25,70 @@
               <mat-form-field style="width: 70px" appearance="fill" color="accent">
                 <mat-label>Ranga</mat-label>
                 <mat-select [(ngModel)]="eq.rank" (selectionChange)="calculateModSummary()">
-                  <mat-option [value]="Number(2)">II</mat-option>
-                  <mat-option [value]="Number(3)">III</mat-option>
-                  <mat-option [value]="Number(4)">IV</mat-option>
-                  <mat-option [value]="Number(5)">V</mat-option>
-                  <mat-option [value]="Number(6)">VI</mat-option>
-                  <mat-option [value]="Number(7)">VII</mat-option>
-                  <mat-option [value]="Number(8)">VIII</mat-option>
-                  <mat-option [value]="Number(9)">IX</mat-option>
-                  <mat-option [value]="Number(10)">X</mat-option>
-                  <mat-option [value]="Number(11)">XI</mat-option>
-                  <mat-option [value]="Number(12)">XII</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(13)">Żmij</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(14)">Gorthdar</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(15)">Attawa</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(16)">Imisindo</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(17)">Washi</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(18)">Allenor</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]="Number(19)">Latarnia Życia</mat-option>
+                  <mat-option [value]=2>II</mat-option>
+                  <mat-option [value]=3>III</mat-option>
+                  <mat-option [value]=4>IV</mat-option>
+                  <mat-option [value]=5>V</mat-option>
+                  <mat-option [value]=6>VI</mat-option>
+                  <mat-option [value]=7>VII</mat-option>
+                  <mat-option [value]=8>VIII</mat-option>
+                  <mat-option [value]=9>IX</mat-option>
+                  <mat-option [value]=10>X</mat-option>
+                  <mat-option [value]=11>XI</mat-option>
+                  <mat-option [value]=12>XII</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=13>Żmij</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=14>Gorthdar</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=15>Attawa</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=16>Imisindo</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=17>Washi</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=18>Allenor</mat-option>
+                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=19>Latarnia Życia</mat-option>
                 </mat-select>
               </mat-form-field>
+              <div *ngIf="eq.rank > 12" fxLayout="column" fxLayoutAlign="center center">
+                <mat-form-field style="width: 70px" color="accent">
+                  <mat-label>Krytyk</mat-label>
+                  <mat-select [(ngModel)]="getActiveBuild().critEpicModLevel" (selectionChange)="calculateModSummary()">
+                    <mat-option [value]=1>1</mat-option>
+                    <mat-option [value]="Number(2)">2</mat-option>
+                    <mat-option [value]="Number(3)">3</mat-option>
+                    <mat-option [value]="Number(4)">4</mat-option>
+                    <mat-option [value]="Number(5)">5</mat-option>
+                    <mat-option [value]="Number(6)">6</mat-option>
+                    <mat-option [value]="Number(7)">7</mat-option>
+                    <mat-option [value]="Number(8)">8</mat-option>
+                    <mat-option [value]="Number(9)">9</mat-option>
+                    <mat-option [value]="Number(10)">10</mat-option>
+                    <mat-option [value]="Number(11)">11</mat-option>
+                    <mat-option [value]="Number(12)">12</mat-option>
+                    <mat-option [value]="Number(13)">13</mat-option>
+                    <mat-option [value]="Number(14)">14</mat-option>
+                    <mat-option [value]=15>15</mat-option>
+                    <mat-option [value]=16>16</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field style="width: 70px"  color="accent">
+                  <mat-label>Dedyk.</mat-label>
+                  <mat-select [(ngModel)]="getActiveBuild().dedicatedEpicModLevel" (selectionChange)="calculateModSummary()">
+                    <mat-option [value]="Number(1)">1</mat-option>
+                    <mat-option [value]="Number(2)">2</mat-option>
+                    <mat-option [value]="Number(3)">3</mat-option>
+                    <mat-option [value]="Number(4)">4</mat-option>
+                    <mat-option [value]="Number(5)">5</mat-option>
+                    <mat-option [value]="Number(6)">6</mat-option>
+                    <mat-option [value]="Number(7)">7</mat-option>
+                    <mat-option [value]="Number(8)">8</mat-option>
+                    <mat-option [value]="Number(9)">9</mat-option>
+                    <mat-option [value]="Number(10)">10</mat-option>
+                    <mat-option [value]="Number(11)">11</mat-option>
+                    <mat-option [value]="Number(12)">12</mat-option>
+                    <mat-option [value]="Number(13)">13</mat-option>
+                    <mat-option [value]="Number(14)">14</mat-option>
+                    <mat-option [value]="Number(15)">15</mat-option>
+                    <mat-option [value]="Number(16)">16</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
               <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center">
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq.rank)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
@@ -57,6 +101,7 @@
                   [MOD 1]
                 </button>
                 <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem1)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 1)">
                   {{eq.drifItem1.shortName}} T{{eq.drifItem1.tier}}
@@ -73,6 +118,7 @@
                   [MOD 2]
                 </button>
                 <button *ngIf="eq.rank > 3 && eq.drifItem2" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 2)">
                   {{eq.drifItem2.shortName}} T{{eq.drifItem2.tier}}
@@ -89,6 +135,7 @@
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem3)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 3)">
                   {{eq.drifItem3.shortName}} T{{eq.drifItem3.tier}}
@@ -101,21 +148,25 @@
         <div fxLayout="column" fxLayoutAlign="center center">
           <ul>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DAMAGE')"
-                class="damageDrifText">{{prepareModSummaryRow(mod)}}</li>
+                class="damageDrifText"><div [innerHTML]="prepareModSummaryRow(mod)"></div></li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'SPECIAL')"
-                class="specialDrifText">{{prepareModSummaryRow(mod)}}</li>
+                class="specialDrifText"><div [innerHTML]="prepareModSummaryRow(mod)"></div></li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DEFENCE')"
-                class="defenceDrifText">{{prepareModSummaryRow(mod)}}</li>
+                class="defenceDrifText"><div [innerHTML]="prepareModSummaryRow(mod)"></div></li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'ACCURACY')"
-                class="accuracyDrifText">{{prepareModSummaryRow(mod)}}</li>
+                class="accuracyDrifText"><div [innerHTML]="prepareModSummaryRow(mod)"></div></li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'REDUCTION')"
-                class="reductionDrifText">{{prepareModSummaryRow(mod)}}</li>
+                class="reductionDrifText"><div [innerHTML]="prepareModSummaryRow(mod)"></div></li>
           </ul>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
           <button  mat-flat-button color="warn"
                   (click)="resetBuild(activeBuild)">
             ZRESETUJ BUILD
+          </button>
+          <button  mat-flat-button color="accent"
+                   (click)="maximiseDrifLevels()">
+            WYMAKSUJ LVLE DRIFÓW
           </button>
           <mat-form-field appearance="fill" color="accent" class="cloneForm">
             <mat-label>Sklonuj build</mat-label>

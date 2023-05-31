@@ -56,7 +56,10 @@ import { ImportantModsComponent } from './modules/user/tips/important-mods/impor
 import { DrifSelectComponent } from './modules/user/drif-simulator/drif-select/drif-select.component';
 import {registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl'
-import localePlExtra from '@angular/common/locales/extra/pl'
+import localePlExtra from '@angular/common/locales/extra/pl';
+import { PostsComponent } from './modules/admin/posts/posts.component';
+import { PostAddComponent } from './modules/admin/posts/post-add/post-add.component';
+import { PostEditComponent } from './modules/admin/posts/post-edit/post-edit.component'
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -114,7 +117,10 @@ registerLocaleData(localePl, localePlExtra);
     BuildsListComponent,
     DrifSimulatorComponent,
     ImportantModsComponent,
-    DrifSelectComponent
+    DrifSelectComponent,
+    PostsComponent,
+    PostAddComponent,
+    PostEditComponent
   ],
     imports: [
         BrowserModule,

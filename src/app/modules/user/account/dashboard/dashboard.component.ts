@@ -29,16 +29,12 @@ export class DashboardComponent implements OnInit {
   isChangingNick: boolean = false;
   newNick: string = "";
   ngOnInit(): void {
-    let uuid = this.jwtService.getUuid();
-    if (uuid == null) {
-      return;
-    }
-    this.dashboardService.getProfile(uuid)
+    this.dashboardService.getProfile()
       .subscribe(profile => {
         this.profile = profile;
         this.newNick = profile.nickname;
       });
-    this.dashboardService.getBuildsList(uuid)
+    this.dashboardService.getBuildsList()
       .subscribe(builds => this.builds = builds);
   }
 
@@ -66,14 +62,10 @@ export class DashboardComponent implements OnInit {
       this.isChangingNick = false;
       let nickString = this.newNick;
       if (nickString !== this.profile.nickname) {
-        let uuid = this.jwtService.getUuid();
-        if (uuid == null) {
-          return;
-        }
         let updateNick = {
           nickname: nickString
         } as ProfileNicknameDto;
-        this.dashboardService.updateNick(updateNick, uuid)
+        this.dashboardService.updateNick(updateNick)
           .subscribe({
             next: value => {
               this.snackBar.open("Nick zaktualizowany", "ok", {duration: 3000});
