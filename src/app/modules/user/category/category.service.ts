@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/internal/Observable";
 import {PageableMainPagePostDto} from "../home/model/pageableMainPagePostDto";
 import {Post} from "../../admin/posts/model/post";

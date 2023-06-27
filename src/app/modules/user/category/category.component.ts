@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../../admin/posts/model/post";
 import {CategoryService} from "./category.service";
 

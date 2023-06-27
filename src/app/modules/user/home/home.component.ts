@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HomeService} from "./home.service";
 import {Post} from "../../admin/posts/model/post";
 import {Router} from "@angular/router";

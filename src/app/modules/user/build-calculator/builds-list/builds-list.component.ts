@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {BuildCalculatorService} from "../build-calculator.service";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginationType} from "./model/paginationType";

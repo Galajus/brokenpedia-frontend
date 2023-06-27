@@ -51,21 +51,21 @@ import {MatTreeModule} from "@angular/material/tree";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {BuildsListComponent} from './modules/user/build-calculator/builds-list/builds-list.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
-import { DrifSimulatorComponent } from './modules/user/drif-simulator/drif-simulator.component';
-import { ImportantModsComponent } from './modules/user/tips/important-mods/important-mods.component';
-import { DrifSelectComponent } from './modules/user/drif-simulator/drif-select/drif-select.component';
+import {DrifSimulatorComponent} from './modules/user/drif-simulator/drif-simulator.component';
+import {ImportantModsComponent} from './modules/user/tips/important-mods/important-mods.component';
+import {DrifSelectComponent} from './modules/user/drif-simulator/drif-select/drif-select.component';
 import {NgOptimizedImage, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl'
 import localePlExtra from '@angular/common/locales/extra/pl';
-import { PostsComponent } from './modules/admin/posts/posts.component';
-import { PostAddComponent } from './modules/admin/posts/post-add/post-add.component';
-import { PostEditComponent } from './modules/admin/posts/post-edit/post-edit.component'
+import {PostsComponent} from './modules/admin/posts/posts.component';
+import {PostAddComponent} from './modules/admin/posts/post-add/post-add.component';
+import {PostEditComponent} from './modules/admin/posts/post-edit/post-edit.component'
 import {SimpleDate} from "./modules/user/common/pipe/simple-date";
-import { PostComponent } from './modules/user/post/post.component';
-import { CategoryComponent } from './modules/user/category/category.component';
+import {PostComponent} from './modules/user/post/post.component';
+import {CategoryComponent} from './modules/user/category/category.component';
 import {NoSanitize} from "./modules/user/common/pipe/no-sanitize";
-import { CategoryAddComponent } from './modules/admin/category/category-add/category-add.component';
-import { CategoryUpdateComponent } from './modules/admin/category/category-update/category-update.component';
+import {CategoryAddComponent} from './modules/admin/category/category-add/category-add.component';
+import {CategoryUpdateComponent} from './modules/admin/category/category-update/category-update.component';
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
 
 

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ImportantModsComponent } from './important-mods.component';
+import {ImportantModsComponent} from './important-mods.component';
 
 describe('ImportantModsComponent', () => {
   let component: ImportantModsComponent;

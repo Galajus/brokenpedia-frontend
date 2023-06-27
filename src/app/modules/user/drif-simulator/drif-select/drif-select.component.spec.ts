@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DrifSelectComponent } from './drif-select.component';
+import {DrifSelectComponent} from './drif-select.component';
 
 describe('DrifSelectComponent', () => {
   let component: DrifSelectComponent;

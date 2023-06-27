@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DrifSimulatorComponent } from './drif-simulator.component';
+import {DrifSimulatorComponent} from './drif-simulator.component';
 
 describe('DrifSimulatorComponent', () => {
   let component: DrifSimulatorComponent;
