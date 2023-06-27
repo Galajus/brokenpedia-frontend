@@ -1,9 +1,4 @@
-<mat-paginator #paginator *ngIf="builds && builds.pageableBuilds.totalElements > 0"
-               [length]="builds.pageableBuilds.totalElements" [pageSize]="25"
-               aria-label="Select page" (page)="onPageEvent($event)">
-</mat-paginator>
-
-<table *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
+<table class="restrict-width" *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
   <ng-container matColumnDef="lp">
     <th style="width: 40px" mat-header-cell *matHeaderCellDef> lp.</th>
     <td mat-cell *matCellDef="let element; let i = index"> {{i + 1 + (paginator.pageIndex * paginator.pageSize)}} </td>
@@ -58,3 +53,8 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<mat-paginator #paginator *ngIf="builds && builds.pageableBuilds.totalElements > 0"
+               [length]="builds.pageableBuilds.totalElements" [pageSize]="25"
+               aria-label="Select page" (page)="onPageEvent($event)">
+</mat-paginator>

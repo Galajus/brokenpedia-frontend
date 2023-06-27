@@ -87,3 +87,11 @@ mat-sidenav {
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
+
+.news {
+  text-align: center !important;
+  align-items: center !important;
+  align-content: center !important;
+  align-self: center !important;
+  height: 160px !important;
+}

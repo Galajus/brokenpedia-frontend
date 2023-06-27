@@ -7,6 +7,8 @@ import {PageNode} from "./model/pageNode";
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {FlatNode} from "./model/flatNode";
+import {DefaultService} from "./default.service";
+import {Category} from "../../modules/admin/posts/model/category";
 
 const TREE_DATA: PageNode[] = [
   {
@@ -51,6 +53,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
   additionalStyle: string = "";
   isLoggedIn = false;
   isAdmin = false;
+  categories!: Array<Category>;
   private readonly _mobileQueryListener!: () => void;
 
   private _transformer = (node: PageNode, level: number) => {
@@ -78,33 +81,21 @@ export class DefaultComponent implements OnInit, OnDestroy {
     private router: Router,
     private jwtService: JwtService,
     private loginButtonService: LoginButtonService,
+    private defaultService: DefaultService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher) {
     this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener("mobile", this._mobileQueryListener);
-
-    router.events.subscribe(value => {
-      if (value instanceof NavigationEnd) {
-        if (
-          value.url == "/broken-helper" ||
-          value.url == "/build-calculator" ||
-          value.url == "/drif-simulator" ||
-          value.url.includes("/build-calculator/build")
-        ) {
-          this.additionalStyle = "min-width: 900px";
-        } else {
-          this.additionalStyle = "";
-        }
-      }
-    })
   }
 
   ngOnInit(): void {
     this.sidenavIsOpened();
     this.isLoggedIn = this.jwtService.isLoggedIn();
     this.isAdmin = this.jwtService.hasAdminAccess();
+    this.defaultService.getAllCategories()
+      .subscribe(cats => this.categories = cats);
     this.loginButtonService.subject
       .subscribe(loggedIn => this.isLoggedIn = loggedIn);
   }

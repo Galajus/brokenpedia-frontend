@@ -10,13 +10,15 @@
       <div class="menu-gal" fxLayout="column">
         <mat-nav-list fxFlex>
           <a mat-list-item routerLink="/admin/skills"><mat-icon class="sidebar-icon">hub</mat-icon> Skille</a>
+          <a mat-list-item routerLink="/admin/posts"><mat-icon class="sidebar-icon">hub</mat-icon> Posty</a>
+          <a mat-list-item routerLink="/admin/categories"><mat-icon class="sidebar-icon">hub</mat-icon> Kategorie</a>
         </mat-nav-list>
       </div>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <div fxLayout="row" fxLayoutGap="10">
-        <div class="content" > <!--fxFlex fxLayoutAlign="center"-->
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+        <div class="content" fxFlex > <!--fxFlex fxLayoutAlign="center"-->
           <router-outlet></router-outlet>
         </div>
       </div>

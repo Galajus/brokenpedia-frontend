@@ -22,6 +22,11 @@ import {ImportantModsComponent} from "./modules/user/tips/important-mods/importa
 import {PostsComponent} from "./modules/admin/posts/posts.component";
 import {PostAddComponent} from "./modules/admin/posts/post-add/post-add.component";
 import {PostEditComponent} from "./modules/admin/posts/post-edit/post-edit.component";
+import {CategoryComponent} from "./modules/user/category/category.component";
+import {PostComponent} from "./modules/user/post/post.component";
+import {CategoryAddComponent} from "./modules/admin/category/category-add/category-add.component";
+import {CategoryUpdateComponent} from "./modules/admin/category/category-update/category-update.component";
+import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
 
 const routes: Routes = [
 
@@ -38,6 +43,9 @@ const routes: Routes = [
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
       { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
+
+      { path: 'post/:slug', component: PostComponent, title: "Post" },
+      { path: 'category/:slug', component: CategoryComponent, title: "Category" },
 
       { path: 'login', component: LoginComponent, title: "Logowanie/rejestracja" },
       { path: 'confirm-account/:hash', component: ConfirmAccountComponent, title: "Aktywacja konta" },
@@ -58,6 +66,9 @@ const routes: Routes = [
       { path: 'posts', component: PostsComponent, title: "Admin posts", canActivate: [AdminAuthorizationGuard] },
       { path: 'posts/add', component: PostAddComponent, title: "Admin post create", canActivate: [AdminAuthorizationGuard] },
       { path: 'posts/update/:id', component: PostEditComponent, title: "Admin post update", canActivate: [AdminAuthorizationGuard] },
+      { path: 'categories', component: AdminCategoryComponent, title: "Admin categories", canActivate: [AdminAuthorizationGuard] },
+      { path: 'categories/add', component: CategoryAddComponent, title: "Admin category create", canActivate: [AdminAuthorizationGuard] },
+      { path: 'categories/update/:id', component: CategoryUpdateComponent, title: "Admin category update", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

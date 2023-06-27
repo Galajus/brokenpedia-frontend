@@ -73,6 +73,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'weapon',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -80,6 +81,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'helmet',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -87,6 +89,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'armor',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -94,6 +97,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'pants',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -101,6 +105,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'boots',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -108,6 +113,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'shield',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -115,6 +121,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'belt',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -122,6 +129,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'cape',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -129,6 +137,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'gloves',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -136,6 +145,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'amulet',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -143,6 +153,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'ring1',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -150,6 +161,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     {
       slot: 'ring2',
       rank: 2,
+      ornaments: 1,
       drifItem1: null,
       drifItem2: null,
       drifItem3: null
@@ -281,17 +293,17 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     let activeBuild = this.getActiveBuild();
     activeBuild.rarsWithDrifs.forEach(rar => {
       if (rar.rank > 12) {
-        this.calculateEpicMod(rar.rank);
+        this.calculateEpicMod(rar.rank, rar.ornaments);
         return;
       }
       if (rar.drifItem1) {
-        this.countMod(rar.drifItem1);
+        this.countMod(rar.drifItem1, rar.ornaments);
       }
-      if (rar.drifItem2 && rar.rank >= 4) {
-        this.countMod(rar.drifItem2);
+      if (rar.drifItem2 && (rar.rank >= 4 || rar.ornaments >= 7)) {
+        this.countMod(rar.drifItem2, rar.ornaments);
       }
       if (rar.drifItem3 && rar.rank >= 10) {
-        this.countMod(rar.drifItem3);
+        this.countMod(rar.drifItem3, rar.ornaments);
       }
     });
 
@@ -303,13 +315,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       if (rar.rank < 10) {
         rar.drifItem3 = null;
       }
-      if (rar.rank < 4) {
+      if (rar.rank < 4 && rar.ornaments < 7) {
         rar.drifItem2 = null;
       }
     })
   }
 
-  calculateEpicMod(rank: number) {
+  calculateEpicMod(rank: number, ornaments: number) {
     let epikItem = epikItems.find(it => it.indexNumber === rank);
     if (!epikItem) {
       console.log("NOT FOUND EPIC ITEM");
@@ -336,11 +348,22 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
     let modSum = dedicatedEpicModLevel * dedicatedDrifItem?.psychoGrowByLevel;
     modSum += dedicatedDrifItem.psychoGrowByLevel * 2; //tier 3 of Epik
-    let modCap = modCaps.find(capped => capped.mod === this.getPsychoModByString(dedicatedDrifItem?.psychoMod));
+    if (ornaments < 7) {
+      modSum = modSum * epikItem.booster;
+    }
+    if (ornaments === 7) {
+      modSum = modSum * (0.03 + epikItem.booster);
+    }
+    if (ornaments === 8) {
+      modSum = modSum * (0.08 + epikItem.booster);
+    }
+    if (ornaments === 9) {
+      modSum = modSum * (0.15 + epikItem.booster);
+    }    let modCap = modCaps.find(capped => capped.mod === this.getPsychoModByString(dedicatedDrifItem?.psychoMod));
     this.modSummary.push({
       mod: epikItem?.psychoModDedicated,
       drifName: dedicatedDrifItem.shortName,
-      modSum: modSum * epikItem.booster,
+      modSum: modSum,
       amountDrifs: 1,
       category: dedicatedDrifItem.category,
       max: modCap?.value
@@ -353,11 +376,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
     let modSumCrit = critEpicModLevel * critDrifItem?.psychoGrowByLevel;
     modSumCrit += critDrifItem.psychoGrowByLevel * 2; //tier 3 of Epik
+    if (ornaments < 7) {
+      modSumCrit = modSumCrit * epikItem.booster;
+    }
+    if (ornaments === 7) {
+      modSumCrit = modSumCrit * (0.03 + epikItem.booster);
+    }
+    if (ornaments === 8) {
+      modSumCrit = modSumCrit * (0.08 + epikItem.booster);
+    }
+    if (ornaments === 9) {
+      modSumCrit = modSumCrit * (0.15 + epikItem.booster);
+    }
     let modCapCrit = modCaps.find(capped => capped.mod === this.getPsychoModByString(critDrifItem?.psychoMod));
     this.modSummary.push({
       mod: epikItem?.psychoModCrit,
       drifName: critDrifItem.shortName,
-      modSum: modSumCrit * epikItem.booster,
+      modSum: modSumCrit,
       amountDrifs: 1,
       category: critDrifItem.category,
       max: modCapCrit?.value
@@ -372,23 +407,46 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     })
   }
 
-  countMod(drif: DrifItem) {
+  countMod(drif: DrifItem, ornaments: number) {
     drif.tier;
     let drifTier = drifTiers.filter(drifTier => drifTier.tier === drif.tier)[0];
     let psychoMod = this.getPsychoModByString(drif.psychoMod);
     let modSummary = this.modSummary.find(modSum => modSum.mod === psychoMod);
     if (modSummary) {
+      let toAdd = 0;
+      toAdd += drif.level * drif.psychoGrowByLevel;
+      toAdd += drif.psychoGrowByLevel * (drif.tier - 1);
       modSummary.amountDrifs++;
-      modSummary.modSum += drif.level * drif.psychoGrowByLevel;
-      modSummary.modSum += drif.psychoGrowByLevel * (drif.tier - 1);
+      //modSummary.modSum += drif.level * drif.psychoGrowByLevel;
+      //modSummary.modSum += drif.psychoGrowByLevel * (drif.tier - 1);
       if (drifTier.tier === 4 && drif.level >= 19) {
-        modSummary.modSum += (drif.level - 18) * drif.psychoGrowByLevel;
+        //modSummary.modSum += (drif.level - 18) * drif.psychoGrowByLevel;
+        toAdd += (drif.level - 18) * drif.psychoGrowByLevel;
       }
+      if (ornaments === 7) {
+        toAdd = toAdd * 1.03;
+      }
+      if (ornaments === 8) {
+        toAdd = toAdd * 1.08;
+      }
+      if (ornaments === 9) {
+        toAdd = toAdd * 1.15;
+      }
+      modSummary.modSum += toAdd;
     } else {
       let value = drif.level * drif.psychoGrowByLevel;
       value += drif.psychoGrowByLevel * (drif.tier - 1);
       if (drifTier.tier === 4 && drif.level >= 19) {
         value += (drif.level - 18) * drif.psychoGrowByLevel;
+      }
+      if (ornaments === 7) {
+        value = value * 1.03;
+      }
+      if (ornaments === 8) {
+        value = value * 1.08;
+      }
+      if (ornaments === 9) {
+        value = value * 1.15;
       }
       let modCap = modCaps.find(capped => capped.mod === psychoMod);
       this.modSummary.push({
@@ -556,7 +614,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       console.log("LEFT POWER RAR WITH DRIF NOT FOUND");
       return 0;
     }
-    let leftPower = this.getPowerCapacityByRank(rarWithDrif.rank);
+    let leftPower = this.getPowerCapacityByRank(rarWithDrif);
 
     let drifItem1 = rarWithDrif.drifItem1;
     let drifItem2 = rarWithDrif.drifItem2;
@@ -574,7 +632,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   printUsedCapacity(rarWithDrifs: RarWithDrifs): string {
-    let cap = this.getPowerCapacityByRank(rarWithDrifs.rank);
+    let cap = this.getPowerCapacityByRank(rarWithDrifs);
     let usedPower = this.countUsedPower(rarWithDrifs);
     let leftPower = cap - usedPower;
     return leftPower + "/" + cap;
@@ -589,7 +647,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (drifItem1) {
       usedPower += drifItem1.startPower * drifItem1.tier;
     }
-    if (drifItem2 && rarWithDrifs.rank >= 4) {
+    if (drifItem2 && (rarWithDrifs.rank >= 4 || rarWithDrifs.ornaments >-7)) {
       usedPower += drifItem2.startPower * drifItem2.tier;
     }
     if (drifItem3  && rarWithDrifs.rank >= 10) {
@@ -598,11 +656,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return usedPower;
   }
 
-  getPowerCapacityByRank(rank: number): number {
-    if (rank > 12) {
+  getPowerCapacityByRank(rar: RarWithDrifs): number {
+    if (rar.rank > 12) {
       return 0;
     }
-    return rarsCapacity.filter(cap => cap.rank == rank)[0].capacity;
+    let capacity = rarsCapacity.filter(cap => cap.rank == rar.rank)[0].capacity;
+    if (rar.ornaments && rar.ornaments >= 7) {
+      if (rar.ornaments === 7) {
+        capacity += 1;
+      }
+      if (rar.ornaments === 8) {
+        capacity += 2;
+      }
+      if (rar.ornaments === 9) {
+        capacity += 4;
+      }
+    }
+    return capacity;
   }
 
   getButtonColorClassByDrifCategory(drif: DrifItem): string {

@@ -1,0 +1,28 @@
+.content-card {
+  padding-bottom: 20px;
+}
+
+mat-card-content {
+
+}
+
+.make-space {
+  margin-bottom: 8px;
+}
+
+.presentation-card {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  align-self: flex-end;
+  justify-items: center;
+}
+
+.presentation {
+  max-height: 220px;
+}
+
+h1 {
+  font-weight: bold;
+  margin-bottom: 0;
+}

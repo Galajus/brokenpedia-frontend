@@ -11,6 +11,10 @@ html, body {
   height: 100%;
 }
 
+.restrict-width {
+  min-width: 900px;
+}
+
 mat-card {
   background-color: rgba(52, 52, 52, 0.68) !important;
 }
@@ -38,20 +42,8 @@ mat-card {
 
 .content {
   max-width: 1000px;
-  min-width: 700px;
-
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  margin: 30px auto 15px auto;
+  margin: 15px;
   background-color: #282727;
-  overflow: hidden;
-
-  flex-direction: column;
-  position: relative;
 }
 
 app-brokencalc .content {
@@ -121,4 +113,11 @@ input[type=number] {
 
 .example-full-width {
   width: 100%;
+}
+
+
+//POST PAGE
+.post-content img {
+  max-width: 100%;
+  max-height: 100%;
 }

@@ -1,0 +1,40 @@
+<div>
+  <h1>KATEGORIE</h1>
+
+  <button mat-raised-button color="accent" [routerLink]="['/admin/categories/add']">DODAJ KATEGORIE</button>
+
+  <table fxFlexFill mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryName">
+      <th mat-header-cell *matHeaderCellDef>Data utworzenia</th>
+      <td mat-cell *matCellDef="let element">{{element.categoryName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categorySlug">
+      <th mat-header-cell *matHeaderCellDef>Autor</th>
+      <td mat-cell *matCellDef="let element">{{element.categorySlug}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Akcje</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button [routerLink]="['/admin/categories/update/', element.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteCategory(element.id)">
+          <mat-icon style="color: red">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  </table>
+</div>
+

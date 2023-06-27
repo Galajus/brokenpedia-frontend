@@ -1,25 +1,28 @@
-<!--<div class="content">
-  <mat-card class="mat-elevation-z6">
-    <mat-card-content>
-      <div *ngIf="!posts" fxLayout="row" fxLayoutAlign="center center">
-        <h2>Wystąpił błąd</h2>
-      </div>
-      <div *ngIf="posts" fxLayout="column" fxLayoutAlign="center center">
-        <div *ngFor="let post of posts">
-          <h1>{{post.title}}</h1>
-          <h3>{{post.creationDate}}  by {{post.author?.nickname}}</h3>
-          <div [innerHTML]="post.content"></div>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>-->
-
 <div class="content">
-  <mat-card class="mat-elevation-z6">
+  <mat-card *ngIf="posts" class="mat-elevation-z6">
     <mat-card-content>
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <h2>Strona główna w przygotowaniu - wszelkie dostępne strony znajdziesz w panelu bocznym po lewej!</h2>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="post-container">
+          <mat-card *ngFor="let post of posts" class="mat-elevation-z6 post-card">
+            <div class="post-image-container" (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
+              <img *ngIf="post.image" mat-card-image ngSrc="API" alt="post image">
+              <img *ngIf="!post.image" mat-card-lg-image ngSrc="./assets/post/post-logo.png" priority alt="post image"
+                   height="150" width="150">
+            </div>
+            <mat-card-header [routerLink]="post.slug" class="post-header" (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
+              <mat-card-title>{{post.title}}</mat-card-title>
+              <mat-card-subtitle>{{post.author?.nickname}} {{post.creationDate | simpleDate}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
+              <p>
+                {{post.description}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions class="post-actions">
+              <button mat-stroked-button class="category-button" *ngFor="let category of post.categories" (auxclick)="sendToCategory(category.categorySlug)" (click)="sendToCategory(category.categorySlug)">{{category.categoryName}}</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

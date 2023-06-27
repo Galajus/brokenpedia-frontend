@@ -1,0 +1,40 @@
+<div class="content-card">
+  <mat-card class="mat-elevation-z6 make-space" *ngIf="singlePost">
+    <mat-card-content>
+      <div class="presentation" fxLayoutAlign="center center">
+        <img *ngIf="singlePost.image" ngSrc="API" alt="post image" fxLayoutAlign="center center">
+        <img *ngIf="!singlePost.image" ngSrc="./assets/post/post-logo.png" priority alt="post image" height="120"
+             width="120">
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+
+        <h1>{{singlePost.title}}</h1>
+
+        <div>
+          <div>
+            <strong>{{singlePost.author.nickname}}</strong> {{singlePost.creationDate | simpleDate}}
+          </div>
+          <div *ngIf="singlePost.lastUpdateDate">
+            Aktualizacja: {{singlePost.lastUpdateDate | simpleDate}}
+          </div>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z6">
+    <mat-card-content *ngIf="singlePost">
+
+      <div [innerHTML]="singlePost.content | noSanitize" class="post-content"></div>
+
+    </mat-card-content>
+    <mat-card-content *ngIf="!singlePost" fxLayoutAlign="center center">
+
+      POST NIEDOSTĘPNY
+
+    </mat-card-content>
+  </mat-card>
+</div>
+

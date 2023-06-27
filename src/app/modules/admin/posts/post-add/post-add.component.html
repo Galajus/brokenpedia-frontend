@@ -1,0 +1,37 @@
+<div [formGroup]="postForm" fxLayout="column" fxLayoutGap="10" style="padding-bottom: 10px">
+  <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+    <mat-card-content>
+      <div fxLayoutGap="15" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20">
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field appearance="fill" color="accent" style="width: 300px">
+              <mat-label>TYTUŁ</mat-label>
+              <input matInput formControlName="title" placeholder="Tytuł">
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15">
+          <mat-slide-toggle formControlName="isPublic">Post publiczny</mat-slide-toggle>
+        </div>
+        <div *ngFor="let cat of categories; let i=index" class="col-md-2">
+          <label>
+            <input type="checkbox" [value]="cat" (change)="onCategoryChange($event, cat)">
+            {{cat.categoryName}}
+          </label>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" color="accent" style="min-width: 800px">
+            <mat-label>OPIS</mat-label>
+            <textarea matInput rows="4" formControlName="description" placeholder="Opis"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="editor">
+          <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+        </div>
+        <button mat-raised-button color="accent" (click)="save()">
+          ZAPISZ
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

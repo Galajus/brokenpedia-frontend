@@ -34,7 +34,19 @@
             </mat-tree-node>
           </mat-tree>-->
           <mat-nav-list fxFlex>
-            <a mat-list-item routerLink=""><mat-icon class="sidebar-icon">today</mat-icon> Aktualności</a>
+            <!--<a mat-list-item routerLink=""><mat-icon class="sidebar-icon">today</mat-icon> Aktualności</a>-->
+            <mat-accordion>
+              <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
+                <mat-expansion-panel-header style="height: 32px">
+                  <mat-panel-title>
+                    <span>
+                      <a class="news" routerLink=""><mat-icon class="sidebar-icon">today</mat-icon>Aktualności</a>
+                    </span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <a *ngFor="let cat of categories" mat-list-item routerLink="/category/{{cat.categorySlug}}"> {{cat.categoryName}} </a>
+              </mat-expansion-panel>
+            </mat-accordion>
             <mat-accordion>
               <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
                 <mat-expansion-panel-header style="height: 32px">
@@ -69,11 +81,11 @@
       </mat-sidenav>
 
     <mat-sidenav-content>
-      <div fxLayout="row" fxLayoutGap="10">
-        <div fxFlex="12" class="special specialLeft">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+        <div fxFlex="12">
+          <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
                   crossorigin="anonymous"></script>
-          <!-- pedia -->
+          &lt;!&ndash; pedia &ndash;&gt;
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-8605997221846310"
@@ -82,17 +94,17 @@
                data-full-width-responsive="true"></ins>
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+          </script>-->
         </div>
 
-        <div class="content" style="{{additionalStyle}}"> <!--fxFlex fxLayoutAlign="center"-->
+        <div class="content" fxFlex> <!--fxFlex fxLayoutAlign="center"-->
           <router-outlet></router-outlet>
         </div>
 
-        <div fxFlex="12" class="special specialRight">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+        <div fxFlex="12">
+          <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
                   crossorigin="anonymous"></script>
-          <!-- pedia -->
+          &lt;!&ndash; pedia &ndash;&gt;
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-8605997221846310"
@@ -101,7 +113,7 @@
                data-full-width-responsive="true"></ins>
           <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+          </script>-->
         </div>
       </div>
     </mat-sidenav-content>
