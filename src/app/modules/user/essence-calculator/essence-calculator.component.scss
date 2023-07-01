@@ -16,3 +16,33 @@ th {
 .mat-row:nth-child(odd){
   background-color: #4b4b4b;
 }
+
+.mat-column-Ranga {
+  flex: none;
+  width: 20px;
+}
+
+.mat-column-Esencje {
+  flex: none;
+  width: 65px;
+}
+.mat-column-Esencje-z-inhi {
+  flex: none;
+  width: 25px;
+}
+.mat-column-Od-amki {
+  flex: none;
+  width: 55px;
+}
+.mat-column-Od-amki-z-inhi {
+  flex: none;
+  width: 45px;
+}
+.mat-column-Od-amki-syng {
+  flex: none;
+  width: 55px;
+}
+.mat-column-Od-amki-syng-z-inhi {
+  flex: none;
+  width: 45px;
+}

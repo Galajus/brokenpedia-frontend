@@ -289,6 +289,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   calculateModSummary() {
     this.validateRanks();
+    this.validateLevels();
     this.modSummary = [];
     let activeBuild = this.getActiveBuild();
     activeBuild.rarsWithDrifs.forEach(rar => {
@@ -310,6 +311,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.calculateRealModSum();
   }
 
+  private validateLevels() {
+    this.getActiveBuild().rarsWithDrifs.forEach(rar => {
+      let drifMaxLevel1 = this.getDrifMaxLevel(rar.drifItem1);
+      let drifMaxLevel2 = this.getDrifMaxLevel(rar.drifItem2);
+      let drifMaxLevel3 = this.getDrifMaxLevel(rar.drifItem3);
+      if (rar.drifItem1 && this.getDrifLevel(rar, 1) > drifMaxLevel1) {
+        rar.drifItem1.level = drifMaxLevel1;
+      }
+      if (rar.drifItem2 && this.getDrifLevel(rar, 2) > drifMaxLevel2) {
+        rar.drifItem2.level = drifMaxLevel2;
+      }
+      if (rar.drifItem3 && this.getDrifLevel(rar, 3) > drifMaxLevel3) {
+        rar.drifItem3.level = drifMaxLevel3;
+      }
+    })
+  }
+
   private validateRanks() {
     this.getActiveBuild().rarsWithDrifs.forEach(rar => {
       if (rar.rank < 10) {
@@ -319,6 +337,19 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         rar.drifItem2 = null;
       }
     })
+  }
+
+  private getDrifMaxLevel(drif: DrifItem | null): number {
+    if (!drif) {
+      return 0;
+    }
+    let find = drifTiers.find(dt => {
+      return dt.tier === drif.tier;
+    });
+    if (find) {
+      return find.maxDrifLevel;
+    }
+    return 0;
   }
 
   calculateEpicMod(rank: number, ornaments: number) {
