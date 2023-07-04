@@ -11,6 +11,7 @@ import {SinglePost} from "./model/singlePost";
 export class PostComponent implements OnInit {
 
   singlePost?: SinglePost;
+  error: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,7 +21,11 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     let slug = this.route.snapshot.params['slug'];
     this.postService.getSinglePost(slug)
-      .subscribe(post => this.singlePost = post);
+      .subscribe({
+        next: post => this.singlePost = post,
+        error: err => this.error = true
+      });
+
   }
 
 }

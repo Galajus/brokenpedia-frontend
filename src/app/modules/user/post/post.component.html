@@ -30,9 +30,18 @@
       <div [innerHTML]="singlePost.content | noSanitize" class="post-content"></div>
 
     </mat-card-content>
-    <mat-card-content *ngIf="!singlePost" fxLayoutAlign="center center">
+    <mat-card-content *ngIf="error" fxLayoutAlign="center center">
 
       POST NIEDOSTĘPNY
+
+    </mat-card-content>
+    <mat-card-content *ngIf="!singlePost && !error" fxLayoutAlign="center center">
+
+      <mat-progress-spinner
+        color="accent"
+        mode="indeterminate"
+        value="1">
+      </mat-progress-spinner>
 
     </mat-card-content>
   </mat-card>

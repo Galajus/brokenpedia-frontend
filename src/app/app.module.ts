@@ -67,6 +67,8 @@ import {NoSanitize} from "./modules/user/common/pipe/no-sanitize";
 import {CategoryAddComponent} from './modules/admin/category/category-add/category-add.component';
 import {CategoryUpdateComponent} from './modules/admin/category/category-update/category-update.component';
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
+import { PrivacyPolicyComponent } from './modules/user/privacy-policy/privacy-policy.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -134,7 +136,8 @@ registerLocaleData(localePl, localePlExtra);
     NoSanitize,
     AdminCategoryComponent,
     CategoryAddComponent,
-    CategoryUpdateComponent
+    CategoryUpdateComponent,
+    PrivacyPolicyComponent
   ],
     imports: [
         BrowserModule,
@@ -165,7 +168,8 @@ registerLocaleData(localePl, localePlExtra);
         MatTreeModule,
         MatExpansionModule,
         MatPaginatorModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        MatProgressSpinnerModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
