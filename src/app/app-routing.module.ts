@@ -27,6 +27,7 @@ import {PostComponent} from "./modules/user/post/post.component";
 import {CategoryAddComponent} from "./modules/admin/category/category-add/category-add.component";
 import {CategoryUpdateComponent} from "./modules/admin/category/category-update/category-update.component";
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
+import {PrivacyPolicyComponent} from "./modules/user/privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
 
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: 'confirm-account/:hash', component: ConfirmAccountComponent, title: "Aktywacja konta" },
       { path: 'lost-password', component: LostPasswordComponent, title: "Reset hasła" },
       { path: 'lost-password/:hash', component: LostPasswordComponent, title: "Reset hasła" },
+      { path: 'privacy-policy', component: PrivacyPolicyComponent, title: "Polityka prywatności" },
 
 
       { path: 'acc', component: DashboardComponent, title: "Profil", canActivate: [ProfileAuthorizationGuard]},
