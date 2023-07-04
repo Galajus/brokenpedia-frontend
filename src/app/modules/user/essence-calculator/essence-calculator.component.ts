@@ -11,6 +11,7 @@ import {
 import {ItemToEssences} from "./model/itemToEssences";
 import {ShardsByTier} from "./model/shardsByTier";
 import {ShardsByOrnaments} from "./model/shardsByOrnaments";
+import {SyngPrice} from "./model/syngPrice";
 
 @Component({
   selector: 'app-essence-calculator',
@@ -36,28 +37,241 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     "Próg odłamki bez inhi",
     "Próg odłamki syng z inhi",
     "Próg odłamki syng bez inhi",
-
     /*"Zysk z inhi"*/
   ];
+  syngColumns: string[] = [
+    "lvl",
+    "price",
+  ];
+
   calculations: ItemToEssences[] = [ //TODO ESENCE COSTS BY RANK AND ORNAMENTS
-    {rank: "I", inhiPrice: 3, essences: 2, essencesWithInhi: 3, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "II", inhiPrice: 4, essences: 5, essencesWithInhi: 7, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "III", inhiPrice: 4, essences: 12, essencesWithInhi: 16, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "IV", inhiPrice: 5, essences: 24, essencesWithInhi: 32, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "V", inhiPrice: 6, essences: 32, essencesWithInhi: 42, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "VI", inhiPrice: 6, essences: 40, essencesWithInhi: 52, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "VII", inhiPrice: 7, essences: 55, essencesWithInhi: 72, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "VIII", inhiPrice: 8, essences: 70, essencesWithInhi: 91, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "IX", inhiPrice: 8, essences: 85, essencesWithInhi: 111, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "X", inhiPrice: 10, essences: 115, essencesWithInhi: 150, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "XI", inhiPrice: 12, essences: 145, essencesWithInhi: 189, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0},
-    {rank: "XII", inhiPrice: 12, essences: 175, essencesWithInhi: 228, priceThreshold: 0, priceThresholdWithInhi: 0, incomeWithInhi: 0, shards: 0, shardsWithInhi: 0, shardsFromSyng: 0, shardsFromSyngWithInhi: 0, earnShard: 0, earnShardWithInhi: 0, earnShardSyng: 0, earnShardSyngWithInhi: 0}
+    {
+      rank: "I",
+      inhiPrice: 3,
+      essences: 2,
+      essencesWithInhi: 3,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "II",
+      inhiPrice: 4,
+      essences: 5,
+      essencesWithInhi: 7,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "III",
+      inhiPrice: 4,
+      essences: 12,
+      essencesWithInhi: 16,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "IV",
+      inhiPrice: 5,
+      essences: 24,
+      essencesWithInhi: 32,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "V",
+      inhiPrice: 6,
+      essences: 32,
+      essencesWithInhi: 42,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "VI",
+      inhiPrice: 6,
+      essences: 40,
+      essencesWithInhi: 52,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "VII",
+      inhiPrice: 7,
+      essences: 55,
+      essencesWithInhi: 72,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "VIII",
+      inhiPrice: 8,
+      essences: 70,
+      essencesWithInhi: 91,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "IX",
+      inhiPrice: 8,
+      essences: 85,
+      essencesWithInhi: 111,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "X",
+      inhiPrice: 10,
+      essences: 115,
+      essencesWithInhi: 150,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "XI",
+      inhiPrice: 12,
+      essences: 145,
+      essencesWithInhi: 189,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    },
+    {
+      rank: "XII",
+      inhiPrice: 12,
+      essences: 175,
+      essencesWithInhi: 228,
+      priceThreshold: 0,
+      priceThresholdWithInhi: 0,
+      incomeWithInhi: 0,
+      shards: 0,
+      shardsWithInhi: 0,
+      shardsFromSyng: 0,
+      shardsFromSyngWithInhi: 0,
+      earnShard: 0,
+      earnShardWithInhi: 0,
+      earnShardSyng: 0,
+      earnShardSyngWithInhi: 0
+    }
+  ]
+
+  syngPrices: SyngPrice[] = [
+    {lvl: 20, price: 11250},
+    {lvl: 30, price: 20250},
+    {lvl: 40, price: 36000},
+    {lvl: 50, price: 66000},
+    {lvl: 60, price: 120000},
+    {lvl: 70, price: 210000},
+    {lvl: 80, price: 375000},
+    {lvl: 90, price: 675000},
+    {lvl: 100, price: 1200000},
+    {lvl: 110, price: 2250000},
+    {lvl: 120, price: 4050000},
+    {lvl: 130, price: 7200000},
+    {lvl: 140, price: 12750000},
   ]
 
   extractorPrice: number = 20000;
   marketPremium: boolean = true;
   isSet: boolean = false;
   ignoreTax: boolean = true;
+  showSyngPrices: boolean = false;
   ornaments: number = 1;
   shardPrice: number = 0;
   platinumPrice: number = 0;
@@ -65,7 +279,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   ngAfterViewInit(): void {
     this.loadData();
@@ -80,7 +295,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   calculateData() {
-    if(this.essencePrice <= 0 || Number.isNaN(this.essencePrice)) {
+    if (this.essencePrice <= 0 || Number.isNaN(this.essencePrice)) {
       this.calculations.forEach(item => {
         item.priceThreshold = 0;
         item.priceThresholdWithInhi = 0;
@@ -173,21 +388,34 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
 
   getItemTier(rank: string) {
     switch (rank) {
-      case "I": return 1;
-      case "II": return 1;
-      case "III": return 1;
-      case "IV": return 2;
-      case "V": return 2;
-      case "VI": return 2;
-      case "VII": return 3;
-      case "VIII": return 3;
-      case "IX": return 3;
-      case "X": return 4;
-      case "XI": return 4;
-      case "XII": return 4;
-      default: return 1;
+      case "I":
+        return 1;
+      case "II":
+        return 1;
+      case "III":
+        return 1;
+      case "IV":
+        return 2;
+      case "V":
+        return 2;
+      case "VI":
+        return 2;
+      case "VII":
+        return 3;
+      case "VIII":
+        return 3;
+      case "IX":
+        return 3;
+      case "X":
+        return 4;
+      case "XI":
+        return 4;
+      case "XII":
+        return 4;
+      default:
+        return 1;
     }
-}
+  }
 
   pushChanges() {
     this.calculateData();
@@ -202,7 +430,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
       if (element == "ese") {
         this.inputEse.nativeElement.value = value.replace(/\D/g, "");
       }
-      if(element == "shard") {
+      if (element == "shard") {
         this.inputShard.nativeElement.value = value.replace(/\D/g, "");
       }
     }
@@ -215,7 +443,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
       this.formatValue(this.inputEse.nativeElement.value, this.inputEse);
       this.essencePrice = parseInt(value.replace(/[- ]/g, ""));
     }
-    if(element == "shard") {
+    if (element == "shard") {
       this.formatValue(this.inputShard.nativeElement.value, this.inputShard);
       this.shardPrice = parseInt(value.replace(/[- ]/g, ""));
     }
@@ -241,6 +469,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     localStorage.setItem("essences-is-set", JSON.stringify(this.isSet));
     localStorage.setItem("essences-ignore-tax", JSON.stringify(this.ignoreTax));
     localStorage.setItem("essences-ornaments", JSON.stringify(this.ornaments));
+    localStorage.setItem("essences-show-syng", JSON.stringify(this.showSyngPrices));
   }
 
   private loadData() {
@@ -251,6 +480,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     let set = localStorage.getItem("essences-is-set");
     let tax = localStorage.getItem("essences-ignore-tax");
     let ornaments = localStorage.getItem("essences-ornaments");
+    let syngs = localStorage.getItem("essences-show-syng");
 
     if (platinum != null && platinum != "null") {
       this.formatValue(platinum, this.inputPlat);
@@ -276,6 +506,9 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     if (ornaments != null && ornaments != "null") {
       this.ornaments = parseInt(ornaments);
     }
+    if (syngs != null && syngs != "null") {
+      this.showSyngPrices = (syngs === "true");
+    }
     this.calculateData();
   }
 
@@ -284,6 +517,14 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   protected readonly Number = Number;
+
+  /*jumpToSyngs() {
+    setTimeout(() => {
+        document.querySelector('#syngs')?.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 75);
+  }*/
 }
 
 const shardsByTier: ShardsByTier[] = [

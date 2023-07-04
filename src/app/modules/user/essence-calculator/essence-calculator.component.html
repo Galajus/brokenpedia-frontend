@@ -25,21 +25,27 @@
             </mat-form-field>
           </div>
           <div fxLayout="column" fxLayoutAlign="center center">
-            <div>
-              <mat-form-field style="width: 130px" color="accent">
-                <mat-label>Ilość ornamentów</mat-label>
-                <mat-select [(ngModel)]="ornaments" (selectionChange)="pushChanges()">
-                  <mat-option [value]=1>1</mat-option>
-                  <mat-option [value]=2>2</mat-option>
-                  <mat-option [value]=3>3</mat-option>
-                  <mat-option [value]=4>4</mat-option>
-                  <mat-option [value]=5>5</mat-option>
-                  <mat-option [value]=6>6</mat-option>
-                  <mat-option [value]=7>7</mat-option>
-                  <mat-option [value]=8>8</mat-option>
-                  <mat-option [value]=9>9</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
+              <div>
+                <mat-form-field style="width: 130px" color="accent">
+                  <mat-label>Ilość ornamentów</mat-label>
+                  <mat-select [(ngModel)]="ornaments" (selectionChange)="pushChanges()">
+                    <mat-option [value]=1>1</mat-option>
+                    <mat-option [value]=2>2</mat-option>
+                    <mat-option [value]=3>3</mat-option>
+                    <mat-option [value]=4>4</mat-option>
+                    <mat-option [value]=5>5</mat-option>
+                    <mat-option [value]=6>6</mat-option>
+                    <mat-option [value]=7>7</mat-option>
+                    <mat-option [value]=8>8</mat-option>
+                    <mat-option [value]=9>9</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-slide-toggle [(ngModel)]="showSyngPrices"> Pokaż syngi
+                </mat-slide-toggle>
+              </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
               <div>
@@ -66,99 +72,140 @@
 
     <mat-card class="mat-elevation-z6">
       <mat-card-content>
-        <div>
-          <table mat-table [dataSource]="calculations">
-            <ng-container matColumnDef="Ranga">
-              <th mat-header-cell *matHeaderCellDef style="padding-left: 12px"> Ranga</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.rank}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Esencje">
-              <th mat-header-cell *matHeaderCellDef> Eski</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.essences}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Esencje z inhi">
-              <th mat-header-cell *matHeaderCellDef> Eski z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.essencesWithInhi}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Odłamki">
-              <th mat-header-cell *matHeaderCellDef> Odłamki</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.shards}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Odłamki z inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.shardsWithInhi}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Odłamki syng">
-              <th mat-header-cell *matHeaderCellDef> Odłamki syng</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.shardsFromSyng}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Odłamki syng z inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki syng z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.shardsFromSyngWithInhi}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg eski z inhi">
-              <th mat-header-cell *matHeaderCellDef> Eski z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.priceThresholdWithInhi.toLocaleString()}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg eski bez inhi">
-              <th mat-header-cell *matHeaderCellDef> Eski bez inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.priceThreshold.toLocaleString()}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg odłamki z inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.earnShardWithInhi.toLocaleString()}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg odłamki bez inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki bez inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.earnShard.toLocaleString()}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg odłamki syng z inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki syng z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.earnShardSyng.toLocaleString()}}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="Próg odłamki syng bez inhi">
-              <th mat-header-cell *matHeaderCellDef> Odłamki syng bez inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.earnShardSyngWithInhi.toLocaleString()}}
-              </td>
-            </ng-container>
-            <!--<ng-container matColumnDef="Zysk z inhi">
-              <th mat-header-cell *matHeaderCellDef> Zysk z inhi</th>
-              <td mat-cell *matCellDef="let element">
-                {{element.incomeWithInhi.toLocaleString()}}
-              </td>
-            </ng-container>-->
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+        <div fxLayout="column" fxLayoutGap="15">
+          <div>
+            <table mat-table [dataSource]="calculations">
+              <ng-container matColumnDef="Ranga">
+                <th mat-header-cell *matHeaderCellDef style="padding-left: 12px"> Ranga</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.rank}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Esencje">
+                <th mat-header-cell *matHeaderCellDef> Eski</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.essences}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Esencje z inhi">
+                <th mat-header-cell *matHeaderCellDef> Eski z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.essencesWithInhi}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Odłamki">
+                <th mat-header-cell *matHeaderCellDef> Odłamki</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.shards}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Odłamki z inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.shardsWithInhi}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Odłamki syng">
+                <th mat-header-cell *matHeaderCellDef> Odłamki syng</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.shardsFromSyng}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Odłamki syng z inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki syng z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.shardsFromSyngWithInhi}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg eski z inhi">
+                <th mat-header-cell *matHeaderCellDef> Eski z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.priceThresholdWithInhi.toLocaleString()}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg eski bez inhi">
+                <th mat-header-cell *matHeaderCellDef> Eski bez inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.priceThreshold.toLocaleString()}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg odłamki z inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.earnShardWithInhi.toLocaleString()}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg odłamki bez inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki bez inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.earnShard.toLocaleString()}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg odłamki syng z inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki syng z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.earnShardSyngWithInhi.toLocaleString()}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Próg odłamki syng bez inhi">
+                <th mat-header-cell *matHeaderCellDef> Odłamki syng bez inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.earnShardSyng.toLocaleString()}}
+                </td>
+              </ng-container>
+              <!--<ng-container matColumnDef="Zysk z inhi">
+                <th mat-header-cell *matHeaderCellDef> Zysk z inhi</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.incomeWithInhi.toLocaleString()}}
+                </td>
+              </ng-container>-->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+          <!--<div *ngIf="showSyngPrices" id="syngs">
+            <table mat-table [dataSource]="syngPrices">
+              <ng-container matColumnDef="lvl">
+                <th mat-header-cell *matHeaderCellDef > Poziom synergetyka</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.lvl}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef> Cena</th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.price.toLocaleString()}}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="syngColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: syngColumns;"></tr>
+            </table>
+          </div>-->
         </div>
+        <mat-card *ngIf="showSyngPrices" id="son">
+          <mat-card-content>
+            <div>
+              <table mat-table [dataSource]="syngPrices">
+                <ng-container matColumnDef="lvl">
+                  <th mat-header-cell *matHeaderCellDef style="padding-left: 0"> Poziom</th>
+                  <td mat-cell *matCellDef="let element" style="padding-left: 0">
+                    {{element.lvl}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef style="padding-right: 0"> Cena</th>
+                  <td mat-cell *matCellDef="let element" style="padding-right: 0">
+                    {{element.price.toLocaleString()}}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="syngColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: syngColumns;"></tr>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </mat-card-content>
     </mat-card>
-
   </div>
 
 </div>

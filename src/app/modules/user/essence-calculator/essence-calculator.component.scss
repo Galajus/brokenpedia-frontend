@@ -19,16 +19,20 @@ th {
 
 .mat-column-Ranga {
   flex: none;
-  width: 20px;
+  width: 30px;
+  border-right: 1px solid currentColor;
+  padding-right: 12px;
 }
 
 .mat-column-Esencje {
   flex: none;
-  width: 65px;
+  width: 40px;
 }
 .mat-column-Esencje-z-inhi {
   flex: none;
   width: 25px;
+  border-right: 1px solid currentColor;
+  padding-right: 6px;
 }
 .mat-column-Od-amki {
   flex: none;
@@ -37,6 +41,8 @@ th {
 .mat-column-Od-amki-z-inhi {
   flex: none;
   width: 45px;
+  border-right: 1px solid currentColor;
+  padding-right: 6px;
 }
 .mat-column-Od-amki-syng {
   flex: none;
@@ -45,4 +51,33 @@ th {
 .mat-column-Od-amki-syng-z-inhi {
   flex: none;
   width: 45px;
+  border-right: 1px solid currentColor;
+  padding-right: 6px;
+}
+.mat-column-Pr-g-eski-bez-inhi {
+  border-right: 1px solid currentColor;
+}
+.mat-column-Pr-g-od-amki-bez-inhi {
+  border-right: 1px solid currentColor;
+  padding-right: 3px;
+}
+
+#syngs tr.mat-row {
+  height: 35px !important;
+}
+
+#son {
+  position: absolute;
+  //left: 1000px;
+  left: 100%;
+  top: -22px;
+}
+
+#son table {
+  width: 160px;
+}
+
+.mat-column-lvl {
+  flex: none;
+  width: 65px;
 }

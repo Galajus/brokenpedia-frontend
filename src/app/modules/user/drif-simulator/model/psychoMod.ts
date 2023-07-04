@@ -14,7 +14,7 @@ export enum PsychoMod {
 
   MAGICAL_HIT_MODIFIER = "Modyfikator trafień mentalnych",
   RANGE_HIT_MODIFIER = "Modyfikator trafień dystansowych",
-  PHYSICAL_HIT_MODIFIER = "Modyfikator trafień fizycznych",
+  PHYSICAL_HIT_MODIFIER = "Modyfikator trafień wręcz",
 
   MAGICAL_DEFENCE_MODIFIER = "Obrona przeciw urokom",
   RANGE_DEFENCE_MODIFIER = "Obrona dystansowa",
