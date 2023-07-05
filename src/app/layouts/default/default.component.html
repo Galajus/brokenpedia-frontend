@@ -1,40 +1,22 @@
-<div class="container" [class.is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayoutAlign="center center">
-        <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-        <img class="logo" routerLink="" src="assets/logo.svg" alt="Broken Pedia logo" width="200">
-      </div>
-      <div fxLayoutAlign="center center">
-        <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>ZALOGUJ</strong></button>
-        <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>PROFIL</strong></button>
-        <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
-      </div>
-
-  </mat-toolbar>
-
-  <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
+<div [class.is-mobile]="mobileQuery.matches">
+  <div class="container">
+    <div>
+      <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayoutAlign="center center">
+          <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+          <img class="logo" routerLink="" ngSrc="assets/logo.svg" alt="Broken Pedia logo" width="200" height="65">
+        </div>
+        <div fxLayoutAlign="center center">
+          <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>ZALOGUJ</strong></button>
+          <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>PROFIL</strong></button>
+          <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
         <div class="menu-gal" fxLayout="column">
-          <!--<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-            &lt;!&ndash; This is the tree node template for leaf nodes &ndash;&gt;
-            <mat-tree-node style="min-height: 20px !important; height: 20px; margin-left: 0 !important" *matTreeNodeDef="let node" matTreeNodePadding >
-              &lt;!&ndash; use a disabled button to provide padding for tree leaf &ndash;&gt;
-              <button mat-icon-button disabled></button>
-              {{node.name}}
-            </mat-tree-node>
-            &lt;!&ndash; This is the tree node template for expandable nodes &ndash;&gt;
-            <mat-tree-node style="min-height: 20px !important; height: 20px" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding="0">
-              <button mat-icon-button matTreeNodeToggle disableRipple
-                      [attr.aria-label]="'Toggle ' + node.name">
-                <mat-icon style="font-size: 20px">
-                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                </mat-icon>
-                {{node.name}}
-              </button>
-            </mat-tree-node>
-          </mat-tree>-->
           <mat-nav-list fxFlex>
-            <!--<a mat-list-item routerLink=""><mat-icon class="sidebar-icon">today</mat-icon> Aktualności</a>-->
             <mat-accordion>
               <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
                 <mat-expansion-panel-header style="height: 32px">
@@ -81,42 +63,43 @@
         </div>
       </mat-sidenav>
 
-    <mat-sidenav-content>
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
-        <div fxFlex="12">
-          <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
-                  crossorigin="anonymous"></script>
-          &lt;!&ndash; pedia &ndash;&gt;
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-8605997221846310"
-               data-ad-slot="8943128827"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>-->
-        </div>
+      <mat-sidenav-content>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+          <div fxFlex="12">
+            <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+                    crossorigin="anonymous"></script>
+            &lt;!&ndash; pedia &ndash;&gt;
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8605997221846310"
+                 data-ad-slot="8943128827"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>-->
+          </div>
 
-        <div class="content" fxFlex> <!--fxFlex fxLayoutAlign="center"-->
-          <router-outlet></router-outlet>
-        </div>
+          <div class="content"> <!--fxFlex fxLayoutAlign="center"-->
+            <router-outlet></router-outlet>
+          </div>
 
-        <div fxFlex="12">
-          <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
-                  crossorigin="anonymous"></script>
-          &lt;!&ndash; pedia &ndash;&gt;
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-8605997221846310"
-               data-ad-slot="8943128827"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>-->
+          <div fxFlex="12">
+            <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+                    crossorigin="anonymous"></script>
+            &lt;!&ndash; pedia &ndash;&gt;
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8605997221846310"
+                 data-ad-slot="8943128827"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>-->
+          </div>
         </div>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
 </div>
