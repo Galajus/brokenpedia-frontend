@@ -30,6 +30,8 @@ export class SimpleDate implements PipeTransform {
       minutes = "0" + date1.getMinutes();
     }
 
-    return day + "." + month + "." + date1.getFullYear() + " " + date1.getHours() + ":" + minutes;
+    //TODO TIMEZONE OF USER
+
+    return day + "." + month + "." + date1.getFullYear() + " " + (date1.getHours() + 2) + ":" + minutes;
   }
 }
