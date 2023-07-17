@@ -132,3 +132,13 @@ input[type=number] {
   max-width: 100%;
   max-height: 100%;
 }
+
+//TEXT EDITOR
+#sourceText {
+  color: black !important;
+}
+
+.angular-editor-textarea {
+  max-height: 700px;
+}
+

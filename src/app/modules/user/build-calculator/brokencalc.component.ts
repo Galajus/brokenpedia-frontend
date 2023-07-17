@@ -46,7 +46,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     enableToolbar: true,
     showToolbar: true,
     placeholder: 'Opis Twojego buildu jak np. co ubierać, jakie mody wybierać czy taktyki ustawiać na bossach.',
-    defaultParagraphSeparator: '',
+    defaultParagraphSeparator: 'p',
     defaultFontName: '',
     defaultFontSize: '',
     fonts: [
