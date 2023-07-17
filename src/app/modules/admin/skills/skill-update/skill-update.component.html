@@ -108,7 +108,7 @@
                 <div fxLayoutGap="5" [formGroupName]="iP" fxLayout="column">
                   <mat-form-field appearance="fill" color="accent">
                     <mat-label>Efekt psycho</mat-label>
-                    <mat-select [(value)]="psychoEffect.value.psychoEffect" formControlName="psychoEffect">
+                    <mat-select [(value)]="psychoEffect.value.psychoEffect" formControlName="psychoEffect" (selectionChange)="fillNewPsychoEffect($event.value)">
                       <mat-option *ngFor="let psych of psychoEffects" value="{{psych}}">{{psych}}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -131,7 +131,7 @@
                 <div fxLayoutGap="5" [formGroupName]="iC" fxLayout="column">
                   <mat-form-field appearance="fill" color="accent">
                     <mat-label>Customowy efekt</mat-label>
-                    <input matInput formControlName="description">
+                    <input (change)="fillNewCustomEffect(customEffect.value.description)" matInput formControlName="description">
                   </mat-form-field>
                   <mat-form-field appearance="fill" color="accent">
                     <mat-label>Wartość</mat-label>
