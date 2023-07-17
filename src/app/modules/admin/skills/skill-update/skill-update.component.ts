@@ -163,7 +163,8 @@ export class SkillUpdateComponent implements OnInit {
     if (!psycho) {
       let skillBasics = this.skillForm.get('skillBasics') as FormArray;
       skillBasics.controls.forEach(c => {
-        let skillPsychoEffects = c.get('skillPsychoEffects') as FormArray;
+        let skillPsychoEffects = c.get('skillPsychoEffects') as FormArray; //todo null check for changing all null effects
+
         const psychoEffect = this.formBuilder.group({
           id: [null],
           psychoEffect: [null, [Validators.required]],
@@ -263,6 +264,7 @@ export class SkillUpdateComponent implements OnInit {
     this.skillsService.saveSkillBasic(basicForm.value)
       .subscribe(basic => {
         basicForm.markAsPristine();
+        basicForm.patchValue(basic);
       })
   }
 
@@ -274,5 +276,32 @@ export class SkillUpdateComponent implements OnInit {
     }
 
     this.snackBar.open('Najpierw usuń wszystkie custom i psycho efekty');
+  }
+
+  fillNewPsychoEffect(value: any) {
+    let skillBasics = this.skillForm.get('skillBasics') as FormArray;
+    skillBasics.controls.forEach(c => {
+      let skillPsychoEffects = c.get('skillPsychoEffects') as FormArray;
+      let effectsList = skillPsychoEffects.value as SkillPsychoEffect[];
+      effectsList.forEach(choice => {
+        if (!choice.psychoEffect) {
+          choice.psychoEffect = value;
+        }
+      })
+    })
+  }
+
+  fillNewCustomEffect(value: any) {
+    let skillBasics = this.skillForm.get('skillBasics') as FormArray;
+    skillBasics.controls.forEach(c => {
+      let skillCustomEffects = c.get('skillCustomEffects') as FormArray;
+      let effectsList = skillCustomEffects.value as SkillCustomEffect[];
+      effectsList.forEach(choice => {
+        if (!choice.description) {
+          choice.description = value;
+        }
+      })
+      skillCustomEffects.patchValue(effectsList);
+    })
   }
 }
