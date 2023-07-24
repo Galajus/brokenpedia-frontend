@@ -754,23 +754,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  prepareModSummaryRow(mod: ModSummary): string {
+  prepareModSummaryRow(summary: ModSummary): string {
     let row;
-    if (mod.mod === PsychoMod.EXTRA_AP) {
-      row = mod.amountDrifs + "x " + mod.mod + ": " + mod.modSum;
+    if (summary.mod === PsychoMod.EXTRA_AP) {
+      row = summary.amountDrifs + "x " + summary.mod + ": " + summary.modSum;
     } else {
-      if (mod.reducedPercent) {
-        row = mod.amountDrifs + "x " + mod.mod + ': <u title="' + mod.reducedPercent + '% sumy efektu -' + mod.reducedValue?.toFixed(2) + '%">' + mod.modSum.toFixed(2) + "%</u>";
+      if (summary.reducedPercent) {
+        row = summary.amountDrifs + "x " + summary.mod + ': <u title="' + summary.reducedPercent + '% sumy efektu -' + summary.reducedValue?.toFixed(2) + '%">' + summary.modSum.toFixed(2) + "%</u>";
       } else {
-        row = mod.amountDrifs + "x " + mod.mod + ": " + mod.modSum.toFixed(2) + "%";
+        row = summary.amountDrifs + "x " + summary.mod + ": " + summary.modSum.toFixed(2) + "%";
       }
 
     }
 
-    if (mod.max) {
-      row = row + " (max: " + mod.max + "%)";
+    if (summary.max) {
+      row = row + " (max: " + summary.max + "%)";
     }
-    row = row + " [" + mod.drifName + "] ";
+    row = row + " [" + summary.drifName + "] ";
     return row;
   }
 
