@@ -69,6 +69,7 @@ import {CategoryUpdateComponent} from './modules/admin/category/category-update/
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
 import { PrivacyPolicyComponent } from './modules/user/privacy-policy/privacy-policy.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -169,7 +170,8 @@ registerLocaleData(localePl, localePlExtra);
         MatExpansionModule,
         MatPaginatorModule,
         NgOptimizedImage,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatTooltipModule
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

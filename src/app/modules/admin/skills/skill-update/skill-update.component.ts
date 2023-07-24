@@ -39,6 +39,8 @@ export class SkillUpdateComponent implements OnInit {
     this.skillForm = this.formBuilder.group({
       id: [null],
       name: [null],
+      requirements: [null],
+      formula: [null],
       level: [null],
       beginLevel: [null],
       minLevel: [null],
@@ -62,6 +64,8 @@ export class SkillUpdateComponent implements OnInit {
     this.skillForm.patchValue({
       id: skill.id,
       name: skill.name,
+      requirements: skill.requirements,
+      formula: skill.formula,
       level: skill.level,
       beginLevel: skill.beginLevel,
       minLevel: skill.minLevel,
@@ -69,8 +73,8 @@ export class SkillUpdateComponent implements OnInit {
       image: skill.image,
       profession: skill.profession,
     });
+    skill.skillBasics.sort((a, b) => a.skillLevel - b.skillLevel);
     skill.skillBasics.forEach(basic => this.addBasic(basic));
-
   }
 
   addBasic(basic: SkillBasic | null) {

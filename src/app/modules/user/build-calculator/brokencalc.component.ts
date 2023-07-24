@@ -2,7 +2,6 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {Skill} from "./model/skill";
 import {SkillCost} from "./model/skillCost";
 import {MatDialog} from "@angular/material/dialog";
-import {InfoDialogComponent} from "./info-dialog/info-dialog.component";
 import {Statistic} from "./model/statistic";
 import {Build} from "./model/build";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -20,6 +19,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BuildLiker} from "./model/buildLiker";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
 import {ProfileDto} from "./model/profileDto";
+import {SkillPsychoEffect} from "./model/skillPsychoEffect";
+import {SkillCustomEffect} from "./model/skillCustomEffect";
+import {PsychoMod} from "../drif-simulator/model/psychoMod";
+import {SkillDifficulty} from "../common/model/skillDifficulty";
 
 @Component({
   selector: 'app-brokencalc',
@@ -277,6 +280,29 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.calculatePoints();
   }
 
+  getRealRequiredLevel(isBasicSkill: boolean, targetSkill: Skill) {
+    let requiredLevel: number;
+    if (isBasicSkill) {
+      if (targetSkill.beginLevel == 35) {
+        //Pack skill
+        requiredLevel = (targetSkill.level * 5) + 35;
+
+      } else {
+        requiredLevel = targetSkill.level + 1;
+      }
+    } else {
+      //Class skills
+      requiredLevel = targetSkill.level + targetSkill.beginLevel;
+    }
+    return requiredLevel;
+  }
+
+  isBasicSkill(skillId: number) {
+    let targetSkill = this.currentClassSkills.find(skill => skill.id == skillId);
+    return targetSkill == null;
+
+  }
+
   updateLevelById(upgrade: boolean, id: number) {
     let isBasicSkill: boolean = false;
     let targetSkill = this.currentClassSkills.find(skill => skill.id == id);
@@ -294,19 +320,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         return;
       }
 
-      let requiredLevel: number;
-      if (isBasicSkill) {
-        if (targetSkill.beginLevel == 35) {
-          //Pack skill
-          requiredLevel = (targetSkill.level * 5) + 35;
-
-        } else {
-          requiredLevel = targetSkill.level + 1;
-        }
-      } else {
-        //Class skills
-        requiredLevel = targetSkill.level + targetSkill.beginLevel;
-      }
+      let requiredLevel = this.getRealRequiredLevel(isBasicSkill, targetSkill);
 
       if (Number.isNaN(requiredLevel)) {
         localStorage.removeItem("build");
@@ -409,14 +423,6 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       return level - 7;
     }
     return level - 14;
-  }
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(InfoDialogComponent, {
-      width: '450px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
   }
 
   private saveSimpleBuild(): SimpleBuild | undefined {
@@ -574,7 +580,28 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     if (level - 1 < 0) {
       level = 1;
     }
-    return this.activeSkill.skillBasics[level - 1];
+    let basic = this.activeSkill.skillBasics.find(basic => basic.skillLevel === level);
+    if (basic) {
+      return basic;
+    }
+
+    return {
+      id: 0,
+      classSkillId: 0,
+      skillLevel: 0,
+      damage: 0,
+      hitChance: 0,
+      manaCost: 0,
+      staminaCost: 0,
+      roundsTime: 0,
+      effectRoundsTime: 0,
+      additionalEffectChance: 0,
+      specialEffectDescription: "-",
+      specialEffectValue: 0,
+      skillDifficulty: "EASY",
+      skillPsychoEffects: [],
+      skillCustomEffects: []
+    };
   }
 
   getLevelString(level: number) {
@@ -708,7 +735,97 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*private loadBuild() {
+  getRequiredWisdomForSkill(skillLevel: number, pa: number, difficulty: string) {
+    switch (difficulty) {
+      case "VERY_EASY": {
+        let req = Math.round((70 + (skillLevel - 1) * 10) / pa - 40 - this.level);
+        return req >= 10 ? req : 10;
+      }
+      case "EASY": {
+        let req = Math.round((105 + (skillLevel - 1) * 15) / pa - 40 - this.level);
+        return req >= 10 ? req : 10;
+      }
+      case "NORMAL": {
+        let req = Math.round((140 + (skillLevel - 1) * 20) / pa - 40 - this.level);
+        return req >= 10 ? req : 10;
+      }
+      case "HARD": {
+        let req = Math.round((210 + (skillLevel - 1) * 30) / pa - 40 - this.level);
+        return req >= 10 ? req : 10;
+      }
+      default: {
+        console.log("NOT FOUND DIFFICULTY");
+        return 99;
+      }
+    }
+  }
+
+  printPsychoEffect(psycho: SkillPsychoEffect) {
+    return PsychoMod[psycho.psychoEffect as keyof typeof PsychoMod] + ": " + this.printPsychoValue(psycho);
+  }
+
+  printCustomEffect(custom: SkillCustomEffect) {
+    return this.printCustomMod(custom.description) + " " + this.printCustomValue(custom);
+  }
+
+  printCustomMod(mod: string) {
+    if (!mod.includes(":")) {
+      return mod + ":";
+    }
+    return mod;
+  }
+
+  printDifficulty(difficulty: string) {
+    return SkillDifficulty[difficulty as keyof typeof SkillDifficulty];
+  }
+
+  printPsychoValue(effect: SkillPsychoEffect) {
+    if (notPercentEffects.filter(n => effect.psychoEffect === n).length > 0) {
+      return effect.value;
+    }
+    return effect.value + "%";
+  }
+
+  printCustomValue(effect: SkillCustomEffect) {
+    if (notPercentEffects.filter(n => effect.description === n).length > 0) {
+      return effect.value;
+    }
+    return effect.value + "%";
+  }
+
+  protected readonly PsychoMod = PsychoMod;
+}
+
+const notPercentEffects = [
+  "Odporności fizyczne",
+  "Odporność na obrażenia od magii",
+  "Redukuje poziom efektu o",
+  "Maksymalna ilość petów",
+  "Suma rang",
+  "Odporność na ogień",
+  "Odporność na zimno",
+  "Odporność na uroki",
+  "Odporność na obuchowe",
+  "Odporność na kłute",
+  "Odporność na sieczne",
+  "Odporność na ogień: poziom postaci * ",
+  "Odporność na urok: poziom postaci * ",
+  "Liczba odbić",
+  "Odporności fizyczne",
+  "Zużycie many co rundę",
+  "Ilość uników",
+  "Ilość bloków",
+  "Redukcja bazowej wiedzy do",
+  "Redukcja bazowych PŻ do",
+  "Siła odczarowania",
+  "Redukcja obrażeń many",
+
+  "EXTRA_AP",
+
+  ]
+
+
+/*private loadBuild() {
     let data = localStorage.getItem('build');
     if (data == null) {
       this.rewriteCurrentClassSkills(this.bbClassSkills);
@@ -735,29 +852,27 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.rewriteCurrentClassSkills(this.bbClassSkills);
   }*/
 
-  /*private saveBuild() {
-    if (this.technicalRefresh) {
-      return;
-    }
-    if (this.build != null &&
-      this.build.currentStatistics &&
-      this.build.currentBasicSkills &&
-      this.build.currentClassSkills &&
-      this.build.currentStatistics.length != 0 &&
-      this.build.currentBasicSkills.length != 0 &&
-      this.build.currentClassSkills.length != 0 &&
-      this.build.currentClass) {
-      return;
-    }
+/*private saveBuild() {
+  if (this.technicalRefresh) {
+    return;
+  }
+  if (this.build != null &&
+    this.build.currentStatistics &&
+    this.build.currentBasicSkills &&
+    this.build.currentClassSkills &&
+    this.build.currentStatistics.length != 0 &&
+    this.build.currentBasicSkills.length != 0 &&
+    this.build.currentClassSkills.length != 0 &&
+    this.build.currentClass) {
+    return;
+  }
 
-    this.build.level = this.level;
-    this.build.currentClass = this.newClass;
-    this.build.currentClassSkills = this.currentClassSkills;
-    this.build.currentBasicSkills = this.currentBasicSkills;
-    this.build.currentStatistics = this.currentStats;
-    localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {
-      return value
-    }));
-  }*/
-
-}
+  this.build.level = this.level;
+  this.build.currentClass = this.newClass;
+  this.build.currentClassSkills = this.currentClassSkills;
+  this.build.currentBasicSkills = this.currentBasicSkills;
+  this.build.currentStatistics = this.currentStats;
+  localStorage.setItem("build", JSON.stringify(this.build, function replacer(key, value) {
+    return value
+  }));
+}*/

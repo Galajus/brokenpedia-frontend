@@ -4,7 +4,7 @@
 
   <mat-tab label="Build">
     <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
-      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
         <mat-card-content>
           <h2>Buildu nie znaleziono bądź jest prywatny</h2>
         </mat-card-content>
@@ -25,7 +25,7 @@
       <div>
         <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
           <div fxFlex="65">
-            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
               <mat-card-content>
                 <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
                   <div fxLayout="column" fxLayoutGap="5">
@@ -63,7 +63,7 @@
 
           </div>
           <div fxFlex="35">
-            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
               <mat-card-content>
                 <div>
                   <div *ngIf="!databaseBuild" fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
@@ -83,7 +83,7 @@
       </div>
 
       <div>
-        <mat-card class="mat-elevation-z6">
+        <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
           <mat-card-content>
             <div>
               <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
@@ -108,7 +108,7 @@
       </div>
 
       <div>
-        <mat-card class="mat-elevation-z6">
+        <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
           <mat-card-content>
             <div>
               <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
@@ -131,8 +131,8 @@
         </mat-card>
       </div>
 
-      <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10" style="height: 300px">
-        <mat-card fxFlex="70" class="mat-elevation-z6" fxLayoutAlign="center center">
+      <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10" style="height: 335px">
+        <mat-card fxFlex="70" class="mat-elevation-z6" fxLayoutAlign="center center" style="padding: 8px">
           <mat-card-content>
             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
               <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
@@ -148,29 +148,42 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <mat-card fxFlex class="mat-elevation-z6">
+        <mat-card fxFlex class="mat-elevation-z6" style="padding: 8px">
           <mat-card-content>
             <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-              <h4><strong>{{activeSkill.name}}</strong></h4>
+              <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
+                <h4><strong>{{activeSkill.name}}</strong></h4>
+                <h6>Minimalny lvl postaci: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}</h6>
+                <h5 *ngIf="activeSkill.requirements">Wymagania: {{activeSkill.requirements}}</h5>
+                <h5 *ngIf="activeSkill.formula">Wzór: {{activeSkill.formula}}</h5>
+              </div>
               <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">Poziom: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
               <div *ngIf="activeSkill.level != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">Obrażenia: {{getActiveSkillBasic(activeSkill.level).damage}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">Szansa trafienia: {{getActiveSkillBasic(activeSkill.level).hitChance}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">Obrażenia: {{getActiveSkillBasic(activeSkill.level).damage}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">Szansa trafienia: {{getActiveSkillBasic(activeSkill.level).hitChance}}%</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">Mana: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">Kondycja: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">Szansa na dodatkowy efekt: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{getActiveSkillBasic(activeSkill.level).specialEffectDescription}}: {{getActiveSkillBasic(activeSkill.level).specialEffectValue}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty">Trudność: {{getActiveSkillBasic(activeSkill.level).skillDifficulty}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{getActiveSkillBasic(activeSkill.level).specialEffectDescription}}: {{getActiveSkillBasic(activeSkill.level).specialEffectValue}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty"
+                    matTooltip="
+                                1PA = {{getRequiredWisdomForSkill(activeSkill.level, 1, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                                2PA = {{getRequiredWisdomForSkill(activeSkill.level, 2, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                                3PA = {{getRequiredWisdomForSkill(activeSkill.level, 3, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                    ">
+                  Trudność: {{printDifficulty(getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                </h5>
               </div>
               <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
                    *ngIf="activeSkill?.level != 0 &&
                   (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
-                  getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0)">
+                  getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0 ||
+                  getActiveSkillBasic(activeSkill.level).effectRoundsTime)">
                 <h5>Efekt:</h5>
-                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{psycho.psychoEffect + ": " + psycho.value}}%</h5>
-                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{psycho.description + ": " + psycho.value}}%</h5>
-                <h5>Rundy: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
+                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{printPsychoEffect(psycho)}}</h5>
+                <h5 *ngFor="let custom of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{printCustomEffect(custom)}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).effectRoundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
               </div>
             </div>
           </mat-card-content>
@@ -183,7 +196,7 @@
 
   <mat-tab label="Opis">
     <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
-      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
         <mat-card-content>
           <h2>Buildu nie znaleziono bądź jest prywatny</h2>
         </mat-card-content>
@@ -231,7 +244,7 @@
       </mat-card>
     </div>
     <div *ngIf="databaseBuild && !buildNotFound && databaseBuild?.profile?.uuid !== jwtService.getUuid()" style="padding-bottom: 10px">
-      <mat-card class="mat-elevation-z6" style="min-width: 800px">
+      <mat-card class="mat-elevation-z6">
         <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
           <h1>{{buildName}}</h1>
           <mat-divider></mat-divider>
