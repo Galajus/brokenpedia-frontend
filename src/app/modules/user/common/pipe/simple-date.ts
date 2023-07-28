@@ -29,9 +29,13 @@ export class SimpleDate implements PipeTransform {
     if (date1.getMinutes() < 10) {
       minutes = "0" + date1.getMinutes();
     }
+    let hours = date1.getHours() + 2;
+    if (hours === 24) {
+      hours = 0;
+    }
 
     //TODO TIMEZONE OF USER
 
-    return day + "." + month + "." + date1.getFullYear() + " " + (date1.getHours() + 2) + ":" + minutes;
+    return day + "." + month + "." + date1.getFullYear() + " " + hours + ":" + minutes;
   }
 }

@@ -152,8 +152,10 @@
           <mat-card-content>
             <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
               <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-                <h4><strong>{{activeSkill.name}}</strong></h4>
-                <h6>Minimalny lvl postaci: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}</h6>
+                <div>
+                  <h4 style="display: inline"><strong>{{activeSkill.name}}</strong></h4>
+                  <h5 style="display: inline"> (lvl: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}+)</h5>
+                </div>
                 <h5 *ngIf="activeSkill.requirements">Wymagania: {{activeSkill.requirements}}</h5>
                 <h5 *ngIf="activeSkill.formula">Wzór: {{activeSkill.formula}}</h5>
               </div>
@@ -165,7 +167,7 @@
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">Kondycja: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">Szansa na dodatkowy efekt: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{getActiveSkillBasic(activeSkill.level).specialEffectDescription}}: {{getActiveSkillBasic(activeSkill.level).specialEffectValue}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{printSpecialEffect(getActiveSkillBasic(activeSkill.level))}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty"
                     matTooltip="
                                 1PA = {{getRequiredWisdomForSkill(activeSkill.level, 1, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}

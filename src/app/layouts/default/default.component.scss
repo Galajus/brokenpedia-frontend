@@ -96,6 +96,25 @@ mat-sidenav {
   height: 160px !important;
 }
 
+
 .relax {
-  position: fixed;
+  width: 305px;
+  height: 650px;
+  pointer-events: none;
+}
+
+.relaxed {
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 305px;
+  height: 650px;
+  position: fixed !important;
+}
+
+.above {
+  margin-top: -20px;
+}
+
+p.shadowed {
+  color: rgba(255, 255, 255, 0.65);
 }

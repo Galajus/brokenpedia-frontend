@@ -760,6 +760,13 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     }
   }
 
+  printSpecialEffect(basic: SkillBasic) {
+    if (basic.specialEffectDescription === "Siła odczarowania") {
+      return basic.specialEffectDescription + ": " + basic.specialEffectValue;
+    }
+    return basic.specialEffectDescription + ": " + basic.specialEffectValue + "%";
+1  }
+
   printPsychoEffect(psycho: SkillPsychoEffect) {
     return PsychoMod[psycho.psychoEffect as keyof typeof PsychoMod] + ": " + this.printPsychoValue(psycho);
   }

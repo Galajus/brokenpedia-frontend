@@ -53,7 +53,7 @@
               </mat-expansion-panel>
             </mat-accordion>
           </mat-nav-list>
-          <mat-nav-list fxLayout="column" fxLayoutAlign="end center">
+          <mat-nav-list fxLayout="column" fxLayoutAlign="end center" style="padding-bottom: 18px">
             <a routerLink="/privacy-policy">&#x2022; Polityka prywatności & cookies</a>
             <p>Made with <mat-icon class="love">favorite</mat-icon> by Galajus</p>
             <p class="own">Grafiki na stronie są własnością <a class="owner" href="https://www.whitemoon.com">Whitemoon.pl</a></p>
@@ -62,39 +62,31 @@
       </mat-sidenav>
 
       <mat-sidenav-content>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
-          <div fxFlex="12">
-            <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
-                    crossorigin="anonymous"></script>
-            &lt;!&ndash; pedia &ndash;&gt;
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-8605997221846310"
-                 data-ad-slot="8943128827"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>-->
+        <div fxLayout="row" fxLayoutAlign="center">
+          <div fxFlex="15">
+
           </div>
 
           <div class="content"> <!--fxFlex fxLayoutAlign="center"-->
             <router-outlet></router-outlet>
           </div>
 
-          <div fxFlex="12">
-            <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
-                    crossorigin="anonymous"></script>
-            &lt;!&ndash; pedia &ndash;&gt;
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-8605997221846310"
-                 data-ad-slot="8943128827"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>-->
+          <div fxFlex="15" class="relax">
+            <div class="relaxed">
+              <p class="shadowed above">reklama</p>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
+                        crossorigin="anonymous"></script>
+                <!-- pedia sidebars -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8605997221846310"
+                     data-ad-slot="7391443546"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
           </div>
         </div>
       </mat-sidenav-content>
