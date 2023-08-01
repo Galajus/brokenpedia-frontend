@@ -22,6 +22,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   protected readonly Number = Number;
 
   modSummary: ModSummary[] = [];
+  illuminatedMod: string = "";
   activeBuild: string = "temp";
   buildToClone: string = "";
 
@@ -709,18 +710,33 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   getButtonColorClassByDrifCategory(drif: DrifItem): string {
     switch (drif.category) {
       case "REDUCTION": {
+        if (drif.shortName === this.illuminatedMod) {
+          return "reductionDrif illuminate";
+        }
         return "reductionDrif";
       }
       case "DAMAGE": {
+        if (drif.shortName === this.illuminatedMod) {
+          return "damageDrif illuminate";
+        }
         return "damageDrif";
       }
       case "SPECIAL": {
+        if (drif.shortName === this.illuminatedMod) {
+          return "specialDrif illuminate";
+        }
         return "specialDrif";
       }
       case "DEFENCE": {
+        if (drif.shortName === this.illuminatedMod) {
+          return "defenceDrif illuminate";
+        }
         return "defenceDrif";
       }
       case "ACCURACY": {
+        if (drif.shortName === this.illuminatedMod) {
+          return "accuracyDrif illuminate";
+        }
         return "accuracyDrif";
       }
     }
@@ -752,6 +768,14 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (mod) {
       return (<any>PsychoMod)[mod];
     }
+  }
+
+  illuminateHoovered(mod: ModSummary) {
+    this.illuminatedMod = mod.drifName;
+  }
+
+  clearIlluminated() {
+    this.illuminatedMod = "";
   }
 
   prepareModSummaryRow(summary: ModSummary): string {
