@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HomeService} from "./home.service";
 import {Post} from "../../admin/posts/model/post";
 import {Router} from "@angular/router";
+import {MediaMatcher} from "@angular/cdk/layout";
 
 
 @Component({
@@ -11,9 +12,18 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent implements OnInit {
 
+  mobileQuery!: MediaQueryList;
+  private readonly _mobileQueryListener!: () => void;
+
   constructor(
     private homeService: HomeService,
-    private router: Router) { }
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener("mobile", this._mobileQueryListener);
+  }
 
   posts: Post[] | undefined;
 

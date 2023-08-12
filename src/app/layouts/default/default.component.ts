@@ -1,4 +1,13 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
 import {Router} from "@angular/router";
 import {JwtService} from "../../common/service/jwt.service";
@@ -9,74 +18,29 @@ import {FlatTreeControl} from "@angular/cdk/tree";
 import {FlatNode} from "./model/flatNode";
 import {DefaultService} from "./default.service";
 import {Category} from "../../modules/admin/posts/model/category";
-
-const TREE_DATA: PageNode[] = [
-  {
-    name: 'Aktualności',
-    href: ''
-  },
-  {
-    name: 'Kalkulator Buildów',
-    children: [
-      {
-        name: 'Kalkulator',
-        href: '/build-calculator'
-      },
-      {
-        name: 'Lista buildów',
-        href: '/build-list'
-      },
-    ],
-  },
-  {
-    name: 'Kalkulator Psychoexpa',
-    href: '/psycho-calculator'
-  },
-  {
-    name: 'Kalkulator Esencji',
-    href: '/essence-calculator'
-  },
-  {
-    name: 'BrokenHelper bot',
-    href: '/broken-helper'
-  }
-];
+import {AdsenseComponent} from "ng2-adsense";
 
 @Component({
   selector: 'app-default',
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })
-export class DefaultComponent implements OnInit, OnDestroy {
+export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild('bar1') sidebar1!: ElementRef<HTMLElement>;
+  @ViewChild('bar2') sidebar2!: ElementRef<HTMLElement>;
+  @ViewChild(AdsenseComponent) ads!: AdsenseComponent;
+
+  ro!: ResizeObserver;
   mobileQuery!: MediaQueryList;
   sidebarOpened!: string;
-  additionalStyle: string = "";
   isLoggedIn = false;
   isAdmin = false;
   categories!: Array<Category>;
+  hideAds: boolean = false;
+  startAdsWidth: number = 300;
   private readonly _mobileQueryListener!: () => void;
 
-  private _transformer = (node: PageNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeControl = new FlatTreeControl<FlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   constructor(
     private router: Router,
     private jwtService: JwtService,
@@ -84,7 +48,6 @@ export class DefaultComponent implements OnInit, OnDestroy {
     private defaultService: DefaultService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher) {
-    this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener("mobile", this._mobileQueryListener);
@@ -98,6 +61,10 @@ export class DefaultComponent implements OnInit, OnDestroy {
       .subscribe(cats => this.categories = cats);
     this.loginButtonService.subject
       .subscribe(loggedIn => this.isLoggedIn = loggedIn);
+  }
+
+  ngAfterViewInit(): void {
+    this.elementObserver();
   }
 
   ngOnDestroy(): void {
@@ -119,4 +86,21 @@ export class DefaultComponent implements OnInit, OnDestroy {
   navChange($event: boolean) {
     localStorage.setItem("sidebar-opened", String($event));
   }
+
+
+  elementObserver() {
+    this.ro = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        const cr = entry.contentRect;
+        /*console.log(`Element size: ${cr.width.toFixed()}px x ${cr.height.toFixed()}px`);*/
+        this.hideAds = (cr.width < 120 || cr.width < (this.startAdsWidth * 0.85));
+      }
+    });
+
+    this.startAdsWidth = this.sidebar1.nativeElement.clientWidth;
+    this.ro.observe(this.sidebar1.nativeElement);
+    this.ro.observe(this.sidebar2.nativeElement);
+  }
 }
+
+

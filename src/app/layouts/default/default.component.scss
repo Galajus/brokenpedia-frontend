@@ -96,25 +96,38 @@ mat-sidenav {
   height: 160px !important;
 }
 
+.sidebar {
+  max-width: 300px;
+  //overflow: hidden;
+}
 
 .relax {
-  width: 305px;
-  height: 650px;
-  pointer-events: none;
+  padding-top: 10px;
+  width: auto;
+  max-width: 300px;
+  min-height: 650px;
+  position: sticky;
+  top: 0;
+
+  /*background-color: green;
+  border: 2px solid #4CAF50;*/
+}
+
+.leftRelax {
+  margin-left: auto;
+  text-align: end;
 }
 
 .relaxed {
-  top: 50%;
-  transform: translate(0, -50%);
-  width: 305px;
-  height: 650px;
+  /*top: 20%;
+  transform: translate(0, -20%);
+  min-width: 320px;
+  min-height: 650px;
   position: fixed !important;
-}
-
-.above {
-  margin-top: -20px;
+  pointer-events: auto;*/
 }
 
 p.shadowed {
+  margin-bottom: 0;
   color: rgba(255, 255, 255, 0.65);
 }

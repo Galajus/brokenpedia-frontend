@@ -12,7 +12,7 @@
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches">
+      <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [fixedInViewport]="mobileQuery.matches"> <!--[mode]="mobileQuery.matches ? 'over' : 'side'"-->
         <div class="menu-gal" fxLayout="column">
           <mat-nav-list fxFlex>
             <mat-accordion>
@@ -40,6 +40,7 @@
             </mat-accordion>
             <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> Kalkulator Psychoexpa</a>
             <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> Kalkulator odłamków i esencji</a>
+            <a mat-list-item routerLink="/upgrade-simulator"><mat-icon class="sidebar-icon">stars</mat-icon> Symulator ulepszania BETA</a>
             <a mat-list-item routerLink="/drif-simulator"><mat-icon class="sidebar-icon">group_work</mat-icon> Symulator drifów</a>
             <a mat-list-item routerLink="/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>
             <mat-accordion>
@@ -63,29 +64,18 @@
 
       <mat-sidenav-content>
         <div fxLayout="row" fxLayoutAlign="center">
-          <div fxFlex="15">
+          <div *ngIf="!hideAds" fxFlex="17" #bar1 class="sidebar">
 
           </div>
 
-          <div class="content"> <!--fxFlex fxLayoutAlign="center"-->
+          <div class="content restrict-width" [class.is-mobile]="mobileQuery.matches"> <!--fxFlex fxLayoutAlign="center"-->
             <router-outlet></router-outlet>
           </div>
 
-          <div fxFlex="15" class="relax">
-            <div class="relaxed">
-              <p class="shadowed above">reklama</p>
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8605997221846310"
-                        crossorigin="anonymous"></script>
-                <!-- pedia sidebars -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-8605997221846310"
-                     data-ad-slot="7391443546"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+          <div *ngIf="!hideAds" fxFlex="17" #bar2 class="sidebar">
+            <div class="relax">
+              <p class="shadowed">reklama</p>
+              <ng-adsense adFormat="auto" display="block" [fullWidthResponsive]="true" [height]="700"></ng-adsense>
             </div>
           </div>
         </div>

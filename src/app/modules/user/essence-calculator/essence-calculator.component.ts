@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import {ItemToEssences} from "./model/itemToEssences";
 import {ShardsByTier} from "./model/shardsByTier";
-import {ShardsByOrnaments} from "./model/shardsByOrnaments";
 import {SyngPrice} from "./model/syngPrice";
+import {CustomInputService} from "../../../common/service/custom-input.service";
 
 @Component({
   selector: 'app-essence-calculator',
@@ -44,7 +44,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     "price",
   ];
 
-  calculations: ItemToEssences[] = [ //TODO ESENCE COSTS BY RANK AND ORNAMENTS
+  calculations: ItemToEssences[] = [
     {
       rank: "I",
       inhiPrice: 3,
@@ -278,7 +278,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
   essencePrice: number = 0;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private customInputService: CustomInputService //TODO
   ) {
   }
 

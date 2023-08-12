@@ -20,6 +20,11 @@ h2 {
   justify-items: center;
 }
 
+.post-container.is-mobile {
+  width: 100%;
+  grid-template-columns: repeat(1, 1fr);
+}
+
 .post-card {
   display: flex;
   flex-direction: column;

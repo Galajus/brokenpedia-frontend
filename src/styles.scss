@@ -12,7 +12,12 @@ html, body {
 }
 
 .restrict-width {
-  min-width: 900px;
+  width: 1000px;
+}
+
+.restrict-width.is-mobile {
+  min-width: unset;
+  width: 100%;
 }
 
 .test-gal {

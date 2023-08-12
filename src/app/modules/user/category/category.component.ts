@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../../admin/posts/model/post";
 import {CategoryService} from "./category.service";
+import {MediaMatcher} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-category',
@@ -10,10 +11,19 @@ import {CategoryService} from "./category.service";
 })
 export class CategoryComponent implements OnInit {
 
+  mobileQuery!: MediaQueryList;
+  private readonly _mobileQueryListener!: () => void;
+
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener("mobile", this._mobileQueryListener);
+  }
 
   posts: Post[] | undefined;
 

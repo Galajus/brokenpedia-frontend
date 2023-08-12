@@ -2,7 +2,7 @@
   <mat-card *ngIf="posts" class="mat-elevation-z6">
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="center center">
-        <div class="post-container">
+        <div class="post-container" [class.is-mobile]="mobileQuery.matches">
           <mat-card *ngFor="let post of posts" class="mat-elevation-z6 post-card">
             <div class="post-image-container" (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
               <img *ngIf="post.image" mat-card-image ngSrc="API" alt="post image">
