@@ -33,6 +33,9 @@ export class SimpleDate implements PipeTransform {
     if (hours === 24) {
       hours = 0;
     }
+    if (hours === 25) {
+      hours = 1;
+    }
 
     //TODO TIMEZONE OF USER
 
