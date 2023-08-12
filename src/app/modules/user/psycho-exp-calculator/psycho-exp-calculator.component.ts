@@ -77,7 +77,7 @@ export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterVie
     {level: 21, psychoexp: 0, instances: 0, price: 0, time: 0, timeInHours: 0},
   ]
 
-  actualLevel!: string;
+  actualLevel: string = "1";
   cost: number = 0;
   earn: number = 0;
   percent: number = 0;
