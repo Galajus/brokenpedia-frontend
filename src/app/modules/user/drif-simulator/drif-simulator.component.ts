@@ -11,6 +11,8 @@ import {PsychoMod} from "./model/psychoMod";
 import {ModCap} from "./model/modCap";
 import {EpikItem} from "./model/epikItem";
 import {UserRarsWithDrifs} from "./model/userRarsWithDrifs";
+import {CdkDragDrop} from "@angular/cdk/drag-drop";
+import {DragDrifItem} from "./model/dragDrifItem";
 
 @Component({
   selector: 'app-drif-simulator',
@@ -559,15 +561,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     switch (slot) {
       case 1: {
         if (rarWithDrifs.drifItem2?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem3?.psychoMod !== drif.psychoMod) {
-          rarWithDrifs.drifItem1 = {
-            tier: drif.tier,
-            level: drif.level,
-            startPower: drif.startPower,
-            psychoGrowByLevel: drif.psychoGrowByLevel,
-            psychoMod: drif.psychoMod,
-            category: drif.category,
-            shortName: drif.shortName
-          };
+          rarWithDrifs.drifItem1 = this.cloneDrif(drif);
           break;
         }
         console.log("MOD EXIST ON ITEM: " + drif.psychoMod);
@@ -575,15 +569,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       }
       case 2: {
         if (rarWithDrifs.drifItem1?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem3?.psychoMod !== drif.psychoMod) {
-          rarWithDrifs.drifItem2 = {
-            tier: drif.tier,
-            level: drif.level,
-            startPower: drif.startPower,
-            psychoGrowByLevel: drif.psychoGrowByLevel,
-            psychoMod: drif.psychoMod,
-            category: drif.category,
-            shortName: drif.shortName
-          };
+          rarWithDrifs.drifItem2 = this.cloneDrif(drif);
           break;
         }
         console.log("MOD EXIST ON ITEM: " + drif.psychoMod);
@@ -591,21 +577,28 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       }
       case 3: {
         if (rarWithDrifs.drifItem1?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem2?.psychoMod !== drif.psychoMod) {
-          rarWithDrifs.drifItem3 = {
-            tier: drif.tier,
-            level: drif.level,
-            startPower: drif.startPower,
-            psychoGrowByLevel: drif.psychoGrowByLevel,
-            psychoMod: drif.psychoMod,
-            category: drif.category,
-            shortName: drif.shortName
-          };
+          rarWithDrifs.drifItem3 = this.cloneDrif(drif);
           break;
         }
         console.log("MOD EXIST ON ITEM: " + drif.psychoMod);
         break;
       }
     }
+  }
+
+  cloneDrif(drif: DrifItem | null) {
+    if (!drif) {
+      return null;
+    }
+    return {
+      tier: drif.tier,
+      level: drif.level,
+      startPower: drif.startPower,
+      psychoGrowByLevel: drif.psychoGrowByLevel,
+      psychoMod: drif.psychoMod,
+      category: drif.category,
+      shortName: drif.shortName
+    } as DrifItem;
   }
 
   maximiseDrifLevels() {
@@ -868,6 +861,95 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       this.calculateModSummary();
       this.buildToClone = "";
     }
+  }
+
+  drop(event: CdkDragDrop<DragDrifItem[]>) {
+    //console.log(event.container.data[event.currentIndex])
+    //console.log(event.container.data[event.currentIndex])
+    //console.log(event.previousContainer.data[event.previousIndex])
+    if (event.previousContainer === event.container) {
+      this.moveDrifInSameItem(event.previousContainer.data[event.previousIndex], event.currentIndex);
+    } /*else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }*/
+  }
+
+  moveDrifInSameItem(dragDrif: DragDrifItem, to: number) {
+    let activeBuild = this.getActiveBuild();
+    let rar = activeBuild.rarsWithDrifs.find(rar => rar.slot === dragDrif.item);
+    if (!rar) {
+      return;
+    }
+    console.log("FROM: " + dragDrif.fromSlot);
+    console.log("TO: " + to);
+    switch (to) {
+      case 0: {
+        let oldDrif = this.cloneDrif(rar.drifItem1);
+        rar.drifItem1 = this.cloneDrif(dragDrif.drif);
+        this.changeDrifOnItem(rar, oldDrif, dragDrif.fromSlot);
+        break;
+      }
+      case 1: {
+        let oldDrif = this.cloneDrif(rar.drifItem2);
+        rar.drifItem2 = this.cloneDrif(dragDrif.drif);
+        this.changeDrifOnItem(rar, oldDrif, dragDrif.fromSlot);
+        break;
+      }
+      case 2: {
+        let oldDrif = this.cloneDrif(rar.drifItem3);
+        rar.drifItem3 = this.cloneDrif(dragDrif.drif);
+        this.changeDrifOnItem(rar, oldDrif, dragDrif.fromSlot);
+        break;
+      }
+      default: {
+        console.log("error");
+        break;
+      }
+    }
+  }
+
+  changeDrifOnItem(rar: RarWithDrifs, drif: DrifItem | null, slot: number) {
+    switch (slot) {
+      case 0: {
+        rar.drifItem1 = this.cloneDrif(drif);
+        break;
+      }
+      case 1: {
+        rar.drifItem2 = this.cloneDrif(drif);
+        break;
+      }
+      case 2: {
+        rar.drifItem3 = this.cloneDrif(drif);
+        break;
+      }
+      default: break;
+    }
+  }
+
+  getDragDrifItemArray(drif1: DrifItem | null, drif2: DrifItem | null, drif3: DrifItem | null, item: string) {
+    let array: DragDrifItem[] = [
+      {
+        drif: drif1,
+        fromSlot: 0,
+        item: item
+      },
+      {
+        drif: drif2,
+        fromSlot: 1,
+        item: item
+      },
+      {
+        drif: drif3,
+        fromSlot: 2,
+        item: item
+      }
+    ];
+    return array;
   }
 }
 

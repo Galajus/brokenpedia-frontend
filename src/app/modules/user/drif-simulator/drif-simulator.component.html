@@ -15,7 +15,7 @@
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1">
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1"> <!--cdkDropListGroup-->
           <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
             <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
               <img src="assets/equipment/placeholders/{{eq.slot}}.png" alt="{{eq.slot}}">
@@ -105,7 +105,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center">
+              <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center"> <!--cdkDropList [cdkDropListData]="getDragDrifItemArray(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.slot)" (cdkDropListDropped)="drop($event)"-->
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
                         (click)="openDrifDialog('100ms', '100ms', eq, 1)">
