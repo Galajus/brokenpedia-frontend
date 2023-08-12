@@ -70,6 +70,11 @@ import {AdminCategoryComponent} from "./modules/admin/category/admin-category.co
 import { PrivacyPolicyComponent } from './modules/user/privacy-policy/privacy-policy.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import { UpgradeSimulatorComponent } from './modules/user/upgrade-simulator/upgrade-simulator.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {AdsenseModule} from "ng2-adsense";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -138,7 +143,8 @@ registerLocaleData(localePl, localePlExtra);
     AdminCategoryComponent,
     CategoryAddComponent,
     CategoryUpdateComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    UpgradeSimulatorComponent
   ],
     imports: [
         BrowserModule,
@@ -171,7 +177,14 @@ registerLocaleData(localePl, localePlExtra);
         MatPaginatorModule,
         NgOptimizedImage,
         MatProgressSpinnerModule,
-        MatTooltipModule
+        MatTooltipModule,
+        DragDropModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        AdsenseModule.forRoot({
+          adClient: 'ca-pub-8605997221846310',
+          adSlot: 7391443546,
+        }),
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

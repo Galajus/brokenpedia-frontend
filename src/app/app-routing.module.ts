@@ -28,6 +28,7 @@ import {CategoryAddComponent} from "./modules/admin/category/category-add/catego
 import {CategoryUpdateComponent} from "./modules/admin/category/category-update/category-update.component";
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
 import {PrivacyPolicyComponent} from "./modules/user/privacy-policy/privacy-policy.component";
+import {UpgradeSimulatorComponent} from "./modules/user/upgrade-simulator/upgrade-simulator.component";
 
 const routes: Routes = [
 
@@ -43,6 +44,7 @@ const routes: Routes = [
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
       { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
+      { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania" },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
 
       { path: 'post/:slug', component: PostComponent, title: "Post" },

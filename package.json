@@ -25,6 +25,7 @@
     "@kolkov/angular-editor": "^3.0.0-beta.0",
     "cookieconsent": "^3.1.1",
     "jwt-decode": "^3.1.2",
+    "ng2-adsense": "^11.0.0",
     "ngx-cookieconsent": "^4.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

@@ -1,0 +1,18 @@
+.upgrade-menu {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  align-content: center;
+  grid-template-columns: repeat(6, 6fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  justify-items: center;
+}
+
+.upgrade-cart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}

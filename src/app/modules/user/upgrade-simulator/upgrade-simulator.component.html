@@ -1,0 +1,195 @@
+<div class="restrict-width" fxLayout="column" fxLayoutGap="20">
+
+  <!--options-->
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <h3 fxLayoutAlign="center center" style="color: red; font-weight: bold">PRZESADZENIE Z WARTOŚCIAMI CYKLI I/LUB CELU ULEPSZENIA MOŻE ZAWIESIĆ KARTĘ/PRZEGLĄDARKĘ</h3>
+        <div fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center center">
+          <div>
+            <mat-form-field style="width: 60px" color="accent">
+              <mat-label>Ranga przedmiotu</mat-label>
+              <mat-select [(ngModel)]="itemRank">
+                <mat-option [value]=1>I</mat-option>
+                <mat-option [value]=2>II</mat-option>
+                <mat-option [value]=3>III</mat-option>
+                <mat-option [value]=4>IV</mat-option>
+                <mat-option [value]=5>V</mat-option>
+                <mat-option [value]=6>VI</mat-option>
+                <mat-option [value]=7>VII</mat-option>
+                <mat-option [value]=8>VIII</mat-option>
+                <mat-option [value]=9>IX</mat-option>
+                <mat-option [value]=10>X</mat-option>
+                <mat-option [value]=11>XI</mat-option>
+                <mat-option [value]=12>XII</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cel ulepszania" appearance="outline" color="accent">
+              <mat-label>Cel ulepszania</mat-label>
+              <input max="50" (keyup)="kSpace($event, 'targetLevel')" matInput [(ngModel)]="targetLevel" (change)="fillUpgradeChoices()">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Wytrzymałość przedmiotu" appearance="outline" color="accent">
+              <mat-label>Wytrzymałość przedmiotu</mat-label>
+              <input max="60" (keyup)="kSpace($event, 'itemDurability')" matInput [(ngModel)]="itemDurability">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cena platyny za szt." appearance="outline" color="accent">
+              <mat-label>Cena platyny</mat-label>
+              <input max="50000" (keyup)="kSpace($event, 'platinumPrice')" matInput [(ngModel)]="platinumPrice">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cena esencji" appearance="outline" color="accent">
+              <mat-label>Cena esencji</mat-label>
+              <input max="300000" (keyup)="kSpace($event, 'essencePrice')" matInput [(ngModel)]="essencePrice">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cena flaszy" appearance="outline" color="accent">
+              <mat-label>Cena flaszy</mat-label>
+              <input max="1000000" (keyup)="kSpace($event, 'flaskPrice')" matInput [(ngModel)]="flaskPrice">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cena reola" appearance="outline" color="accent">
+              <mat-label>Cena reola</mat-label>
+              <input max="2000000" (keyup)="kSpace($event, 'reolPrice')" matInput [(ngModel)]="reolPrice">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 100px" hintLabel="Cena dvigga" appearance="outline" color="accent">
+              <mat-label>Cena dvigga</mat-label>
+              <input max="2000000" (keyup)="kSpace($event, 'dviggPrice')" matInput [(ngModel)]="dviggPrice">
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!--UPGRADE CHOICES-->
+  <mat-card class="mat-elevation-z6">
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="upgrade-menu">
+          <mat-card *ngFor="let choice of userUpgradeChoices; let i = index" class="mat-elevation-z6 upgrade-card">
+              <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="6">
+                <div>Na +{{choice.level}}</div>
+                <div>
+                  <label>Użyj Esencji: </label>
+                  <mat-checkbox [(ngModel)]="choice.useEssence" (change)="pushToOthers($event, 'essence', i)"></mat-checkbox>
+                </div>
+                <div>
+                  <label>Użyj Reola: </label>
+                  <mat-checkbox [(ngModel)]="choice.useReol" (change)="pushToOthers($event, 'reol', i)"></mat-checkbox>
+                </div>
+                <div>
+                  <label>Użyj Dvigga: </label>
+                  <mat-checkbox [(ngModel)]="choice.useDvigg" (change)="pushToOthers($event, 'dvigg', i)"></mat-checkbox>
+                </div>
+              </div>
+          </mat-card>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 20px" fxLayoutGap="20">
+        <div>
+          <mat-form-field style="width: 140px" hintLabel="Ile razy zasymulować wbicie ulepy" appearance="outline" color="accent">
+            <mat-label>Ilość cykli</mat-label>
+            <input max="10000000" (keyup)="kSpace($event, 'rollsAmount')" matInput [(ngModel)]="rollsAmount" >
+          </mat-form-field>
+        </div>
+        <!--<div>
+          <mat-form-field style="width: 140px" hintLabel="Maksymalny koszt który chcesz ponieść" appearance="outline" color="accent">
+            <mat-label>Max koszt</mat-label>
+            <input max="1000000" type="number" matInput [(ngModel)]="maxCosts">
+          </mat-form-field>
+        </div>-->
+        <div>
+          <div>
+            <mat-slide-toggle [(ngModel)]="continueIngredients">Kontynuuj składniki</mat-slide-toggle>
+          </div>
+          <div>
+            <mat-slide-toggle [(ngModel)]="cumulateRolls">Kumuluj cykle</mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 20px">
+        <div *ngIf="!isWorking">
+          <button mat-raised-button color="accent" (click)="initUpgrade()">
+            SYMULUJ
+          </button>
+        </div>
+        <div *ngIf="isWorking" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="6">
+          <mat-progress-spinner
+            diameter="36"
+            color="accent"
+
+            value="{{workerStage}}">
+          </mat-progress-spinner>
+          <div>{{workerStage}}%</div>
+          <button mat-stroked-button color="warn" (click)="stopSimulation()">ZATRZYMAJ</button>
+        </div>
+        <div *ngIf="workError">
+          <h1 style="color: red">BŁĄD PRACY - ZGŁOŚ TO GALAJUSOWI!</h1>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!--RESULT-->
+  <div *ngIf="averageResult && worstResult && bestResult" fxLayout="column">
+    <mat-card fxFlex class="mat-elevation-z6" fxLayoutAlign="center center">
+      <mat-card-content>
+        Łącznie cykli: {{rollSum}}
+      </mat-card-content>
+    </mat-card>
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20" style="padding-top: 20px">
+      <mat-card fxFlex class="mat-elevation-z6">
+        <mat-card-content>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <h3>ŚREDNI WYNIK: {{(averageResult.costSum / 1000000).toFixed(3)}}kk</h3>
+            <p>Zakręceń zegarem: {{averageResult.clockRollsFlasksAndInhibitors}} ({{(averageResult.clockRollsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych inhibitorów: {{averageResult.clockRollsFlasksAndInhibitors}} ({{(averageResult.inhiCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych flaszek: {{averageResult.clockRollsFlasksAndInhibitors}} ({{(averageResult.flaskCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Esencji: {{averageResult.usedEssences}} ({{(averageResult.essencesCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Reoli: {{averageResult.usedReols}} ({{(averageResult.reolsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Dviggów: {{averageResult.usedDviggs}} ({{(averageResult.dviggsCost / 1000000).toFixed(3)}}kk)</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card fxFlex class="mat-elevation-z6">
+        <mat-card-content>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <h3>NAJLEPSZY WYNIK: {{(bestResult.costSum / 1000000).toFixed(3)}}kk</h3>
+            <p>Zakręceń zegarem: {{bestResult.clockRollsFlasksAndInhibitors}} ({{(bestResult.clockRollsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych inhibitorów: {{bestResult.clockRollsFlasksAndInhibitors}} ({{(bestResult.inhiCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych flaszek: {{bestResult.clockRollsFlasksAndInhibitors}} ({{(bestResult.flaskCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Esencji: {{bestResult.usedEssences}} ({{(bestResult.essencesCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Reoli: {{bestResult.usedReols}} ({{(bestResult.reolsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Dviggów: {{bestResult.usedDviggs}} ({{(bestResult.dviggsCost / 1000000).toFixed(3)}}kk)</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card fxFlex class="mat-elevation-z6">
+        <mat-card-content>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <h3>NAJGORSZY WYNIK: {{(worstResult.costSum / 1000000).toFixed(3)}}kk</h3>
+            <p>Zakręceń zegarem: {{worstResult.clockRollsFlasksAndInhibitors}} ({{(worstResult.clockRollsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych inhibitorów: {{worstResult.clockRollsFlasksAndInhibitors}} ({{(worstResult.inhiCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych flaszek: {{worstResult.clockRollsFlasksAndInhibitors}} ({{(worstResult.flaskCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Esencji: {{worstResult.usedEssences}} ({{(worstResult.essencesCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Reoli: {{worstResult.usedReols}} ({{(worstResult.reolsCost / 1000000).toFixed(3)}}kk)</p>
+            <p>Użytych Dviggów: {{worstResult.usedDviggs}} ({{(worstResult.dviggsCost / 1000000).toFixed(3)}}kk)</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</div>
