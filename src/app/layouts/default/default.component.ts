@@ -1,20 +1,8 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
 import {Router} from "@angular/router";
 import {JwtService} from "../../common/service/jwt.service";
 import {LoginButtonService} from "../../common/service/login-button.service";
-import {PageNode} from "./model/pageNode";
-import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
-import {FlatTreeControl} from "@angular/cdk/tree";
 import {FlatNode} from "./model/flatNode";
 import {DefaultService} from "./default.service";
 import {Category} from "../../modules/admin/posts/model/category";

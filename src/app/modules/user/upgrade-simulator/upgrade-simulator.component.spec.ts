@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UpgradeSimulatorComponent } from './upgrade-simulator.component';
+import {UpgradeSimulatorComponent} from './upgrade-simulator.component';
 
 describe('UpgradeSimulatorComponent', () => {
   let component: UpgradeSimulatorComponent;
