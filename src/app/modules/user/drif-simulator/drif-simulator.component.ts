@@ -739,19 +739,25 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   getModSummaryByCategory(modSummary: ModSummary[], category: string) {
     switch (category) {
       case "REDUCTION": {
-        return modSummary.filter(sum => sum.category === "REDUCTION");
+        return modSummary
+          .filter(sum => sum.category === "REDUCTION")
+          .sort((a, b) => a.mod.localeCompare(b.mod));
       }
       case "DAMAGE": {
-        return modSummary.filter(sum => sum.category === "DAMAGE");
+        return modSummary.filter(sum => sum.category === "DAMAGE")
+          .sort((a, b) => a.mod.localeCompare(b.mod));
       }
       case "SPECIAL": {
-        return modSummary.filter(sum => sum.category === "SPECIAL");
+        return modSummary.filter(sum => sum.category === "SPECIAL")
+          .sort((a, b) => a.mod.localeCompare(b.mod));
       }
       case "DEFENCE": {
-        return modSummary.filter(sum => sum.category === "DEFENCE");
+        return modSummary.filter(sum => sum.category === "DEFENCE")
+          .sort((a, b) => a.mod.localeCompare(b.mod));
       }
       case "ACCURACY": {
-        return modSummary.filter(sum => sum.category === "ACCURACY");
+        return modSummary.filter(sum => sum.category === "ACCURACY")
+          .sort((a, b) => a.mod.localeCompare(b.mod));
       }
     }
     return null;
