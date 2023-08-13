@@ -1,5 +1,5 @@
 <div class="content-card">
-  <mat-card class="mat-elevation-z6 make-space" *ngIf="singlePost">
+  <mat-card *ngIf="singlePost" class="mat-elevation-z6 make-space">
     <mat-card-content>
       <div class="presentation" fxLayoutAlign="center center">
         <img *ngIf="singlePost.image" ngSrc="API" alt="post image" fxLayoutAlign="center center">
@@ -12,7 +12,6 @@
           <h1>{{singlePost.title}}</h1>
         </div>
 
-
         <div>
           <div fxLayoutAlign="end center">
             <strong style="margin-right: 4px">{{singlePost.author.nickname}}</strong> {{singlePost.creationDate | simpleDate}}
@@ -24,13 +23,26 @@
             <mat-icon style="margin-right: 6px">remove_red_eye</mat-icon> {{singlePost.views}}
           </div>
         </div>
-
       </div>
 
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="mat-elevation-z6">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="make-space" *ngIf="singlePost">
+    <mat-card class="mat-elevation-z6" style="padding: 4px">
+      <mat-card-content fxLayoutAlign="center center">
+        <button *ngIf="singlePost.previousPostSlug" mat-stroked-button color="warn" style="padding: 0 6px" (click)="changePost(singlePost.previousPostSlug)"> <mat-icon>navigate_before</mat-icon> Poprzedni post</button>
+        <button *ngIf="!singlePost.previousPostSlug" mat-stroked-button disabled style="padding: 0 6px"> <mat-icon>close</mat-icon> To ostatni post</button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="mat-elevation-z6" style="padding: 4px" *ngIf="singlePost.nextPostSlug">
+      <mat-card-content fxLayoutAlign="center center">
+        <button mat-stroked-button color="accent" style="padding: 0 6px" (click)="changePost(singlePost.nextPostSlug)"> Następny post <mat-icon>navigate_next</mat-icon> </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="mat-elevation-z6 make-space">
     <mat-card-content *ngIf="singlePost">
 
       <div [innerHTML]="singlePost.content | noSanitize" class="post-content"></div>
@@ -51,5 +63,19 @@
 
     </mat-card-content>
   </mat-card>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="make-space" *ngIf="singlePost">
+    <mat-card class="mat-elevation-z6" style="padding: 4px">
+      <mat-card-content fxLayoutAlign="center center">
+        <button *ngIf="singlePost.previousPostSlug" mat-stroked-button color="warn" style="padding: 0 6px" (click)="changePost(singlePost.previousPostSlug)"> <mat-icon>navigate_before</mat-icon> Poprzedni post</button>
+        <button *ngIf="!singlePost.previousPostSlug" mat-stroked-button disabled style="padding: 0 6px"> <mat-icon>close</mat-icon> To ostatni post</button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="mat-elevation-z6" style="padding: 4px" *ngIf="singlePost.nextPostSlug">
+      <mat-card-content fxLayoutAlign="center center">
+        <button mat-stroked-button color="accent" style="padding: 0 6px" (click)="changePost(singlePost.nextPostSlug)"> Następny post <mat-icon>navigate_next</mat-icon> </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 

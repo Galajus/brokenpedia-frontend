@@ -12,5 +12,7 @@ export interface SinglePost {
   description: string,
   content: string,
   views: number,
-  image: string
+  image: string,
+  nextPostSlug: string,
+  previousPostSlug: string
 }
