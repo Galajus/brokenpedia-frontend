@@ -11,5 +11,6 @@ export interface SinglePost {
   title: string,
   description: string,
   content: string,
+  views: number,
   image: string
 }
