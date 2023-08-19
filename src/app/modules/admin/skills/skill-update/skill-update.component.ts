@@ -21,7 +21,7 @@ export class SkillUpdateComponent implements OnInit {
   psychoEffects: string[] = [];
   difficulties: string[] = [];
   constructor(
-    private router: ActivatedRoute,
+    private route: ActivatedRoute,
     private skillsService: SkillsService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
@@ -52,7 +52,7 @@ export class SkillUpdateComponent implements OnInit {
   }
 
   getSkill() {
-    let id = Number(this.router.snapshot.params['id']);
+    let id = Number(this.route.snapshot.params['id']);
     this.skillsService.getSkill(id)
       .subscribe(skill => {
         this.skill = skill;
