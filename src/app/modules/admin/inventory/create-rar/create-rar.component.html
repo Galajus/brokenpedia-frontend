@@ -1,0 +1,141 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+        <mat-label>DATA</mat-label>
+        <textarea fxFill matInput rows="12" (change)="read()" [(ngModel)]="textToRead" placeholder="item data"></textarea>
+        <button mat-raised-button color="primary" (click)="read()">CZYTAJ</button>
+        <button mat-raised-button color="accent" (click)="save()">ZAPISZ</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div [formGroup]="itemForm" fxLayout="column" fxLayoutGap="10">
+    <h1>BASIC DATA</h1>
+    <div fxLayout="row" fxLayoutGap="5">
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>type</mat-label>
+        <input matInput formControlName="type">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>weight</mat-label>
+        <input matInput formControlName="weight">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>rank</mat-label>
+        <input matInput formControlName="rank">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>capacity</mat-label>
+        <input matInput formControlName="capacity">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>value</mat-label>
+        <input matInput formControlName="value">
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>droppingMonsters</mat-label>
+      <mat-select formControlName="droppingMonsters" multiple>
+        <mat-option *ngFor="let monster of monsters" [value]="monster">{{monster.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <h1>REQUIREMENTS</h1>
+    <div fxLayout="row" fxLayoutGap="5">
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>requiredLevel</mat-label>
+        <input matInput formControlName="requiredLevel">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>requiredStrength</mat-label>
+        <input matInput formControlName="requiredStrength">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>requiredDexterity</mat-label>
+        <input matInput formControlName="requiredDexterity">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>requiredPower</mat-label>
+        <input matInput formControlName="requiredPower">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>requiredKnowledge</mat-label>
+        <input matInput formControlName="requiredKnowledge">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>damage</mat-label>
+        <input matInput formControlName="damage">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>damageType</mat-label>
+        <input matInput formControlName="damageType">
+      </mat-form-field>
+    </div>
+    <h1>STATS BONUSES</h1>
+    <div fxLayout="row" fxLayoutGap="5">
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>strength</mat-label>
+        <input matInput formControlName="strength">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>dexterity</mat-label>
+        <input matInput formControlName="dexterity">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>power</mat-label>
+        <input matInput formControlName="power">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>knowledge</mat-label>
+        <input matInput formControlName="knowledge">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>health</mat-label>
+        <input matInput formControlName="health">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>mana</mat-label>
+        <input matInput formControlName="mana">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>stamina</mat-label>
+        <input matInput formControlName="stamina">
+      </mat-form-field>
+    </div>
+    <h1>RESISTS BONUSES</h1>
+    <div fxLayout="row" fxLayoutGap="5">
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>armorSlashing</mat-label>
+        <input matInput formControlName="armorSlashing">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>armorCrushing</mat-label>
+        <input matInput formControlName="armorCrushing">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>armorPiercing</mat-label>
+        <input matInput formControlName="armorPiercing">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>mentalResistance</mat-label>
+        <input matInput formControlName="mentalResistance">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>fireResistance</mat-label>
+        <input matInput formControlName="fireResistance">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>energyResistance</mat-label>
+        <input matInput formControlName="energyResistance">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+        <mat-label>coldResistance</mat-label>
+        <input matInput formControlName="coldResistance">
+      </mat-form-field>
+    </div>
+  </div>
+</div>

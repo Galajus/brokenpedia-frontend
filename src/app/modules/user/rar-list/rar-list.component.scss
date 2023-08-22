@@ -1,0 +1,80 @@
+.rar-container {
+  width: 100%;
+  display: grid;
+  align-items: start;
+  align-content: start;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  justify-items: center;
+}
+
+.rar-container h3 {
+  text-align: center;
+  margin: 0;
+}
+
+.cropped-classic {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.cropped-img-classic {
+  margin: 105px 0 0 0;
+}
+
+.classic-rar-name {
+  color: #00ccff;
+}
+
+.cropped-modern {
+  width: 100px;
+  height: 85px;
+  overflow: hidden;
+}
+
+.cropped-img-modern {
+  margin: 0;
+}
+
+.modern-rar-name {
+  font-size: 14px;
+  color: #00ccff;
+}
+
+.modern-rar-rank {
+  font-size: 14px;
+  color: #b9b9b9;
+}
+
+.classic-boss-name {
+  color: #32d500;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.modern-ul {
+  font-size: 12.5px;
+}
+
+.modern-ul li {
+  padding-bottom: 1px;
+}
+
+ul {
+  padding: 0;
+  margin: 0 0 0 10px;
+}
+
+li {
+  padding-bottom: 3px;
+}
+
+.below-zero {
+  color: red;
+}
+
+mat-slider {
+  width: 200px;
+}

@@ -1,0 +1,41 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content>
+      <h1>PRZEDMIOTY</h1>
+
+      <button mat-raised-button color="accent" [routerLink]="['/admin/inventory/add']">DODAJ PRZEDMIOT</button>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFill>
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Akcje</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [routerLink]="['/admin/inventory/update/', element.id]">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteItem(element.id)">
+              <mat-icon style="color: red">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+

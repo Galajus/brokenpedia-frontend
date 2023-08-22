@@ -1,0 +1,230 @@
+<div class="restrict-width" fxLayout="column" fxLayoutGap="20">
+  <mat-card class="mat-elevation-z6 make-space">
+    <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
+
+      <!--OPTIONS PANEL-->
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-slide-toggle [(ngModel)]="modernView"></mat-slide-toggle>
+            <div>
+              Modern view
+            </div>
+          </div>
+          <div>
+            <mat-form-field style="width: 110px" hintLabel="Minimalny lvl" appearance="outline" color="accent">
+              <mat-label>Min lvl</mat-label>
+              <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field style="width: 110px" hintLabel="Maksymalny lvl" appearance="outline" color="accent">
+              <mat-label>Max lvl</mat-label>
+              <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
+            </mat-form-field>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="start">
+            <mat-slide-toggle [(ngModel)]="searchPhysicalItems" (change)="doFilter()">Pokaż magiczne</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="searchMagicItems" (change)="doFilter()">Pokaż fizyczne</mat-slide-toggle>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
+          <mat-form-field style="width: 200px" hintLabel="Wpisz nazwę bossa lub przedmiotu" appearance="outline" color="accent">
+            <mat-label>Szukaj przedmiotu / bossa</mat-label>
+            <input matInput [(ngModel)]="searchValue" (input)="doFilter()">
+          </mat-form-field>
+          <!--<mat-form-field style="width: 120px" hintLabel="Rodzaj przedmiotu" appearance="outline" color="accent">
+            <mat-label>Rodzaj</mat-label>
+            <mat-select [(ngModel)]="searchItemType" (selectionChange)="doFilter()">
+              <mat-option>Odznacz</mat-option>
+              <div *ngFor="let type of getItemTypeKeyArray()">
+                <mat-option [value]="type">{{getItemTypeValueByKey(type)}}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>-->
+          <mat-form-field style="width: 200px" hintLabel="Typ przedmiotu" appearance="outline" color="accent">
+            <mat-label>Typ</mat-label>
+            <mat-select [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple>
+              <div *ngFor="let type of getItemTypeKeyArray()">
+                <mat-option [value]="type">{{getItemTypeValueByKey(type)}}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="width: 200px" hintLabel="Ranga przedmiotu" appearance="outline" color="accent">
+            <mat-label>Ranga</mat-label>
+            <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple>
+              <div *ngFor="let rank of ranks">
+                <mat-option [value]="rank">{{rank}}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        </div>
+
+
+      <!--LOADING MONSTERS-->
+      <div *ngIf="!monsters" fxLayoutAlign="center">
+        <mat-progress-spinner
+          color="accent"
+          mode="indeterminate"
+          value="1">
+        </mat-progress-spinner>
+      </div>
+
+      <!--LISTING MONSTERS MODERN-->
+      <div *ngIf="monsters && modernView">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15">
+          <mat-list>
+            <div *ngFor="let monster of monsters">
+              <div *ngFor="let rar of monster.legendaryDrops">
+                <mat-list-item class="rar-list" style="height: 150px">
+                  <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
+
+                    <div fxFlex="8" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
+                      <div class="cropped-modern" matTooltip="{{monster.name}}" matTooltipPosition="before">
+                        <img class="cropped-img-modern" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="140" width="140">
+                      </div>
+                    </div>
+
+                    <div fxFlex="8" fxLayoutAlign="center center">
+                      <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
+                    </div>
+
+                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
+                      <div fxLayoutAlign="center center">
+                        <img ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
+                      </div>
+                      <div fxLayout="row" fxLayoutAlign="center center">
+                        <div class="modern-rar-name">
+                          "{{rar.name}}"
+                        </div>
+                        <div class="modern-rar-rank">
+                          [{{convertArabianToRomanNumber(rar.rank)}}]
+                        </div>
+                      </div>
+                      <div fxLayoutAlign="center center">
+                        <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 4" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                      </div>
+                    </div>
+
+                    <!--LEFT 64 fxFlex-->
+                    <div fxFlex="17" fxLayoutAlign="start center">
+                      <ul class="modern-ul">
+                        <li *ngIf="rar.type">Typ: {{ItemType[rar.type]}}</li>
+                        <li *ngIf="rar.weight">Waga: {{rar.weight}}</li>
+                        <li *ngIf="rar.capacity">Pojemność: {{rar.capacity}}</li>
+                        <li *ngIf="rar.value">Wartość: {{rar.value.toLocaleString()}} złota</li>
+                      </ul>
+                    </div>
+                    <div fxFlex="17" fxLayoutAlign="start center">
+                      <ul class="modern-ul">
+                        <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}}</li>
+                        <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
+                        <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
+                        <li *ngIf="rar.requiredPower">Wymagana moc: {{rar.requiredPower}}</li>
+                        <li *ngIf="rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}</li>
+                        <li *ngIf="rar.damage">Obrażenia: {{rar.damage}}</li>
+                        <li *ngIf="rar.damageType">Typ obrażeń: {{DamageType[rar.damageType]}}</li>
+                      </ul>
+                    </div>
+                    <div fxFlex="13" fxLayoutAlign="start center">
+                      <ul class="modern-ul">
+                        <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">Siła: {{getValueString(rar.strength)}}</li>
+                        <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">Zręczność: {{getValueString(rar.dexterity)}}</li>
+                        <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">Moc: {{getValueString(rar.power)}}</li>
+                        <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">Wiedza: {{getValueString(rar.knowledge)}}</li>
+                        <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">PŻ: {{getValueString(rar.health)}}</li>
+                        <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">Mana: {{getValueString(rar.mana)}}</li>
+                        <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">Kondycja: {{getValueString(rar.stamina)}}</li>
+                      </ul>
+                    </div>
+                    <div fxFlex="17" fxLayoutAlign="start center">
+                      <ul class="modern-ul">
+                        <li *ngIf="rar.armorSlashing">Pancerz sieczne: +{{rar.armorSlashing}}</li>
+                        <li *ngIf="rar.armorCrushing">Pancerz obuchowe: +{{rar.armorCrushing}}</li>
+                        <li *ngIf="rar.armorPiercing">Pancerz kłute: +{{rar.armorPiercing}}</li>
+                        <li *ngIf="rar.mentalResistance">Odporność uroki: +{{rar.mentalResistance}}</li>
+                        <li *ngIf="rar.fireResistance">Odporność ogień: +{{rar.fireResistance}}</li>
+                        <li *ngIf="rar.energyResistance">Odporność energia: +{{rar.energyResistance}}</li>
+                        <li *ngIf="rar.coldResistance">Odporność zimno: +{{rar.coldResistance}}</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </div>
+            </div>
+          </mat-list>
+        </div>
+      </div>
+
+      <!--LISTING MONSTERS CLASSIC-->
+      <div *ngIf="monsters && !modernView">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15">
+          <div fxLayout="row" fxLayoutAlign="start" *ngFor="let monster of monsters">
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+              <div class="cropped-classic" fxLayoutAlign="start center">
+                <img class="cropped-img-classic" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="256" width="256">
+              </div>
+              <h2 class="classic-boss-name">{{monster.name}}</h2>
+            </div>
+
+            <div class="rar-container">
+              <div *ngFor="let rar of monster.legendaryDrops">
+                <div>
+                  <div fxLayout="column" fxLayoutAlign="center center">
+                    <div style="height: 30px">
+                      <img ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
+                    </div>
+                    <h3 class="classic-rar-name">"{{rar.name}}"</h3>
+                    <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
+                      <div>
+                        <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
+                      </div>
+                      <div fxLayout="column">
+                        <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 4" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                      </div>
+                    </div>
+                  </div>
+                  <ul>
+                    <li *ngIf="rar.type">Typ: {{ItemType[rar.type]}}</li>
+                    <li *ngIf="rar.weight">Waga: {{rar.weight}}</li>
+                    <li *ngIf="rar.rank">Ranga: {{convertArabianToRomanNumber(rar.rank)}}</li>
+                    <li *ngIf="rar.capacity">Pojemność: {{rar.capacity}}</li>
+                    <li *ngIf="rar.value">Wartość: {{rar.value.toLocaleString()}} złota</li>
+                    <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}}</li>
+                    <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
+                    <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
+                    <li *ngIf="rar.requiredPower">Wymagana moc: {{rar.requiredPower}}</li>
+                    <li *ngIf="rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}</li>
+                    <li *ngIf="rar.damage">Obrażenia: {{rar.damage}}</li>
+                    <li *ngIf="rar.damageType">Typ obrażeń: {{DamageType[rar.damageType]}}</li>
+                    <li *ngIf="rar.strength">Siła: +{{rar.strength}}</li>
+                    <li *ngIf="rar.dexterity">Zręczność: +{{rar.dexterity}}</li>
+                    <li *ngIf="rar.power">Moc: +{{rar.power}}</li>
+                    <li *ngIf="rar.knowledge">Wiedza: +{{rar.knowledge}}</li>
+                    <li *ngIf="rar.health">PŻ: +{{rar.health}}</li>
+                    <li *ngIf="rar.mana">Mana: +{{rar.mana}}</li>
+                    <li *ngIf="rar.stamina">Kondycja: +{{rar.stamina}}</li>
+                    <li *ngIf="rar.armorSlashing">Pancerz sieczne: +{{rar.armorSlashing}}</li>
+                    <li *ngIf="rar.armorCrushing">Pancerz obuchowe: +{{rar.armorCrushing}}</li>
+                    <li *ngIf="rar.armorPiercing">Pancerz kłute: +{{rar.armorPiercing}}</li>
+                    <li *ngIf="rar.mentalResistance">Odporność uroki: +{{rar.mentalResistance}}</li>
+                    <li *ngIf="rar.fireResistance">Odporność ogień: +{{rar.fireResistance}}</li>
+                    <li *ngIf="rar.energyResistance">Odporność energia: +{{rar.energyResistance}}</li>
+                    <li *ngIf="rar.coldResistance">Odporność zimno: +{{rar.coldResistance}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

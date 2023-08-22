@@ -1,0 +1,21 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content fxLayout="column" fxLayoutGap="10">
+      <button mat-raised-button color="accent" (click)="save()">ZAPISZ</button>
+      <div [formGroup]="monsterForm" fxLayout="row" fxLayoutGap="10">
+
+          <mat-form-field appearance="fill" style="width: 170px" color="accent">
+            <mat-label>name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" color="accent">
+            <mat-label>Type</mat-label>
+            <mat-select [(value)]="monsterForm.value.type" formControlName="type">
+              <mat-option *ngFor="let type of monsterTypes" value="{{type}}">{{type}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

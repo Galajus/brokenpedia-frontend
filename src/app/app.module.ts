@@ -75,6 +75,14 @@ import {UpgradeSimulatorComponent} from './modules/user/upgrade-simulator/upgrad
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AdsenseModule} from "ng2-adsense";
+import { InventoryComponent } from './modules/admin/inventory/inventory.component';
+import { UpdateRarComponent } from './modules/admin/inventory/update-rar/update-rar.component';
+import {CreateRarComponent} from "./modules/admin/inventory/create-rar/create-rar.component";
+import { MonsterComponent } from './modules/admin/monster/monster.component';
+import { MonsterAddComponent } from './modules/admin/monster/monster-add/monster-add.component';
+import { MonsterUpdateComponent } from './modules/admin/monster/monster-update/monster-update.component';
+import { RarListComponent } from './modules/user/rar-list/rar-list.component';
+import {MatSliderModule} from "@angular/material/slider";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -144,7 +152,14 @@ registerLocaleData(localePl, localePlExtra);
     CategoryAddComponent,
     CategoryUpdateComponent,
     PrivacyPolicyComponent,
-    UpgradeSimulatorComponent
+    UpgradeSimulatorComponent,
+    InventoryComponent,
+    CreateRarComponent,
+    UpdateRarComponent,
+    MonsterComponent,
+    MonsterAddComponent,
+    MonsterUpdateComponent,
+    RarListComponent
   ],
     imports: [
         BrowserModule,
@@ -182,9 +197,10 @@ registerLocaleData(localePl, localePlExtra);
         MatRadioModule,
         MatCheckboxModule,
         AdsenseModule.forRoot({
-          adClient: 'ca-pub-8605997221846310',
-          adSlot: 7391443546,
+            adClient: 'ca-pub-8605997221846310',
+            adSlot: 7391443546,
         }),
+        MatSliderModule,
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

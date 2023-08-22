@@ -29,6 +29,13 @@ import {CategoryUpdateComponent} from "./modules/admin/category/category-update/
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
 import {PrivacyPolicyComponent} from "./modules/user/privacy-policy/privacy-policy.component";
 import {UpgradeSimulatorComponent} from "./modules/user/upgrade-simulator/upgrade-simulator.component";
+import {InventoryComponent} from "./modules/admin/inventory/inventory.component";
+import {CreateRarComponent} from "./modules/admin/inventory/create-rar/create-rar.component";
+import {UpdateRarComponent} from "./modules/admin/inventory/update-rar/update-rar.component";
+import {MonsterComponent} from "./modules/admin/monster/monster.component";
+import {MonsterAddComponent} from "./modules/admin/monster/monster-add/monster-add.component";
+import {MonsterUpdateComponent} from "./modules/admin/monster/monster-update/monster-update.component";
+import {RarListComponent} from "./modules/user/rar-list/rar-list.component";
 
 const routes: Routes = [
 
@@ -40,6 +47,7 @@ const routes: Routes = [
       { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów" },
       { path: 'build-calculator/builds', component: BuildsListComponent, title: "Lista buildów" },
+      { path: 'items-list', component: RarListComponent, title: "Lista przedmiotów" },
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
@@ -73,6 +81,12 @@ const routes: Routes = [
       { path: 'categories', component: AdminCategoryComponent, title: "Admin categories", canActivate: [AdminAuthorizationGuard] },
       { path: 'categories/add', component: CategoryAddComponent, title: "Admin category create", canActivate: [AdminAuthorizationGuard] },
       { path: 'categories/update/:id', component: CategoryUpdateComponent, title: "Admin category update", canActivate: [AdminAuthorizationGuard] },
+      { path: 'inventory', component: InventoryComponent, title: "Admin inventory", canActivate: [AdminAuthorizationGuard] },
+      { path: 'inventory/add', component: CreateRarComponent, title: "Admin create rar", canActivate: [AdminAuthorizationGuard] },
+      { path: 'inventory/update/:id', component: UpdateRarComponent, title: "Admin update rar", canActivate: [AdminAuthorizationGuard] },
+      { path: 'monster', component: MonsterComponent, title: "Admin monsters", canActivate: [AdminAuthorizationGuard] },
+      { path: 'monster/add', component: MonsterAddComponent, title: "Admin create monsters", canActivate: [AdminAuthorizationGuard] },
+      { path: 'monster/update/:id', component: MonsterUpdateComponent, title: "Admin update monsters", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [
