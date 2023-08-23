@@ -7,9 +7,13 @@
         <mat-label>name</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
-      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+      <mat-form-field style="width: 170px" appearance="fill" color="accent">
         <mat-label>type</mat-label>
-        <input matInput formControlName="type">
+        <mat-select formControlName="type">
+          <div *ngFor="let type of getItemTypeKeyArray(ItemType)">
+            <mat-option [value]="type">{{type}}</mat-option>
+          </div>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill" style="width: 170px" color="accent">
         <mat-label>weight</mat-label>
@@ -60,9 +64,13 @@
         <mat-label>damage</mat-label>
         <input matInput formControlName="damage">
       </mat-form-field>
-      <mat-form-field appearance="fill" style="width: 170px" color="accent">
+      <mat-form-field style="width: 170px" appearance="fill" color="accent">
         <mat-label>damageType</mat-label>
-        <input matInput formControlName="damageType">
+        <mat-select formControlName="damageType">
+          <div *ngFor="let type of getItemTypeKeyArray(DamageType)">
+            <mat-option [value]="type">{{type}}</mat-option>
+          </div>
+        </mat-select>
       </mat-form-field>
     </div>
     <h1>STATS BONUSES</h1>

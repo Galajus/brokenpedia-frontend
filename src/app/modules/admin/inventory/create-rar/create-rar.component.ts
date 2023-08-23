@@ -218,4 +218,20 @@ export class CreateRarComponent implements OnInit {
     }
   }
 
+  getItemTypeKeyArray(enumer: any) {
+    let keys: string[] = [];
+    for (let key in enumer) {
+      if (!this.isUpperCase(key)) {
+        keys.push(key);
+      }
+    }
+    return keys;
+  }
+
+  isUpperCase(s: string): boolean {
+    return s !== s.toUpperCase();
+  }
+
+  protected readonly ItemType = ItemType;
+  protected readonly DamageType = DamageType;
 }

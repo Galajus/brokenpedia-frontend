@@ -5,6 +5,8 @@ import {InventoryService} from "../inventory.service";
 import {ActivatedRoute} from "@angular/router";
 import {Monster} from "../../../../common/model/gameentites/monster";
 import {MonsterService} from "../../monster/monster.service";
+import {ItemType} from "../../../../common/model/items/itemType";
+import {DamageType} from "../../../../common/model/items/damageType";
 
 @Component({
   selector: 'app-update-rar',
@@ -103,4 +105,21 @@ export class UpdateRarComponent implements OnInit {
 
     return !!find;
   }
+
+  getItemTypeKeyArray(enumer: any) {
+    let keys: string[] = [];
+    for (let key in enumer) {
+      if (!this.isUpperCase(key)) {
+        keys.push(key);
+      }
+    }
+    return keys;
+  }
+
+  isUpperCase(s: string): boolean {
+    return s !== s.toUpperCase();
+  }
+
+  protected readonly ItemType = ItemType;
+  protected readonly DamageType = DamageType;
 }
