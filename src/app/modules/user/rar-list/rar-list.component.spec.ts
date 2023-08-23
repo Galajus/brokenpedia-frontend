@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RarListComponent } from './rar-list.component';
+import {RarListComponent} from './rar-list.component';
 
 describe('RarListComponent', () => {
   let component: RarListComponent;
