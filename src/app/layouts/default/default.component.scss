@@ -27,8 +27,8 @@ mat-panel-title {
 }
 
 mat-nav-list a {
-  font-size: 14px !important;
-  height: 32px !important;
+  font-size: 14px;
+  height: 32px;
   font-family: 'Merriweather Sans', sans-serif;
 }
 
@@ -131,3 +131,44 @@ p.shadowed {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.65);
 }
+
+.suggestion-link {
+  margin-top: 50px;
+  text-align: center;
+
+  font-size: 16px !important;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: blur 5s ease-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes blur {
+  0% {
+
+      text-shadow: 0px 0px 10px #fff,
+      0px 0px 3px #fff,
+      0px 0px 3px #fff,
+      0px 0px 4px #fff,
+      0px 0px 4px #fff,
+      0px 0px 5px #fff,
+      0px 0px 5px #fff,
+      0px 0px 6px #fff,
+      0px 0px 6px #fff,
+      0px 0px 7px #fff,
+      0px 0px 7px #7B96B8,
+      0px 0px 7px #7B96B8,
+      0px 10px 8px #7B96B8,
+      0px 10px 8px #7B96B8,
+      0px 10px 8px #bd0101,
+      0px 10px 9px #a90a17,
+      0px -10px 9px #d22d77,
+      0px -10px 10px #881212;
+
+  }
+  12%, 100% {
+    text-shadow: none;
+  }
+}
+

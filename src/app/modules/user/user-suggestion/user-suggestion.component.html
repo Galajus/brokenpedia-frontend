@@ -1,0 +1,63 @@
+<div class="restrict-width" style="padding-bottom: 15px">
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+        <div *ngIf="!success && !error" [formGroup]="suggestionForm" fxLayout="column" fxLayoutGap="10">
+          <h2>Możesz zgłosić sugestię / błąd przez formularz poniżej <br>
+          lub na doscordzie kanału Galajus <a href="https://discord.com/invite/skWSKqe" target="_blank"> <img ngSrc="assets/social/discord.png" height="25" width="33"></a>
+          bądź PW: <b>galajus</b>
+          </h2>
+          <div fxLayout="column" fxLayoutGap="5">
+            <mat-form-field appearance="fill" style="width: 300px" color="accent">
+              <mat-label>Twój nick / pseudonim</mat-label>
+              <input matInput maxlength="18" minlength="3" formControlName="author">
+              <mat-error *ngIf="suggestionForm.controls['author'].hasError">
+                Nick jest wymagany i musi mieć od 3 do 18 znaków
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 300px" appearance="outline" color="accent">
+              <mat-label>Podaj typ zgłoszenia</mat-label>
+              <mat-select formControlName="type">
+                <mat-option [value]="SuggestionType[SuggestionType.IDEA]">{{SuggestionType.IDEA}}</mat-option>
+                <mat-option [value]="SuggestionType[SuggestionType.BUG]">{{SuggestionType.BUG}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="suggestionForm.controls['type'].hasError">
+                Typ zgłoszenia jest wymagany
+              </mat-error>
+            </mat-form-field>
+            <!--<mat-form-field style="width: 800px" appearance="outline" color="accent">
+              <textarea matInput rows="12" formControlName="suggestion" placeholder="Wszystko co pomoże w ulepszeniu pedii! :D"></textarea>
+              <mat-error *ngIf="suggestionForm.controls['suggestion'].hasError">
+                Opis jest wymagany i musi mieć od 15 do 500 znaków
+              </mat-error>
+              <mat-hint align="end">{{suggestionForm.controls['suggestion'].value.length}} / 500</mat-hint>
+            </mat-form-field>-->
+            <!--<mat-form-field style="width: 800px" appearance="outline" color="accent">-->
+            <div style="width: 800px">
+              <angular-editor [config]="editorConfig" formControlName="suggestion"></angular-editor>
+              <mat-error *ngIf="suggestionForm.controls['suggestion'].hasError('minlength')">
+                Opis jest wymagany i musi mieć od 15 do 500 znaków
+              </mat-error>
+            </div>
+
+            <!--<div style="text-align: end">{{description?.toString().length ? description?.toString().length : 0}} / 6000</div>
+          </mat-form-field>-->
+
+          </div>
+          <button mat-raised-button color="accent" style="width: 120px;" [disabled]="sendingSuggestion" (click)="saveSuggestion()">Prześlij</button>
+          <div style="color: red" *ngIf="sendSuggestionError">Wypełnij wszystkie pola!</div>
+        </div>
+        <div *ngIf="success && !error" [formGroup]="suggestionForm" fxLayout="column" fxLayoutGap="10">
+          <h2 style="color: #32d500">
+            Dziękuję za zgłoszenie!<br>
+          </h2>
+        </div>
+        <div *ngIf="!success && error" [formGroup]="suggestionForm" fxLayout="column" fxLayoutGap="10">
+          <h2 style="color: red">
+            Wystąpił błąd podczas przesyłania zgłoszenia :c<br>
+          </h2>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

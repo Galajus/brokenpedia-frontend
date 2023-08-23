@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content>
+      <h1>SUGESTIE</h1>
+
+      <mat-list>
+        <div *ngFor="let sug of suggestions">
+          <mat-list-item style="height: auto; margin: 14px 0">
+            <div fxFlex fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5">
+
+              <div fxFlex="16" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5">
+                {{sug.author}} -> {{sug.type}}
+              </div>
+              <div fxFlex="76" fxLayoutGap="5" class="suggestion-inner" [innerHTML]="sug.suggestion">
+
+              </div>
+              <div fxFlex="8" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
+                <button mat-icon-button (click)="deleteItem(sug.id)">
+                  <mat-icon style="color: red">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+

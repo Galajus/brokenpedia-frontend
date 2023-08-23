@@ -36,6 +36,8 @@ import {MonsterComponent} from "./modules/admin/monster/monster.component";
 import {MonsterAddComponent} from "./modules/admin/monster/monster-add/monster-add.component";
 import {MonsterUpdateComponent} from "./modules/admin/monster/monster-update/monster-update.component";
 import {RarListComponent} from "./modules/user/rar-list/rar-list.component";
+import {SuggestionsComponent} from "./modules/admin/suggestions/suggestions.component";
+import {UserSuggestionComponent} from "./modules/user/user-suggestion/user-suggestion.component";
 
 const routes: Routes = [
 
@@ -54,6 +56,8 @@ const routes: Routes = [
       { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
       { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania" },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
+
+      { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię" },
 
       { path: 'post/:slug', component: PostComponent, title: "Post" },
       { path: 'category/:slug', component: CategoryComponent, title: "Category" },
@@ -87,6 +91,7 @@ const routes: Routes = [
       { path: 'monster', component: MonsterComponent, title: "Admin monsters", canActivate: [AdminAuthorizationGuard] },
       { path: 'monster/add', component: MonsterAddComponent, title: "Admin create monsters", canActivate: [AdminAuthorizationGuard] },
       { path: 'monster/update/:id', component: MonsterUpdateComponent, title: "Admin update monsters", canActivate: [AdminAuthorizationGuard] },
+      { path: 'suggestions', component: SuggestionsComponent, title: "Admin suggestions", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

@@ -83,6 +83,8 @@ import { MonsterAddComponent } from './modules/admin/monster/monster-add/monster
 import { MonsterUpdateComponent } from './modules/admin/monster/monster-update/monster-update.component';
 import { RarListComponent } from './modules/user/rar-list/rar-list.component';
 import {MatSliderModule} from "@angular/material/slider";
+import { SuggestionsComponent } from './modules/admin/suggestions/suggestions.component';
+import { UserSuggestionComponent } from './modules/user/user-suggestion/user-suggestion.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -159,7 +161,9 @@ registerLocaleData(localePl, localePlExtra);
     MonsterComponent,
     MonsterAddComponent,
     MonsterUpdateComponent,
-    RarListComponent
+    RarListComponent,
+    SuggestionsComponent,
+    UserSuggestionComponent
   ],
     imports: [
         BrowserModule,
