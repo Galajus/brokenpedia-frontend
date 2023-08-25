@@ -1519,7 +1519,7 @@ const drifs: DrifItem[] = [
     tier: 1,
     level: 1,
     startPower: 1,
-    psychoGrowByLevel: 1,
+    psychoGrowByLevel: 0.5,
     psychoMod: "RESISTANCE_TO_ROOT",
     category: "SPECIAL",
     shortName: "heb"
