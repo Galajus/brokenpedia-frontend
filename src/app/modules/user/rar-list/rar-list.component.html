@@ -7,7 +7,7 @@
         <h2 style="color: red">LISTA BĘDZIE STOPNIOWO ZAPEŁNIANA - TO TROSZKĘ CZASU ZAJMUJE :D</h2>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
           <div fxLayout="column" fxLayoutAlign="center center">
-            <mat-slide-toggle [(ngModel)]="modernView"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="modernView" (change)="page = 1"></mat-slide-toggle>
             <div>
               Modern view
             </div>
@@ -76,7 +76,7 @@
       <div *ngIf="monsters && modernView">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15">
           <mat-list>
-            <div *ngFor="let monster of monsters">
+            <div *ngFor="let monster of getPartOfMonsters()">
               <div *ngFor="let rar of monster.legendaryDrops">
                 <mat-list-item class="rar-list" style="height: 150px">
                   <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
@@ -91,17 +91,13 @@
                       <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
                     </div>
 
-                    <div fxFlex="20" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
+                    <div fxFlex="21" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
                       <div fxLayoutAlign="center center">
                         <img ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
                       </div>
                       <div fxLayout="row" fxLayoutAlign="center center">
-                        <div class="modern-rar-name">
-                          "{{rar.name}}"
-                        </div>
-                        <div class="modern-rar-rank">
-                          [{{convertArabianToRomanNumber(rar.rank)}}]
-                        </div>
+                        <div class="modern-rar-name">"{{rar.name}}"</div>
+                        <div class="modern-rar-rank">&nbsp;[{{convertArabianToRomanNumber(rar.rank)}}]</div>
                       </div>
                       <div fxLayoutAlign="center center">
                         <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
@@ -121,6 +117,7 @@
                     </div>
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
+                        <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">Tylko dla rycerza</li>
                         <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}}</li>
                         <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
                         <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
@@ -130,7 +127,7 @@
                         <li *ngIf="rar.damageType">Typ obrażeń: {{DamageType[rar.damageType]}}</li>
                       </ul>
                     </div>
-                    <div fxFlex="13" fxLayoutAlign="start center">
+                    <div fxFlex="12" fxLayoutAlign="start center">
                       <ul class="modern-ul">
                         <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">Siła: {{getValueString(rar.strength)}}</li>
                         <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">Zręczność: {{getValueString(rar.dexterity)}}</li>
@@ -165,7 +162,7 @@
       <!--LISTING MONSTERS CLASSIC-->
       <div *ngIf="monsters && !modernView">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15">
-          <div fxLayout="row" fxLayoutAlign="start" *ngFor="let monster of monsters">
+          <div fxLayout="row" fxLayoutAlign="start" *ngFor="let monster of getPartOfMonsters()">
             <div fxFlex fxLayout="column" fxLayoutAlign="center center">
               <div class="cropped-classic" fxLayoutAlign="start center">
                 <img class="cropped-img-classic" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="256" width="256">
@@ -198,7 +195,7 @@
                     <li *ngIf="rar.rank">Ranga: {{convertArabianToRomanNumber(rar.rank)}}</li>
                     <li *ngIf="rar.capacity">Pojemność: {{rar.capacity}}</li>
                     <li *ngIf="rar.value">Wartość: {{rar.value.toLocaleString()}} złota</li>
-                    <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}}</li>
+                    <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}} <div *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">(Tylko rycerz)</div></li>
                     <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
                     <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
                     <li *ngIf="rar.requiredPower">Wymagana moc: {{rar.requiredPower}}</li>

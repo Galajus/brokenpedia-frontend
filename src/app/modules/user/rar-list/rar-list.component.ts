@@ -25,6 +25,8 @@ export class RarListComponent implements OnInit {
   searchMinLvl: number = 0;
   searchMaxLvl: number = 0;
 
+  page: number = 1;
+
   constructor(
     private rarListService: RarListService
   ) {
@@ -32,6 +34,20 @@ export class RarListComponent implements OnInit {
 
   ngOnInit(): void {
     this.initData();
+
+    const scroller = document.querySelector("#pageContent");
+
+    scroller?.addEventListener("scroll", (event) => {
+      if ((scroller.scrollHeight - scroller.scrollTop) < 1500) {
+        if (this.monsters.length > this.page * 5) {
+          this.page++;
+        }
+      }
+    });
+  }
+
+  getPartOfMonsters() {
+    return this.monsters.slice(0, this.page * 5);
   }
 
   initData() {
@@ -51,6 +67,7 @@ export class RarListComponent implements OnInit {
   }
 
   doFilter() {
+    this.page = 1;
     this.monsters = [];
     this.fallBackMonsters.forEach(fbm => this.monsters.push(Object.assign({}, fbm)));
     this.validateMinMaxLevels();
@@ -115,7 +132,7 @@ export class RarListComponent implements OnInit {
     }
     this.monsters = this.monsters.filter(m => {
       m.legendaryDrops = m.legendaryDrops.filter(r => {
-        return ((r.power || r.knowledge) || (!r.strength && !r.dexterity));
+        return (((r.power || r.knowledge) || (!r.strength && !r.dexterity)) && ItemType[r.type].toString() !== ItemType.SHIELD.toString());
       });
       if (m.legendaryDrops.length != 0) {
         return m;
@@ -130,7 +147,7 @@ export class RarListComponent implements OnInit {
     }
     this.monsters = this.monsters.filter(m => {
       m.legendaryDrops = m.legendaryDrops.filter(r => {
-        return ((r.strength || r.dexterity) || (!r.power && !r.knowledge));
+        return ((r.strength || r.dexterity) || (!r.power && !r.knowledge) || ItemType[r.type].toString() === ItemType.SHIELD.toString());
       });
       if (m.legendaryDrops.length != 0) {
         return m;
@@ -233,4 +250,5 @@ export class RarListComponent implements OnInit {
   isUpperCase(s: string): boolean {
     return s !== s.toUpperCase();
   }
+
 }
