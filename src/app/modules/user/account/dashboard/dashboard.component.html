@@ -23,26 +23,26 @@
 
     <h1>ZAPISANE BUILDY</h1>
 
-    <table #table mat-table [dataSource]="builds" [trackBy]="trackBy">
+    <table #table mat-table [dataSource]="builds" [trackBy]="trackBy" matSort>
       <ng-container matColumnDef="id">
-        <th style="width: 40px" mat-header-cell *matHeaderCellDef> id</th>
+        <th style="width: 40px" mat-header-cell *matHeaderCellDef mat-sort-header> id</th>
         <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
       <ng-container matColumnDef="profession">
-        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Profesja</th>
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef mat-sort-header> Profesja</th>
         <td mat-cell *matCellDef="let element"><img
           src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
       </ng-container>
       <ng-container matColumnDef="level">
-        <th style="width: 55px" mat-header-cell *matHeaderCellDef> Poziom</th>
+        <th style="width: 55px" mat-header-cell *matHeaderCellDef mat-sort-header> Poziom</th>
         <td mat-cell *matCellDef="let element"> {{element.level}} </td>
       </ng-container>
       <ng-container matColumnDef="likes">
-        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Polubień</th>
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef mat-sort-header> Polubień</th>
         <td mat-cell *matCellDef="let element"> {{element.likes}} </td>
       </ng-container>
       <ng-container matColumnDef="buildName">
-        <th mat-header-cell *matHeaderCellDef> Nazwa</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa</th>
         <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.buildName}} </td>
       </ng-container>
       <ng-container matColumnDef="shortDescription">
@@ -50,13 +50,13 @@
         <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
       </ng-container>
       <ng-container matColumnDef="hidden">
-        <th style="width: 75px" mat-header-cell *matHeaderCellDef> Ukryty</th>
+        <th style="width: 75px" mat-header-cell *matHeaderCellDef mat-sort-header> Ukryty</th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="element.hidden">
             <mat-icon style="color: limegreen">check_circle</mat-icon>
           </div>
           <div *ngIf="!element.hidden">
-            <mat-icon style="color: gray">highlight_off</mat-icon>
+            <mat-icon style="color: rgb(128,128,128)">highlight_off</mat-icon>
           </div>
         </td>
       </ng-container>
@@ -67,7 +67,7 @@
             <mat-icon style="color: limegreen">check_circle</mat-icon>
           </div>
           <div *ngIf="!element.pvpBuild">
-            <mat-icon style="color: gray">highlight_off</mat-icon>
+            <mat-icon style="color: rgb(128,128,128)">highlight_off</mat-icon>
           </div>
         </td>
       </ng-container>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {JwtService} from "../../../../common/service/jwt.service";
 import {Router} from "@angular/router";
 import {LoginButtonService} from "../../../../common/service/login-button.service";
@@ -7,6 +7,8 @@ import {Profile} from "./model/profile";
 import {BuildListDto} from "../../../../common/model/buildListDto";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProfileNicknameDto} from "./model/profileNicknameDto";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +16,13 @@ import {ProfileNicknameDto} from "./model/profileNicknameDto";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  @ViewChild(MatSort) sort!: MatSort;
+  profile!: Profile;
+  builds!: MatTableDataSource<BuildListDto>;
+  displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
+  isChangingNick: boolean = false;
+  newNick: string = "";
 
   constructor(
     private jwtService: JwtService,
@@ -23,11 +32,6 @@ export class DashboardComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  profile!: Profile;
-  builds!: Array<BuildListDto>;
-  displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
-  isChangingNick: boolean = false;
-  newNick: string = "";
   ngOnInit(): void {
     this.dashboardService.getProfile()
       .subscribe(profile => {
@@ -35,7 +39,14 @@ export class DashboardComponent implements OnInit {
         this.newNick = profile.nickname;
       });
     this.dashboardService.getBuildsList()
-      .subscribe(builds => this.builds = builds);
+      .subscribe(builds => {
+        this.builds = new MatTableDataSource<BuildListDto>(builds);
+        this.initializeSort();
+      });
+  }
+
+  initializeSort() {
+    this.builds.sort = this.sort;
   }
 
   logOut() {
@@ -47,7 +58,7 @@ export class DashboardComponent implements OnInit {
   deleteBuild(id: number) {
     this.dashboardService.deleteBuild(id)
       .subscribe(result => {
-        this.builds = this.builds.filter(b => {
+        this.builds.data = this.builds.data.filter(b => {
           return b.id !== id;
         });
       });
