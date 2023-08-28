@@ -85,6 +85,8 @@ import {RarListComponent} from './modules/user/rar-list/rar-list.component';
 import {MatSliderModule} from "@angular/material/slider";
 import {SuggestionsComponent} from './modules/admin/suggestions/suggestions.component';
 import {UserSuggestionComponent} from './modules/user/user-suggestion/user-suggestion.component';
+import { ItemComparatorComponent } from './modules/user/rar-list/item-comparator/item-comparator.component';
+import {MatSortModule} from "@angular/material/sort";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -163,7 +165,8 @@ registerLocaleData(localePl, localePlExtra);
     MonsterUpdateComponent,
     RarListComponent,
     SuggestionsComponent,
-    UserSuggestionComponent
+    UserSuggestionComponent,
+    ItemComparatorComponent
   ],
     imports: [
         BrowserModule,
@@ -205,6 +208,7 @@ registerLocaleData(localePl, localePlExtra);
             adSlot: 7391443546,
         }),
         MatSliderModule,
+        MatSortModule,
     ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

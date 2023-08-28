@@ -80,3 +80,18 @@ li {
 mat-slider {
   width: 200px;
 }
+
+.small-icon-button {
+  width: 22px !important;
+  height: 22px !important;
+  line-height: 22px !important;
+
+  .mat-icon {
+    width: 15px !important;
+    height: 15px !important;
+    line-height: 15px !important;
+  }
+  .material-icons {
+    font-size: 15px !important;
+  }
+}
