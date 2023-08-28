@@ -73,7 +73,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     let matDialogRef = this.dialog.open(ItemComparatorComponent, {
       width: '1280px',
-      minWidth: '1200px',
+      minWidth: '1000px',
       enterAnimationDuration: '100ms',
       exitAnimationDuration: '100ms',
       panelClass: 'rar-comparator-container',
