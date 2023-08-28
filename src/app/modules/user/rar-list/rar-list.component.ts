@@ -71,14 +71,17 @@ export class RarListComponent implements OnInit, OnDestroy {
       this.snackBar.open("Porównywarka jest pusta, dodaj coś do niej!", "ok", {duration: 3000});
       return;
     }
-    this.dialog.open(ItemComparatorComponent, {
-      width: '1200px',
+    let matDialogRef = this.dialog.open(ItemComparatorComponent, {
+      width: '1280px',
+      minWidth: '1200px',
       enterAnimationDuration: '100ms',
       exitAnimationDuration: '100ms',
+      panelClass: 'rar-comparator-container',
       data: {
         items: this.toCompare
       }
     });
+    matDialogRef.afterClosed();
   }
 
   getPartOfMonsters() {
