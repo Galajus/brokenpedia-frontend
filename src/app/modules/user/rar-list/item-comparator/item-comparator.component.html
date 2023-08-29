@@ -30,10 +30,10 @@
         <li fxLayout="row">Pojemność: {{rar.capacity}}<div [innerHTML]="getCompare('capacity', rar) | noSanitize"></div></li>
         <li fxLayout="row">Wartość: {{rar.value.toLocaleString()}}<div [innerHTML]="getCompare('value', rar) | noSanitize"></div></li>
         <li fxLayout="row" >Wymagany poziom: {{rar.requiredLevel}}<div [innerHTML]="getCompare('requiredLevel', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.strength">Wymagana siła: {{getValueString(rar.requiredStrength)}}<div [innerHTML]="getCompare('requiredStrength', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.requiredDexterity">Wymagana zręczność: {{getValueString(rar.requiredDexterity)}}<div [innerHTML]="getCompare('requiredDexterity', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.requiredPower">Wymagana moc: {{getValueString(rar.requiredPower)}}<div [innerHTML]="getCompare('requiredPower', rar) | noSanitize"></div></li>
-        <li style="padding-bottom: 10px" fxLayout="row" [class.gray]="!rar.requiredKnowledge">Wymagana wiedza: {{getValueString(rar.requiredKnowledge)}}<div [innerHTML]="getCompare('requiredKnowledge', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.strength">Wymagana siła: {{rar.requiredStrength}}<div [innerHTML]="getCompare('requiredStrength', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}<div [innerHTML]="getCompare('requiredDexterity', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.requiredPower">Wymagana moc: {{rar.requiredPower}}<div [innerHTML]="getCompare('requiredPower', rar) | noSanitize"></div></li>
+        <li style="padding-bottom: 10px" fxLayout="row" [class.gray]="!rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}<div [innerHTML]="getCompare('requiredKnowledge', rar) | noSanitize"></div></li>
 
         <li fxLayout="row" [class.gray]="!rar.damage">Obrażenia: {{getValueString(rar.damage)}}<div [innerHTML]="getCompare('damage', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.damageType">Typ obrażeń: {{getDamageType(rar.damageType)}}<div [innerHTML]="getCompare('damageType', rar) | noSanitize"></div></li>
@@ -44,15 +44,18 @@
         <li fxLayout="row" [class.gray]="!rar.knowledge" [class.below-zero]="getIsBelowZero(rar.knowledge)">Wiedza: {{getValueString(rar.knowledge)}}<div [innerHTML]="getCompare('knowledge', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.health" [class.below-zero]="getIsBelowZero(rar.health)">PŻ: {{getValueString(rar.health)}}<div [innerHTML]="getCompare('health', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.mana" [class.below-zero]="getIsBelowZero(rar.mana)">Mana: {{getValueString(rar.mana)}}<div [innerHTML]="getCompare('mana', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.stamina" [class.below-zero]="getIsBelowZero(rar.stamina)">Kondycja: {{getValueString(rar.stamina)}}<div [innerHTML]="getCompare('stamina', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.stamina" [class.below-zero]="getIsBelowZero(rar.stamina)">Kondycja: {{getValueString(rar.stamina)}}<div [innerHTML]="getCompare('stamina', rar) | noSanitize"></div><div class="sum-value">{{getStatSum(rar)}}</div></li>
+        <mat-divider></mat-divider>
         <li fxLayout="row" [class.gray]="!rar.armorSlashing">Pancerz sieczne: {{getValueString(rar.armorSlashing)}}<div [innerHTML]="getCompare('armorSlashing', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.armorCrushing">Pancerz obuchowe: {{getValueString(rar.armorCrushing)}}<div [innerHTML]="getCompare('armorCrushing', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.armorPiercing">Pancerz kłute: {{getValueString(rar.armorPiercing)}}<div [innerHTML]="getCompare('armorPiercing', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.armorPiercing">Pancerz kłute: {{getValueString(rar.armorPiercing)}}<div [innerHTML]="getCompare('armorPiercing', rar) | noSanitize"></div><div class="sum-value">{{getArmorSum(rar)}}</div></li>
+        <mat-divider></mat-divider>
         <li fxLayout="row" [class.gray]="!rar.mentalResistance">Odporność uroki: {{getValueString(rar.mentalResistance)}}<div [innerHTML]="getCompare('mentalResistance', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.fireResistance">Odporność ogień: {{getValueString(rar.fireResistance)}}<div [innerHTML]="getCompare('fireResistance', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.energyResistance">Odporność energia: {{getValueString(rar.energyResistance)}}<div [innerHTML]="getCompare('energyResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.coldResistance">Odporność zimno: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>
-       <!-- <li style="color: gray" fxLayout="row" *ngIf="toCompare[0].coldResistance && !rar.coldResistance">Odporność zimno: 0<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>-->
+        <li fxLayout="row" [class.gray]="!rar.coldResistance">Odporność zimno: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div><div class="sum-value">{{getResistanceSum(rar)}}</div></li>
+        <mat-divider></mat-divider>
+        <!-- <li style="color: gray" fxLayout="row" *ngIf="toCompare[0].coldResistance && !rar.coldResistance">Odporność zimno: 0<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>-->
       </ul>
     </div>
   </div>

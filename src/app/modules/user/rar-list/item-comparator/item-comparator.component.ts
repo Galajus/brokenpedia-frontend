@@ -178,4 +178,61 @@ export class ItemComparatorComponent implements OnInit {
     }
     return stat < 0;
   }
+
+  getStatSum(rar: LegendaryItem) {
+    let sumStat = 0;
+    if (rar.strength) {
+      sumStat += rar.strength;
+    }
+    if (rar.dexterity) {
+      sumStat += rar.dexterity;
+    }
+    if (rar.power) {
+      sumStat += rar.power;
+    }
+    if (rar.knowledge) {
+      sumStat += rar.knowledge;
+    }
+    if (rar.health) {
+      sumStat += rar.health / 10;
+    }
+    if (rar.mana) {
+      sumStat += rar.mana / 10;
+    }
+    if (rar.stamina) {
+      sumStat += rar.stamina / 10;
+    }
+    return "∑ " + sumStat;
+  }
+
+  getArmorSum(rar: LegendaryItem) {
+    let sumStat = 0;
+    if (rar.armorSlashing) {
+      sumStat += rar.armorSlashing;
+    }
+    if (rar.armorCrushing) {
+      sumStat += rar.armorCrushing;
+    }
+    if (rar.armorPiercing) {
+      sumStat += rar.armorPiercing;
+    }
+    return "∑ " + sumStat;
+  }
+
+  getResistanceSum(rar: LegendaryItem) {
+    let sumStat = 0;
+    if (rar.mentalResistance) {
+      sumStat += rar.mentalResistance;
+    }
+    if (rar.fireResistance) {
+      sumStat += rar.fireResistance;
+    }
+    if (rar.energyResistance) {
+      sumStat += rar.energyResistance;
+    }
+    if (rar.coldResistance) {
+      sumStat += rar.coldResistance;
+    }
+    return "∑ " + sumStat;
+  }
 }

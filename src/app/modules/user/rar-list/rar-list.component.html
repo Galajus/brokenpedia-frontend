@@ -102,7 +102,7 @@
                     </div>
 
                     <div fxFlex="8" fxLayoutAlign="center center">
-                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button [color]="isInToCompare(rar)" (click)="addToCompare(rar)"><mat-icon>loyalty</mat-icon></button>
+                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button [color]="isInToCompare(rar)" (click)="addToCompare(rar)"><mat-icon matTooltip="Dodaj do porównywarki">loyalty</mat-icon></button>
                       <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
                     </div>
 
@@ -189,7 +189,7 @@
                 <div>
                   <div fxLayout="column" fxLayoutAlign="center center">
                     <div style="height: 30px; position: relative">
-                      <button style="position: absolute; left: 60px" mat-icon-button [color]="isInToCompare(rar)" (click)="addToCompare(rar)"><mat-icon>loyalty</mat-icon></button>
+                      <button style="position: absolute; left: 60px" mat-icon-button [color]="isInToCompare(rar)" (click)="addToCompare(rar)"><mat-icon matTooltip="Dodaj do porównywarki">loyalty</mat-icon></button>
                       <img ngSrc="./assets/rars/addons/star_brown.png" alt="stars" height="23" width="23">
                     </div>
                     <h3 class="classic-rar-name">"{{rar.name}}"</h3>
