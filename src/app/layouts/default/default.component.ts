@@ -1,12 +1,12 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {JwtService} from "../../common/service/jwt.service";
 import {LoginButtonService} from "../../common/service/login-button.service";
-import {FlatNode} from "./model/flatNode";
 import {DefaultService} from "./default.service";
 import {Category} from "../../modules/admin/posts/model/category";
 import {AdsenseComponent} from "ng2-adsense";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-default',
@@ -19,6 +19,8 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('bar2') sidebar2!: ElementRef<HTMLElement>;
   @ViewChild(AdsenseComponent) ads!: AdsenseComponent;
 
+  adLoading: boolean = false;
+  lastAdChange: number = 0;
   ro!: ResizeObserver;
   mobileQuery!: MediaQueryList;
   sidebarOpened!: string;
@@ -49,6 +51,34 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(cats => this.categories = cats);
     this.loginButtonService.subject
       .subscribe(loggedIn => this.isLoggedIn = loggedIn);
+
+    this.listenAds();
+  }
+
+  listenAds() {
+    this.router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd) {
+        this.lastAdChange = 0;
+        if (!this.adLoading) {
+          this.refreshAds();
+        }
+      }
+    });
+    setInterval(() => {
+      if (document.visibilityState !== "visible") {
+        return;
+      }
+      this.lastAdChange++;
+      if (this.lastAdChange > 44) {
+        this.lastAdChange = 0;
+        this.refreshAds();
+      }
+    }, 1000);
+  }
+
+  refreshAds() {
+    this.adLoading = true;
+    setTimeout(() => (this.adLoading = false), 350);
   }
 
   ngAfterViewInit(): void {
@@ -58,8 +88,6 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.mobileQuery.removeEventListener("mobile", this._mobileQueryListener);
   }
-
-  hasChild = (_: number, node: FlatNode) => node.expandable;
 
   sidenavIsOpened() {
     let isOpened: string | null = localStorage.getItem("sidebar-opened");
@@ -89,6 +117,8 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ro.observe(this.sidebar1.nativeElement);
     this.ro.observe(this.sidebar2.nativeElement);
   }
+
+  protected readonly environment = environment;
 }
 
 
