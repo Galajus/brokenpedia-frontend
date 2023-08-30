@@ -323,11 +323,11 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
         item.priceThreshold = Math.floor((earn * tax) - cost);
       }
 
-      if (Number.isNaN(this.platinumPrice) || this.platinumPrice <= 0) {
+      /*if (Number.isNaN(this.platinumPrice) || this.platinumPrice <= 0) {
         item.priceThresholdWithInhi = 0;
         item.incomeWithInhi = 0;
         return;
-      }
+      }*/
       //INHI PRICE ESSENCE
       cost += item.inhiPrice * this.platinumPrice;
       earnWithInhi = this.essencePrice * item.essencesWithInhi;
