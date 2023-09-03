@@ -7,6 +7,7 @@ import {DefaultService} from "./default.service";
 import {Category} from "../../modules/admin/posts/model/category";
 import {AdsenseComponent} from "ng2-adsense";
 import {environment} from "../../../environments/environment";
+import {MatSidenav} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-default',
@@ -17,6 +18,7 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('bar1') sidebar1!: ElementRef<HTMLElement>;
   @ViewChild('bar2') sidebar2!: ElementRef<HTMLElement>;
+  @ViewChild('sidenav') sidenav!: MatSidenav;
   @ViewChild(AdsenseComponent) ads!: AdsenseComponent;
 
   adLoading: boolean = false;
@@ -59,11 +61,15 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.events.subscribe(ev => {
       if (ev instanceof NavigationEnd) {
         this.lastAdChange = 0;
+        if (this.mobileQuery.matches) {
+          this.sidenav.opened = false;
+        }
         if (!this.adLoading) {
           this.refreshAds();
         }
       }
     });
+
     setInterval(() => {
       if (document.visibilityState !== "visible") {
         return;
