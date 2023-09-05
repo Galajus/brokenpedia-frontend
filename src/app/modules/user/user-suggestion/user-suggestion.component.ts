@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserSuggestionService} from "./user-suggestion.service";
 import {Suggestion} from "../../../common/model/suggestion/suggestion";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
+import {SuggestionStatus} from "../../../common/model/suggestion/suggestionStatus";
 
 @Component({
   selector: 'app-user-suggestion',
@@ -36,6 +37,7 @@ export class UserSuggestionComponent implements OnInit {
   error: boolean = false;
   sendSuggestionError: boolean = false;
   sendingSuggestion: boolean = false;
+  suggestionsToShow!: Suggestion[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,4 +70,12 @@ export class UserSuggestionComponent implements OnInit {
       );
   }
 
+    protected readonly SuggestionStatus = SuggestionStatus;
+
+  showSuggestions(suggestionsStatus: string) {
+    this.userSuggestionService.getSuggestionsByStatus(suggestionsStatus)
+      .subscribe(s => {
+        this.suggestionsToShow = s;
+      })
+  }
 }

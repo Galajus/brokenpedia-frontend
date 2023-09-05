@@ -4,7 +4,7 @@
       <h1>SUGESTIE</h1>
 
       <mat-list>
-        <div *ngFor="let sug of suggestions">
+        <div fxLayout="column" *ngFor="let sug of suggestions">
           <mat-list-item style="height: auto; margin: 14px 0">
             <div fxFlex fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5">
 
@@ -21,6 +21,15 @@
               </div>
             </div>
           </mat-list-item>
+          <div fxLayout="row" fxLayoutAlign="start" style="color: gold">
+            <mat-radio-group fxLayoutGap="5" [(ngModel)]="sug.status" (change)="changeStatus($event.value, sug.id)">
+              <mat-radio-button class="example-radio-button" [value]="SuggestionStatus[SuggestionStatus.UNREAD]">{{SuggestionStatus.UNREAD}}</mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="SuggestionStatus[SuggestionStatus.DONE]">{{SuggestionStatus.DONE}}</mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="SuggestionStatus[SuggestionStatus.IN_FUTURE]">{{SuggestionStatus.IN_FUTURE}}</mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="SuggestionStatus[SuggestionStatus.NEED_MORE_DATA]">{{SuggestionStatus.NEED_MORE_DATA}}</mat-radio-button>
+            </mat-radio-group>
+            <button mat-icon-button (click)="openAdminCommentDialog(sug)"><mat-icon>comment</mat-icon></button>
+          </div>
           <mat-divider></mat-divider>
         </div>
       </mat-list>

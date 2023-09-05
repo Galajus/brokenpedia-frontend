@@ -1,6 +1,9 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {Suggestion} from "../../../common/model/suggestion/suggestion";
 import {SuggestionsService} from "./suggestions.service";
+import {SuggestionStatus} from "../../../common/model/suggestion/suggestionStatus";
+import {MatDialog} from "@angular/material/dialog";
+import {EditAdminCommentComponent} from "./edit-admin-comment/edit-admin-comment.component";
 
 @Component({
   selector: 'app-suggestions',
@@ -9,15 +12,20 @@ import {SuggestionsService} from "./suggestions.service";
 })
 export class SuggestionsComponent implements AfterViewInit {
 
+  protected readonly SuggestionStatus = SuggestionStatus;
+
   displayedColumns: string[] = ["id", "type", "author", "suggestion", "actions"];
   suggestions: Suggestion[] = [];
   constructor(
-    private suggestionService: SuggestionsService
+    private suggestionService: SuggestionsService,
+    private dialog: MatDialog
   ) { }
 
   ngAfterViewInit(): void {
     this.suggestionService.getSuggestions()
-      .subscribe(s => this.suggestions = s);
+      .subscribe(s => {
+        this.suggestions = s;
+      });
   }
 
   deleteItem(id: number) {
@@ -29,4 +37,37 @@ export class SuggestionsComponent implements AfterViewInit {
       })
   }
 
+  changeStatus(value: SuggestionStatus, suggestionId: number) {
+    this.suggestionService.changeSuggestionStatus(suggestionId, value)
+      .subscribe(() => {})
+  }
+
+  openAdminCommentDialog(suggestion: Suggestion) {
+    let comment = suggestion.adminComment;
+    if (!comment) {
+      comment = "";
+    }
+    let matDialogRef = this.dialog.open(EditAdminCommentComponent, {
+      width: '1000px',
+      enterAnimationDuration: '200ms',
+      exitAnimationDuration: '200ms',
+      data: {
+        comment: comment
+      }
+    });
+
+    matDialogRef.afterClosed()
+      .subscribe((data) => {
+        if (data) {
+          if (comment != data.comment) {
+            this.suggestionService.changeSuggestionAdminComment(suggestion.id, data.comment)
+              .subscribe(() => {
+                suggestion.adminComment = data.comment;
+              })
+
+          }
+        }
+      })
+
+  }
 }
