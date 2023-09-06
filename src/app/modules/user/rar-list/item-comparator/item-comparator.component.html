@@ -67,9 +67,9 @@
         <li fxLayout="row" [class.gray]="!rar.armorPiercing">Pancerz kłute: {{getValueString(rar.armorPiercing)}}<div [innerHTML]="getCompare('armorPiercing', rar) | noSanitize"></div><div class="sum-value">{{getArmorSum(rar)}}</div></li>
         <mat-divider></mat-divider>
         <li fxLayout="row" [class.gray]="!rar.fireResistance">Odporność ogień: {{getValueString(rar.fireResistance)}}<div [innerHTML]="getCompare('fireResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.coldResistance">Odporność zimno: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div><div class="sum-value">{{getResistanceSum(rar)}}</div></li>
+        <li fxLayout="row" [class.gray]="!rar.coldResistance">Odporność zimno: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>
         <li fxLayout="row" [class.gray]="!rar.energyResistance">Odporność energia: {{getValueString(rar.energyResistance)}}<div [innerHTML]="getCompare('energyResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.mentalResistance">Odporność uroki: {{getValueString(rar.mentalResistance)}}<div [innerHTML]="getCompare('mentalResistance', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.mentalResistance">Odporność uroki: {{getValueString(rar.mentalResistance)}}<div [innerHTML]="getCompare('mentalResistance', rar) | noSanitize"></div><div class="sum-value">{{getResistanceSum(rar)}}</div></li>
         <mat-divider></mat-divider>
       </ul>
     </div>
