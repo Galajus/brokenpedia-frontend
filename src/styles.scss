@@ -60,6 +60,7 @@ mat-card {
   width: 100%;
   margin: 15px;
   background-color: #282727;
+  text-shadow: 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000;
 }
 
 app-brokencalc .content {
@@ -167,5 +168,9 @@ input[type=number] {
   padding: 0 !important;
   margin: 0 !important;
   overflow: hidden;
+}
+
+.mat-dialog-container {
+  text-shadow: 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000;
 }
 

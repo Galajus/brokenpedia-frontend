@@ -85,9 +85,9 @@ import {RarListComponent} from './modules/user/rar-list/rar-list.component';
 import {MatSliderModule} from "@angular/material/slider";
 import {SuggestionsComponent} from './modules/admin/suggestions/suggestions.component';
 import {UserSuggestionComponent} from './modules/user/user-suggestion/user-suggestion.component';
-import { ItemComparatorComponent } from './modules/user/rar-list/item-comparator/item-comparator.component';
+import {ItemComparatorComponent} from './modules/user/rar-list/item-comparator/item-comparator.component';
 import {MatSortModule} from "@angular/material/sort";
-import { EditAdminCommentComponent } from './modules/admin/suggestions/edit-admin-comment/edit-admin-comment.component';
+import {EditAdminCommentComponent} from './modules/admin/suggestions/edit-admin-comment/edit-admin-comment.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {

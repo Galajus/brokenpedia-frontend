@@ -1,12 +1,16 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Monster} from "../../../common/model/gameentites/monster";
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RarListService} from "./rar-list.service";
 import {DamageType} from "../../../common/model/items/damageType";
 import {ItemType} from "../../../common/model/items/itemType";
 import {MatDialog} from "@angular/material/dialog";
 import {ItemComparatorComponent} from "./item-comparator/item-comparator.component";
-import {LegendaryItem} from 'src/app/common/model/items/legendaryItem';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MonsterWithIncrustatedLegendaryItems} from "./model/monsterWithIncrustatedLegendaryItems";
+import {IncrustatedLegendaryItem} from "./model/incrustatedLegendaryItem";
+import {cloneDeep} from 'lodash-es';
+import {MatSelect} from "@angular/material/select";
+import {MatOption} from "@angular/material/core";
+import {RarListIncrustationService} from "./rar-list-incrustation.service";
 
 @Component({
   selector: 'app-rar-list',
@@ -17,10 +21,16 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   protected readonly DamageType = DamageType;
   protected readonly ItemType = ItemType;
-  monsters!: Monster[];
-  fallBackMonsters!: Monster[];
+  protected readonly Array = Array;
+  @ViewChild('types') typeSelector!: MatSelect;
+  monsters!: MonsterWithIncrustatedLegendaryItems[];
+  fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
+  toCompare: IncrustatedLegendaryItem[] = [];
   searchValue!: string;
-  searchItemType!: ItemType[];
+  searchItemType: ItemType[] = [];
+  armorTypes: ItemType[] = [ItemType.HELMET, ItemType.CAPE, ItemType.ARMOR, ItemType.BELT, ItemType.PANTS, ItemType.BOOTS, ItemType.GLOVES, ItemType.BRACES];
+  jeweleryTypes: ItemType[] = [ItemType.RING, ItemType.AMULET];
+  weaponTypes: ItemType[] = [ItemType.SHIELD, ItemType.SWORD, ItemType.AXE, ItemType.KNIFE, ItemType.HAMMER, ItemType.BOW, ItemType.SWORD_TH, ItemType.AXE_TH, ItemType.HAMMER_TH, ItemType.KNUCKLES, ItemType.STICK];
   searchItemRank!: number[];
   searchMagicItems: boolean = true;
   searchPhysicalItems: boolean = true;
@@ -28,7 +38,8 @@ export class RarListComponent implements OnInit, OnDestroy {
   ranks: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   searchMinLvl: number = 0;
   searchMaxLvl: number = 0;
-  toCompare: LegendaryItem[] = [];
+  rotated: boolean = false;
+  targetIncrustationStat: string = "evenly";
 
   page: number = 1;
 
@@ -36,6 +47,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private rarListService: RarListService,
     private snackBar: MatSnackBar,
+    private incrustationService: RarListIncrustationService
   ) {
   }
 
@@ -66,6 +78,23 @@ export class RarListComponent implements OnInit, OnDestroy {
     this.saveData();
   }
 
+  initData() {
+    this.rarListService.getAllMonstersWithLegendaryItems()
+      .subscribe(m => {
+        this.fallBackMonsters = cloneDeep(m);
+        this.monsters = cloneDeep(m);
+        this.initSort();
+
+      });
+  }
+
+  initSort() {
+    this.monsters.forEach(m => {
+      m.legendaryDrops.sort((a, b) => a.name.localeCompare(b.name));
+    })
+    this.filterByBossOrRarName();
+  }
+
   openItemComparator() {
     if (this.toCompare.length === 0) {
       this.snackBar.open("Porównywarka jest pusta, dodaj coś do niej!", "ok", {duration: 3000});
@@ -78,6 +107,8 @@ export class RarListComponent implements OnInit, OnDestroy {
       exitAnimationDuration: '100ms',
       panelClass: 'rar-comparator-container',
       data: {
+        fallBackMonsters: this.fallBackMonsters,
+        targetIncrustationStat: this.targetIncrustationStat,
         items: this.toCompare
       }
     });
@@ -88,26 +119,10 @@ export class RarListComponent implements OnInit, OnDestroy {
     return this.monsters.slice(0, this.page * 5);
   }
 
-  initData() {
-    this.rarListService.getAllMonstersWithLegendaryItems()
-      .subscribe(m => {
-        this.monsters = m;
-        this.fallBackMonsters = m;
-        this.initSort();
-      });
-  }
-
-  initSort() {
-    this.monsters.forEach(m => {
-      m.legendaryDrops.sort((a, b) => a.name.localeCompare(b.name));
-    })
-    this.filterByBossOrRarName();
-  }
-
   doFilter() {
     this.page = 1;
-    this.monsters = [];
-    this.fallBackMonsters.forEach(fbm => this.monsters.push(Object.assign({}, fbm)));
+    this.monsters = cloneDeep(this.fallBackMonsters);
+    this.optimiseTypesSelect();
     this.validateMinMaxLevels();
 
     this.filterByBossOrRarName();
@@ -137,12 +152,13 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   filterByItemType() {
-    if (!this.searchItemType || this.searchItemType.length == 0) {
+    let itemTypes = this.searchItemType.filter(t => !t.toString().includes("ALL"));
+    if (itemTypes.length == 0) {
       return;
     }
 
     this.monsters = this.monsters.filter(m => {
-      m.legendaryDrops = m.legendaryDrops.filter(r => this.searchItemType.includes(r.type));
+      m.legendaryDrops = m.legendaryDrops.filter(r => itemTypes.includes(r.type));
       if (m.legendaryDrops.length != 0) {
         return m;
       }
@@ -151,7 +167,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   filterByItemRank() {
-    if (!this.searchItemRank  || this.searchItemRank.length == 0) {
+    if (!this.searchItemRank || this.searchItemRank.length == 0) {
       return;
     }
 
@@ -217,6 +233,29 @@ export class RarListComponent implements OnInit, OnDestroy {
     });
   }
 
+  rotateList() {
+    this.page = 1;
+    this.monsters.sort((m1, m2) => {
+      if (!m1.id || !m2.id) {
+        return 0;
+      }
+      if (m1.id > m2.id) {
+        if (!this.rotated) {
+          return -1;
+        }
+        return 1;
+      }
+      if (m1.id < m2.id) {
+        if (!this.rotated) {
+          return 1;
+        }
+        return -1;
+      }
+      return 0;
+    });
+    this.rotated = !this.rotated;
+  }
+
   validateMinMaxLevels() {
     if (this.searchMinLvl) {
       if (this.searchMinLvl > 140) {
@@ -248,19 +287,32 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   convertArabianToRomanNumber(arabianNumber: number) {
     switch (arabianNumber) {
-      case 1: return "I";
-      case 2: return "II";
-      case 3: return "III";
-      case 4: return "IV";
-      case 5: return "V";
-      case 6: return "VI";
-      case 7: return "VII";
-      case 8: return "VIII";
-      case 9: return "IX";
-      case 10: return "X";
-      case 11: return "XI";
-      case 12: return "XII";
-      default: return "I";
+      case 1:
+        return "I";
+      case 2:
+        return "II";
+      case 3:
+        return "III";
+      case 4:
+        return "IV";
+      case 5:
+        return "V";
+      case 6:
+        return "VI";
+      case 7:
+        return "VII";
+      case 8:
+        return "VIII";
+      case 9:
+        return "IX";
+      case 10:
+        return "X";
+      case 11:
+        return "XI";
+      case 12:
+        return "XII";
+      default:
+        return "I";
     }
   }
 
@@ -289,38 +341,120 @@ export class RarListComponent implements OnInit, OnDestroy {
     return s !== s.toUpperCase();
   }
 
-  isInToCompare(rar: LegendaryItem) {
-    let find = this.toCompare.find(r => r.id  === rar.id);
-    if (find) {
-      return "accent";
-    }
-    return;
+  addToCompare(rar: IncrustatedLegendaryItem) {
+    this.toCompare.push(cloneDeep(rar));
+    this.snackBar.open("Dodano " + rar.name + " do porównywarki", "ok!", {duration: 3000});
   }
 
-  addToCompare(rar: LegendaryItem) {
-    let find = this.toCompare.find(r => r.id  === rar.id);
-    if (!find) {
-      if (this.toCompare.length >= 5) {
-        this.snackBar.open("W porównywarce znajduje się maksymalna ilość przedmiotów (5)", "ok!", {duration: 3000});
-        return;
-      }
-      this.toCompare.push(rar);
-      this.snackBar.open("Dodano " + rar.name + " do porównywarki", "ok!", {duration: 3000});
+  deleteFromToCompare(rar: IncrustatedLegendaryItem) {
+    this.toCompare = this.toCompare.filter(r => r !== rar);
+    this.snackBar.open("Przedmiot " + rar.name + " został usunięty z porównywarki", "ok!", {duration: 3000});
+  }
+
+  removeStar(rar: IncrustatedLegendaryItem) {
+    if (!rar.incrustationLevel || rar.incrustationLevel == 1) {
       return;
     }
-    this.toCompare = this.toCompare.filter(r => r.id !== rar.id);
-    this.snackBar.open("Przedmiot " + rar.name + " został usunięty z porównywarki", "ok!", {duration: 3000});
+    rar.incrustationLevel--;
+
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
   }
 
-  deleteFromToCompare(rar: LegendaryItem) {
-    this.toCompare = this.toCompare.filter(r => r.id !== rar.id);
-    this.snackBar.open("Przedmiot " + rar.name + " został usunięty z porównywarki", "ok!", {duration: 3000});
+  addStar(rar: IncrustatedLegendaryItem) {
+    if (rar.incrustationLevel == 9) {
+      return;
+    }
+    if (!rar.incrustationLevel) {
+      rar.incrustationLevel = 1;
+    }
+    rar.incrustationLevel++;
+
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+  }
+
+  reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+  }
+
+  getItemCapacity(rar: IncrustatedLegendaryItem) {
+    if (!rar.incrustationLevel || rar.incrustationLevel < 7) {
+      return rar.capacity;
+    }
+    if (rar.incrustationLevel == 7) {
+      return rar.capacity + 1;
+    }
+    if (rar.incrustationLevel == 8) {
+      return rar.capacity + 2;
+    }
+    return rar.capacity + 4;
+  }
+
+  selectMulti(multiToSelect: string) {
+    let find = this.typeSelector.options.find(o => o.value === multiToSelect);
+    if (!find) {
+      return;
+    }
+    let typesToSelect = this.getMultiSelectArray(multiToSelect);
+    let selected = find.selected;
+    this.typeSelector.options.forEach(o => {
+      let contains = typesToSelect.some(s => typesToSelect.includes(ItemType[o.value as unknown as keyof typeof ItemType]));
+      if (contains) {
+        if (selected) {
+          o.select();
+        } else {
+          o.deselect();
+        }
+      }
+    });
+  }
+
+  optimiseTypesSelect() {
+    let armors = this.typeSelector.options.find(o => o.value === "ALL_ARMORS");
+    let jewelery = this.typeSelector.options.find(o => o.value === "ALL_JEWELERY");
+    let weapons = this.typeSelector.options.find(o => o.value === "ALL_WEAPONS");
+
+    this.solveSelection(armors, "ALL_ARMORS");
+    this.solveSelection(jewelery, "ALL_JEWELERY");
+    this.solveSelection(weapons, "ALL_WEAPONS");
+  }
+
+  solveSelection(option: MatOption | undefined, typeFamily: string) {
+    if (option) {
+      let multiSelectArray = this.getMultiSelectArray(typeFamily);
+      let find = this.typeSelector.options.find(o => {
+        let itFind = multiSelectArray.find(s => multiSelectArray.includes(ItemType[o.value as unknown as keyof typeof ItemType]));
+        if (itFind) {
+          return o.selected;
+        }
+        return false;
+      });
+      if (!find) {
+        option.deselect();
+      }
+    }
+  }
+
+  getMultiSelectArray(multiToSelect: string) {
+    switch (multiToSelect) {
+      case "ALL_ARMORS": {
+        return this.armorTypes;
+      }
+      case "ALL_JEWELERY": {
+        return this.jeweleryTypes;
+      }
+      case "ALL_WEAPONS": {
+        return this.weaponTypes;
+      }
+      default:
+        return [];
+    }
   }
 
   saveData() {
     let data: any = {
       modernView: this.modernView,
-      toCompare: this.toCompare
+      toCompare: this.toCompare,
+      targetIncrustationStat: this.targetIncrustationStat
     }
     localStorage.setItem("items-list", JSON.stringify(data));
   }
@@ -334,6 +468,11 @@ export class RarListComponent implements OnInit, OnDestroy {
 
     this.modernView = data.modernView;
     this.toCompare = data.toCompare;
+    this.targetIncrustationStat = data.targetIncrustationStat;
+
+    if (!this.targetIncrustationStat) {
+      this.targetIncrustationStat = "evenly";
+    }
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {

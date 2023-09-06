@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditAdminCommentComponent } from './edit-admin-comment.component';
+import {EditAdminCommentComponent} from './edit-admin-comment.component';
 
 describe('EditAdminCommentComponent', () => {
   let component: EditAdminCommentComponent;

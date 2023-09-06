@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {Monster} from "../../../common/model/gameentites/monster";
+import {MonsterWithIncrustatedLegendaryItems} from "./model/monsterWithIncrustatedLegendaryItems";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class RarListService {
 
   constructor(private http: HttpClient) { }
 
-  getAllMonstersWithLegendaryItems(): Observable<Monster[]> {
-    return this.http.get<Monster[]>("/api/monsters");
+  getAllMonstersWithLegendaryItems(): Observable<MonsterWithIncrustatedLegendaryItems[]> {
+    return this.http.get<MonsterWithIncrustatedLegendaryItems[]>("/api/monsters");
   }
 }

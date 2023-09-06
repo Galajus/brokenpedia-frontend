@@ -4,6 +4,10 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {ItemType} from "../../../../common/model/items/itemType";
 import {DamageType} from "../../../../common/model/items/damageType";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {IncrustatedLegendaryItem} from "../model/incrustatedLegendaryItem";
+import {round} from "lodash-es";
+import {MonsterWithIncrustatedLegendaryItems} from "../model/monsterWithIncrustatedLegendaryItems";
+import {RarListIncrustationService} from "../rar-list-incrustation.service";
 
 @Component({
   selector: 'app-item-comparator',
@@ -12,16 +16,46 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 })
 export class ItemComparatorComponent implements OnInit {
 
-  toCompare: LegendaryItem[] = [];
+  toCompare: IncrustatedLegendaryItem[] = [];
+  fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
+  targetIncrustationStat: string = "evenly";
 
   protected readonly ItemType = ItemType;
-  protected readonly DamageType = DamageType;
+  protected readonly Array = Array;
 
-  constructor( @Inject(MAT_DIALOG_DATA) data: any) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private incrustationService: RarListIncrustationService
+  ) {
     this.toCompare = data.items;
+    this.fallBackMonsters = data.fallBackMonsters;
+    this.targetIncrustationStat = data.targetIncrustationStat;
   }
 
   ngOnInit(): void {
+  }
+
+  removeStar(rar: IncrustatedLegendaryItem) {
+    if (!rar.incrustationLevel || rar.incrustationLevel == 1) {
+      return;
+    }
+    rar.incrustationLevel--;
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+  }
+
+  addStar(rar: IncrustatedLegendaryItem) {
+    if (rar.incrustationLevel == 9) {
+      return;
+    }
+    if (!rar.incrustationLevel) {
+      rar.incrustationLevel = 1;
+    }
+    rar.incrustationLevel++;
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+  }
+
+  reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
   }
 
   convertArabianToRomanNumber(arabianNumber: number) {
@@ -42,13 +76,12 @@ export class ItemComparatorComponent implements OnInit {
     }
   }
 
-  drop(event: CdkDragDrop<LegendaryItem[], any>) {
+  drop(event: CdkDragDrop<IncrustatedLegendaryItem[], any>) {
     moveItemInArray(this.toCompare, event.previousIndex, event.currentIndex);
   }
 
-  getCompare(comparingStat: string, rar: LegendaryItem) {
+  getCompare(comparingStat: string, rar: IncrustatedLegendaryItem) {
     let firstElement = this.toCompare[0];
-    this.getStringFieldValue(rar, comparingStat);
 
     let firstStatNumber = this.getNumberFieldValue(firstElement, comparingStat);
     let firstStatString = this.getStringFieldValue(firstElement, comparingStat);
@@ -135,7 +168,7 @@ export class ItemComparatorComponent implements OnInit {
     return "";
   }
 
-  getStringFieldValue(object: LegendaryItem, field: string) {
+  getStringFieldValue(object: IncrustatedLegendaryItem, field: string) {
     for (const key in object) {
       if(key === field) {
         // @ts-ignore
@@ -145,7 +178,10 @@ export class ItemComparatorComponent implements OnInit {
     return "";
   }
 
-  getNumberFieldValue(object: LegendaryItem, field: string) {
+  getNumberFieldValue(object: IncrustatedLegendaryItem, field: string) {
+    if (field === "capacity") {
+      return this.getItemCapacity(object);
+    }
     for (const key in object) {
       if(key === field) {
         // @ts-ignore
@@ -202,7 +238,7 @@ export class ItemComparatorComponent implements OnInit {
     if (rar.stamina) {
       sumStat += rar.stamina / 10;
     }
-    return "∑ " + sumStat;
+    return "∑ " + round(sumStat, 1);
   }
 
   getArmorSum(rar: LegendaryItem) {
@@ -216,7 +252,7 @@ export class ItemComparatorComponent implements OnInit {
     if (rar.armorPiercing) {
       sumStat += rar.armorPiercing;
     }
-    return "∑ " + sumStat;
+    return "∑ " + round(sumStat, 1);
   }
 
   getResistanceSum(rar: LegendaryItem) {
@@ -233,6 +269,19 @@ export class ItemComparatorComponent implements OnInit {
     if (rar.coldResistance) {
       sumStat += rar.coldResistance;
     }
-    return "∑ " + sumStat;
+    return "∑ " + round(sumStat, 1);
+  }
+
+  getItemCapacity(rar: IncrustatedLegendaryItem) {
+    if (!rar.incrustationLevel || rar.incrustationLevel < 7) {
+      return rar.capacity;
+    }
+    if (rar.incrustationLevel == 7) {
+      return rar.capacity + 1;
+    }
+    if (rar.incrustationLevel == 8) {
+      return rar.capacity + 2;
+    }
+    return rar.capacity + 4;
   }
 }
