@@ -342,6 +342,10 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   addToCompare(rar: IncrustatedLegendaryItem) {
+    if (this.toCompare.length >= 5) {
+      this.snackBar.open("W porównywarce znajduje się maksymalna ilość przedmiotów (5)", "ok!", {duration: 3000});
+      return;
+    }
     this.toCompare.push(cloneDeep(rar));
     this.snackBar.open("Dodano " + rar.name + " do porównywarki", "ok!", {duration: 3000});
   }
