@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Skill} from "./model/skill";
 import {SkillCost} from "./model/skillCost";
 import {MatDialog} from "@angular/material/dialog";
@@ -30,7 +30,7 @@ import {TranslateService} from "@ngx-translate/core";
   templateUrl: './brokencalc.component.html',
   styleUrls: ['./brokencalc.component.scss']
 })
-export class BrokencalcComponent implements OnInit, OnDestroy {
+export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('saveButton') saveButton!: MatButton;
   buildName: string = "";
@@ -49,7 +49,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     translate: 'yes',
     enableToolbar: true,
     showToolbar: true,
-    placeholder: 'Opis Twojego buildu jak np. co ubierać, jakie mody wybierać czy taktyki ustawiać na bossach.',
+    placeholder: '',
     defaultParagraphSeparator: 'p',
     defaultFontName: '',
     defaultFontSize: '',
@@ -137,6 +137,14 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.subscription = this.buildCalculatorService.subject
       .subscribe(newLevel => this.activeSkill.level = newLevel);
     this.prepareData();
+  }
+
+  ngAfterViewInit() {
+    this.editorConfig.placeholder = this.translate.instant('BUILD_CALCULATOR.TEXT_BOX_PLACEHOLDER');
+    this.translate.onLangChange
+      .subscribe(e => {
+        this.editorConfig.placeholder = this.translate.instant('BUILD_CALCULATOR.TEXT_BOX_PLACEHOLDER');
+      })
   }
 
   ngOnDestroy() {
@@ -251,7 +259,6 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   updateStatById(upgrade: boolean, amount: number, id: number) {
     let targetStat = this.currentStats.find(stat => stat.id == id);
     if (targetStat == null) {
-      this.snackBar.open("Wystąpił błąd - zgłoś go proszę!", "ok!", {duration: 3000});
       return;
     }
 
@@ -262,7 +269,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         let validNumber = targetStat.level + this.remainingStatsPoints;
         if (validNumber >= targetStat.minLevel) {
           if (this.remainingStatsPoints < 0 && targetStat.level != targetStat.minLevel) {
-            this.snackBar.open("Nadmiarowo rozdane statystyki zostały usunięte", "ok!", {duration: 3000});
+            this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.STATS_ABOVE_REMOVED"), "ok!", {duration: 3000});
           }
           targetStat.level += this.remainingStatsPoints;
         } else {
@@ -276,7 +283,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         targetStat.level = newLevel;
       } else {
         targetStat.level = targetStat.minLevel;
-        this.snackBar.open("Ta statystyka jest już na minimalnym poziomie", "ok!", {duration: 3000});
+        this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.STAT_MINIMUM"), "ok!", {duration: 3000});
       }
     }
     this.calculatePoints();
@@ -313,12 +320,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       isBasicSkill = true;
     }
     if (targetSkill == null) {
-      this.snackBar.open("Wystąpił błąd - zgłoś go proszę!", "ok!", {duration: 3000});
       return;
     }
     if (upgrade) {
       if (targetSkill.level == targetSkill.maxLevel) {
-        this.snackBar.open("Ten skill ma już maksymalny poziom", "ok!", {duration: 3000});
+        this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.SKILL_MAXIMUM"), "ok!", {duration: 3000});
         return;
       }
 
@@ -326,26 +332,26 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
 
       if (Number.isNaN(requiredLevel)) {
         localStorage.removeItem("build");
-        this.snackBar.open("BŁĄD PO AKTUALIZACJI - ODŚWIEŻ STRONĘ!", "ok!", {duration: 5000});
+        this.snackBar.open("REFRESH PAGE!", "ok!", {duration: 5000});
         this.technicalRefresh = true;
         return;
       }
 
       if (this.level < requiredLevel) {
-        this.snackBar.open("Masz zbyt niski poziom postaci, wymagany: " + requiredLevel, "ok!", {duration: 3000});
+        this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.LEVEL_TOO_LOW", {requiredLevel: requiredLevel}), "ok!", {duration: 3000});
         return;
       }
 
       let upgradeCost: number = this.skillCosts.find(cost => cost.level == targetSkill!.level + 1)!.singleCost;
       if (upgradeCost > this.remainingSkillPoints) {
-        this.snackBar.open("Za mało punktów na ulepszenie", "ok!", {duration: 3000});
+        this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.NOT_ENOUGH_POINTS"), "ok!", {duration: 3000});
         return;
       }
       targetSkill.level++;
 
     } else {
       if (targetSkill.level == targetSkill.minLevel) {
-        this.snackBar.open("Ten skill jest już na minimalnym poziomie", "ok!", {duration: 3000});
+        this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.SKILL_MAXIMUM"), "ok!", {duration: 3000});
         return;
       }
       targetSkill.level--;
@@ -621,13 +627,12 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   updateOnServer() {
     let uuid = this.jwtService.getUuid();
     if (!uuid) {
-      this.snackBar.open("Musisz być zalogowany!", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.NOT_LOGGED_IN"), "ok", {duration: 3000});
       return;
     }
 
     let simpleBuild = this.saveSimpleBuild();
     if (!simpleBuild) {
-      this.snackBar.open("Wystąpił problem z zapisaniem buildu", "ok", {duration: 3000});
       return;
     }
     this.saveButton.disabled = true;
@@ -644,11 +649,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
         next: build => {
           this.databaseBuild = build;
           this.saveButton.disabled = false;
-          this.snackBar.open("Build zaktualizowany", "ok", {duration: 3000});
+          this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_SAVE_SUCCESS"), "ok", {duration: 3000});
         },
         error: err => {
           this.saveButton.disabled = false;
-          this.snackBar.open("Wystąpił błąd podczas zapisu", "ok", {duration: 3000});
+          this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_SAVE_ERROR"), "ok", {duration: 3000});
         }
       })
   }
@@ -656,13 +661,13 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   saveOnServer() {
     let uuid = this.jwtService.getUuid();
     if (!uuid) {
-      this.snackBar.open("Musisz być zalogowany!", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.NOT_LOGGED_IN"), "ok", {duration: 3000});
       return;
     }
 
     let simpleBuild = this.saveSimpleBuild();
     if (!simpleBuild) {
-      this.snackBar.open("Wystąpił problem z zapisaniem buildu", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_SAVE_ERROR"), "ok", {duration: 3000});
       return;
     }
 
@@ -683,7 +688,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
       .subscribe({
         next: build => this.router.navigate(["/build-calculator/build/" + build.id], {state: {build: build}}),
         error: err => {
-          this.snackBar.open("Build nie mógł być zapisany, prawdopodobnie jego dane zostały zmanipulowane", "ok", {duration: 3000});
+          this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_MANIPULATED"), "ok", {duration: 3000});
           this.saveButton.disabled = false;
         }
       });
@@ -692,11 +697,11 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   upvote() {
     let uuid = this.jwtService.getUuid();
     if (!uuid) {
-      this.snackBar.open("Musisz być zalogowany aby polubić ten build", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.NOT_LOGGED_IN"), "ok", {duration: 3000});
       return;
     }
     if (this.databaseBuild.profile.uuid === uuid) {
-      this.snackBar.open("Nie możesz polubić swojego buildu", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.OWN_BUILD_LIKE"), "ok", {duration: 3000});
       return;
     }
     let liker: BuildLiker = {
@@ -706,7 +711,7 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     this.buildCalculatorService.addLiker(liker)
       .subscribe({
         next: like => this.databaseBuild.liking.push(like),
-        error: err => this.snackBar.open("Już polubiłeś ten build", "ok", {duration: 3000})
+        error: err => this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_LIKED_EARLIER"), "ok", {duration: 3000})
       });
   }
 

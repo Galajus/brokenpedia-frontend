@@ -1,34 +1,34 @@
 <table class="restrict-width" *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
   <ng-container matColumnDef="lp">
-    <th style="width: 40px" mat-header-cell *matHeaderCellDef> lp.</th>
+    <th style="width: 40px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.NUMBER' | translate}}</th>
     <td mat-cell *matCellDef="let element; let i = index"> {{i + 1 + (paginator.pageIndex * paginator.pageSize)}} </td>
   </ng-container>
   <ng-container matColumnDef="profession">
-    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Profesja</th>
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.PROFESSION' | translate}}</th>
     <td mat-cell *matCellDef="let element"><img src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
   </ng-container>
   <ng-container matColumnDef="author">
-    <th style="width: 100px" mat-header-cell *matHeaderCellDef> Autor</th>
+    <th style="width: 100px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.AUTHOR' | translate}}</th>
     <td mat-cell *matCellDef="let element"> {{element.buildAuthor}} </td>
   </ng-container>
   <ng-container matColumnDef="level">
-    <th style="width: 55px" mat-header-cell *matHeaderCellDef> Poziom</th>
+    <th style="width: 55px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.LEVEL' | translate}}</th>
     <td mat-cell *matCellDef="let element"> {{element.level}} </td>
   </ng-container>
   <ng-container matColumnDef="likes">
-    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Polubień</th>
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.LIKES' | translate}}</th>
     <td mat-cell *matCellDef="let element"> {{element.likes}} </td>
   </ng-container>
   <ng-container matColumnDef="buildName">
-    <th mat-header-cell *matHeaderCellDef> Nazwa</th>
+    <th mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.NAME' | translate}}</th>
     <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.buildName}} </td>
   </ng-container>
   <ng-container matColumnDef="shortDescription">
-    <th mat-header-cell *matHeaderCellDef> Krótki opis</th>
+    <th mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.SHORT_DESCRIPTION' | translate}}</th>
     <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
   </ng-container>
   <ng-container matColumnDef="pvpBuild">
-    <th style="width: 75px" mat-header-cell *matHeaderCellDef> Pod PvP</th>
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> PvP</th>
     <td mat-cell *matCellDef="let element">
       <div *ngIf="element.pvpBuild">
         <mat-icon style="color: limegreen">check_circle</mat-icon>
