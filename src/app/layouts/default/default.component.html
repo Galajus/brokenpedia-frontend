@@ -4,9 +4,14 @@
         <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
         <img class="logo" routerLink="" ngSrc="assets/logo.svg" alt="Broken Pedia logo" width="200" height="65">
       </div>
-      <div fxLayoutAlign="center center">
-        <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>ZALOGUJ</strong></button>
-        <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>PROFIL</strong></button>
+      <div fxLayoutAlign="center center" fxLayoutGap="2">
+        <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag ngSrc="assets/i18n/flags/{{currentLang}}.png" height="28" width="28" alt="flag"></button>
+        <mat-menu #language="matMenu">
+          <button (click)="changeLanguage('pl')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/pl.png" height="28" width="28" alt="flag"> Polski</button>
+          <button matTooltip="Only menu and build calculator at the moment" matTooltipPosition="before" (click)="changeLanguage('en')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/en.png" height="28" width="28" alt="flag"> English</button>
+        </mat-menu>
+        <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>{{'MAIN_PAGE.LOGIN' | translate}}</strong></button>
+        <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>{{'MAIN_PAGE.PROFILE' | translate}}</strong></button>
         <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
       </div>
     </mat-toolbar>
@@ -20,7 +25,7 @@
                 <mat-expansion-panel-header style="height: 32px">
                   <mat-panel-title>
                     <span>
-                      <a class="news" routerLink=""><mat-icon class="sidebar-icon">today</mat-icon>Aktualności</a>
+                      <a class="news" routerLink=""><mat-icon class="sidebar-icon">today</mat-icon>{{'MAIN_PAGE.NEWS' | translate}}</a>
                     </span>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -31,18 +36,18 @@
               <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
                 <mat-expansion-panel-header style="height: 32px">
                   <mat-panel-title>
-                    <mat-icon class="sidebar-icon">toc</mat-icon>Kalkulator buildów
+                    <mat-icon class="sidebar-icon">toc</mat-icon>{{'MAIN_PAGE.BUILD_CALCULATOR' | translate}}
                   </mat-panel-title>
                 </mat-expansion-panel-header>
-                <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> Kalkulator </a>
-                <a mat-list-item routerLink="/build-calculator/builds"><mat-icon class="sidebar-icon">view_list</mat-icon> Lista buildów</a>
+                <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> {{'MAIN_PAGE.CALCULATOR' | translate}} </a>
+                <a mat-list-item routerLink="/build-calculator/builds"><mat-icon class="sidebar-icon">view_list</mat-icon> {{'MAIN_PAGE.BUILD_LIST' | translate}}</a>
               </mat-expansion-panel>
             </mat-accordion>
-            <a mat-list-item routerLink="/items-list"><mat-icon class="sidebar-icon">waves</mat-icon> Lista przedmiotów&nbsp;<div style="color: red; font-weight: bold"><mat-icon>fiber_new</mat-icon></div></a>
-            <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> Kalkulator Psychoexpa</a>
-            <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> Kalkulator odłamków i esencji</a>
-            <a mat-list-item routerLink="/upgrade-simulator"><mat-icon class="sidebar-icon">stars</mat-icon> Symulator ulepszania</a>
-            <a mat-list-item routerLink="/drif-simulator"><mat-icon class="sidebar-icon">group_work</mat-icon> Symulator drifów</a>
+            <a mat-list-item routerLink="/items-list"><mat-icon class="sidebar-icon">waves</mat-icon> {{'MAIN_PAGE.ITEMS_LIST' | translate}}&nbsp;<div style="color: red; font-weight: bold"><mat-icon>fiber_new</mat-icon></div></a>
+            <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> {{'MAIN_PAGE.PSYCHO_EXP_CALCULATOR' | translate}}</a>
+            <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> {{'MAIN_PAGE.SHARD_ESSENCES_CALCULATOR' | translate}}</a>
+            <a mat-list-item routerLink="/upgrade-simulator"><mat-icon class="sidebar-icon">stars</mat-icon> {{'MAIN_PAGE.UPGRADE_SIMULATOR' | translate}}</a>
+            <a mat-list-item routerLink="/drif-simulator"><mat-icon class="sidebar-icon">group_work</mat-icon> {{'MAIN_PAGE.DRIF_SIMULATOR' | translate}}</a>
             <a mat-list-item routerLink="/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>
             <mat-accordion>
               <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
@@ -51,20 +56,21 @@
                     <mat-icon class="sidebar-icon">toc</mat-icon>Tips & Cheats
                   </mat-panel-title>
                 </mat-expansion-panel-header>
-                <a mat-list-item routerLink="/important-mods"><mat-icon class="sidebar-icon">all_out</mat-icon> Modyfikatory dla profesji </a>
+                <a mat-list-item routerLink="/important-mods"><mat-icon class="sidebar-icon">all_out</mat-icon> {{'MAIN_PAGE.PROFESSIONS_MODIFIER' | translate}} </a>
               </mat-expansion-panel>
             </mat-accordion>
             <div fxLayoutAlign="center">
-              <a routerLink="/suggestion" class="suggestion-link">Zgłoś błąd / sugestię</a>
+              <a routerLink="/suggestion" class="suggestion-link">{{'MAIN_PAGE.REPORT_BUG_SUGGESTION' | translate}}</a>
             </div>
 
           </mat-nav-list>
 
           <mat-nav-list fxLayout="column" fxLayoutAlign="end center" style="padding-bottom: 18px">
             <a href="https://discord.com/invite/skWSKqe" target="_blank"> <img ngSrc="assets/social/discord.png" height="25" width="33"></a>
-            <a routerLink="/privacy-policy">&#x2022; Polityka prywatności & cookies</a>
+            <p><a href='javascript:googlefc.callbackQueue.push(googlefc.showRevocationMessage)'>{{'MAIN_PAGE.SET_PRIVACY_POLICY' | translate}}</a></p>
+            <a routerLink="/privacy-policy">{{'MAIN_PAGE.PRIVACY_POLICY' | translate}}</a>
             <p>Made with <mat-icon class="love">favorite</mat-icon> by Galajus</p>
-            <p class="own">Grafiki na stronie są własnością <a class="owner" href="https://www.whitemoon.com">Whitemoon.pl</a></p>
+            <p class="own">{{'MAIN_PAGE.WHITEMOON' | translate}} <a class="owner" href="https://www.whitemoon.com">Whitemoon.com</a></p>
           </mat-nav-list>
         </div>
       </mat-sidenav>
@@ -81,7 +87,7 @@
 
           <div *ngIf="!hideAds" fxFlex="17" #bar2 class="sidebar">
             <div class="relax">
-              <p class="shadowed">reklama</p>
+              <p class="shadowed">{{'MAIN_PAGE.AD' | translate}}</p>
               <ng-adsense *ngIf="!adLoading && environment.production" adFormat="auto" display="block" [fullWidthResponsive]="true" [height]="700"></ng-adsense>
             </div>
           </div>

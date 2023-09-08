@@ -33,7 +33,7 @@ import {PsychoExpCalculatorComponent} from './modules/user/psycho-exp-calculator
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {TestsComponent} from './modules/user/tests/tests.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {ConfirmAccountComponent} from './modules/user/account/login/confirm-account/confirm-account.component';
 import {ProfileAuthorizationGuard} from "./common/guard/profileAuthorizationGuard";
 import {JwtInterceptor} from "./common/interceptor/jwt.interceptor";
@@ -60,10 +60,10 @@ import localePlExtra from '@angular/common/locales/extra/pl';
 import {PostsComponent} from './modules/admin/posts/posts.component';
 import {PostAddComponent} from './modules/admin/posts/post-add/post-add.component';
 import {PostEditComponent} from './modules/admin/posts/post-edit/post-edit.component'
-import {SimpleDate} from "./modules/user/common/pipe/simple-date";
+import {SimpleDate} from "./common/pipe/simple-date";
 import {PostComponent} from './modules/user/post/post.component';
 import {CategoryComponent} from './modules/user/category/category.component';
-import {NoSanitize} from "./modules/user/common/pipe/no-sanitize";
+import {NoSanitize} from "./common/pipe/no-sanitize";
 import {CategoryAddComponent} from './modules/admin/category/category-add/category-add.component';
 import {CategoryUpdateComponent} from './modules/admin/category/category-update/category-update.component';
 import {AdminCategoryComponent} from "./modules/admin/category/admin-category.component";
@@ -88,6 +88,10 @@ import {UserSuggestionComponent} from './modules/user/user-suggestion/user-sugge
 import {ItemComparatorComponent} from './modules/user/rar-list/item-comparator/item-comparator.component';
 import {MatSortModule} from "@angular/material/sort";
 import {EditAdminCommentComponent} from './modules/admin/suggestions/edit-admin-comment/edit-admin-comment.component';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {MatMenuModule} from "@angular/material/menu";
+import {Underscore} from "./common/pipe/underscore";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -118,6 +122,11 @@ const cookieConfig:NgcCookieConsentConfig = {
     "policy": "Cookie Policy"
   }
 };
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 registerLocaleData(localePl, localePlExtra);
 
@@ -168,50 +177,61 @@ registerLocaleData(localePl, localePlExtra);
     SuggestionsComponent,
     UserSuggestionComponent,
     ItemComparatorComponent,
-    EditAdminCommentComponent
+    EditAdminCommentComponent,
+    Underscore
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatGridListModule,
-        MatBadgeModule,
-        FlexLayoutModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        FormsModule,
-        MatDialogModule,
-        MatSlideToggleModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatListModule,
-        MatSnackBarModule,
-        MatTableModule,
-        NgcCookieConsentModule.forRoot(cookieConfig),
-        ReactiveFormsModule,
-        MatTabsModule,
-        AngularEditorModule,
-        MatTreeModule,
-        MatExpansionModule,
-        MatPaginatorModule,
-        NgOptimizedImage,
-        MatProgressSpinnerModule,
-        MatTooltipModule,
-        DragDropModule,
-        MatRadioModule,
-        MatCheckboxModule,
-        AdsenseModule.forRoot({
-            adClient: 'ca-pub-8605997221846310',
-            adSlot: 7391443546,
-        }),
-        MatSliderModule,
-        MatSortModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatBadgeModule,
+    FlexLayoutModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatSnackBarModule,
+    MatTableModule,
+    NgcCookieConsentModule.forRoot(cookieConfig),
+    ReactiveFormsModule,
+    MatTabsModule,
+    AngularEditorModule,
+    MatTreeModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    NgOptimizedImage,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    DragDropModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-8605997221846310',
+      adSlot: 7391443546,
+    }),
+    MatSliderModule,
+    MatSortModule,
+    BrowserModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en'
+    }),
+    MatMenuModule
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     ProfileAuthorizationGuard,

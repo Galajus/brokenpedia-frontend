@@ -29,28 +29,27 @@
               <mat-card-content>
                 <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
                   <div fxLayout="column" fxLayoutGap="5">
-                    <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">Zapisz</button>
+                    <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">{{'BUILD_CALCULATOR.SAVE' | translate}}</button>
                     <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
                   </div>
 
                   <mat-form-field appearance="outline" color="accent" *ngIf="!databaseBuild">
-                    <mat-label>Wybierz profesję</mat-label>
+                    <mat-label>{{'BUILD_CALCULATOR.CHOOSE_PROFESSION' | translate}}</mat-label>
                     <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
-                      <mat-option value="BARBARIAN">Barbarzyńca</mat-option>
-                      <mat-option value="FIRE_MAGE">Mag Ognia</mat-option>
-                      <mat-option value="ARCHER">Łucznik</mat-option>
-                      <mat-option value="SHEED">Sheed</mat-option>
-                      <mat-option value="VOODOO">Voodoo</mat-option>
-                      <mat-option value="KNIGHT">Rycerz</mat-option>
-                      <mat-option value="DRUID">Druid</mat-option>
+                      <mat-option value="BARBARIAN">{{'BUILD_CALCULATOR.PROFESSION.BARBARIAN' | translate}}</mat-option>
+                      <mat-option value="FIRE_MAGE">{{'BUILD_CALCULATOR.PROFESSION.FIRE_MAGE' | translate}}</mat-option>
+                      <mat-option value="ARCHER">{{'BUILD_CALCULATOR.PROFESSION.ARCHER' | translate}}</mat-option>
+                      <mat-option value="SHEED">{{'BUILD_CALCULATOR.PROFESSION.SHEED' | translate}}</mat-option>
+                      <mat-option value="VOODOO">{{'BUILD_CALCULATOR.PROFESSION.VOODOO' | translate}}</mat-option>
+                      <mat-option value="KNIGHT">{{'BUILD_CALCULATOR.PROFESSION.KNIGHT' | translate}}</mat-option>
+                      <mat-option value="DRUID">{{'BUILD_CALCULATOR.PROFESSION.DRUID' | translate}}</mat-option>
                     </mat-select>
-                    <mat-hint align="end">Wybierz profesję z listy powyżej ^</mat-hint>
                   </mat-form-field>
 
 
 
-                  <mat-form-field hintLabel="Level z przedziału 1-140" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
-                    <mat-label>Level postaci</mat-label>
+                  <mat-form-field hintLabel="{{'BUILD_CALCULATOR.CHARACTER_LEVEL_TIP' | translate}}" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
+                    <mat-label>{{'BUILD_CALCULATOR.CHARACTER_LEVEL' | translate}}</mat-label>
                     <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
                   </mat-form-field>
 
@@ -67,7 +66,7 @@
               <mat-card-content>
                 <div>
                   <div *ngIf="!databaseBuild" fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
-                    <mat-slide-toggle [(ngModel)]="resetOnLevelChange">Wyczyść skille i staty po zmianie levela</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="resetOnLevelChange">{{'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate}}</mat-slide-toggle>
                   </div>
                   <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
                     <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
@@ -153,20 +152,20 @@
             <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
               <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
                 <div>
-                  <h4 style="display: inline"><strong>{{activeSkill.name}}</strong></h4>
+                  <h4 style="display: inline; font-weight: bold">{{'BUILD_CALCULATOR.SKILLS.' + activeSkill.name | uppercase | underscore | translate}}</h4>
                   <h5 style="display: inline"> (lvl: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}+)</h5>
                 </div>
-                <h5 *ngIf="activeSkill.requirements">Wymagania: {{activeSkill.requirements}}</h5>
-                <h5 *ngIf="activeSkill.formula">Wzór: {{activeSkill.formula}}</h5>
+                <h5 *ngIf="activeSkill.requirements">{{'BUILD_CALCULATOR.REQUIREMENTS' | translate}}: {{'SKILL_REQUIREMENTS.' + activeSkill.requirements | uppercase | underscore | translate}}</h5>
+                <h5 *ngIf="activeSkill.formula">{{'BUILD_CALCULATOR.FORMULA' | translate}}: {{'SKILL_FORMULAS.' + activeSkill.formula | translate}}</h5>
               </div>
-              <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">Poziom: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
+              <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">{{'BUILD_CALCULATOR.LEVEL' | translate}}: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
               <div *ngIf="activeSkill.level != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">Obrażenia: {{getActiveSkillBasic(activeSkill.level).damage}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">Szansa trafienia: {{getActiveSkillBasic(activeSkill.level).hitChance}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">Mana: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">Kondycja: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">Szansa na dodatkowy efekt: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">{{'BUILD_CALCULATOR.DAMAGE' | translate}}: {{getActiveSkillBasic(activeSkill.level).damage}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">{{'BUILD_CALCULATOR.CHANCE_TO_HIT' | translate}}: {{getActiveSkillBasic(activeSkill.level).hitChance}}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">{{'BUILD_CALCULATOR.MANA' | translate}}: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">{{'BUILD_CALCULATOR.STAMINA' | translate}}: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">{{'BUILD_CALCULATOR.ROUNDS' | translate}}: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">{{'BUILD_CALCULATOR.ADDITIONAL_EFFECT_CHANCE' | translate}}: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{printSpecialEffect(getActiveSkillBasic(activeSkill.level))}}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty"
                     matTooltip="
@@ -174,7 +173,7 @@
                                 2PA = {{getRequiredWisdomForSkill(activeSkill.level, 2, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
                                 3PA = {{getRequiredWisdomForSkill(activeSkill.level, 3, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
                     ">
-                  Trudność: {{printDifficulty(getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                  {{'BUILD_CALCULATOR.DIFFICULTY' | translate}}: {{'DIFFICULTIES.' + getActiveSkillBasic(activeSkill.level).skillDifficulty | translate}}
                 </h5>
               </div>
               <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
@@ -182,10 +181,10 @@
                   (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).effectRoundsTime)">
-                <h5>Efekt:</h5>
-                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{printPsychoEffect(psycho)}}</h5>
-                <h5 *ngFor="let custom of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{printCustomEffect(custom)}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).effectRoundsTime">Rundy: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
+                <h5>{{'BUILD_CALCULATOR.EFFECT' | translate}}:</h5>
+                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{'PSYCHO_EFFECTS.' + psycho.psychoEffect | translate}}: {{printPsychoValue(psycho)}}</h5>
+                <h5 *ngFor="let custom of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{'CUSTOM_EFFECTS.' + custom.description | uppercase | underscore | translate}}{{printCustomEffectValue(custom)}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).effectRoundsTime">{{'BUILD_CALCULATOR.ROUNDS' | translate}}: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
               </div>
             </div>
           </mat-card-content>
@@ -196,11 +195,11 @@
 
   <!--BUILD DESCRIPTION-->
 
-  <mat-tab label="Opis">
+  <mat-tab label="{{'BUILD_CALCULATOR.DESCRIPTION' | translate}}">
     <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
       <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
         <mat-card-content>
-          <h2>Buildu nie znaleziono bądź jest prywatny</h2>
+          <h2>{{'BUILD_CALCULATOR.NOT_FOUND' | translate}}</h2>
         </mat-card-content>
       </mat-card>
     </div>
@@ -211,33 +210,33 @@
           <div fxLayoutGap="15" fxLayout="column" fxLayoutAlign="center center">
             <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20">
               <div fxLayout="column" fxLayoutAlign="center center">
-                <h3>NAZWA BUILDU</h3>
+                <h3>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</h3>
                 <mat-form-field appearance="fill" color="accent" style="width: 300px">
-                  <mat-label>NAZWA BUILDU</mat-label>
+                  <mat-label>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</mat-label>
                   <input matInput #blName maxlength="30" [(ngModel)]="buildName" placeholder="Nazwa buildu">
                   <mat-hint align="end">{{blName.value.length}} / 30</mat-hint>
                 </mat-form-field>
               </div>
             </div>
             <div fxLayout="column" fxLayoutAlign="center center">
-              <h3>SKRÓCONY OPIS BUILDU</h3>
+              <h3>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</h3>
               <mat-form-field appearance="fill" color="accent" style="width: 800px">
-                <mat-label>SKRÓCONY OPIS BUILDU</mat-label>
+                <mat-label>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</mat-label>
                 <input matInput #blShortDesc maxlength="150" [(ngModel)]="shortDescription" placeholder="Skrócony opis buildu">
                 <mat-hint align="end">{{blShortDesc.value.length}} / 150</mat-hint>
               </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15">
-              <mat-slide-toggle [(ngModel)]="privateBuild">Build prywatny (widzisz go tylko Ty)</mat-slide-toggle>
-              <mat-slide-toggle [(ngModel)]="pvpBuild">Build pod PvP</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="privateBuild">{{'BUILD_CALCULATOR.BUILD_PRIVACY' | translate}}</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="pvpBuild">{{'BUILD_CALCULATOR.PVP_BUILD' | translate}}</mat-slide-toggle>
             </div>
             <div style="max-width: 800px">
-              <h3>OPIS</h3>
+              <h3>{{'BUILD_CALCULATOR.DESCRIPTION' | translate | uppercase}}</h3>
               <angular-editor [(ngModel)]="description" [config]="editorConfig"></angular-editor>
               <div style="text-align: end">{{description?.toString().length ? description?.toString().length : 0}} / 6000</div>
             </div>
             <div>
-              <h3>REZULTAT</h3>
+              <h3>{{'BUILD_CALCULATOR.RESULT' | translate}}</h3>
             </div>
             <div style="max-width: 800px; word-wrap: break-word;" fxFill [innerHTML]="description">
             </div>

@@ -23,6 +23,7 @@ import {SkillPsychoEffect} from "./model/skillPsychoEffect";
 import {SkillCustomEffect} from "./model/skillCustomEffect";
 import {PsychoMod} from "../drif-simulator/model/psychoMod";
 import {SkillDifficulty} from "../common/model/skillDifficulty";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-brokencalc',
@@ -125,7 +126,8 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
     private buildCalculatorService: BuildCalculatorService,
     protected jwtService: JwtService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private translate: TranslateService
   ) {
 
   }
@@ -761,29 +763,22 @@ export class BrokencalcComponent implements OnInit, OnDestroy {
   }
 
   printSpecialEffect(basic: SkillBasic) {
+    let translateEffect = basic.specialEffectDescription.toUpperCase().replaceAll(" ", "_");
     if (basic.specialEffectDescription === "Siła odczarowania") {
-      return basic.specialEffectDescription + ": " + basic.specialEffectValue;
+      return this.translate.instant('CUSTOM_EFFECTS.' + translateEffect) + ": " + basic.specialEffectValue;
     }
-    return basic.specialEffectDescription + ": " + basic.specialEffectValue + "%";
-1  }
-
-  printPsychoEffect(psycho: SkillPsychoEffect) {
-    return PsychoMod[psycho.psychoEffect as keyof typeof PsychoMod] + ": " + this.printPsychoValue(psycho);
+    return this.translate.instant('CUSTOM_EFFECTS.' + translateEffect) + ": " + basic.specialEffectValue + "%";
   }
 
-  printCustomEffect(custom: SkillCustomEffect) {
-    return this.printCustomMod(custom.description) + " " + this.printCustomValue(custom);
+  printCustomEffectValue(custom: SkillCustomEffect) {
+    return this.checkPrintColon(custom.description) + " " + this.printCustomValue(custom);
   }
 
-  printCustomMod(mod: string) {
+  checkPrintColon(mod: string) {
     if (!mod.includes(":")) {
-      return mod + ":";
+      return ":";
     }
-    return mod;
-  }
-
-  printDifficulty(difficulty: string) {
-    return SkillDifficulty[difficulty as keyof typeof SkillDifficulty];
+    return "";
   }
 
   printPsychoValue(effect: SkillPsychoEffect) {
@@ -828,5 +823,4 @@ const notPercentEffects = [
   "Redukcja obrażeń many",
 
   "EXTRA_AP",
-
   ]

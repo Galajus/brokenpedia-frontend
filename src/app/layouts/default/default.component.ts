@@ -1,4 +1,13 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  SimpleChange,
+  ViewChild
+} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
 import {NavigationEnd, Router} from "@angular/router";
 import {JwtService} from "../../common/service/jwt.service";
@@ -8,6 +17,8 @@ import {Category} from "../../modules/admin/posts/model/category";
 import {AdsenseComponent} from "ng2-adsense";
 import {environment} from "../../../environments/environment";
 import {MatSidenav} from "@angular/material/sidenav";
+import {TranslateService} from "@ngx-translate/core";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-default',
@@ -19,6 +30,7 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('bar1') sidebar1!: ElementRef<HTMLElement>;
   @ViewChild('bar2') sidebar2!: ElementRef<HTMLElement>;
   @ViewChild('sidenav') sidenav!: MatSidenav;
+  @ViewChild('countryFlag') flag!: ElementRef;
   @ViewChild(AdsenseComponent) ads!: AdsenseComponent;
 
   adLoading: boolean = false;
@@ -31,6 +43,7 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   categories!: Array<Category>;
   hideAds: boolean = false;
   startAdsWidth: number = 300;
+  currentLang: string = "pl";
   private readonly _mobileQueryListener!: () => void;
 
   constructor(
@@ -38,11 +51,13 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
     private jwtService: JwtService,
     private loginButtonService: LoginButtonService,
     private defaultService: DefaultService,
+    private translate: TranslateService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener("mobile", this._mobileQueryListener);
+    translate.setDefaultLang(this.currentLang);
   }
 
   ngOnInit(): void {
@@ -54,7 +69,26 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loginButtonService.subject
       .subscribe(loggedIn => this.isLoggedIn = loggedIn);
 
+    const observer = new MutationObserver(() => {
+      document.querySelector(".google-revocation-link-placeholder")?.remove();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+    });
+
     this.listenAds();
+    this.readLanguage();
+  }
+
+  readLanguage(){
+    let dataString = localStorage.getItem("language");
+    if (!dataString) {
+      this.translate.use(this.currentLang);
+      return;
+    }
+    this.currentLang = dataString;
+    this.translate.use(this.currentLang);
   }
 
   listenAds() {
@@ -125,6 +159,13 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   protected readonly environment = environment;
+
+  changeLanguage(lang: string) {
+    this.currentLang = lang;
+    this.translate.use(lang);
+    this.flag.nativeElement.src = "assets/i18n/flags/" + lang + ".png"
+    localStorage.setItem("language", (lang));
+  }
 }
 
 
