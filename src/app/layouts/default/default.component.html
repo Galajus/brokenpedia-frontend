@@ -8,7 +8,7 @@
         <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag ngSrc="assets/i18n/flags/{{currentLang}}.png" height="28" width="28" alt="flag"></button>
         <mat-menu #language="matMenu">
           <button (click)="changeLanguage('pl')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/pl.png" height="28" width="28" alt="flag"> Polski</button>
-          <button matTooltip="Only menu and build calculator at the moment" matTooltipPosition="before" (click)="changeLanguage('en')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/en.png" height="28" width="28" alt="flag"> English</button>
+          <button matTooltip="Only menu, build calculator and items list" matTooltipPosition="before" (click)="changeLanguage('en')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/en.png" height="28" width="28" alt="flag"> English</button>
         </mat-menu>
         <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>{{'MAIN_PAGE.LOGIN' | translate}}</strong></button>
         <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>{{'MAIN_PAGE.PROFILE' | translate}}</strong></button>

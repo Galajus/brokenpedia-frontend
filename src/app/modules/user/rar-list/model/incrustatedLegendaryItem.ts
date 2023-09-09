@@ -5,6 +5,7 @@ import {DamageType} from "../../../../common/model/items/damageType";
 export interface IncrustatedLegendaryItem {
   id?: number,
   name: string,
+  translatedName?: string,
   droppingMonsters: MonsterWithIncrustatedLegendaryItems[],
   type: ItemType,
   weight: number,

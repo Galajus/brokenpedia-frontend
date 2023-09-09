@@ -11,6 +11,7 @@ import {cloneDeep} from 'lodash-es';
 import {MatSelect} from "@angular/material/select";
 import {MatOption} from "@angular/material/core";
 import {RarListIncrustationService} from "./rar-list-incrustation.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-rar-list',
@@ -47,7 +48,8 @@ export class RarListComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private rarListService: RarListService,
     private snackBar: MatSnackBar,
-    private incrustationService: RarListIncrustationService
+    private incrustationService: RarListIncrustationService,
+    private translate: TranslateService
   ) {
   }
 
@@ -72,10 +74,31 @@ export class RarListComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.translate.onLangChange
+      .subscribe(e => {
+        console.log("CHANGE");
+        this.translateItemsAndMonsters(e.lang);
+      });
   }
 
   ngOnDestroy() {
     this.saveData();
+  }
+
+  translateItemsAndMonsters(lang: string) {
+    if (!this.fallBackMonsters) {
+      return;
+    }
+    this.monsters = cloneDeep(this.fallBackMonsters);
+
+    this.monsters.forEach(m => {
+      m.translatedName = this.translate.instant('ITEMS.BOSSES.' + m.name.toUpperCase().replaceAll(" ", "_"));
+      m.legendaryDrops.forEach(i => {
+        i.translatedName = this.translate.instant('ITEMS.RARS.' + i.name.toUpperCase().replaceAll(" ", "_"));
+      })
+    })
+    this.initSort();
   }
 
   initData() {
@@ -83,8 +106,7 @@ export class RarListComponent implements OnInit, OnDestroy {
       .subscribe(m => {
         this.fallBackMonsters = cloneDeep(m);
         this.monsters = cloneDeep(m);
-        this.initSort();
-
+        this.translateItemsAndMonsters(this.translate.currentLang);
       });
   }
 
@@ -97,7 +119,7 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   openItemComparator() {
     if (this.toCompare.length === 0) {
-      this.snackBar.open("Porównywarka jest pusta, dodaj coś do niej!", "ok", {duration: 3000});
+      this.snackBar.open(this.translate.instant('ITEMS_LIST.COMPARATOR_EMPTY'), "ok", {duration: 3000});
       return;
     }
     let matDialogRef = this.dialog.open(ItemComparatorComponent, {
@@ -121,7 +143,7 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   doFilter() {
     this.page = 1;
-    this.monsters = cloneDeep(this.fallBackMonsters);
+    this.translateItemsAndMonsters(this.translate.currentLang);
     this.optimiseTypesSelect();
     this.validateMinMaxLevels();
 
@@ -140,10 +162,18 @@ export class RarListComponent implements OnInit, OnDestroy {
     let name = this.searchValue.toLowerCase();
 
     this.monsters = this.monsters.filter(m => {
-      if (m.name.toLowerCase().includes(name)) {
+      if (!m.translatedName){
+        return;
+      }
+      if (m.translatedName.toLowerCase().includes(name)) {
         return m;
       }
-      m.legendaryDrops = m.legendaryDrops.filter(r => r.name.toLowerCase().includes(name));
+      m.legendaryDrops = m.legendaryDrops.filter(r => {
+        if (!r.translatedName){
+          return;
+        }
+        return r.translatedName.toLowerCase().includes(name);
+      });
       if (m.legendaryDrops.length != 0) {
         return m;
       }
@@ -343,16 +373,16 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   addToCompare(rar: IncrustatedLegendaryItem) {
     if (this.toCompare.length >= 5) {
-      this.snackBar.open("W porównywarce znajduje się maksymalna ilość przedmiotów (5)", "ok!", {duration: 3000});
+      this.snackBar.open(this.translate.instant('ITEMS_LIST.COMPARATOR_FULL'), "ok!", {duration: 3000});
       return;
     }
     this.toCompare.push(cloneDeep(rar));
-    this.snackBar.open("Dodano " + rar.name + " do porównywarki", "ok!", {duration: 3000});
+    this.snackBar.open(this.translate.instant('ITEMS_LIST.COMPARATOR_ADDED', {name: rar.translatedName}), "ok!", {duration: 3000});
   }
 
   deleteFromToCompare(rar: IncrustatedLegendaryItem) {
     this.toCompare = this.toCompare.filter(r => r !== rar);
-    this.snackBar.open("Przedmiot " + rar.name + " został usunięty z porównywarki", "ok!", {duration: 3000});
+    this.snackBar.open(this.translate.instant('ITEMS_LIST.COMPARATOR_REMOVED', {name: rar.translatedName}), "ok!", {duration: 3000});
   }
 
   removeStar(rar: IncrustatedLegendaryItem) {

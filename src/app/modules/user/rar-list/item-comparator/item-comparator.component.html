@@ -12,7 +12,7 @@
           <div fxFlex="20" fxLayoutAlign="center center">
             <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
           </div>
-          <div fxFlex fxLayoutAlign="center center" matTooltip="Ponów inkrustację" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
+          <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
             <div *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
               <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
             </div>
@@ -27,7 +27,7 @@
             <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)"><mat-icon>add</mat-icon></button>
           </div>
         </div>
-        <h3 class="classic-rar-name">"{{rar.name}}"</h3>
+        <h3 class="classic-rar-name">"{{rar.translatedName}}"</h3>
         <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center">
           <div>
             <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
@@ -40,36 +40,35 @@
         </div>
       </div>
       <ul>
-        <li fxLayout="row">Typ: {{ItemType[rar.type]}}<div [innerHTML]="getCompare('type', rar) | noSanitize"></div></li>
-        <li fxLayout="row">Waga: {{rar.weight}} <div [innerHTML]="getCompare('weight', rar) | noSanitize"></div></li>
-        <li fxLayout="row">Ranga: {{convertArabianToRomanNumber(rar.rank)}}<div [innerHTML]="getCompare('rank', rar) | noSanitize"></div></li>
-        <li fxLayout="row">Pojemność: {{getItemCapacity(rar)}}<div [innerHTML]="getCompare('capacity', rar) | noSanitize"></div></li>
-        <li fxLayout="row">Wartość: {{rar.value.toLocaleString()}}<div [innerHTML]="getCompare('value', rar) | noSanitize"></div></li>
-        <li fxLayout="row" >Wymagany poziom: {{rar.requiredLevel}}<div [innerHTML]="getCompare('requiredLevel', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.strength">Wymagana siła: {{rar.requiredStrength}}<div [innerHTML]="getCompare('requiredStrength', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}<div [innerHTML]="getCompare('requiredDexterity', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.requiredPower">Wymagana moc: {{rar.requiredPower}}<div [innerHTML]="getCompare('requiredPower', rar) | noSanitize"></div></li>
-        <li style="padding-bottom: 10px" fxLayout="row" [class.gray]="!rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}<div [innerHTML]="getCompare('requiredKnowledge', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}<div [innerHTML]="getCompare('type', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}} <div [innerHTML]="getCompare('weight', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.RANK' | translate}}: {{convertArabianToRomanNumber(rar.rank)}}<div [innerHTML]="getCompare('rank', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}<div [innerHTML]="getCompare('capacity', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}}<div [innerHTML]="getCompare('value', rar) | noSanitize"></div></li>
+        <li fxLayout="row" >{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}<div [innerHTML]="getCompare('requiredLevel', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.strength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: {{rar.requiredStrength}}<div [innerHTML]="getCompare('requiredStrength', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: {{rar.requiredDexterity}}<div [innerHTML]="getCompare('requiredDexterity', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: {{rar.requiredPower}}<div [innerHTML]="getCompare('requiredPower', rar) | noSanitize"></div></li>
+        <li style="padding-bottom: 10px" fxLayout="row" [class.gray]="!rar.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: {{rar.requiredKnowledge}}<div [innerHTML]="getCompare('requiredKnowledge', rar) | noSanitize"></div></li>
 
-        <li fxLayout="row" [class.gray]="!rar.damage">Obrażenia: {{getValueString(rar.damage)}}<div [innerHTML]="getCompare('damage', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.damageType">Typ obrażeń: {{getDamageType(rar.damageType)}}<div [innerHTML]="getCompare('damageType', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.strength" [class.below-zero]="getIsBelowZero(rar.strength)">Siła: {{getValueString(rar.strength)}}<div [innerHTML]="getCompare('strength', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.dexterity" [class.below-zero]="getIsBelowZero(rar.dexterity)">Zręczność: {{getValueString(rar.dexterity)}}<div [innerHTML]="getCompare('dexterity', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.power"  [class.below-zero]="getIsBelowZero(rar.power)">Moc: {{getValueString(rar.power)}}<div [innerHTML]="getCompare('power', rar) | noSanitize"></div></li>
-        <!--<li style="color: gray" fxLayout="row" *ngIf="toCompare[0].power && !rar.power">Moc: 0<div [innerHTML]="getCompare('power', rar) | noSanitize"></div></li>-->
-        <li fxLayout="row" [class.gray]="!rar.knowledge" [class.below-zero]="getIsBelowZero(rar.knowledge)">Wiedza: {{getValueString(rar.knowledge)}}<div [innerHTML]="getCompare('knowledge', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.health" [class.below-zero]="getIsBelowZero(rar.health)">PŻ: {{getValueString(rar.health)}}<div [innerHTML]="getCompare('health', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.mana" [class.below-zero]="getIsBelowZero(rar.mana)">Mana: {{getValueString(rar.mana)}}<div [innerHTML]="getCompare('mana', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.stamina" [class.below-zero]="getIsBelowZero(rar.stamina)">Kondycja: {{getValueString(rar.stamina)}}<div [innerHTML]="getCompare('stamina', rar) | noSanitize"></div><div class="sum-value">{{getStatSum(rar)}}</div></li>
+        <li fxLayout="row" [class.gray]="!rar.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: {{getValueString(rar.damage)}}<div [innerHTML]="getCompare('damage', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: {{'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate}}<div [innerHTML]="getCompare('damageType', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.strength" [class.below-zero]="getIsBelowZero(rar.strength)">{{'ITEMS_LIST.STRENGTH' | translate}}: {{getValueString(rar.strength)}}<div [innerHTML]="getCompare('strength', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.dexterity" [class.below-zero]="getIsBelowZero(rar.dexterity)">{{'ITEMS_LIST.DEXTERITY' | translate}}: {{getValueString(rar.dexterity)}}<div [innerHTML]="getCompare('dexterity', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.power"  [class.below-zero]="getIsBelowZero(rar.power)">{{'ITEMS_LIST.POWER' | translate}}: {{getValueString(rar.power)}}<div [innerHTML]="getCompare('power', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.knowledge" [class.below-zero]="getIsBelowZero(rar.knowledge)">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: {{getValueString(rar.knowledge)}}<div [innerHTML]="getCompare('knowledge', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.health" [class.below-zero]="getIsBelowZero(rar.health)">{{'ITEMS_LIST.HEALTH' | translate}}: {{getValueString(rar.health)}}<div [innerHTML]="getCompare('health', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.mana" [class.below-zero]="getIsBelowZero(rar.mana)">{{'ITEMS_LIST.MANA' | translate}}: {{getValueString(rar.mana)}}<div [innerHTML]="getCompare('mana', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.stamina" [class.below-zero]="getIsBelowZero(rar.stamina)">{{'ITEMS_LIST.STAMINA' | translate}}: {{getValueString(rar.stamina)}}<div [innerHTML]="getCompare('stamina', rar) | noSanitize"></div><div class="sum-value">{{getStatSum(rar)}}</div></li>
         <mat-divider></mat-divider>
-        <li fxLayout="row" [class.gray]="!rar.armorSlashing">Pancerz sieczne: {{getValueString(rar.armorSlashing)}}<div [innerHTML]="getCompare('armorSlashing', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.armorCrushing">Pancerz obuchowe: {{getValueString(rar.armorCrushing)}}<div [innerHTML]="getCompare('armorCrushing', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.armorPiercing">Pancerz kłute: {{getValueString(rar.armorPiercing)}}<div [innerHTML]="getCompare('armorPiercing', rar) | noSanitize"></div><div class="sum-value">{{getArmorSum(rar)}}</div></li>
+        <li fxLayout="row" [class.gray]="!rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: {{getValueString(rar.armorSlashing)}}<div [innerHTML]="getCompare('armorSlashing', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: {{getValueString(rar.armorCrushing)}}<div [innerHTML]="getCompare('armorCrushing', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: {{getValueString(rar.armorPiercing)}}<div [innerHTML]="getCompare('armorPiercing', rar) | noSanitize"></div><div class="sum-value">{{getArmorSum(rar)}}</div></li>
         <mat-divider></mat-divider>
-        <li fxLayout="row" [class.gray]="!rar.fireResistance">Odporność ogień: {{getValueString(rar.fireResistance)}}<div [innerHTML]="getCompare('fireResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.coldResistance">Odporność zimno: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.energyResistance">Odporność energia: {{getValueString(rar.energyResistance)}}<div [innerHTML]="getCompare('energyResistance', rar) | noSanitize"></div></li>
-        <li fxLayout="row" [class.gray]="!rar.mentalResistance">Odporność uroki: {{getValueString(rar.mentalResistance)}}<div [innerHTML]="getCompare('mentalResistance', rar) | noSanitize"></div><div class="sum-value">{{getResistanceSum(rar)}}</div></li>
+        <li fxLayout="row" [class.gray]="!rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: {{getValueString(rar.fireResistance)}}<div [innerHTML]="getCompare('fireResistance', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: {{getValueString(rar.coldResistance)}}<div [innerHTML]="getCompare('coldResistance', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: {{getValueString(rar.energyResistance)}}<div [innerHTML]="getCompare('energyResistance', rar) | noSanitize"></div></li>
+        <li fxLayout="row" [class.gray]="!rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: {{getValueString(rar.mentalResistance)}}<div [innerHTML]="getCompare('mentalResistance', rar) | noSanitize"></div><div class="sum-value">{{getResistanceSum(rar)}}</div></li>
         <mat-divider></mat-divider>
       </ul>
     </div>

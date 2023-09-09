@@ -8,46 +8,46 @@
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
             <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5">
               <div>
-                <button mat-stroked-button color="accent" (click)="rotateList()">Obróć</button>
+                <button mat-stroked-button color="accent" (click)="rotateList()">{{'ITEMS_LIST.ROTATE' | translate}}</button>
               </div>
               <div>
                 <mat-checkbox [(ngModel)]="modernView" (change)="page = 1">Modern view</mat-checkbox>
               </div>
             </div>
             <div>
-              <mat-form-field style="width: 110px" hintLabel="Minimalny lvl" appearance="outline" color="accent">
-                <mat-label>Min lvl</mat-label>
+              <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.MINIMAL_LEVEL' | translate}}" appearance="outline" color="accent">
+                <mat-label>{{'ITEMS_LIST.MINIMAL_LEVEL' | translate}}</mat-label>
                 <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field style="width: 110px" hintLabel="Maksymalny lvl" appearance="outline" color="accent">
-                <mat-label>Max lvl</mat-label>
+              <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.MAXIMUM_LEVEL' | translate}}" appearance="outline" color="accent">
+                <mat-label>{{'ITEMS_LIST.MAXIMUM_LEVEL' | translate}}</mat-label>
                 <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
               </mat-form-field>
             </div>
-            <mat-form-field style="width: 110px" hintLabel="Inkrustuj według" appearance="outline" color="accent">
-              <mat-label>Cel inkrustacji</mat-label>
+            <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.INCRUSTATION_BY' | translate}}" appearance="outline" color="accent">
+              <mat-label>{{'ITEMS_LIST.INCRUSTATION_TARGET' | translate}}</mat-label>
               <mat-select [(ngModel)]="targetIncrustationStat">
-                  <mat-option value="evenly">Po równo</mat-option>
-                  <mat-option value="random">Losowo</mat-option>
-                  <mat-option value="strength" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Siła</mat-option>
-                  <mat-option value="dexterity" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Zręczność</mat-option>
-                  <mat-option value="power" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Moc</mat-option>
-                  <mat-option value="knowledge" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Wiedza</mat-option>
-                  <mat-option value="health" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Życie</mat-option>
-                  <mat-option value="mana" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Mana</mat-option>
-                  <mat-option value="stamina" matTooltip="Jeśli brak rozdaje po równo" matTooltipPosition="after">Kondycja</mat-option>
+                  <mat-option value="evenly">{{'ITEMS_LIST.EVENLY' | translate}}</mat-option>
+                  <mat-option value="random">{{'ITEMS_LIST.RANDOM' | translate}}</mat-option>
+                  <mat-option value="strength" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.STRENGTH' | translate}}</mat-option>
+                  <mat-option value="dexterity" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.DEXTERITY' | translate}}</mat-option>
+                  <mat-option value="power" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.POWER' | translate}}</mat-option>
+                  <mat-option value="knowledge" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.KNOWLEDGE' | translate}}</mat-option>
+                  <mat-option value="health" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.HEALTH' | translate}}</mat-option>
+                  <mat-option value="mana" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.MANA' | translate}}</mat-option>
+                  <mat-option value="stamina" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.STAMINA' | translate}}</mat-option>
               </mat-select>
             </mat-form-field>
             <div fxLayout="column" fxLayoutAlign="start">
-              <mat-slide-toggle [(ngModel)]="searchPhysicalItems" (change)="doFilter()">Pokaż magiczne</mat-slide-toggle>
-              <mat-slide-toggle [(ngModel)]="searchMagicItems" (change)="doFilter()">Pokaż fizyczne</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="searchPhysicalItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_MAGIC' | translate}}</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="searchMagicItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_PHYSICAL' | translate}}</mat-slide-toggle>
             </div>
           </div>
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
-            <mat-form-field style="width: 200px" hintLabel="Wpisz nazwę bossa lub przedmiotu" appearance="outline" color="accent">
-              <mat-label>Szukaj przedmiotu / bossa</mat-label>
+            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.NAME_SEARCH' | translate}}" appearance="outline" color="accent">
+              <mat-label>{{'ITEMS_LIST.SEARCH_PLACEHOLDER' | translate}}</mat-label>
               <input matInput [(ngModel)]="searchValue" (input)="doFilter()">
             </mat-form-field>
             <!--<mat-form-field style="width: 120px" hintLabel="Rodzaj przedmiotu" appearance="outline" color="accent">
@@ -59,19 +59,20 @@
                 </div>
               </mat-select>
             </mat-form-field>-->
-            <mat-form-field style="width: 200px" hintLabel="Typ przedmiotu" appearance="outline" color="accent">
-              <mat-label>Typ</mat-label>
+            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.ITEM_TYPE' | translate}}" appearance="outline" color="accent">
+              <mat-label>{{'ITEMS_LIST.ITEM_TYPE' | translate}}</mat-label>
               <mat-select #types [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple>
-                <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')" value="ALL_ARMORS">Pancerze</mat-option>
-                <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')" value="ALL_JEWELERY">Biżuteria</mat-option>
-                <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')" value="ALL_WEAPONS">Bronie</mat-option>
+                <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')" value="ALL_ARMORS">{{'ITEMS.TYPES.ALL_ARMORS' | translate}}</mat-option>
+                <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')" value="ALL_JEWELERY">{{'ITEMS.TYPES.ALL_JEWELERY' | translate}}</mat-option>
+                <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')" value="ALL_WEAPONS">{{'ITEMS.TYPES.ALL_WEAPONS' | translate}}</mat-option>
+                <mat-divider></mat-divider>
                 <div *ngFor="let type of getItemTypeKeyArray()">
-                  <mat-option [value]="type">{{getItemTypeValueByKey(type)}}</mat-option>
+                  <mat-option [value]="type">{{'ITEMS.TYPES.' + type | translate}}</mat-option>
                 </div>
               </mat-select>
             </mat-form-field>
-            <mat-form-field style="width: 200px" hintLabel="Ranga przedmiotu" appearance="outline" color="accent">
-              <mat-label>Ranga</mat-label>
+            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.ITEM_RANK' | translate}}" appearance="outline" color="accent">
+              <mat-label>{{'ITEMS_LIST.ITEM_RANK' | translate}}</mat-label>
               <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple>
                 <div *ngFor="let rank of ranks">
                   <mat-option [value]="rank">{{rank}}</mat-option>
@@ -81,10 +82,11 @@
           </div>
         </div>
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="1">
-            <button mat-stroked-button color="accent" (click)="openItemComparator()">PORÓWNYWARKA</button>
+            <button mat-stroked-button color="accent" (click)="openItemComparator()">{{'ITEMS_LIST.COMPARATOR' | translate}}</button>
             <div fxLayout="row" fxLayoutAlign="center center" *ngFor="let compareRar of toCompare">
               <div class="classic-rar-name">
-                "{{compareRar.name}}"
+                <div *ngIf="compareRar.translatedName">"{{compareRar.translatedName}}"</div>
+                <div *ngIf="!compareRar.translatedName">"{{compareRar.name}}"</div>
               </div>
               <div>
                 <button mat-icon-button color="warn" class="small-icon-button" (click)="deleteFromToCompare(compareRar)"><mat-icon>delete_forever</mat-icon></button>
@@ -112,13 +114,13 @@
                   <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
 
                     <div fxFlex="8" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
-                      <div class="cropped-modern" matTooltip="{{monster.name}}" matTooltipPosition="before">
+                      <div class="cropped-modern" matTooltip="{{monster.translatedName}}" matTooltipPosition="before">
                         <img class="cropped-img-modern" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="140" width="140">
                       </div>
                     </div>
 
                     <div fxFlex="8" fxLayoutAlign="center center">
-                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="Dodaj do porównywarki">loyalty</mat-icon></button>
+                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon></button>
                       <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
                     </div>
 
@@ -127,7 +129,7 @@
                         <div fxFlex="20" fxLayoutAlign="center center">
                           <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
                         </div>
-                        <div fxFlex fxLayoutAlign="center center" matTooltip="Ponów inkrustację" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
+                        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
                           <div *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
                             <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
                           </div>
@@ -143,7 +145,7 @@
                         </div>
                       </div>
                       <div fxLayout="row" fxLayoutAlign="center center">
-                        <div class="modern-rar-name">"{{rar.name}}"</div>
+                        <div class="modern-rar-name">"{{rar.translatedName}}"</div>
                         <div class="modern-rar-rank">&nbsp;[{{convertArabianToRomanNumber(rar.rank)}}]</div>
                       </div>
                       <div fxLayoutAlign="center center">
@@ -155,45 +157,45 @@
 
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.type">Typ: {{ItemType[rar.type]}}</li>
-                        <li *ngIf="rar.weight">Waga: {{rar.weight}}</li>
-                        <li *ngIf="rar.capacity">Pojemność: {{getItemCapacity(rar)}}</li>
-                        <li *ngIf="rar.value">Wartość: {{rar.value.toLocaleString()}} złota</li>
+                        <li *ngIf="rar.type">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}</li>
+                        <li *ngIf="rar.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}}</li>
+                        <li *ngIf="rar.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}</li>
+                        <li *ngIf="rar.value">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</li>
                       </ul>
                     </div>
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">Tylko dla rycerza</li>
-                        <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}}</li>
-                        <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
-                        <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
-                        <li *ngIf="rar.requiredPower">Wymagana moc: {{rar.requiredPower}}</li>
-                        <li *ngIf="rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}</li>
-                        <li *ngIf="rar.damage">Obrażenia: {{rar.damage}}</li>
-                        <li *ngIf="rar.damageType">Typ obrażeń: {{DamageType[rar.damageType]}}</li>
+                        <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
+                        <li *ngIf="rar.requiredLevel">{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}</li>
+                        <li *ngIf="rar.requiredStrength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: {{rar.requiredStrength}}</li>
+                        <li *ngIf="rar.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: {{rar.requiredDexterity}}</li>
+                        <li *ngIf="rar.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: {{rar.requiredPower}}</li>
+                        <li *ngIf="rar.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: {{rar.requiredKnowledge}}</li>
+                        <li *ngIf="rar.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: {{rar.damage}}</li>
+                        <li *ngIf="rar.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: {{'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate}}</li>
                       </ul>
                     </div>
                     <div fxFlex="12" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">Siła: {{getValueString(rar.strength)}}</li>
-                        <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">Zręczność: {{getValueString(rar.dexterity)}}</li>
-                        <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">Moc: {{getValueString(rar.power)}}</li>
-                        <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">Wiedza: {{getValueString(rar.knowledge)}}</li>
-                        <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">PŻ: {{getValueString(rar.health)}}</li>
-                        <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">Mana: {{getValueString(rar.mana)}}</li>
-                        <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">Kondycja: {{getValueString(rar.stamina)}}</li>
+                        <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">{{'ITEMS_LIST.STRENGTH' | translate}}: {{getValueString(rar.strength)}}</li>
+                        <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">{{'ITEMS_LIST.DEXTERITY' | translate}}: {{getValueString(rar.dexterity)}}</li>
+                        <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{'ITEMS_LIST.POWER' | translate}}: {{getValueString(rar.power)}}</li>
+                        <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: {{getValueString(rar.knowledge)}}</li>
+                        <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{'ITEMS_LIST.HEALTH' | translate}}: {{getValueString(rar.health)}}</li>
+                        <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{'ITEMS_LIST.MANA' | translate}}: {{getValueString(rar.mana)}}</li>
+                        <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">{{'ITEMS_LIST.STAMINA' | translate}}: {{getValueString(rar.stamina)}}</li>
                       </ul>
                     </div>
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.armorSlashing">Pancerz sieczne: +{{rar.armorSlashing}}</li>
-                        <li *ngIf="rar.armorCrushing">Pancerz obuchowe: +{{rar.armorCrushing}}</li>
-                        <li *ngIf="rar.armorPiercing">Pancerz kłute: +{{rar.armorPiercing}}</li>
+                        <li *ngIf="rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: +{{rar.armorSlashing}}</li>
+                        <li *ngIf="rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: +{{rar.armorCrushing}}</li>
+                        <li *ngIf="rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: +{{rar.armorPiercing}}</li>
 
-                        <li *ngIf="rar.fireResistance">Odporność ogień: +{{rar.fireResistance}}</li>
-                        <li *ngIf="rar.coldResistance">Odporność zimno: +{{rar.coldResistance}}</li>
-                        <li *ngIf="rar.energyResistance">Odporność energia: +{{rar.energyResistance}}</li>
-                        <li *ngIf="rar.mentalResistance">Odporność uroki: +{{rar.mentalResistance}}</li>
+                        <li *ngIf="rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: +{{rar.fireResistance}}</li>
+                        <li *ngIf="rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: +{{rar.coldResistance}}</li>
+                        <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>
+                        <li *ngIf="rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: +{{rar.mentalResistance}}</li>
                       </ul>
                     </div>
                   </div>
@@ -215,7 +217,7 @@
                 <div class="cropped-classic" fxLayoutAlign="start center">
                   <img class="cropped-img-classic" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="256" width="256">
                 </div>
-                <h2 class="classic-boss-name">{{monster.name}}</h2>
+                <h2 class="classic-boss-name">{{monster.translatedName}}</h2>
               </div>
 
               <div class="rar-container">
@@ -223,11 +225,11 @@
                   <div>
                     <div fxLayout="column" fxLayoutAlign="center center">
                       <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="width: 120px !important; height: 30px; position: relative">
-                        <button style="position: absolute; left: 120px" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="Dodaj do porównywarki">loyalty</mat-icon></button>
+                        <button style="position: absolute; left: 120px" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon></button>
                         <div fxFlex="20" fxLayoutAlign="center center">
                           <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
                         </div>
-                        <div fxFlex fxLayoutAlign="center center" matTooltip="Ponów inkrustację" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
+                        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
                           <div *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
                             <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
                           </div>
@@ -242,7 +244,7 @@
                           <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)"><mat-icon>add</mat-icon></button>
                         </div>
                       </div>
-                      <h3 class="classic-rar-name">"{{rar.name}}"</h3>
+                      <h3 class="classic-rar-name">"{{rar.translatedName}}"</h3>
                       <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
                         <div>
                           <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
@@ -255,33 +257,34 @@
                       </div>
                     </div>
                     <ul>
-                      <li *ngIf="rar.type">Typ: {{ItemType[rar.type]}}</li>
-                      <li *ngIf="rar.weight">Waga: {{rar.weight}}</li>
-                      <li *ngIf="rar.rank">Ranga: {{convertArabianToRomanNumber(rar.rank)}}</li>
-                      <li *ngIf="rar.capacity">Pojemność: {{getItemCapacity(rar)}}</li>
-                      <li *ngIf="rar.value">Wartość: {{rar.value.toLocaleString()}} złota</li>
-                      <li *ngIf="rar.requiredLevel">Wymagany poziom: {{rar.requiredLevel}} <div *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">(Tylko rycerz)</div></li>
-                      <li *ngIf="rar.requiredStrength">Wymagana siła: {{rar.requiredStrength}}</li>
-                      <li *ngIf="rar.requiredDexterity">Wymagana zręczność: {{rar.requiredDexterity}}</li>
-                      <li *ngIf="rar.requiredPower">Wymagana moc: {{rar.requiredPower}}</li>
-                      <li *ngIf="rar.requiredKnowledge">Wymagana wiedza: {{rar.requiredKnowledge}}</li>
-                      <li *ngIf="rar.damage">Obrażenia: {{rar.damage}}</li>
-                      <li *ngIf="rar.damageType">Typ obrażeń: {{DamageType[rar.damageType]}}</li>
-                      <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">Siła: {{getValueString(rar.strength)}}</li>
-                      <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">Zręczność: {{getValueString(rar.dexterity)}}</li>
-                      <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">Moc: {{getValueString(rar.power)}}</li>
-                      <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">Wiedza: {{getValueString(rar.knowledge)}}</li>
-                      <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">PŻ: {{getValueString(rar.health)}}</li>
-                      <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">Mana: {{getValueString(rar.mana)}}</li>
-                      <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">Kondycja: {{getValueString(rar.stamina)}}</li>
-                      <li *ngIf="rar.armorSlashing">Pancerz sieczne: +{{rar.armorSlashing}}</li>
-                      <li *ngIf="rar.armorCrushing">Pancerz obuchowe: +{{rar.armorCrushing}}</li>
-                      <li *ngIf="rar.armorPiercing">Pancerz kłute: +{{rar.armorPiercing}}</li>
+                      <li *ngIf="rar.type">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}</li>
+                      <li *ngIf="rar.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}}</li>
+                      <li *ngIf="rar.rank">{{'ITEMS_LIST.RANK' | translate}}: {{convertArabianToRomanNumber(rar.rank)}}</li>
+                      <li *ngIf="rar.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}</li>
+                      <li *ngIf="rar.value">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</li>
+                      <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
+                      <li *ngIf="rar.requiredLevel">{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}</li>
+                      <li *ngIf="rar.requiredStrength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: {{rar.requiredStrength}}</li>
+                      <li *ngIf="rar.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: {{rar.requiredDexterity}}</li>
+                      <li *ngIf="rar.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: {{rar.requiredPower}}</li>
+                      <li *ngIf="rar.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: {{rar.requiredKnowledge}}</li>
+                      <li *ngIf="rar.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: {{rar.damage}}</li>
+                      <li *ngIf="rar.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: {{'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate}}</li>
+                      <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">{{'ITEMS_LIST.STRENGTH' | translate}}: {{getValueString(rar.strength)}}</li>
+                      <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">{{'ITEMS_LIST.DEXTERITY' | translate}}: {{getValueString(rar.dexterity)}}</li>
+                      <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{'ITEMS_LIST.POWER' | translate}}: {{getValueString(rar.power)}}</li>
+                      <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: {{getValueString(rar.knowledge)}}</li>
+                      <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{'ITEMS_LIST.HEALTH' | translate}}: {{getValueString(rar.health)}}</li>
+                      <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{'ITEMS_LIST.MANA' | translate}}: {{getValueString(rar.mana)}}</li>
+                      <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">{{'ITEMS_LIST.STAMINA' | translate}}: {{getValueString(rar.stamina)}}</li>
+                      <li *ngIf="rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: +{{rar.armorSlashing}}</li>
+                      <li *ngIf="rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: +{{rar.armorCrushing}}</li>
+                      <li *ngIf="rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: +{{rar.armorPiercing}}</li>
 
-                      <li *ngIf="rar.fireResistance">Odporność ogień: +{{rar.fireResistance}}</li>
-                      <li *ngIf="rar.coldResistance">Odporność zimno: +{{rar.coldResistance}}</li>
-                      <li *ngIf="rar.energyResistance">Odporność energia: +{{rar.energyResistance}}</li>
-                      <li *ngIf="rar.mentalResistance">Odporność uroki: +{{rar.mentalResistance}}</li>
+                      <li *ngIf="rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: +{{rar.fireResistance}}</li>
+                      <li *ngIf="rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: +{{rar.coldResistance}}</li>
+                      <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>
+                      <li *ngIf="rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: +{{rar.mentalResistance}}</li>
                     </ul>
                   </div>
                 </div>
@@ -292,7 +295,7 @@
         </div>
       </div>
       <div fxLayoutAlign="center">
-        <button *ngIf=" monsters && page * 5 <= monsters.length" mat-stroked-button color="accent" (click)="page = page + 1">Załaduj więcej</button>
+        <button *ngIf=" monsters && page * 5 <= monsters.length" mat-stroked-button color="accent" (click)="page = page + 1">{{'ITEMS_LIST.LOAD_MORE' | translate}}</button>
       </div>
     </mat-card-content>
   </mat-card>
