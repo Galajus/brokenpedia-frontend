@@ -159,7 +159,7 @@ export class ItemComparatorComponent implements OnInit {
 
       case "type":
       case "damageType": {
-        if (firstStatString || statString == firstStatString) {
+        if (!statString || statString == firstStatString) {
           return "";
         }
         return "<div style='color: yellow; font-weight: bold'>&nbsp;*</div>";
