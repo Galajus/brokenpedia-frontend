@@ -92,6 +92,7 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatMenuModule} from "@angular/material/menu";
 import {Underscore} from "./common/pipe/underscore";
+import { OrbsTableComponent } from './modules/user/orbs-table/orbs-table.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -178,7 +179,8 @@ registerLocaleData(localePl, localePlExtra);
     UserSuggestionComponent,
     ItemComparatorComponent,
     EditAdminCommentComponent,
-    Underscore
+    Underscore,
+    OrbsTableComponent
   ],
   imports: [
     BrowserModule,

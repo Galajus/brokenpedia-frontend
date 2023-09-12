@@ -38,6 +38,8 @@ import {MonsterUpdateComponent} from "./modules/admin/monster/monster-update/mon
 import {RarListComponent} from "./modules/user/rar-list/rar-list.component";
 import {SuggestionsComponent} from "./modules/admin/suggestions/suggestions.component";
 import {UserSuggestionComponent} from "./modules/user/user-suggestion/user-suggestion.component";
+import {TestsComponent} from "./modules/user/tests/tests.component";
+import {OrbsTableComponent} from "./modules/user/orbs-table/orbs-table.component";
 
 const routes: Routes = [
 
@@ -56,6 +58,8 @@ const routes: Routes = [
       { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
       { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania" },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
+      { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów" },
+      /*{ path: 'test', component: TestsComponent, title: "TESTS" },*/
 
       { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię" },
 

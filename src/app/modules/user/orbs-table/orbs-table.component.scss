@@ -1,0 +1,42 @@
+.orb-type-0 {
+  color: indianred;
+}
+
+.orb-type-1 {
+  color: #9df69d;
+}
+
+.orb-type-2 {
+  color: #ffff94;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+th {
+  text-align: center !important;
+}
+
+.mat-row:nth-child(even){
+  background-color: #414141;
+}
+
+.mat-row:nth-child(odd){
+  background-color: #3a3a3a;
+}
+
+.mat-column-effect {
+  font-weight: bold;
+}
+
+.mat-column-type {
+  min-width: 140px;
+}
+
+.mat-column-s1, .mat-column-b1, .mat-column-b2, .mat-column-b3,
+.mat-column-m1, .mat-column-m2, .mat-column-m3,
+.mat-column-a1, .mat-column-a2, .mat-column-a3 {
+  min-width: 55px;
+}

@@ -1,0 +1,160 @@
+<div class="restrict-width" fxLayout="column" fxLayoutGap="20">
+
+  <!--options-->
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content fxLayoutAlign="center">
+        <mat-form-field style="margin-bottom: -1.25em" appearance="outline" color="accent">
+          <mat-label>{{'ORBS_TABLE.ORNAMENTS_AMOUNT' | translate}}</mat-label>
+          <mat-select [(ngModel)]="ornaments" (selectionChange)="doCalculations()">
+            <mat-option [value]=1>1-3* - Bronze 1-3</mat-option>
+            <mat-option [value]=4>4* - Silver 1</mat-option>
+            <mat-option [value]=5>5* - Silver 2</mat-option>
+            <mat-option [value]=6>6* - Silver 3</mat-option>
+            <mat-option [value]=7>7* - Gold 1</mat-option>
+            <mat-option [value]=8>8* - Gold 2</mat-option>
+            <mat-option [value]=9>9* - Gold 3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!--table-->
+  <div>
+    <mat-card class="mat-elevation-z6">
+      <mat-card-content>
+        <div>
+          <table mat-table [dataSource]="calculations">
+            <ng-container matColumnDef="effect">
+              <th mat-header-cell *matHeaderCellDef style="padding-left: 12px"> {{'ORBS_TABLE.EFFECT' | translate}}</th>
+              <td mat-cell *matCellDef="let element">
+                {{'ORBS.' + element.orb.effect | translate}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef> {{'ORBS_TABLE.TYPE' | translate}}</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="orb-type-{{element.orb.type}}">
+                  {{'ORBS.TYPES.' + OrbType[element.orb.type] | translate}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="s1">
+              <th mat-header-cell *matHeaderCellDef> Sub 1</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.s1}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.s1 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="b1">
+              <th mat-header-cell *matHeaderCellDef> Bi 1</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.b1}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.b1 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="b2">
+              <th mat-header-cell *matHeaderCellDef> Bi 2</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.b2}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.b2 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="b3">
+              <th mat-header-cell *matHeaderCellDef> Bi 3</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.b3}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.b3 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="m1">
+              <th mat-header-cell *matHeaderCellDef> Magni 1</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.m1}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.m1 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="m2">
+              <th mat-header-cell *matHeaderCellDef> Magni 2</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.m2}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.m2 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="m3">
+              <th mat-header-cell *matHeaderCellDef> Magni 3</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.m3}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.m3 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="a1">
+              <th mat-header-cell *matHeaderCellDef> Arcy 1</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.a1}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.a1 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="a2">
+              <th mat-header-cell *matHeaderCellDef> Arcy 2</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.a2}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.a2 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="a3">
+              <th mat-header-cell *matHeaderCellDef> Arcy 3</th>
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.orb.effect != 'BACKPACK_CAPACITY'">
+                  {{element.a3}}%
+                </div>
+                <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
+                  +{{element.a3 / 100}}
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
