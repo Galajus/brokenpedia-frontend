@@ -3,7 +3,10 @@
   <!--options-->
   <div>
     <mat-card class="mat-elevation-z6">
-      <mat-card-content fxLayoutAlign="center">
+      <mat-card-content fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15">
+        <h2 fxLayoutAlign="center center">
+           <a href="/post/orby-nadchodza-nieco-skomplikowane-ale-za-to-jakie-dobre" target="_blank">Wszystko o orbach</a>
+        </h2>
         <mat-form-field style="margin-bottom: -1.25em" appearance="outline" color="accent">
           <mat-label>{{'ORBS_TABLE.ORNAMENTS_AMOUNT' | translate}}</mat-label>
           <mat-select [(ngModel)]="ornaments" (selectionChange)="doCalculations()">
@@ -47,7 +50,7 @@
                   {{element.s1}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.s1 / 100}}
+                  +{{Math.floor(element.s1 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -58,7 +61,7 @@
                   {{element.b1}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.b1 / 100}}
+                  +{{Math.floor(element.b1 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -69,7 +72,7 @@
                   {{element.b2}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.b2 / 100}}
+                  +{{Math.floor(element.b2 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -80,7 +83,7 @@
                   {{element.b3}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.b3 / 100}}
+                  +{{Math.floor(element.b3 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -91,7 +94,7 @@
                   {{element.m1}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.m1 / 100}}
+                  +{{Math.floor(element.m1 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -102,7 +105,7 @@
                   {{element.m2}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.m2 / 100}}
+                  +{{Math.floor(element.m2 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -113,7 +116,7 @@
                   {{element.m3}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.m3 / 100}}
+                  +{{Math.floor(element.m3 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -124,7 +127,7 @@
                   {{element.a1}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.a1 / 100}}
+                  +{{Math.floor(element.a1 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -135,7 +138,7 @@
                   {{element.a2}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.a2 / 100}}
+                  +{{Math.floor(element.a2 / 100)}}
                 </div>
               </td>
             </ng-container>
@@ -146,7 +149,7 @@
                   {{element.a3}}%
                 </div>
                 <div *ngIf="element.orb.effect == 'BACKPACK_CAPACITY'">
-                  +{{element.a3 / 100}}
+                  +{{Math.floor(element.a3 / 100)}}
                 </div>
               </td>
             </ng-container>

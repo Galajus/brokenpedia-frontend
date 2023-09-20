@@ -10,6 +10,10 @@ import {round} from "lodash-es";
   styleUrls: ['./orbs-table.component.scss']
 })
 export class OrbsTableComponent implements OnInit {
+
+  protected readonly OrbType = OrbType;
+  protected readonly Math = Math;
+
   ornaments: number = 1;
   calculations: OrbCalculations[] = [];
     displayedColumns: string[] = [
@@ -151,7 +155,7 @@ export class OrbsTableComponent implements OnInit {
     {
       effect: "MORE_POWERFUL_CRIT_CHANCE",
       type: OrbType.OFFENSIVE,
-      startBonus: 0.03
+      startBonus: 0.05
     },
   ]
 
@@ -209,6 +213,4 @@ export class OrbsTableComponent implements OnInit {
         default: return 0;
     }
   }
-
-    protected readonly OrbType = OrbType;
 }
