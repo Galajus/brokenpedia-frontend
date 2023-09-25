@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DrifItem} from "../model/drifItem";
-import {PsychoMod} from "../model/psychoMod";
+import {PsychoMod} from "../../../../common/model/psychoMod";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({

@@ -7,7 +7,7 @@ import {RarWithDrifs} from "./model/rarWithDrifs";
 import {MatDialog} from "@angular/material/dialog";
 import {DrifSelectComponent} from "./drif-select/drif-select.component";
 import {ModSummary} from "./model/modSummary";
-import {PsychoMod} from "./model/psychoMod";
+import {PsychoMod} from "../../../common/model/psychoMod";
 import {ModCap} from "./model/modCap";
 import {EpikItem} from "./model/epikItem";
 import {UserRarsWithDrifs} from "./model/userRarsWithDrifs";
@@ -672,7 +672,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (drifItem1) {
       usedPower += drifItem1.startPower * drifItem1.tier;
     }
-    if (drifItem2 && (rarWithDrifs.rank >= 4 || rarWithDrifs.ornaments >-7)) {
+    if (drifItem2 && (rarWithDrifs.rank >= 4 || rarWithDrifs.ornaments >=7)) {
       usedPower += drifItem2.startPower * drifItem2.tier;
     }
     if (drifItem3  && rarWithDrifs.rank >= 10) {
@@ -856,6 +856,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       return;
     }
     this.userRarsWithDrifs = JSON.parse(dataArray);
+    this.userRarsWithDrifs.forEach(ur => {
+      ur.rarsWithDrifs.forEach(r => {
+        if (!r.ornaments) {
+          r.ornaments = 1;
+        }
+      })
+    })
     this.calculateModSummary();
   }
 
