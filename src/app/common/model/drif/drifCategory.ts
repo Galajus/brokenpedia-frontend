@@ -1,0 +1,3 @@
+export enum DrifCategory {
+  REDUCTION, DAMAGE, SPECIAL, ACCURACY, DEFENCE
+}

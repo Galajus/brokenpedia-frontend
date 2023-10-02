@@ -174,3 +174,39 @@ input[type=number] {
   text-shadow: 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000;
 }
 
+//EQ SIMULATOR
+.menu-drif.mat-menu-panel {
+  background-color: rgba(17, 17, 17, 0.97);
+  min-width: unset !important;
+  width: auto !important;
+}
+
+.menu-drif.level.mat-menu-panel {
+  background-color: rgba(17, 17, 17, 0.97);
+  min-width: unset !important;
+  width: auto !important;
+  overflow: hidden;
+}
+
+.upgrade-menu.mat-option {
+  background-color: rgba(17, 17, 17, 0.97);
+}
+
+.cdk-overlay-pane.item-show {
+  position: unset;
+}
+
+.custom-tooltip {
+  background-color: rgba(0, 0, 0, 0.91) !important;
+  color: white;
+  font-size: 13px;
+}
+
+.upgrade-menu .mat-form-field-wrapper {
+  margin-bottom: -1.25em !important;
+}
+
+.mod-sum-dialog .mat-dialog-container {
+  background-color: rgba(0, 0, 0, 0.96) !important;
+  overflow: hidden;
+}

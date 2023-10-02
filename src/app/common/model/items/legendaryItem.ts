@@ -1,11 +1,14 @@
 import {ItemType} from "./itemType";
 import {DamageType} from "./damageType";
 import {Monster} from "../gameentites/monster";
+import {ItemFamily} from "./itemFamily";
 
 export interface LegendaryItem {
 
   id?: number,
   name: string,
+  translatedName?: string,
+  family: ItemFamily,
   droppingMonsters: Monster[],
   type: ItemType,
   weight: number,

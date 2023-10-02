@@ -1,4 +1,4 @@
-import {PsychoMod} from "./psychoMod";
+import {PsychoMod} from "../../../../common/model/psychoMod";
 
 export interface EpikItem {
   indexNumber: number,

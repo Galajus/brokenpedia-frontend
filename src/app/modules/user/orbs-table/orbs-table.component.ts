@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Orb} from "./model/orb";
-import {OrbType} from "./model/orbType";
+import {Orb} from "../../../common/model/orb/orb";
+import {OrbType} from "../../../common/model/orb/orbType";
 import {OrbCalculations} from "./model/orbCalculations";
 import {round} from "lodash-es";
 

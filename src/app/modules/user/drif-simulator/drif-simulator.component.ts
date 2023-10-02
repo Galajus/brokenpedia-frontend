@@ -1,18 +1,19 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {DrifItem} from "./model/drifItem";
 import {DrifTier} from "./model/drifTier";
-import {AmountDrifReduction} from "./model/amountDrifReduction";
+import amountReduction from "./model/amountDrifReduction";
 import {RarCapacity} from "./model/rarCapacity";
 import {RarWithDrifs} from "./model/rarWithDrifs";
 import {MatDialog} from "@angular/material/dialog";
 import {DrifSelectComponent} from "./drif-select/drif-select.component";
 import {ModSummary} from "./model/modSummary";
 import {PsychoMod} from "../../../common/model/psychoMod";
-import {ModCap} from "./model/modCap";
+import modCaps from "./model/modCap";
 import {EpikItem} from "./model/epikItem";
 import {UserRarsWithDrifs} from "./model/userRarsWithDrifs";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "./model/dragDrifItem";
+import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'app-drif-simulator',
@@ -499,7 +500,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       if (modSum.amountDrifs > 3) {
         let amountDrifReduction = amountReduction.find(red => red.amount === modSum.amountDrifs);
         if (amountDrifReduction) {
-          let oldSum = structuredClone(modSum.modSum);
+          let oldSum = cloneDeep(modSum.modSum);
           modSum.modSum = modSum.modSum * amountDrifReduction.efektSum;
           modSum.reducedValue = oldSum - modSum.modSum;
           modSum.reducedPercent = amountDrifReduction.efektSum * 100;
@@ -1032,93 +1033,6 @@ const epikItems: EpikItem[] = [
   }
 ]
 
-const modCaps: ModCap[] = [
-  {
-    mod: PsychoMod.MANA_DRAIN,
-    value: 40
-  },
-  {
-    mod: PsychoMod.DOUBLE_ATTACK_ROLL_CHANCE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.DOUBLE_DEFENCE_ROLL_CHANCE,
-    value: 80
-  },
-  {
-    mod: PsychoMod.DAMAGE_REDUCTION,
-    value: 40
-  },
-  {
-    mod: PsychoMod.CRIT_DAMAGE_REDUCTION,
-    value: 60
-  },
-  {
-    mod: PsychoMod.PASSIVE_DAMAGE_REDUCTION,
-    value: 80
-  },
-  {
-    mod: PsychoMod.MENTAL_ATTACKS_PENETRATION,
-    value: 60
-  },
-  {
-    mod: PsychoMod.HOLM,
-    value: 60
-  },
-  {
-    mod: PsychoMod.FARID,
-    value: 60
-  },
-  {
-    mod: PsychoMod.EXTRA_ENERGY_DAMAGE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.EXTRA_COLD_DAMAGE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.EXTRA_FIRE_DAMAGE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.CRIT_RESISTANCE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.DOUBLE_HIT_CHANCE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.CRIT_CHANCE,
-    value: 60
-  },
-  {
-    mod: PsychoMod.STAMINA_REGENERATION,
-    value: 80
-  },
-  {
-    mod: PsychoMod.MANA_REGENERATION,
-    value: 40
-  },
-  {
-    mod: PsychoMod.RESISTANCE_TO_FREEZING,
-    value: 80
-  },
-  {
-    mod: PsychoMod.CHANCE_OF_DISENCHANTMENT,
-    value: 60
-  },
-  {
-    mod: PsychoMod.MANA_USAGE,
-    value: -60
-  },
-  {
-    mod: PsychoMod.STAMINA_USAGE,
-    value: -60
-  },
-]
-
 const rarsCapacity: RarCapacity[] = [
   {
     rank: 1,
@@ -1180,61 +1094,6 @@ const rarsCapacity: RarCapacity[] = [
     capacity: 32,
     maxDrifs: 3
   },
-]
-
-const amountReduction: AmountDrifReduction[] = [
-  {
-    amount: 0,
-    efektSum: 1.0
-  },
-  {
-    amount: 1,
-    efektSum: 1.0
-  },
-  {
-    amount: 2,
-    efektSum: 1.0
-  },
-  {
-    amount: 3,
-    efektSum: 1.0
-  },
-  {
-    amount: 4,
-    efektSum: 0.95
-  },
-  {
-    amount: 5,
-    efektSum: 0.87
-  },
-  {
-    amount: 6,
-    efektSum: 0.8
-  },
-  {
-    amount: 7,
-    efektSum: 0.74
-  },
-  {
-    amount: 8,
-    efektSum: 0.69
-  },
-  {
-    amount: 9,
-    efektSum: 0.64
-  },
-  {
-    amount: 10,
-    efektSum: 0.59
-  },
-  {
-    amount: 11,
-    efektSum: 0.54
-  },
-  {
-    amount: 12,
-    efektSum: 0.5
-  }
 ]
 
 const drifTiers: DrifTier[] = [
@@ -1548,6 +1407,6 @@ const manaDrainDrifItem: DrifItem = {
   startPower: 1,
   psychoGrowByLevel: 0.5,
   psychoMod: "MANA_DRAIN",
-  category: "DAMAGE",
+  category: "SPECIAL",
   shortName: "err"
 }

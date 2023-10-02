@@ -40,7 +40,7 @@ export class ItemComparatorComponent implements OnInit {
       return;
     }
     rar.incrustationLevel--;
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   addStar(rar: IncrustatedLegendaryItem) {
@@ -51,11 +51,11 @@ export class ItemComparatorComponent implements OnInit {
       rar.incrustationLevel = 1;
     }
     rar.incrustationLevel++;
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   convertArabianToRomanNumber(arabianNumber: number) {

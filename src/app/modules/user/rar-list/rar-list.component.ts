@@ -315,37 +315,6 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
   }
 
-  convertArabianToRomanNumber(arabianNumber: number) {
-    switch (arabianNumber) {
-      case 1:
-        return "I";
-      case 2:
-        return "II";
-      case 3:
-        return "III";
-      case 4:
-        return "IV";
-      case 5:
-        return "V";
-      case 6:
-        return "VI";
-      case 7:
-        return "VII";
-      case 8:
-        return "VIII";
-      case 9:
-        return "IX";
-      case 10:
-        return "X";
-      case 11:
-        return "XI";
-      case 12:
-        return "XII";
-      default:
-        return "I";
-    }
-  }
-
   getItemTypeKeyArray() {
     let keys: string[] = [];
     for (let key in ItemType) {
@@ -391,7 +360,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     rar.incrustationLevel--;
 
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   addStar(rar: IncrustatedLegendaryItem) {
@@ -403,11 +372,11 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     rar.incrustationLevel++;
 
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
-    this.incrustationService.doIncrustation(rar, this.fallBackMonsters, this.targetIncrustationStat);
+    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
   getItemCapacity(rar: IncrustatedLegendaryItem) {

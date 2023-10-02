@@ -1,4 +1,4 @@
-import {Orb} from "./orb";
+import {Orb} from "../../../../common/model/orb/orb";
 
 export interface OrbCalculations {
   orb: Orb,

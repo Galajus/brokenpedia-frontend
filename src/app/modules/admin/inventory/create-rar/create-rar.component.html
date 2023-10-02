@@ -25,6 +25,14 @@
           </div>
         </mat-select>
       </mat-form-field>
+      <mat-form-field style="width: 170px" appearance="fill" color="accent">
+        <mat-label>family</mat-label>
+        <mat-select formControlName="family">
+          <div *ngFor="let family of getItemFamilyKeyArray(ItemFamily)">
+            <mat-option [value]="family">{{family}}</mat-option>
+          </div>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field appearance="fill" style="width: 170px" color="accent">
         <mat-label>weight</mat-label>
         <input matInput formControlName="weight">

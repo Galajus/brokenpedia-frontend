@@ -38,8 +38,9 @@ import {MonsterUpdateComponent} from "./modules/admin/monster/monster-update/mon
 import {RarListComponent} from "./modules/user/rar-list/rar-list.component";
 import {SuggestionsComponent} from "./modules/admin/suggestions/suggestions.component";
 import {UserSuggestionComponent} from "./modules/user/user-suggestion/user-suggestion.component";
-import {TestsComponent} from "./modules/user/tests/tests.component";
 import {OrbsTableComponent} from "./modules/user/orbs-table/orbs-table.component";
+import {DrifsComponent} from "./modules/admin/drifs/drifs.component";
+import {OrbsComponent} from "./modules/admin/orbs/orbs.component";
 
 const routes: Routes = [
 
@@ -96,6 +97,8 @@ const routes: Routes = [
       { path: 'monster/add', component: MonsterAddComponent, title: "Admin create monsters", canActivate: [AdminAuthorizationGuard] },
       { path: 'monster/update/:id', component: MonsterUpdateComponent, title: "Admin update monsters", canActivate: [AdminAuthorizationGuard] },
       { path: 'suggestions', component: SuggestionsComponent, title: "Admin suggestions", canActivate: [AdminAuthorizationGuard] },
+      { path: 'drifs', component: DrifsComponent, title: "Drifs", canActivate: [AdminAuthorizationGuard] },
+      { path: 'orbs', component: OrbsComponent, title: "Orbs", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

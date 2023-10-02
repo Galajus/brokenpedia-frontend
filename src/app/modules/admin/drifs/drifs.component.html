@@ -1,0 +1,11 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+        <mat-label>DRIFY</mat-label>
+        <textarea fxFill matInput rows="12" [(ngModel)]="textToRead" placeholder="item data"></textarea>
+        <button mat-raised-button color="primary" (click)="read()">ZAPISZ</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

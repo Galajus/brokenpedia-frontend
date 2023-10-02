@@ -7,6 +7,7 @@ import {Monster} from "../../../../common/model/gameentites/monster";
 import {MonsterService} from "../../monster/monster.service";
 import {ItemType} from "../../../../common/model/items/itemType";
 import {DamageType} from "../../../../common/model/items/damageType";
+import {ItemFamily} from "../../../../common/model/items/itemFamily";
 
 @Component({
   selector: 'app-update-rar',
@@ -41,6 +42,7 @@ export class UpdateRarComponent implements OnInit {
       name: [],
       droppingMonsters: [],
       type: [],
+      family: [],
       weight: [],
       rank: [],
       capacity: [],
@@ -116,10 +118,21 @@ export class UpdateRarComponent implements OnInit {
     return keys;
   }
 
+  getItemFamilyKeyArray(enumer: any) {
+    let keys: string[] = [];
+    for (let key in enumer) {
+      if (isNaN(Number(key))) {
+        keys.push(key);
+      }
+    }
+    return keys;
+  }
+
   isUpperCase(s: string): boolean {
     return s !== s.toUpperCase();
   }
 
   protected readonly ItemType = ItemType;
   protected readonly DamageType = DamageType;
+    protected readonly ItemFamily = ItemFamily;
 }

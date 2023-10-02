@@ -146,7 +146,7 @@
                       </div>
                       <div fxLayout="row" fxLayoutAlign="center center">
                         <div class="modern-rar-name">"{{rar.translatedName}}"</div>
-                        <div class="modern-rar-rank">&nbsp;[{{convertArabianToRomanNumber(rar.rank)}}]</div>
+                        <div class="modern-rar-rank">&nbsp;[{{rar.rank | arabian}}]</div>
                       </div>
                       <div fxLayoutAlign="center center">
                         <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
@@ -259,7 +259,7 @@
                     <ul>
                       <li *ngIf="rar.type">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}</li>
                       <li *ngIf="rar.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}}</li>
-                      <li *ngIf="rar.rank">{{'ITEMS_LIST.RANK' | translate}}: {{convertArabianToRomanNumber(rar.rank)}}</li>
+                      <li *ngIf="rar.rank">{{'ITEMS_LIST.RANK' | translate}}: {{rar.rank | arabian}}</li>
                       <li *ngIf="rar.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}</li>
                       <li *ngIf="rar.value">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</li>
                       <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
@@ -280,7 +280,6 @@
                       <li *ngIf="rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: +{{rar.armorSlashing}}</li>
                       <li *ngIf="rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: +{{rar.armorCrushing}}</li>
                       <li *ngIf="rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: +{{rar.armorPiercing}}</li>
-
                       <li *ngIf="rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: +{{rar.fireResistance}}</li>
                       <li *ngIf="rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: +{{rar.coldResistance}}</li>
                       <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>

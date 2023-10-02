@@ -1,0 +1,3 @@
+export enum UpgradeTarget {
+  DAMAGE, STRENGTH, DEXTERITY, POWER, KNOWLEDGE, HEALTH, MANA, STAMINA
+}

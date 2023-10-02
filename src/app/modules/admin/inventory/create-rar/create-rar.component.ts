@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {InventoryService} from "../inventory.service";
 import {Monster} from "../../../../common/model/gameentites/monster";
 import {MonsterService} from "../../monster/monster.service";
+import {ItemFamily} from "../../../../common/model/items/itemFamily";
 
 @Component({
   selector: 'app-create-rar',
@@ -40,6 +41,7 @@ export class CreateRarComponent implements OnInit {
       name: [],
       droppingMonsters: [],
       type: [],
+      family: [],
       weight: [],
       rank: [],
       capacity: [],
@@ -228,10 +230,21 @@ export class CreateRarComponent implements OnInit {
     return keys;
   }
 
+  getItemFamilyKeyArray(enumer: any) {
+    let keys: string[] = [];
+    for (let key in enumer) {
+      if (isNaN(Number(key))) {
+        keys.push(key);
+      }
+    }
+    return keys;
+  }
+
   isUpperCase(s: string): boolean {
     return s !== s.toUpperCase();
   }
 
   protected readonly ItemType = ItemType;
   protected readonly DamageType = DamageType;
+  protected readonly ItemFamily = ItemFamily;
 }

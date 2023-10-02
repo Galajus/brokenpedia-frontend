@@ -1,12 +1,15 @@
 import {MonsterWithIncrustatedLegendaryItems} from "./monsterWithIncrustatedLegendaryItems";
 import {ItemType} from "../../../../common/model/items/itemType";
 import {DamageType} from "../../../../common/model/items/damageType";
+import {LegendaryItem} from "../../../../common/model/items/legendaryItem";
+import {ItemFamily} from "../../../../common/model/items/itemFamily";
 
-export interface IncrustatedLegendaryItem {
+export interface IncrustatedLegendaryItem extends LegendaryItem {
   id?: number,
   name: string,
   translatedName?: string,
   droppingMonsters: MonsterWithIncrustatedLegendaryItems[],
+  family: ItemFamily,
   type: ItemType,
   weight: number,
   rank: number,

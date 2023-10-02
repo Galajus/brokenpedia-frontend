@@ -5,6 +5,7 @@ import {IncrustatedLegendaryItem} from "./model/incrustatedLegendaryItem";
 import {cloneDeep, round} from "lodash-es";
 import {IncrustationBoost} from "./model/incrustationBoost";
 import {MonsterWithIncrustatedLegendaryItems} from "./model/monsterWithIncrustatedLegendaryItems";
+import {ItemFamily} from "../../../common/model/items/itemFamily";
 
 @Injectable({
   providedIn: 'root'
@@ -97,8 +98,18 @@ export class RarListIncrustationService {
     }
   ];
 
-  doIncrustation(rar: IncrustatedLegendaryItem, fallBackMonsters: MonsterWithIncrustatedLegendaryItems[], targetIncrustationStat: string) {
-    let originalRarClone = this.findOriginalRar(rar, fallBackMonsters);
+  doIncrustation(rar: IncrustatedLegendaryItem, targetIncrustationStat: string, fallBackMonsters?: MonsterWithIncrustatedLegendaryItems[], originalItem?: IncrustatedLegendaryItem) {
+    let originalRarClone: IncrustatedLegendaryItem | undefined;
+
+    if (!originalItem) {
+      if (!fallBackMonsters) {
+        return;
+      }
+      originalRarClone = this.findOriginalRar(rar, fallBackMonsters);
+    } else {
+      originalRarClone = cloneDeep(originalItem);
+    }
+
     if (!originalRarClone) {
       return;
     }
@@ -124,7 +135,11 @@ export class RarListIncrustationService {
     this.insertNewResistsToRar(rar, resistHolder);
 
     if (originalRarClone.damage) {
-      rar.damage = Math.ceil(originalRarClone.damage * (booster.legendaryDamageBoost + 1));
+      if (rar.family.valueOf() === ItemFamily.EPIC) {
+        rar.damage = Math.ceil(originalRarClone.damage * ((booster.legendaryDamageBoost * 2) + 1));
+      } else {
+        rar.damage = Math.ceil(originalRarClone.damage * (booster.legendaryDamageBoost + 1));
+      }
     }
   }
 
@@ -199,12 +214,17 @@ export class RarListIncrustationService {
     }
 
     if (remainingStat != 0) {
-      let byTenStats = statHolder.filter(h => h.isBy10);
+      let byTenStats: StatHolder[];
+      if (targetIncrustationStat === "health" || targetIncrustationStat === "mana" || targetIncrustationStat === "stamina") {
+        byTenStats = statHolder.filter(h => h.name && h.name == targetIncrustationStat);
+      } else {
+        byTenStats = statHolder.filter(h => h.isBy10);
+      }
       if (byTenStats.length == 0) {
         return;
       }
       for (let i = 0; i < remainingStat; i++) {
-        byTenStats[Math.floor(Math.random() * byTenStats.length)].stat++;
+        byTenStats[i % byTenStats.length].stat++;
       }
     }
   }

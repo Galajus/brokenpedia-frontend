@@ -92,7 +92,13 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatMenuModule} from "@angular/material/menu";
 import {Underscore} from "./common/pipe/underscore";
-import { OrbsTableComponent } from './modules/user/orbs-table/orbs-table.component';
+import {OrbsTableComponent} from './modules/user/orbs-table/orbs-table.component';
+import {NgVarDirective} from "./common/directive/ng-var.directive";
+import {DrifsComponent} from './modules/admin/drifs/drifs.component';
+import {OrbsComponent} from './modules/admin/orbs/orbs.component';
+import {OverlayModule} from "@angular/cdk/overlay";
+import {ArabianPipe} from './common/pipe/arabian.pipe';
+import {DrifSumDialogComponent} from './modules/user/build-calculator/drif-sum-dialog/drif-sum-dialog.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -180,7 +186,12 @@ registerLocaleData(localePl, localePlExtra);
     ItemComparatorComponent,
     EditAdminCommentComponent,
     Underscore,
-    OrbsTableComponent
+    OrbsTableComponent,
+    NgVarDirective,
+    DrifsComponent,
+    OrbsComponent,
+    ArabianPipe,
+    DrifSumDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -232,7 +243,8 @@ registerLocaleData(localePl, localePlExtra);
       },
       defaultLanguage: 'en'
     }),
-    MatMenuModule
+    MatMenuModule,
+    OverlayModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

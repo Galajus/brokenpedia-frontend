@@ -7,6 +7,9 @@ import {Skill} from "./model/skill";
 import {BuildLiker} from "./model/buildLiker";
 import {BuildListDto} from "../../../common/model/buildListDto";
 import {PageableBuildsDto} from "./builds-list/model/pageableBuildsDto";
+import {IncrustatedLegendaryItem} from "../rar-list/model/incrustatedLegendaryItem";
+import {Drif} from "../../../common/model/drif/drif";
+import {Orb} from "../../../common/model/orb/orb";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +22,7 @@ export class BuildCalculatorService {
     private http: HttpClient
   ) { }
 
-  getInitData(): Observable<InitBuildCalculator> {
+   getInitData(): Observable<InitBuildCalculator> {
     return this.http.get<InitBuildCalculator>("/api/builds/initData");
   }
   saveSkill(skill: any): Observable<Skill> {
@@ -63,6 +66,18 @@ export class BuildCalculatorService {
 
   showSkillDataBySelectedLevel(level: number) {
     this.subject.next(level);
+  }
+
+  getAllLegendaryItems(): Observable<IncrustatedLegendaryItem[]> {
+    return this.http.get<IncrustatedLegendaryItem[]>("/api/items/legendary")
+  }
+
+  getAllDrifs(): Observable<Drif[]> {
+    return this.http.get<Drif[]>("/api/drifs");
+  }
+
+  getAllOrbs(): Observable<Orb[]> {
+    return this.http.get<Orb[]>("/api/orbs");
   }
 
   getLevelString(lvl: number) {
