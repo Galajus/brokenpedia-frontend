@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {DrifItem} from "../model/drifItem";
 import {PsychoMod} from "../../../../common/model/psychoMod";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {round} from "lodash-es";
 
 @Component({
   selector: 'app-drif-select',
@@ -72,12 +73,24 @@ export class DrifSelectComponent implements OnInit {
 
   updateLevel() {
     if (this.drifLevel > 0) {
-      this.dialogRef.close({newLevel: this.drifLevel});
+      this.dialogRef.close({newLevel: this.drifLevel, newTier: this.drifTier});
     }
   }
 
   removeMod() {
     this.dialogRef.close({removeMod: true});
+  }
+
+  getDrifPower(startPower: number) {
+    return startPower * this.getDrifPowerBooster();
+  }
+
+  getDrifPowerBooster() {
+    let booster = round((this.drifLevel + 1)/ 5, 0);
+    if (booster === 0) {
+      return 1;
+    }
+    return booster;
   }
 
   protected readonly Number = Number;

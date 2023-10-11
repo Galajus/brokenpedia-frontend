@@ -12,17 +12,20 @@
           <mat-option [value]="Number(3)">3</mat-option>
           <mat-option [value]="Number(4)">4</mat-option>
           <mat-option [value]="Number(5)">5</mat-option>
-          <mat-option [value]="Number(6)">6</mat-option>
+          <mat-option [value]="Number(6)">6 MAX SUB</mat-option>
+          <mat-divider></mat-divider>
           <mat-option *ngIf="drifTier >= 2" [value]="Number(7)">7</mat-option>
           <mat-option *ngIf="drifTier >= 2" [value]="Number(8)">8</mat-option>
           <mat-option *ngIf="drifTier >= 2" [value]="Number(9)">9</mat-option>
           <mat-option *ngIf="drifTier >= 2" [value]="Number(10)">10</mat-option>
-          <mat-option *ngIf="drifTier >= 2" [value]="Number(11)">11</mat-option>
+          <mat-option *ngIf="drifTier >= 2" [value]="Number(11)">11 MAX BI</mat-option>
+          <mat-divider></mat-divider>
           <mat-option *ngIf="drifTier >= 3" [value]="Number(12)">12</mat-option>
           <mat-option *ngIf="drifTier >= 3" [value]="Number(13)">13</mat-option>
           <mat-option *ngIf="drifTier >= 3" [value]="Number(14)">14</mat-option>
           <mat-option *ngIf="drifTier >= 3" [value]="Number(15)">15</mat-option>
-          <mat-option *ngIf="drifTier >= 3" [value]="Number(16)">16</mat-option>
+          <mat-option *ngIf="drifTier >= 3" [value]="Number(16)">16 MAX MAGNI</mat-option>
+          <mat-divider></mat-divider>
           <mat-option *ngIf="drifTier >= 4" [value]="Number(17)">17</mat-option>
           <mat-option *ngIf="drifTier >= 4" [value]="Number(18)">18</mat-option>
           <mat-option *ngIf="drifTier >= 4" [value]="Number(19)">19</mat-option>
@@ -56,18 +59,18 @@
        getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_ENERGY_DAMAGE ||
        getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
        itemSlot === 'weapon' &&
-       drif.startPower * drifTier <= leftPower"
+       getDrifPower(drif.startPower) <= leftPower"
                 mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
         <button *ngIf="
        (getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_COLD_DAMAGE ||
        getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_ENERGY_DAMAGE ||
        getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
        itemSlot === 'weapon' &&
-       drif.startPower * drifTier > leftPower"
+       getDrifPower(drif.startPower) > leftPower"
                 mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
         <button *ngIf="
        (getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_COLD_DAMAGE ||
@@ -75,70 +78,70 @@
        getPsychoModByString(drif.psychoMod) === PsychoMod.EXTRA_FIRE_DAMAGE) &&
        itemSlot !== 'weapon'"
                 mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
         <button *ngIf="
       (getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_COLD_DAMAGE &&
        getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
        getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       drif.startPower * drifTier <= leftPower"
+       getDrifPower(drif.startPower) <= leftPower"
                 mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
         <button *ngIf="
        (getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_COLD_DAMAGE &&
        getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
        getPsychoModByString(drif.psychoMod) !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       drif.startPower * drifTier > leftPower" mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+       getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
       </div>
     </div>
     <h2>SPECJALNY</h2>
     <div class="container">
       <div *ngFor="let drif of getSpecial()">
-        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="specialDrif"
+        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="specialDrif"
                 (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
-        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
       </div>
     </div>
     <h2>CELNOŚCI</h2>
     <div class="container">
       <div *ngFor="let drif of getAccuracy()">
-        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="accuracyDrif"
+        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="accuracyDrif"
                 (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
-        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
       </div>
     </div>
     <h2>OBRONY</h2>
     <div class="container">
       <div *ngFor="let drif of getDefence()">
-        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="defenceDrif"
+        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="defenceDrif"
                 (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
-        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
       </div>
     </div>
     <h2>REDUKCJI</h2>
     <div class="container">
       <div *ngFor="let drif of getReduction()">
-        <button *ngIf="drif.startPower * drifTier <= leftPower" mat-raised-button color="primary" class="reductionDrif"
+        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="reductionDrif"
                 (click)="close(drif)">
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
-        <button *ngIf="drif.startPower * drifTier > leftPower" mat-raised-button disabled>
-          {{getPsychoModByString(drif.psychoMod)}} [{{drif.startPower * drifTier}}] {{drif.shortName}}
+        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
+          {{getPsychoModByString(drif.psychoMod)}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
       </div>
     </div>
