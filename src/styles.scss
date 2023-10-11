@@ -174,7 +174,7 @@ input[type=number] {
   text-shadow: 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000;
 }
 
-//EQ SIMULATOR
+//BUILD CALCULATOR
 .menu-drif.mat-menu-panel {
   background-color: rgba(17, 17, 17, 0.97);
   min-width: unset !important;
@@ -209,4 +209,16 @@ input[type=number] {
 .mod-sum-dialog .mat-dialog-container {
   background-color: rgba(0, 0, 0, 0.96) !important;
   overflow: hidden;
+}
+
+.build-tab {
+  background-color: rgba(64, 255, 0, 0.05);
+}
+
+.inventory-tab {
+  background-color: rgba(0, 187, 255, 0.05);
+}
+
+.description-tab {
+  background-color: rgba(255, 223, 12, 0.05);
 }
