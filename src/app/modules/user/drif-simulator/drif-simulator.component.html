@@ -21,6 +21,10 @@
               <img src="assets/equipment/placeholders/{{eq.slot}}.png" alt="{{eq.slot}}">
               <div *ngIf="eq.rank <= 12" class="capacity">{{printUsedCapacity(eq)}}</div>
             </div>
+            <div fxLayout="column" fxLayoutAlign="center center" style="padding-bottom: 2px">
+              <p class="sidraga">sidraga boost</p>
+              <mat-checkbox [(ngModel)]="eq.sidragaBoost" (change)="calculateModSummary()"></mat-checkbox>
+            </div>
             <div>
               <mat-form-field style="width: 70px" appearance="fill" color="accent">
                 <mat-label>Stars</mat-label>
