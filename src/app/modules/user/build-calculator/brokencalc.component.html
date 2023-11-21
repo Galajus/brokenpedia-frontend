@@ -75,7 +75,7 @@
     [cdkConnectedOverlayOpen]="showDrifLevel"
   >
     <div class="drif-show" #drifShow>
-      <mat-slider (mousedown)="blockHideTooltips()" (input)="changeDrifLevel($event)" [(ngModel)]="drifToEdit.level" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1" [value]="drifToEdit.level"></mat-slider>
+      <mat-slider (mousedown)="blockHideTooltips()" (input)="changeDrifLevel($event)" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1" [value]="drifToEdit.level"></mat-slider>
     </div>
   </ng-template>
 
@@ -355,7 +355,7 @@
 
   <mat-tab labelClass="inventory-tab" *ngIf="!databaseBuild" label="Inventory">
     <h2 style="color: red; margin-bottom: 1px">WERSJA PRE BETA - ZGŁASZAJ WSZYSTKO PRZEZ FORMULARZ ZGŁASZANIA BŁĘDÓW/SUGESTII PO LEWEJ</h2>
-    <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="space-between">
+    <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="space-between" class="restrict-width">
 
       <!--ITEM SELECT-->
       <mat-card class="mat-elevation-z6" fxFlex="32" style="padding: 4px">

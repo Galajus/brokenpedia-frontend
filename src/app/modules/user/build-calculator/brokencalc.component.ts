@@ -838,7 +838,15 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeDrifLevel(e: MatSliderChange) {
     if (e.value) {
+      let oldLevel = this.drifToEdit.level;
       this.drifToEdit.level = e.value;
+      if (this.getUsedItemCapacity(undefined, 99) > this.getItemCapacity()) {
+        this.drifToEdit.level = oldLevel;
+        e.value = this.drifToEdit.level;
+        e.source.value = this.drifToEdit.level;
+        this.snackBar.open("Pojemność przedmiotu nie pozwala kolejne poziomy drifa", "ok", {duration: 3000})
+        return;
+      }
     }
   }
 
@@ -951,7 +959,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     let drifToCheck = this.getDrifByName(drifName);
     let drifTier = this.getDrifTierByName();
 
-    let requiredCapacity = drifToCheck.startPower * drifTier;
+    let requiredCapacity = drifToCheck.startPower;
     let usedCapacity = this.getUsedItemCapacity(currentItem);
     let availableCapacity = this.getItemCapacity(currentItem);
     let remainingCapacity = availableCapacity - usedCapacity;
@@ -1007,7 +1015,19 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       if (skipIndex === index) {
         return;
       }
-      usedCapacity += d.drif.startPower * d.tier;
+      if (d.level <= 6) {
+        usedCapacity += d.drif.startPower;
+        return;
+      }
+      if (d.level <= 11) {
+        usedCapacity += d.drif.startPower * 2;
+        return;
+      }
+      if (d.level <= 16) {
+        usedCapacity += d.drif.startPower * 3;
+        return;
+      }
+      usedCapacity += d.drif.startPower * 4;
     })
 
     return usedCapacity;
@@ -2074,7 +2094,15 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDrifPsychoValue(item: InventoryItem, drif: InventoryDrif) {
     let value = drif.level * drif.drif.psychoGrowByLevel;
-    value += drif.drif.psychoGrowByLevel * (drif.tier - 1);
+    if (drif.tier === 2) {
+      value += drif.drif.psychoGrowByLevel;
+    }
+    if (drif.tier === 3) {
+      value += drif.drif.psychoGrowByLevel * 3;
+    }
+    if (drif.tier === 4) {
+      value += drif.drif.psychoGrowByLevel * 5;
+    }
     if (drif.tier === 4 && drif.level >= 19) {
       value += (drif.level - 18) * drif.drif.psychoGrowByLevel;
     }
@@ -2101,7 +2129,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!drif) {
       return "";
     }
-    let neededPower = drif.startPower * this.getDrifTierByName();
+    let neededPower = drif.startPower;
     let usedCapacity = this.getUsedItemCapacity(undefined, this.drifSlot);
     let capacity = this.getItemCapacity();
 
