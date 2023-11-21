@@ -1,12 +1,12 @@
-<div class="restrict-width" fxLayout="column" fxLayoutGap="20" id="scrolling">
-  <mat-card class="mat-elevation-z6 make-space">
+<div class="restrict-width" fxLayout="column" fxLayoutGap="6" id="scrolling">
+  <mat-card id="options" class="mat-elevation-z6">
     <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
 
       <!--OPTIONS PANEL-->
       <div fxLayout="row" fxLayoutAlign="space-evenly">
         <div fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
-            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5">
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2">
               <div>
                 <button mat-stroked-button color="accent" (click)="rotateList()">{{'ITEMS_LIST.ROTATE' | translate}}</button>
               </div>
@@ -15,18 +15,18 @@
               </div>
             </div>
             <div>
-              <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.MINIMAL_LEVEL' | translate}}" appearance="outline" color="accent">
+              <mat-form-field style="width: 70px" appearance="outline" color="accent">
                 <mat-label>{{'ITEMS_LIST.MINIMAL_LEVEL' | translate}}</mat-label>
                 <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.MAXIMUM_LEVEL' | translate}}" appearance="outline" color="accent">
+              <mat-form-field style="width: 70px" appearance="outline" color="accent">
                 <mat-label>{{'ITEMS_LIST.MAXIMUM_LEVEL' | translate}}</mat-label>
                 <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
               </mat-form-field>
             </div>
-            <mat-form-field style="width: 110px" hintLabel="{{'ITEMS_LIST.INCRUSTATION_BY' | translate}}" appearance="outline" color="accent">
+            <mat-form-field style="width: 110px" appearance="outline" color="accent">
               <mat-label>{{'ITEMS_LIST.INCRUSTATION_TARGET' | translate}}</mat-label>
               <mat-select [(ngModel)]="targetIncrustationStat">
                   <mat-option value="evenly">{{'ITEMS_LIST.EVENLY' | translate}}</mat-option>
@@ -40,61 +40,66 @@
                   <mat-option value="stamina" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.STAMINA' | translate}}</mat-option>
               </mat-select>
             </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2">
+              <mat-form-field style="width: 160px" appearance="outline" color="accent">
+                <mat-label>{{'ITEMS_LIST.SEARCH_PLACEHOLDER' | translate}}</mat-label>
+                <input matInput [(ngModel)]="searchValue" (input)="doFilter()">
+              </mat-form-field>
+              <!--<mat-form-field style="width: 120px" hintLabel="Rodzaj przedmiotu" appearance="outline" color="accent">
+                <mat-label>Rodzaj</mat-label>
+                <mat-select [(ngModel)]="searchItemType" (selectionChange)="doFilter()">
+                  <mat-option>Odznacz</mat-option>
+                  <div *ngFor="let type of getItemTypeKeyArray()">
+                    <mat-option [value]="type">{{getItemTypeValueByKey(type)}}</mat-option>
+                  </div>
+                </mat-select>
+              </mat-form-field>-->
+              <mat-form-field style="width: 140px" appearance="outline" color="accent">
+                <mat-label>{{'ITEMS_LIST.ITEM_TYPE' | translate}}</mat-label>
+                <mat-select #types [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple>
+                  <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')" value="ALL_ARMORS">{{'ITEMS.TYPES.ALL_ARMORS' | translate}}</mat-option>
+                  <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')" value="ALL_JEWELERY">{{'ITEMS.TYPES.ALL_JEWELERY' | translate}}</mat-option>
+                  <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')" value="ALL_WEAPONS">{{'ITEMS.TYPES.ALL_WEAPONS' | translate}}</mat-option>
+                  <mat-divider></mat-divider>
+                  <div *ngFor="let type of getItemTypeKeyArray()">
+                    <mat-option [value]="type">{{'ITEMS.TYPES.' + type | translate}}</mat-option>
+                  </div>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field style="width: 140px" appearance="outline" color="accent">
+                <mat-label>{{'ITEMS_LIST.ITEM_RANK' | translate}}</mat-label>
+                <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple>
+                  <div *ngFor="let rank of ranks">
+                    <mat-option [value]="rank">{{rank}}</mat-option>
+                  </div>
+                </mat-select>
+              </mat-form-field>
+            </div>
             <div fxLayout="column" fxLayoutAlign="start">
               <mat-slide-toggle [(ngModel)]="searchPhysicalItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_MAGIC' | translate}}</mat-slide-toggle>
               <mat-slide-toggle [(ngModel)]="searchMagicItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_PHYSICAL' | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
-            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.NAME_SEARCH' | translate}}" appearance="outline" color="accent">
-              <mat-label>{{'ITEMS_LIST.SEARCH_PLACEHOLDER' | translate}}</mat-label>
-              <input matInput [(ngModel)]="searchValue" (input)="doFilter()">
-            </mat-form-field>
-            <!--<mat-form-field style="width: 120px" hintLabel="Rodzaj przedmiotu" appearance="outline" color="accent">
-              <mat-label>Rodzaj</mat-label>
-              <mat-select [(ngModel)]="searchItemType" (selectionChange)="doFilter()">
-                <mat-option>Odznacz</mat-option>
-                <div *ngFor="let type of getItemTypeKeyArray()">
-                  <mat-option [value]="type">{{getItemTypeValueByKey(type)}}</mat-option>
-                </div>
-              </mat-select>
-            </mat-form-field>-->
-            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.ITEM_TYPE' | translate}}" appearance="outline" color="accent">
-              <mat-label>{{'ITEMS_LIST.ITEM_TYPE' | translate}}</mat-label>
-              <mat-select #types [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple>
-                <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')" value="ALL_ARMORS">{{'ITEMS.TYPES.ALL_ARMORS' | translate}}</mat-option>
-                <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')" value="ALL_JEWELERY">{{'ITEMS.TYPES.ALL_JEWELERY' | translate}}</mat-option>
-                <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')" value="ALL_WEAPONS">{{'ITEMS.TYPES.ALL_WEAPONS' | translate}}</mat-option>
-                <mat-divider></mat-divider>
-                <div *ngFor="let type of getItemTypeKeyArray()">
-                  <mat-option [value]="type">{{'ITEMS.TYPES.' + type | translate}}</mat-option>
-                </div>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field style="width: 200px" hintLabel="{{'ITEMS_LIST.ITEM_RANK' | translate}}" appearance="outline" color="accent">
-              <mat-label>{{'ITEMS_LIST.ITEM_RANK' | translate}}</mat-label>
-              <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple>
-                <div *ngFor="let rank of ranks">
-                  <mat-option [value]="rank">{{rank}}</mat-option>
-                </div>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="1">
-            <button mat-stroked-button color="accent" (click)="openItemComparator()">{{'ITEMS_LIST.COMPARATOR' | translate}}</button>
-            <div fxLayout="row" fxLayoutAlign="center center" *ngFor="let compareRar of toCompare">
-              <div class="classic-rar-name">
+          <div fxFlex fxFlexFill fxLayout="row" fxLayoutGap="5">
+            <div fxFlex="15">
+              <button mat-stroked-button color="accent" (click)="openItemComparator()">{{'ITEMS_LIST.COMPARATOR' | translate}}</button>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+              <div fxLayout="row" class="classic-rar-name" *ngFor="let compareRar of toCompare">
                 <div *ngIf="compareRar.translatedName">"{{compareRar.translatedName}}"</div>
                 <div *ngIf="!compareRar.translatedName">"{{compareRar.name}}"</div>
-              </div>
-              <div>
                 <button mat-icon-button color="warn" class="small-icon-button" (click)="deleteFromToCompare(compareRar)"><mat-icon>delete_forever</mat-icon></button>
               </div>
             </div>
+          </div>
         </div>
+
       </div>
 
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mat-elevation-z6 make-space">
+    <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
       <!--LOADING MONSTERS-->
       <div *ngIf="!monsters" fxLayoutAlign="center">
         <mat-progress-spinner
@@ -124,7 +129,7 @@
                       <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
                     </div>
 
-                    <div fxFlex="21" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
+                    <div fxFlex="21" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8">
                       <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="width: 120px !important">
                         <div fxFlex="20" fxLayoutAlign="center center">
                           <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
@@ -153,6 +158,7 @@
                         <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
                         <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
                       </div>
+                      <div *ngIf="monster.name === 'Sidraga'" class="modern-rar-name">Wzmocnienie drifów: <span class="element-value">+15%</span></div>
                     </div>
 
                     <div fxFlex="17" fxLayoutAlign="start center">
@@ -285,6 +291,7 @@
                       <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>
                       <li *ngIf="rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: +{{rar.mentalResistance}}</li>
                     </ul>
+                    <div *ngIf="monster.name === 'Sidraga'" class="classic-rar-name">Wzmocnienie drifów: <span class="element-value">+15%</span></div>
                   </div>
                 </div>
               </div>
