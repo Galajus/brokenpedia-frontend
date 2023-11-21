@@ -531,10 +531,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         specialBoost += 0.15;
       }
       if (ornaments === 7) {
-        specialBoost += 1.03;
+        specialBoost += 0.03;
       }
       if (ornaments === 8) {
-        specialBoost += 1.08;
+        specialBoost += 0.08;
       }
       if (ornaments === 9) {
         specialBoost += 0.15;
@@ -734,15 +734,19 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     let drifItem2 = rarWithDrifs.drifItem2;
     let drifItem3 = rarWithDrifs.drifItem3;
     if (drifItem1) {
-      usedPower += drifItem1.startPower * this.getDrifPowerBooster(drifItem1.level);
+      usedPower += this.getDrifPower(drifItem1.startPower, drifItem1.level);
     }
     if (drifItem2 && (rarWithDrifs.rank >= 4 || rarWithDrifs.ornaments >=7)) {
-      usedPower += drifItem2.startPower * this.getDrifPowerBooster(drifItem2.level);
+      usedPower += this.getDrifPower(drifItem2.startPower, drifItem2.level);
     }
     if (drifItem3  && rarWithDrifs.rank >= 10) {
-      usedPower += drifItem3.startPower * this.getDrifPowerBooster(drifItem3.level);
+      usedPower += this.getDrifPower(drifItem3.startPower, drifItem3.level);
     }
     return usedPower;
+  }
+
+  getDrifPower(startPower: number, level: number) {
+    return startPower * this.getDrifPowerBooster(level);
   }
 
   getDrifPowerBooster(level: number) {

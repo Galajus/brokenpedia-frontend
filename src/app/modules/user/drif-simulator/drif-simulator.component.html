@@ -124,7 +124,19 @@
                         [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem1)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 1)">
-                  {{eq.drifItem1.shortName}} T{{eq.drifItem1.tier}}
+                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <div>
+                      {{eq.drifItem1.shortName}}
+                    </div>
+                    <div fxLayout="column">
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        T{{eq.drifItem1.tier}}
+                      </div>
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        P{{getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level)}}
+                      </div>
+                    </div>
+                  </div>
                 </button>
 
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
@@ -141,7 +153,19 @@
                         [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 2)">
-                  {{eq.drifItem2.shortName}} T{{eq.drifItem2.tier}}
+                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <div>
+                      {{eq.drifItem2.shortName}}
+                    </div>
+                    <div fxLayout="column">
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        T{{eq.drifItem2.tier}}
+                      </div>
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        P{{getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level)}}
+                      </div>
+                    </div>
+                  </div>
                 </button>
 
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
@@ -158,7 +182,20 @@
                         [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem3)" mat-flat-button color="warn"
                         (click)="openDrifDialog('100ms', '100ms', eq, 3)">
-                  {{eq.drifItem3.shortName}} T{{eq.drifItem3.tier}}
+                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <div>
+                      {{eq.drifItem3.shortName}}
+                    </div>
+                    <div fxLayout="column">
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        T{{eq.drifItem3.tier}}
+                      </div>
+                      <div class="tier-power" fxLayoutAlign="center center">
+                        P{{getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level)}}
+                      </div>
+                    </div>
+                  </div>
+
                 </button>
               </div>
             </div>
@@ -204,7 +241,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <h2 style="color: red; padding-top: 10px">KALKULATOR UWZGLĘDNIA JUŻ ZMIANY ZWIĄZANE Z REFORMĄ DRIFÓW - ZGŁASZAJ WSZELKIE BŁĘDY!</h2>
       </div>
     </mat-card-content>
   </mat-card>
