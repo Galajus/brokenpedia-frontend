@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {Category} from "../../models/post/category";
+import {Drif} from "../../../models/drif/drif";
 
 @Injectable({
   providedIn: 'root'
 })
-export class DefaultService {
+export class DrifsService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCategories(): Observable<Array<Category>> {
-    return this.http.get<Array<Category>>("/api/categories/all");
+  saveAllDrifsFromJson(drifs: Drif[]): Observable<Drif[]> {
+    return this.http.post<Drif[]>("/api/admin/drifs", drifs);
   }
+
 }

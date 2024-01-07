@@ -1,14 +1,14 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MediaMatcher} from "@angular/cdk/layout";
 import {NavigationEnd, Router} from "@angular/router";
-import {JwtService} from "../../common/service/jwt.service";
-import {LoginButtonService} from "../../common/service/login-button.service";
+import {JwtService} from "../../services/jwt/jwt.service";
+import {LoginButtonService} from "../../services/layout/login-button.service";
 import {DefaultService} from "./default.service";
-import {Category} from "../../modules/admin/posts/model/category";
 import {AdsenseComponent} from "ng2-adsense";
 import {environment} from "../../../environments/environment";
 import {MatSidenav} from "@angular/material/sidenav";
 import {TranslateService} from "@ngx-translate/core";
+import {Category} from "../../models/post/category";
 
 @Component({
   selector: 'app-default',

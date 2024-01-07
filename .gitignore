@@ -46,3 +46,4 @@ Thumbs.db
 /src/app/modules/user/tests/DRIFS_FAST_DB.ts
 /src/app/modules/user/tests/ORBS_FAST_DB.ts
 /src/app/modules/user/tests/tests.service.ts
+/src/app/components/user/tests/
