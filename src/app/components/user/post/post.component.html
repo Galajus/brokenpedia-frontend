@@ -14,10 +14,10 @@
 
         <div>
           <div fxLayoutAlign="end center">
-            <strong style="margin-right: 4px">{{singlePost.author.nickname}}</strong> {{singlePost.creationDate | simpleDate}}
+            <strong style="margin-right: 4px">{{singlePost.author.nickname}}</strong> {{singlePost.creationDate | date: "dd.MM.YYYY HH:mm" : "CET"}}
           </div>
           <div *ngIf="singlePost.lastUpdateDate">
-            Aktualizacja: {{singlePost.lastUpdateDate | simpleDate}}
+            Aktualizacja: {{singlePost.lastUpdateDate | date: "dd.MM.YYYY HH:mm" : "CET"}}
           </div>
           <div fxLayoutAlign="end center">
             <mat-icon style="margin-right: 6px">remove_red_eye</mat-icon> {{singlePost.views}}
