@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {Profile} from "../../../models/user/profile";
-import {ProfileNicknameDto} from "../../../models/user/profileNicknameDto";
-import {BuildListDto} from "../../../models/build-list/buildListDto";
+import {Profile} from "@models/user/profile";
+import {ProfileNicknameDto} from "@models/user/profileNicknameDto";
+import {BuildListDto} from "@models/build-list/buildListDto";
 
 @Injectable({
   providedIn: 'root'

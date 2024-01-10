@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {JwtService} from "../services/jwt/jwt.service";
+import {JwtService} from "@services/jwt/jwt.service";
 import {Observable} from "rxjs";
-import {LoginButtonService} from "../services/layout/login-button.service";
+import {LoginButtonService} from "@services/layout/login-button.service";
 
 @Injectable()
 export class ProfileAuthorizationGuard implements CanActivate {

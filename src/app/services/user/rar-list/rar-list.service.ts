@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {MonsterWithIncrustatedLegendaryItems} from "../../../models/gameentites/monsterWithIncrustatedLegendaryItems";
+import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 
 @Injectable({
   providedIn: 'root'

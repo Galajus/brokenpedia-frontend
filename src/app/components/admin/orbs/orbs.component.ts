@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {OrbsService} from "../../../services/admin/orbs/orbs.service";
-import {Orb} from "../../../models/orb/orb";
+import {OrbsService} from "@services/admin/orbs/orbs.service";
+import {Orb} from "@models/orb/orb";
 
 @Component({
   selector: 'app-orbs',

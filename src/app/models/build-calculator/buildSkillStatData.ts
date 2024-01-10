@@ -1,5 +1,4 @@
 import {SkillStatType} from "../skills/skillStatType";
-
 export interface BuildSkillStatData {
 
   id?: number,

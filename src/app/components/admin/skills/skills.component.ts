@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatTable} from "@angular/material/table";
-import {Skill} from "../../../models/skills/skill";
-import {SkillsService} from "../../../services/admin/skills/skills.service";
+import {Skill} from "@models/skills/skill";
+import {SkillsService} from "@services/admin/skills/skills.service";
 
 @Component({
   selector: 'app-skills',

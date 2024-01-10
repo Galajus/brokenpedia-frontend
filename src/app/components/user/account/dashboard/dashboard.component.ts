@@ -8,7 +8,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProfileNicknameDto} from "../../../../models/user/profileNicknameDto";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {BuildListDto} from "../../../../models/build-list/buildListDto";
+import {BuildListDto} from "@models/build-list/buildListDto";
 
 @Component({
   selector: 'app-dashboard',

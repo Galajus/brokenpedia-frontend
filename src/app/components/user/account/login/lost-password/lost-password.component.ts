@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {LoginService} from "../../../../../services/user/account/login.service";
+import {LoginService} from "@services/user/account/login.service";
 
 @Component({
   selector: 'app-lost-password',

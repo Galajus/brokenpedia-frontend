@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {HomeService} from "../../../services/user/home/home.service";
-import {Post} from "../../../models/post/post";
+import {HomeService} from "@services/user/home/home.service";
+import {Post} from "@models/post/post";
 import {Router} from "@angular/router";
 import {MediaMatcher} from "@angular/cdk/layout";
+import {DATE_PIPE_DEFAULT_TIMEZONE} from "@angular/common";
 
 
 @Component({

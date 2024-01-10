@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AngularEditorConfig} from "@kolkov/angular-editor";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Category} from "../../../../models/post/category";
+import {Category} from "@models/post/category";
 import {ActivatedRoute} from "@angular/router";
-import {PostsService} from "../../../../services/admin/posts/posts.service";
-import {Post} from "../../../../models/post/post";
+import {PostsService} from "@services/admin/posts/posts.service";
+import {Post} from "@models/post/post";
 
 @Component({
   selector: 'app-post-edit',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {PostsService} from "../../../services/admin/posts/posts.service";
-import {Post} from "../../../models/post/post";
-import {Category} from "../../../models/post/category";
+import {PostsService} from "@services/admin/posts/posts.service";
+import {Post} from "@models/post/post";
+import {Category} from "@models/post/category";
 
 @Component({
   selector: 'app-posts',

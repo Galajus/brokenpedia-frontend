@@ -1,8 +1,9 @@
-import {MonsterWithIncrustatedLegendaryItems} from "../gameentites/monsterWithIncrustatedLegendaryItems";
+
 import {LegendaryItem} from "./legendaryItem";
 import {ItemFamily} from "./itemFamily";
 import {ItemType} from "./itemType";
 import {DamageType} from "./damageType";
+import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 
 export interface IncrustatedLegendaryItem extends LegendaryItem {
   id?: number,

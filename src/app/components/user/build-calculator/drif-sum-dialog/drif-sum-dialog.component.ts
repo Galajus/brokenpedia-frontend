@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ModSummary} from "../../../../models/drif/modSummary";
+import {ModSummary} from "@models/drif/modSummary";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {TranslateService} from "@ngx-translate/core";
-import {DrifCategory} from "../../../../models/drif/drifCategory";
-import {PsychoMod} from "../../../../models/items/psychoMod";
+import {DrifCategory} from "@models/drif/drifCategory";
+import {PsychoMod} from "@models/items/psychoMod";
 
 @Component({
   selector: 'app-drif-sum-dialog',

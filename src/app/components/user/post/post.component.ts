@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {PostService} from "../../../services/user/posts/post.service";
-import {SinglePost} from "../../../models/post/singlePost";
+import {PostService} from "@services/user/posts/post.service";
+import {SinglePost} from "@models/post/singlePost";
 
 @Component({
   selector: 'app-post',

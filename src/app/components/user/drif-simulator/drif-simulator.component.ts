@@ -1,20 +1,20 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {DrifItem} from "../../../models/drif/drifItem";
-import {DrifTier} from "../../../models/drif/drifTier";
+import {DrifItem} from "@models/drif/drifItem";
+import {DrifTier} from "@models/drif/drifTier";
 import amountReduction from "../../../models/drif/amountDrifReduction";
-import {RarCapacity} from "../../../models/drif/rarCapacity";
-import {RarWithDrifs} from "../../../models/drif/rarWithDrifs";
+import {RarCapacity} from "@models/drif/rarCapacity";
+import {RarWithDrifs} from "@models/drif/rarWithDrifs";
 import {MatDialog} from "@angular/material/dialog";
 import {DrifSelectComponent} from "./drif-select/drif-select.component";
-import {ModSummary} from "../../../models/drif/modSummary";
+import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "../../../models/drif/modCap";
-import {EpikItem} from "../../../models/drif/epikItem";
-import {UserRarsWithDrifs} from "../../../models/drif/userRarsWithDrifs";
+import {EpikItem} from "@models/drif/epikItem";
+import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {DragDrifItem} from "../../../models/drif/dragDrifItem";
+import {DragDrifItem} from "@models/drif/dragDrifItem";
 import {clone, cloneDeep, round} from "lodash-es";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {PsychoMod} from "../../../models/items/psychoMod";
+import {PsychoMod} from "@models/items/psychoMod";
 
 @Component({
   selector: 'app-drif-simulator',

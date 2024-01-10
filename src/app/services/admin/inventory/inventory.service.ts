@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LegendaryItem} from "../../../models/items/legendaryItem";
+import {LegendaryItem} from "@models/items/legendaryItem";
 
 @Injectable({
   providedIn: 'root'

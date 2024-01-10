@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {StatHolder} from "../../../models/incrustation/statHolder";
-import {IncrustatedLegendaryItem} from "../../../models/items/incrustatedLegendaryItem";
+import {StatHolder} from "@models/incrustation/statHolder";
+import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {cloneDeep, round} from "lodash-es";
-import {IncrustationBoost} from "../../../models/incrustation/incrustationBoost";
-import {MonsterWithIncrustatedLegendaryItems} from "../../../models/gameentites/monsterWithIncrustatedLegendaryItems";
-import {ItemFamily} from "../../../models/items/itemFamily";
-import {LegendaryItem} from "../../../models/items/legendaryItem";
+import {IncrustationBoost} from "@models/incrustation/incrustationBoost";
+import {ItemFamily} from "@models/items/itemFamily";
+import {LegendaryItem} from "@models/items/legendaryItem";
+import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 
 @Injectable({
   providedIn: 'root'

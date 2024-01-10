@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {Post} from "../../../models/post/post";
-import {PageableMainPagePostDto} from "../../../models/post/pageableMainPagePostDto";
+import {Post} from "@models/post/post";
+import {PageableMainPagePostDto} from "@models/post/pageableMainPagePostDto";
 
 @Injectable({
   providedIn: 'root'

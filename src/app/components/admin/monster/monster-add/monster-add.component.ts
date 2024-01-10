@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {MonsterService} from "../../../../services/admin/monsters/monster.service";
-import {MonsterType} from "../../../../models/gameentites/monsterType";
-import {Monster} from "../../../../models/gameentites/monster";
+import {MonsterService} from "@services/admin/monsters/monster.service";
+import {MonsterType} from "@models/gameentites/monsterType";
+import {Monster} from "@models/gameentites/monster";
 
 @Component({
   selector: 'app-monster-add',

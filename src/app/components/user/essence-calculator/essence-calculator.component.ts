@@ -8,10 +8,10 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {ItemToEssences} from "../../../models/essences/itemToEssences";
-import {ShardsByTier} from "../../../models/shards/shardsByTier";
-import {SyngPrice} from "../../../models/synergetics/syngPrice";
-import {CustomNumberInputService} from "../../../services/common/custom-number-input.service";
+import {ItemToEssences} from "@models/essences/itemToEssences";
+import {ShardsByTier} from "@models/shards/shardsByTier";
+import {SyngPrice} from "@models/synergetics/syngPrice";
+import {CustomNumberInputService} from "@services/common/custom-number-input.service";
 
 @Component({
   selector: 'app-essence-calculator',

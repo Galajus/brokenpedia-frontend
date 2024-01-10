@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {Drif} from "../../../models/drif/drif";
+import {Drif} from "@models/drif/drif";
 
 @Injectable({
   providedIn: 'root'

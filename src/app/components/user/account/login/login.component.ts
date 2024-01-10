@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {JwtService} from "../../../../services/jwt/jwt.service";
-import {LoginService} from "../../../../services/user/account/login.service";
-import {LoginButtonService} from "../../../../services/layout/login-button.service";
+import {JwtService} from "@services/jwt/jwt.service";
+import {LoginService} from "@services/user/account/login.service";
+import {LoginButtonService} from "@services/layout/login-button.service";
 
 @Component({
   selector: 'app-login',

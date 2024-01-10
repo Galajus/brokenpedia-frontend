@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
-import {IncrustatedLegendaryItem} from "../../../../models/items/incrustatedLegendaryItem";
+import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {round} from "lodash-es";
-import {MonsterWithIncrustatedLegendaryItems} from "../../../../models/gameentites/monsterWithIncrustatedLegendaryItems";
-import {RarIncrustationService} from "../../../../services/user/incrustation/rar-incrustation.service";
-import {ItemType} from "../../../../models/items/itemType";
-import {DamageType} from "../../../../models/items/damageType";
-import {LegendaryItem} from "../../../../models/items/legendaryItem";
+import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
+import {ItemType} from "@models/items/itemType";
+import {DamageType} from "@models/items/damageType";
+import {LegendaryItem} from "@models/items/legendaryItem";
+import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 
 @Component({
   selector: 'app-item-comparator',

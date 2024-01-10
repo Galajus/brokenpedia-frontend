@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {OrbCalculations} from "../../../models/orb/orbCalculations";
+import {OrbCalculations} from "@models/orb/orbCalculations";
 import {round} from "lodash-es";
-import {OrbType} from "../../../models/orb/orbType";
-import {Orb} from "../../../models/orb/orb";
+import {OrbType} from "@models/orb/orbType";
+import {Orb} from "@models/orb/orb";
 
 @Component({
   selector: 'app-orbs-table',

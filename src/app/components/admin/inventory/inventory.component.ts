@@ -1,6 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {InventoryService} from "../../../services/admin/inventory/inventory.service";
-import {LegendaryItem} from "../../../models/items/legendaryItem";
+import {InventoryService} from "@services/admin/inventory/inventory.service";
+import {LegendaryItem} from "@models/items/legendaryItem";
 
 @Component({
   selector: 'app-inventory',

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {MonsterType} from "../../../models/gameentites/monsterType";
-import {Monster} from "../../../models/gameentites/monster";
+import {MonsterType} from "@models/gameentites/monsterType";
+import {Monster} from "@models/gameentites/monster";
 
 @Injectable({
   providedIn: 'root'

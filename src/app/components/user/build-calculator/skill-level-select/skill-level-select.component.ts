@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BuildCalculatorService} from "../../../../services/user/build-calculator/build-calculator.service";
+import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
 
 @Component({
   selector: 'app-skill-level-select',

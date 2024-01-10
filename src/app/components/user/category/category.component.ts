@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {Post} from "../../../models/post/post";
-import {CategoryService} from "../../../services/user/category/category.service";
+import {Post} from "@models/post/post";
+import {CategoryService} from "@services/user/category/category.service";
 import {MediaMatcher} from "@angular/cdk/layout";
 
 @Component({

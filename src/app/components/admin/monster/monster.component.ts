@@ -1,6 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {MonsterService} from "../../../services/admin/monsters/monster.service";
-import {Monster} from "../../../models/gameentites/monster";
+import {MonsterService} from "@services/admin/monsters/monster.service";
+import {Monster} from "@models/gameentites/monster";
 
 @Component({
   selector: 'app-monster',

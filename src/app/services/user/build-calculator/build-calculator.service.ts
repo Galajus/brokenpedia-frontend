@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
-import {InitBuildCalculator} from "../../../models/build-calculator/initBuildCalculator";
-import {DatabaseBuild} from "../../../models/build-calculator/databaseBuild";
-import {Skill} from "../../../models/skills/skill";
-import {BuildLiker} from "../../../models/build-calculator/buildLiker";
-import {PageableBuildsDto} from "../../../models/build-list/pageableBuildsDto";
-import {IncrustatedLegendaryItem} from "../../../models/items/incrustatedLegendaryItem";
-import {BuildListDto} from "../../../models/build-list/buildListDto";
-import {Drif} from "../../../models/drif/drif";
-import {Orb} from "../../../models/orb/orb";
+import {InitBuildCalculator} from "@models/build-calculator/initBuildCalculator";
+import {DatabaseBuild} from "@models/build-calculator/databaseBuild";
+import {Skill} from "@models/skills/skill";
+import {BuildLiker} from "@models/build-calculator/buildLiker";
+import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
+import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
+import {BuildListDto} from "@models/build-list/buildListDto";
+import {Drif} from "@models/drif/drif";
+import {Orb} from "@models/orb/orb";
+import {environment} from "../../../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -23,33 +24,33 @@ export class BuildCalculatorService {
   ) { }
 
    getInitData(): Observable<InitBuildCalculator> {
-    return this.http.get<InitBuildCalculator>("/api/builds/initData");
+    return this.http.get<InitBuildCalculator>(environment.endpoints.buildCalculator.initData);
   }
   saveSkill(skill: any): Observable<Skill> {
-    return this.http.post<Skill>("/api/admin/skills", skill);
+    return this.http.post<Skill>(environment.endpoints.buildCalculator.saveSkill, skill);
   }
   saveBuild(build: DatabaseBuild): Observable<DatabaseBuild> {
-    return this.http.post<DatabaseBuild>("/api/profile/builds", build);
+    return this.http.post<DatabaseBuild>(environment.endpoints.buildCalculator.saveBuild, build);
   }
 
   updateBuild(build: DatabaseBuild): Observable<DatabaseBuild> {
-    return this.http.put<DatabaseBuild>("/api/profile/builds", build);
+    return this.http.put<DatabaseBuild>(environment.endpoints.buildCalculator.updateBuild, build);
   }
 
   addLiker(liker: BuildLiker):Observable<BuildLiker> {
-    return this.http.put<BuildLiker>("/api/profile/builds/add-liker", liker);
+    return this.http.put<BuildLiker>(environment.endpoints.buildCalculator.addLiker, liker);
   }
 
   deleteBuild(id: number): Observable<void> {
-    return this.http.delete<void>("/api/profile/builds/" + id);
+    return this.http.delete<void>(environment.endpoints.buildCalculator.deleteBuild + id);
   }
 
   getBuild(id: number): Observable<DatabaseBuild> {
-    return this.http.get<DatabaseBuild>("/api/profile/builds/" + id);
+    return this.http.get<DatabaseBuild>(environment.endpoints.buildCalculator.getBuild + id);
   }
 
   getBuildWithoutAccount(id: number): Observable<DatabaseBuild> {
-    return this.http.get<DatabaseBuild>("/api/builds/" + id);
+    return this.http.get<DatabaseBuild>(environment.endpoints.buildCalculator.getBuildWithoutAccount + id);
   }
 
   getBuildsByLevel(less: number, greater: number, page: number): Observable<PageableBuildsDto<BuildListDto>> {
@@ -69,15 +70,15 @@ export class BuildCalculatorService {
   }
 
   getAllLegendaryItems(): Observable<IncrustatedLegendaryItem[]> {
-    return this.http.get<IncrustatedLegendaryItem[]>("/api/items/legendary")
+    return this.http.get<IncrustatedLegendaryItem[]>(environment.endpoints.buildCalculator.getLegendaryItems)
   }
 
   getAllDrifs(): Observable<Drif[]> {
-    return this.http.get<Drif[]>("/api/drifs");
+    return this.http.get<Drif[]>(environment.endpoints.buildCalculator.getAllDrifs);
   }
 
   getAllOrbs(): Observable<Orb[]> {
-    return this.http.get<Orb[]>("/api/orbs");
+    return this.http.get<Orb[]>(environment.endpoints.buildCalculator.getAllOrbs);
   }
 
   getLevelString(lvl: number) {

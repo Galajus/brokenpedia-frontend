@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {DrifsService} from "../../../services/admin/drifs/drifs.service";
-import {Drif} from "../../../models/drif/drif";
+import {DrifsService} from "@services/admin/drifs/drifs.service";
+import {Drif} from "@models/drif/drif";
 
 @Component({
   selector: 'app-drifs',

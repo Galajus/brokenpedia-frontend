@@ -1,7 +1,6 @@
 import {SimpleBuild} from "./simpleBuild";
 import {BuildLiker} from "./buildLiker";
 import {ProfileDto} from "../user/profileDto";
-
 export interface DatabaseBuild {
   id: number,
   profile: ProfileDto,

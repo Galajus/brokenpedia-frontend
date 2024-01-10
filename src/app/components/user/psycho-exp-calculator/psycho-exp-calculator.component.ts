@@ -8,8 +8,8 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {ItemPsycho} from "../../../models/psycho-exp-calculator/itemPsycho";
-import {Calculation} from "../../../models/psycho-exp-calculator/calculation";
+import {ItemPsycho} from "@models/psycho-exp-calculator/itemPsycho";
+import {Calculation} from "@models/psycho-exp-calculator/calculation";
 
 @Component({
   selector: 'app-psycho-exp-calculator',

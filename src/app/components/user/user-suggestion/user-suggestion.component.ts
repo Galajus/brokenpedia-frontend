@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {UserSuggestionService} from "../../../services/user/suggestions/user-suggestion.service";
+import {UserSuggestionService} from "@services/user/suggestions/user-suggestion.service";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {SuggestionStatus} from "../../../models/suggestion/suggestionStatus";
-import {SuggestionType} from "../../../models/suggestion/suggestionType";
-import {Suggestion} from "../../../models/suggestion/suggestion";
+import {SuggestionStatus} from "@models/suggestion/suggestionStatus";
+import {SuggestionType} from "@models/suggestion/suggestionType";
+import {Suggestion} from "@models/suggestion/suggestion";
 
 @Component({
   selector: 'app-user-suggestion',

@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {InventoryService} from "../../../../services/admin/inventory/inventory.service";
+import {InventoryService} from "@services/admin/inventory/inventory.service";
 import {ActivatedRoute} from "@angular/router";
-import {MonsterService} from "../../../../services/admin/monsters/monster.service";
-import {Monster} from "../../../../models/gameentites/monster";
-import {LegendaryItem} from "../../../../models/items/legendaryItem";
-import {ItemType} from "../../../../models/items/itemType";
-import {DamageType} from "../../../../models/items/damageType";
-import {ItemFamily} from "../../../../models/items/itemFamily";
+import {MonsterService} from "@services/admin/monsters/monster.service";
+import {Monster} from "@models/gameentites/monster";
+import {LegendaryItem} from "@models/items/legendaryItem";
+import {ItemType} from "@models/items/itemType";
+import {DamageType} from "@models/items/damageType";
+import {ItemFamily} from "@models/items/itemFamily";
 
 @Component({
   selector: 'app-update-rar',

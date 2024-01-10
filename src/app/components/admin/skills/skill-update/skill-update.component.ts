@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Skill} from "../../../../models/skills/skill";
+import {Skill} from "@models/skills/skill";
 import {ActivatedRoute} from "@angular/router";
-import {SkillsService} from "../../../../services/admin/skills/skills.service";
+import {SkillsService} from "@services/admin/skills/skills.service";
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SkillBasic} from "../../../../models/skills/skillBasic";
-import {SkillPsychoEffect} from "../../../../models/skills/skillPsychoEffect";
-import {SkillCustomEffect} from "../../../../models/skills/skillCustomEffect";
+import {SkillBasic} from "@models/skills/skillBasic";
+import {SkillPsychoEffect} from "@models/skills/skillPsychoEffect";
+import {SkillCustomEffect} from "@models/skills/skillCustomEffect";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

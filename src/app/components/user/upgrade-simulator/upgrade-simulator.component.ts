@@ -1,9 +1,9 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CalculationResult} from "../../../models/upgrade-simulator/calculationResult";
+import {CalculationResult} from "@models/upgrade-simulator/calculationResult";
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {WorkerData} from "../../../models/upgrade-simulator/workerData";
-import {WorkerResponse} from "../../../models/upgrade-simulator/workerResponse";
-import {CustomNumberInputService} from "../../../services/common/custom-number-input.service";
+import {WorkerData} from "@models/upgrade-simulator/workerData";
+import {WorkerResponse} from "@models/upgrade-simulator/workerResponse";
+import {CustomNumberInputService} from "@services/common/custom-number-input.service";
 
 @Component({
   selector: 'app-upgrade-simulator',

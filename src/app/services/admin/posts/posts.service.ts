@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Post} from "../../../models/post/post";
+import {Post} from "@models/post/post";
 import {Observable} from "rxjs/internal/Observable";
-import {Category} from "../../../models/post/category";
-import {PageableMainPagePostDto} from "../../../models/post/pageableMainPagePostDto";
+import {Category} from "@models/post/category";
+import {PageableMainPagePostDto} from "@models/post/pageableMainPagePostDto";
 
 @Injectable({
   providedIn: 'root'

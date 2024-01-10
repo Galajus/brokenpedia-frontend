@@ -1,17 +1,17 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RarListService} from "../../../services/user/rar-list/rar-list.service";
+import {RarListService} from "@services/user/rar-list/rar-list.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ItemComparatorComponent} from "./item-comparator/item-comparator.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MonsterWithIncrustatedLegendaryItems} from "../../../models/gameentites/monsterWithIncrustatedLegendaryItems";
-import {IncrustatedLegendaryItem} from "../../../models/items/incrustatedLegendaryItem";
+import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {cloneDeep} from 'lodash-es';
 import {MatSelect} from "@angular/material/select";
 import {MatOption} from "@angular/material/core";
-import {RarIncrustationService} from "../../../services/user/incrustation/rar-incrustation.service";
+import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import {TranslateService} from "@ngx-translate/core";
-import {DamageType} from "../../../models/items/damageType";
-import {ItemType} from "../../../models/items/itemType";
+import {DamageType} from "@models/items/damageType";
+import {ItemType} from "@models/items/itemType";
+import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 
 @Component({
   selector: 'app-rar-list',

@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {MonsterService} from "../../../../services/admin/monsters/monster.service";
+import {MonsterService} from "@services/admin/monsters/monster.service";
 import {ActivatedRoute} from "@angular/router";
-import {Monster} from "../../../../models/gameentites/monster";
-import {MonsterType} from "../../../../models/gameentites/monsterType";
+import {Monster} from "@models/gameentites/monster";
+import {MonsterType} from "@models/gameentites/monsterType";
 
 @Component({
   selector: 'app-monster-update',
