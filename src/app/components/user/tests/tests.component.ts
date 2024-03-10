@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {TestsService} from "./tests.service";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -10,7 +9,6 @@ import {TranslateService} from "@ngx-translate/core";
 export class TestsComponent implements OnInit {
 
   constructor(
-    private testsService: TestsService,
     private translateService: TranslateService
   ) {
   }
