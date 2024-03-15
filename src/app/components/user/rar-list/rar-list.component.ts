@@ -111,6 +111,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   initSort() {
+    this.monsters.sort((a, b) => a.level - b.level);
     this.monsters.forEach(m => {
       m.legendaryDrops.sort((a, b) => a.name.localeCompare(b.name));
     })
@@ -266,16 +267,16 @@ export class RarListComponent implements OnInit, OnDestroy {
   rotateList() {
     this.page = 1;
     this.monsters.sort((m1, m2) => {
-      if (!m1.id || !m2.id) {
+      if (!m1.level || !m2.level) {
         return 0;
       }
-      if (m1.id > m2.id) {
+      if (m1.level > m2.level) {
         if (!this.rotated) {
           return -1;
         }
         return 1;
       }
-      if (m1.id < m2.id) {
+      if (m1.level < m2.level) {
         if (!this.rotated) {
           return 1;
         }

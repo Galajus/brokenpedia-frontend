@@ -34,7 +34,8 @@ export class MonsterUpdateComponent implements OnInit {
     this.monsterForm = this.formBuilder.group({
       id: [],
       name: [],
-      type: []
+      type: [],
+      level: []
     })
     let id = Number(this.route.snapshot.params['id']);
     this.monsterService.getMonster(id)

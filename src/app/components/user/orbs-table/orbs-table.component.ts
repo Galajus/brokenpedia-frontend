@@ -3,6 +3,7 @@ import {OrbCalculations} from "@models/orb/orbCalculations";
 import {round} from "lodash-es";
 import {OrbType} from "@models/orb/orbType";
 import {Orb} from "@models/orb/orb";
+import {OrbService} from "@services/user/orb/orb.service";
 
 @Component({
   selector: 'app-orbs-table',
@@ -18,6 +19,7 @@ export class OrbsTableComponent implements OnInit {
   calculations: OrbCalculations[] = [];
     displayedColumns: string[] = [
         "effect",
+        "name",
         "type",
         "s1",
         "b1",
@@ -31,138 +33,22 @@ export class OrbsTableComponent implements OnInit {
         "a3"
     ];
 
-  orbs: Orb[] = [
-    {
-      effect: "FAST_RESTING",
-      type: OrbType.UNIVERSAL,
-      startBonus: 0.1
-    },
-    {
-      effect: "SLOWER_GEAR_DISCHARGING",
-      type: OrbType.UNIVERSAL,
-      startBonus: 0.1
-    },
-    {
-      effect: "BONUS_EXP",
-      type: OrbType.UNIVERSAL,
-      startBonus: 0.05
-    },
-    {
-      effect: "BONUS_GOLD",
-      type: OrbType.UNIVERSAL,
-      startBonus: 0.05
-    },
-    {
-      effect: "BONUS_PSYCHOEXP",
-      type: OrbType.UNIVERSAL,
-      startBonus: 0.05
-    },
-    {
-      effect: "BACKPACK_CAPACITY",
-      type: OrbType.UNIVERSAL,
-      startBonus: 50
-    },
-    {
-      effect: "CHANCE_TO_DODGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "REDUCE_MELEE_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_RANGED_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_MENTAL_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_AOE_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_NORMAL_MOBS_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_CHAMPION_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "REDUCE_BOSS_DAMAGE",
-      type: OrbType.DEFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "CHANCE_DRAIN_HP",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "CHANCE_DRAIN_MANA",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "CHANCE_DRAIN_STAMINA",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "DAMAGE_WHEN_CRITICAL_INJURED",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "CHANCE_PENETRATE_HOLM",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "CHANCE_PENETRATE_FARID",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.1
-    },
-    {
-      effect: "DAMAGE_VS_NORMAL_MOBS",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.05
-    },
-    {
-      effect: "DAMAGE_VS_CHAMPIONS",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.05
-    },
-    {
-      effect: "DAMAGE_VS_BOSSES",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.05
-    },
-    {
-      effect: "INCREASE_HIT_CHANCE_ON_MISSING",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.03
-    },
-    {
-      effect: "MORE_POWERFUL_CRIT_CHANCE",
-      type: OrbType.OFFENSIVE,
-      startBonus: 0.05
-    },
-  ]
+  orbs: Orb[] = [];
 
-  constructor() { }
+  constructor(private orbService: OrbService) { }
 
   ngOnInit(): void {
-    this.doCalculations();
+    this.loadOrbs();
+  }
+
+  loadOrbs() {
+    this.orbService.getAllOrbs()
+      .subscribe({
+        next: orbs => {
+          this.orbs = orbs;
+          this.doCalculations();
+        }
+      })
   }
 
   doCalculations() {

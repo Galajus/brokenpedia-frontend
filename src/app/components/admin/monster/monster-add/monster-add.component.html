@@ -15,6 +15,11 @@
               <mat-option *ngFor="let type of monsterTypes" value="{{type}}">{{type}}</mat-option>
             </mat-select>
           </mat-form-field>
+
+        <mat-form-field appearance="fill" style="width: 170px" color="accent">
+          <mat-label>level</mat-label>
+          <input matInput formControlName="level">
+        </mat-form-field>
       </div>
     </mat-card-content>
   </mat-card>

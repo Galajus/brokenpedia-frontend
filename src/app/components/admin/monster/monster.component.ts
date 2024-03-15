@@ -9,7 +9,7 @@ import {Monster} from "@models/gameentites/monster";
 })
 export class MonsterComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ["id", "name", "type", "actions"];
+  displayedColumns: string[] = ["id", "name", "type", "level", "actions"];
   dataSource: Monster[] = [];
   constructor(
     private monsterService: MonsterService

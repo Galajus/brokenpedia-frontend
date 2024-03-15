@@ -31,12 +31,16 @@ th {
   font-weight: bold;
 }
 
+.mat-column-name {
+  padding-left: 0 !important;
+}
+
 .mat-column-type {
-  min-width: 140px;
+  min-width: 95px;
 }
 
 .mat-column-s1, .mat-column-b1, .mat-column-b2, .mat-column-b3,
 .mat-column-m1, .mat-column-m2, .mat-column-m3,
 .mat-column-a1, .mat-column-a2, .mat-column-a3 {
-  min-width: 55px;
+  min-width: 52px;
 }

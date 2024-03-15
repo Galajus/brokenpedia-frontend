@@ -6,6 +6,51 @@
         <textarea fxFill matInput rows="12" [(ngModel)]="textToRead" placeholder="item data"></textarea>
         <button mat-raised-button color="primary" (click)="read()">ZAPISZ</button>
       </div>
+
+      <!--<button mat-raised-button color="accent" [routerLink]="['/admin/monster/add']">DODAJ ORB</button>-->
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFill>
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="shortName">
+          <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+          <td mat-cell *matCellDef="let element">{{ element.shortName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Typ</th>
+          <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+        </ng-container>
+        <ng-container matColumnDef="startBonus">
+          <th mat-header-cell *matHeaderCellDef>Typ</th>
+          <td mat-cell *matCellDef="let element">{{ element.startBonus }}</td>
+        </ng-container>
+        <ng-container matColumnDef="effect">
+          <th mat-header-cell *matHeaderCellDef>Efekt</th>
+          <td mat-cell *matCellDef="let element">{{ element.effect }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Akcje</th>
+          <td mat-cell *matCellDef="let element">
+            <a [routerLink]="['/admin/orbs/update/', element.id]">
+              <button mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </a>
+            <!--<button mat-icon-button (click)="deleteOrb(element.id)">
+              <mat-icon style="color: red">delete</mat-icon>
+            </button>-->
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
     </mat-card-content>
   </mat-card>
 </div>

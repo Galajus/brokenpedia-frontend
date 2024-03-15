@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {OrbsService} from "@services/admin/orbs/orbs.service";
 import {Orb} from "@models/orb/orb";
 
@@ -7,13 +7,17 @@ import {Orb} from "@models/orb/orb";
   templateUrl: './orbs.component.html',
   styleUrls: ['./orbs.component.scss']
 })
-export class OrbsComponent implements OnInit {
+export class OrbsComponent implements AfterViewInit {
 
   textToRead: string = "";
+  displayedColumns: string[] = ["id", "shortName", "type", "startBonus", "effect", "actions"];
+  dataSource: Orb[] = [];
 
   constructor(private orbsService: OrbsService) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.orbsService.getAllOrbs()
+      .subscribe(data => this.dataSource = data);
   }
 
   read() {
