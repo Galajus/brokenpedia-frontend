@@ -32,7 +32,8 @@ export class MonsterAddComponent implements OnInit {
     this.monsterForm = this.formBuilder.group({
       id: [],
       name: [],
-      type: []
+      type: [],
+      level: []
     })
   }
 

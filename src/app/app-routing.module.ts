@@ -41,6 +41,7 @@ import {MonsterUpdateComponent} from "./components/admin/monster/monster-update/
 import {SuggestionsComponent} from "./components/admin/suggestions/suggestions.component";
 import {DrifsComponent} from "./components/admin/drifs/drifs.component";
 import {OrbsComponent} from "./components/admin/orbs/orbs.component";
+import {UpdateOrbComponent} from "@app/components/admin/orbs/update-orb/update-orb.component";
 
 const routes: Routes = [
 
@@ -99,6 +100,7 @@ const routes: Routes = [
       { path: 'suggestions', component: SuggestionsComponent, title: "Admin suggestions", canActivate: [AdminAuthorizationGuard] },
       { path: 'drifs', component: DrifsComponent, title: "Drifs", canActivate: [AdminAuthorizationGuard] },
       { path: 'orbs', component: OrbsComponent, title: "Orbs", canActivate: [AdminAuthorizationGuard] },
+      { path: 'orbs/update/:id', component: UpdateOrbComponent, title: "Admin update orbs", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

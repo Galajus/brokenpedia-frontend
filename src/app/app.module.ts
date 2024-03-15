@@ -100,6 +100,8 @@ import {DashboardComponent} from "./components/user/account/dashboard/dashboard.
 import {BrokenHelperComponent} from "./components/user/broken-helper/broken-helper.component";
 import {PsychoExpCalculatorComponent} from "./components/user/psycho-exp-calculator/psycho-exp-calculator.component";
 import {EssenceCalculatorComponent} from "./components/user/essence-calculator/essence-calculator.component";
+import { UpdateOrbComponent } from './components/admin/orbs/update-orb/update-orb.component';
+import { KeyArrayPipe } from './pipes/key-array.pipe';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -191,7 +193,9 @@ registerLocaleData(localePl, localePlExtra);
     DrifsComponent,
     OrbsComponent,
     ArabianPipe,
-    DrifSumDialogComponent
+    DrifSumDialogComponent,
+    UpdateOrbComponent,
+    KeyArrayPipe
   ],
   imports: [
     BrowserModule,

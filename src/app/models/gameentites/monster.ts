@@ -6,7 +6,8 @@ export interface Monster {
   id?: number,
   name: string,
   type: MonsterType,
-  legendaryDrops: LegendaryItem[]
+  legendaryDrops: LegendaryItem[],
+  level: number
 }
 
 export interface MonsterWithIncrustatedLegendaryItems {
@@ -14,5 +15,6 @@ export interface MonsterWithIncrustatedLegendaryItems {
   name: string,
   translatedName?: string,
   type: MonsterType,
-  legendaryDrops: IncrustatedLegendaryItem[]
+  legendaryDrops: IncrustatedLegendaryItem[],
+  level: number
 }

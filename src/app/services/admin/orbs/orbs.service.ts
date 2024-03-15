@@ -10,7 +10,19 @@ export class OrbsService {
 
   constructor(private http: HttpClient) { }
 
+  getAllOrbs(): Observable<Orb[]> {
+    return this.http.get<Orb[]>("/api/admin/orbs");
+  }
+
   saveAllOrbsFromJson(orbs: Orb[]): Observable<Orb[]> {
     return this.http.post<Orb[]>("/api/admin/orbs", orbs);
+  }
+
+  getOrb(id: number): Observable<Orb> {
+    return this.http.get<Orb>("/api/admin/orbs/" + id);
+  }
+
+  updateOrb(orb: Orb): Observable<Orb> {
+    return this.http.put<Orb>("/api/admin/orbs", orb);
   }
 }
