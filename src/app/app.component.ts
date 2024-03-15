@@ -104,6 +104,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           while (root!.firstChild) {
             root = root.firstChild;
           }
+          let consentModeChoices = localStorage.getItem('consentMode');
+          if (consentModeChoices === null) {
+            gtag('consent', 'default', {
+              'ad_storage': 'granted',
+              'ad_user_data': 'granted',
+              'ad_personalization': 'granted',
+              'analytics_storage': 'granted'
+            });
+          } else {
+            gtag('consent', 'default', JSON.parse(consentModeChoices));
+          }
           root.title.subscribe(title => {
             gtag('config', 'G-G9W2JQBFKT',
               {
