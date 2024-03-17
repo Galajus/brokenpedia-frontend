@@ -41,9 +41,11 @@
   <ng-container matColumnDef="actions">
     <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
     <td mat-cell *matCellDef="let element" fxLayoutGap="5">
-      <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
+      <a [routerLink]="['/build-calculator/build/' + element.id]">
+      <button mat-icon-button>
         <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
       </button>
+      </a>
       <button *ngIf="isAdmin" mat-icon-button (click)="deleteBuild(element.id)">
         <mat-icon style="color: red">delete</mat-icon>
       </button>
