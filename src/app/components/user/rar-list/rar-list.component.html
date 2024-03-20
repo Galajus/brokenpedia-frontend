@@ -1,49 +1,217 @@
+<ng-template #itemShow let-rar="rar" let-monster="monster">
+  <div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+           style="width: 120px !important; height: 30px; position: relative">
+        <button style="position: absolute; left: 120px" mat-icon-button (click)="addToCompare(rar)">
+          <mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon>
+        </button>
+        <div fxFlex="20" fxLayoutAlign="center center">
+          <button mat-icon-button (click)="removeStar(rar)">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}"
+             matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
+          <div
+            *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
+            <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)"
+                 ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
+          </div>
+          <div
+            *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 4 && rar.incrustationLevel <= 6">
+            <img *ngFor="let i of Array(rar.incrustationLevel - 3).fill(0)"
+                 ngSrc="./assets/rars/addons/star_silver.png" alt="{{rar.name}}" height="23" width="23">
+          </div>
+          <div *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 7">
+            <img *ngFor="let i of Array(rar.incrustationLevel - 6).fill(0)"
+                 ngSrc="./assets/rars/addons/star_gold.png" alt="{{rar.name}}" height="23" width="23">
+          </div>
+        </div>
+        <div fxFlex="20" fxLayoutAlign="center center">
+          <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <h3
+        [ngClass]="{
+        'classic-rar-name': rar.family === ItemFamily[ItemFamily.RAR],
+        'classic-epic-name': rar.family === ItemFamily[ItemFamily.EPIC],
+        'classic-set-name': rar.family === ItemFamily[ItemFamily.SET]}"
+        >{{getTranslatedName(rar)}}</h3>
+      <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
+        <div>
+          <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png"
+               alt="{{rar.name}}" height="auto" width="auto">
+        </div>
+        <div *ngIf="!isItemFamilyEqual(rar.family, ItemFamily.EPIC)" fxLayout="column">
+          <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+          <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)"
+               ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+          <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}"
+               height="24" width="24">
+        </div>
+        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" fxLayout="column" fxLayoutAlign="center">
+          <div class="drif-icon-1">
+            <img class="placeholder" src="assets/drifs/drif_sizes/damage_magni.png" width="40" height="40" alt="">
+            <img class="placeholder" src="assets/drifs/drif_types/band.png" width="39" height="39" alt="">
+          </div>
+          <div class="drif-icon-2" *ngVar="getCustomEpicLore(rar) as epicLore">
+            <img class="placeholder" src="assets/drifs/drif_sizes/{{epicLore.customDrifSizeAndName}}.png" width="40" height="40" alt="">
+            <img class="placeholder" src="assets/drifs/drif_types/{{epicLore.customDrifShortName}}.png" width="39" height="39" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul>
+      <li *ngIf="rar.type">{{ 'ITEMS_LIST.TYPE' | translate }}: {{ 'ITEMS.TYPES.' + rar.type | translate }}
+      </li>
+      <li *ngIf="rar.weight">{{ 'ITEMS_LIST.WEIGHT' | translate }}: {{ rar.weight }}</li>
+      <li *ngIf="rar.rank">{{ 'ITEMS_LIST.RANK' | translate }}: {{ rar.rank | arabian }}</li>
+      <li *ngIf="rar.capacity && !isItemFamilyEqual(rar.family, ItemFamily.EPIC)">{{ 'ITEMS_LIST.CAPACITY' | translate }}: {{ getItemCapacity(rar) }}</li>
+      <li *ngIf="rar.value">{{ 'ITEMS_LIST.VALUE' | translate }}: {{ rar.value.toLocaleString() }} {{ 'ITEMS_LIST.GOLD' | translate }}
+      </li>
+      <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()"
+          style="color: red">{{ 'ITEMS_LIST.ONLY_KNIGHT' | translate }}
+      </li>
+      <li *ngIf="rar.requiredLevel">{{ 'ITEMS_LIST.REQUIRED_LEVEL' | translate }}: {{ rar.requiredLevel }}
+      </li>
+      <li *ngIf="rar.requiredStrength">{{ 'ITEMS_LIST.REQUIRED_STRENGTH' | translate }}: {{ rar.requiredStrength }}
+      </li>
+      <li *ngIf="rar.requiredDexterity">{{ 'ITEMS_LIST.REQUIRED_DEXTERITY' | translate }}: {{ rar.requiredDexterity }}
+      </li>
+      <li *ngIf="rar.requiredPower">{{ 'ITEMS_LIST.REQUIRED_POWER' | translate }}: {{ rar.requiredPower }}
+      </li>
+      <li *ngIf="rar.requiredKnowledge">{{ 'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate }}: {{ rar.requiredKnowledge }}
+      </li>
+      <li *ngIf="rar.damage">{{ 'ITEMS_LIST.DAMAGE' | translate }}: {{ rar.damage }} <span *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)">+ poziom</span></li>
+      <li *ngIf="rar.damageType">{{ 'ITEMS_LIST.DAMAGE_TYPE' | translate }}: {{ 'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate }}
+      </li>
+    </ul>
+      <div *ngIf="monster === 'Sidraga'" class="classic-rar-name">Wzmocnienie drifów: <span
+        class="element-value">+15%</span></div>
+      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Szansa na trafienie krytyczne: <span
+        class="element-value">+2%</span></div>
+      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)">
+        <div *ngVar="getCustomEpicLore(rar) as epicLore" class="classic-rar-name">
+          {{epicLore.customEffect}}: <span class="element-value">+{{epicLore.effectValue}}</span>
+        </div>
+      </div>
+      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Wzmocnienie drifów: <span
+        class="element-value">+60%</span></div>
+      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Dodatkowe PA: <span
+        class="element-value">1</span></div>
+    <ul>
+      <li *ngIf="rar.strength"
+          [class.below-zero]="rar.strength < 0">{{ 'ITEMS_LIST.STRENGTH' | translate }}: {{ getValueString(rar.strength) }}
+      </li>
+      <li *ngIf="rar.dexterity"
+          [class.below-zero]="rar.dexterity < 0">{{ 'ITEMS_LIST.DEXTERITY' | translate }}: {{ getValueString(rar.dexterity) }}
+      </li>
+      <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{ 'ITEMS_LIST.POWER' | translate }}: {{ getValueString(rar.power) }}
+      </li>
+      <li *ngIf="rar.knowledge"
+          [class.below-zero]="rar.knowledge < 0">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}: {{ getValueString(rar.knowledge) }}
+      </li>
+      <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{ 'ITEMS_LIST.HEALTH' | translate }}: {{ getValueString(rar.health) }}
+      </li>
+      <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{ 'ITEMS_LIST.MANA' | translate }}: {{ getValueString(rar.mana) }}
+      </li>
+      <li *ngIf="rar.stamina"
+          [class.below-zero]="rar.stamina < 0">{{ 'ITEMS_LIST.STAMINA' | translate }}: {{ getValueString(rar.stamina) }}
+      </li>
+      <li *ngIf="rar.armorSlashing">{{ 'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate }}:
+        +{{ rar.armorSlashing }}
+      </li>
+      <li *ngIf="rar.armorCrushing">{{ 'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate }}:
+        +{{ rar.armorCrushing }}
+      </li>
+      <li *ngIf="rar.armorPiercing">{{ 'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate }}:
+        +{{ rar.armorPiercing }}
+      </li>
+      <li *ngIf="rar.fireResistance">{{ 'ITEMS_LIST.FIRE_RESISTANCE' | translate }}:
+        +{{ rar.fireResistance }}
+      </li>
+      <li *ngIf="rar.coldResistance">{{ 'ITEMS_LIST.COLD_RESISTANCE' | translate }}:
+        +{{ rar.coldResistance }}
+      </li>
+      <li *ngIf="rar.energyResistance">{{ 'ITEMS_LIST.ENERGY_RESISTANCE' | translate }}:
+        +{{ rar.energyResistance }}
+      </li>
+      <li *ngIf="rar.mentalResistance">{{ 'ITEMS_LIST.MENTAL_RESISTANCE' | translate }}:
+        +{{ rar.mentalResistance }}
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
 <div class="restrict-width" fxLayout="column" fxLayoutGap="6" id="scrolling">
   <mat-card id="options" class="mat-elevation-z6">
     <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
 
       <!--OPTIONS PANEL-->
       <div fxLayout="row" fxLayoutAlign="space-evenly">
-        <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5">
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
             <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2">
-              <div>
-                <button mat-stroked-button color="accent" (click)="rotateList()">{{'ITEMS_LIST.ROTATE' | translate}}</button>
-              </div>
-              <div>
+              <button mat-stroked-button class="classic-rar-name"
+                      (click)="changeCurrentItemsType('rars')">{{ 'ITEMS_LIST.RARS' | translate }}
+              </button>
+              <button mat-stroked-button class="classic-epic-name"
+                      (click)="changeCurrentItemsType('epics')">{{ 'ITEMS_LIST.EPICS' | translate }}
+              </button>
+              <button mat-stroked-button class="classic-set-name"
+                      (click)="changeCurrentItemsType('sets')">{{ 'ITEMS_LIST.SETS' | translate }}
+              </button>
+              <!--<div>
                 <mat-checkbox [(ngModel)]="modernView" (change)="page = 1">Modern view</mat-checkbox>
-              </div>
+              </div>-->
             </div>
             <div>
               <mat-form-field style="width: 70px" appearance="outline" color="accent">
-                <mat-label>{{'ITEMS_LIST.MINIMAL_LEVEL' | translate}}</mat-label>
-                <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
+                <mat-label>{{ 'ITEMS_LIST.MINIMAL_LEVEL' | translate }}</mat-label>
+                <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()" [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">
               </mat-form-field>
             </div>
             <div>
               <mat-form-field style="width: 70px" appearance="outline" color="accent">
-                <mat-label>{{'ITEMS_LIST.MAXIMUM_LEVEL' | translate}}</mat-label>
-                <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
+                <mat-label>{{ 'ITEMS_LIST.MAXIMUM_LEVEL' | translate }}</mat-label>
+                <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()" [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">
               </mat-form-field>
             </div>
             <mat-form-field style="width: 110px" appearance="outline" color="accent">
-              <mat-label>{{'ITEMS_LIST.INCRUSTATION_TARGET' | translate}}</mat-label>
+              <mat-label>{{ 'ITEMS_LIST.INCRUSTATION_TARGET' | translate }}</mat-label>
               <mat-select [(ngModel)]="targetIncrustationStat">
-                  <mat-option value="evenly">{{'ITEMS_LIST.EVENLY' | translate}}</mat-option>
-                  <mat-option value="random">{{'ITEMS_LIST.RANDOM' | translate}}</mat-option>
-                  <mat-option value="strength" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.STRENGTH' | translate}}</mat-option>
-                  <mat-option value="dexterity" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.DEXTERITY' | translate}}</mat-option>
-                  <mat-option value="power" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.POWER' | translate}}</mat-option>
-                  <mat-option value="knowledge" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.KNOWLEDGE' | translate}}</mat-option>
-                  <mat-option value="health" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.HEALTH' | translate}}</mat-option>
-                  <mat-option value="mana" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.MANA' | translate}}</mat-option>
-                  <mat-option value="stamina" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}" matTooltipPosition="after">{{'ITEMS_LIST.STAMINA' | translate}}</mat-option>
+                <mat-option value="evenly">{{ 'ITEMS_LIST.EVENLY' | translate }}</mat-option>
+                <mat-option value="random">{{ 'ITEMS_LIST.RANDOM' | translate }}</mat-option>
+                <mat-option value="strength" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.STRENGTH' | translate }}
+                </mat-option>
+                <mat-option value="dexterity" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.DEXTERITY' | translate }}
+                </mat-option>
+                <mat-option value="power" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.POWER' | translate }}
+                </mat-option>
+                <mat-option value="knowledge" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}
+                </mat-option>
+                <mat-option value="health" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.HEALTH' | translate }}
+                </mat-option>
+                <mat-option value="mana" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.MANA' | translate }}
+                </mat-option>
+                <mat-option value="stamina" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                            matTooltipPosition="after">{{ 'ITEMS_LIST.STAMINA' | translate }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="2">
               <mat-form-field style="width: 160px" appearance="outline" color="accent">
-                <mat-label>{{'ITEMS_LIST.SEARCH_PLACEHOLDER' | translate}}</mat-label>
-                <input matInput [(ngModel)]="searchValue" (input)="doFilter()">
+                <mat-label>{{ 'ITEMS_LIST.SEARCH_PLACEHOLDER' | translate }}</mat-label>
+                <input matInput [(ngModel)]="searchValue" (input)="doFilter()" [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">
               </mat-form-field>
               <!--<mat-form-field style="width: 120px" hintLabel="Rodzaj przedmiotu" appearance="outline" color="accent">
                 <mat-label>Rodzaj</mat-label>
@@ -55,40 +223,64 @@
                 </mat-select>
               </mat-form-field>-->
               <mat-form-field style="width: 140px" appearance="outline" color="accent">
-                <mat-label>{{'ITEMS_LIST.ITEM_TYPE' | translate}}</mat-label>
-                <mat-select #types [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple>
-                  <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')" value="ALL_ARMORS">{{'ITEMS.TYPES.ALL_ARMORS' | translate}}</mat-option>
-                  <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')" value="ALL_JEWELERY">{{'ITEMS.TYPES.ALL_JEWELERY' | translate}}</mat-option>
-                  <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')" value="ALL_WEAPONS">{{'ITEMS.TYPES.ALL_WEAPONS' | translate}}</mat-option>
+                <mat-label>{{ 'ITEMS_LIST.ITEM_TYPE' | translate }}</mat-label>
+                <mat-select #types [(ngModel)]="searchItemType" (selectionChange)="doFilter()" multiple [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">
+                  <mat-option (onSelectionChange)="selectMulti('ALL_ARMORS')"
+                              value="ALL_ARMORS">{{ 'ITEMS.TYPES.ALL_ARMORS' | translate }}
+                  </mat-option>
+                  <mat-option (onSelectionChange)="selectMulti('ALL_JEWELERY')"
+                              value="ALL_JEWELERY">{{ 'ITEMS.TYPES.ALL_JEWELERY' | translate }}
+                  </mat-option>
+                  <mat-option (onSelectionChange)="selectMulti('ALL_WEAPONS')"
+                              value="ALL_WEAPONS">{{ 'ITEMS.TYPES.ALL_WEAPONS' | translate }}
+                  </mat-option>
                   <mat-divider></mat-divider>
                   <div *ngFor="let type of getItemTypeKeyArray()">
-                    <mat-option [value]="type">{{'ITEMS.TYPES.' + type | translate}}</mat-option>
+                    <mat-option [value]="type">{{ 'ITEMS.TYPES.' + type | translate }}</mat-option>
                   </div>
                 </mat-select>
               </mat-form-field>
               <mat-form-field style="width: 140px" appearance="outline" color="accent">
-                <mat-label>{{'ITEMS_LIST.ITEM_RANK' | translate}}</mat-label>
-                <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple>
+                <mat-label>{{ 'ITEMS_LIST.ITEM_RANK' | translate }}</mat-label>
+                <mat-select [(ngModel)]="searchItemRank" (selectionChange)="doFilter()" multiple [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">
                   <div *ngFor="let rank of ranks">
-                    <mat-option [value]="rank">{{rank}}</mat-option>
+                    <mat-option [value]="rank">{{ rank }}</mat-option>
                   </div>
                 </mat-select>
               </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="start">
-              <mat-slide-toggle [(ngModel)]="searchPhysicalItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_MAGIC' | translate}}</mat-slide-toggle>
-              <mat-slide-toggle [(ngModel)]="searchMagicItems" (change)="doFilter()">{{'ITEMS_LIST.SHOW_PHYSICAL' | translate}}</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="searchPhysicalItems"
+                                (change)="doFilter()"
+                                [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">{{ 'ITEMS_LIST.SHOW_MAGIC' | translate }}
+              </mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="searchMagicItems"
+                                (change)="doFilter()"
+                                [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">{{ 'ITEMS_LIST.SHOW_PHYSICAL' | translate }}
+              </mat-slide-toggle>
+              <button mat-stroked-button color="accent" (click)="rotateList()"
+                      [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">{{ 'ITEMS_LIST.ROTATE' | translate }}
+              </button>
             </div>
           </div>
-          <div fxFlex fxFlexFill fxLayout="row" fxLayoutGap="5">
+          <div fxFlex fxFlexFill fxLayout="row" fxLayoutGap="10">
             <div fxFlex="15">
-              <button mat-stroked-button color="accent" (click)="openItemComparator()">{{'ITEMS_LIST.COMPARATOR' | translate}}</button>
+              <button mat-stroked-button color="accent"
+                      (click)="openItemComparator()">{{ 'ITEMS_LIST.COMPARATOR' | translate }}
+              </button>
             </div>
             <div fxFlex fxLayout="row" fxLayoutAlign="start center">
-              <div fxLayout="row" class="classic-rar-name" *ngFor="let compareRar of toCompare">
-                <div *ngIf="compareRar.translatedName">"{{compareRar.translatedName}}"</div>
-                <div *ngIf="!compareRar.translatedName">"{{compareRar.name}}"</div>
-                <button mat-icon-button color="warn" class="small-icon-button" (click)="deleteFromToCompare(compareRar)"><mat-icon>delete_forever</mat-icon></button>
+              <div fxLayout="row" *ngFor="let compareRar of toCompare">
+                <div [ngClass]="{
+                      'classic-rar-name': isItemFamilyEqual(compareRar.family, ItemFamily.RAR),
+                      'classic-epic-name': isItemFamilyEqual(compareRar.family, ItemFamily.EPIC),
+                      'classic-set-name': isItemFamilyEqual(compareRar.family, ItemFamily.SET)}"
+                >{{getTranslatedName(compareRar)}}</div>
+                <!--<div *ngIf="!compareRar.translatedName">"{{ compareRar.name }}"</div>-->
+                <button mat-icon-button color="warn" class="small-icon-button"
+                        (click)="deleteFromToCompare(compareRar)">
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
               </div>
             </div>
           </div>
@@ -101,7 +293,9 @@
   <mat-card class="mat-elevation-z6 make-space">
     <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
       <!--LOADING MONSTERS-->
-      <div *ngIf="!monsters" fxLayoutAlign="center">
+      <div
+        *ngIf="(!monsters && currentItemsType === 'rars') || (!sets && currentItemsType === 'sets') || (!epics && currentItemsType === 'epics')"
+        fxLayoutAlign="center">
         <mat-progress-spinner
           color="accent"
           mode="indeterminate"
@@ -109,7 +303,43 @@
         </mat-progress-spinner>
       </div>
 
-      <!--LISTING MONSTERS MODERN-->
+      <!--LISTING CLASSIC-->
+      <!--LISTING EPICS-->
+      <div *ngIf="sets && currentItemsType === 'epics' && !modernView">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
+          <div class="rar-container">
+            <div *ngFor="let epic of epics">
+              <div *ngTemplateOutlet="itemShow; context: {rar: epic, monster: 'null'}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--LISTING RARS-->
+      <div *ngIf="monsters && currentItemsType === 'rars' && !modernView">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
+          <div *ngFor="let monster of getPartOfMonsters()">
+            <div fxLayout="row" fxLayoutAlign="start">
+              <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                <div class="cropped-classic" fxLayoutAlign="start center">
+                  <img class="cropped-img-classic"
+                       ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image"
+                       height="256" width="256">
+                </div>
+                <h2 class="classic-boss-name">{{ monster.translatedName }}</h2>
+              </div>
+
+              <div class="rar-container">
+                <div *ngFor="let rar of monster.legendaryDrops">
+                  <div *ngTemplateOutlet="itemShow; context: {rar: rar, monster: monster.name}"></div>
+                </div>
+              </div>
+            </div>
+            <mat-divider style="margin-top: 5px"></mat-divider>
+          </div>
+        </div>
+      </div>
+
+      <!--LISTING MONSTERS MODERN DISABLED-->
       <div *ngIf="monsters && modernView">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15">
           <mat-list>
@@ -120,88 +350,159 @@
 
                     <div fxFlex="8" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
                       <div class="cropped-modern" matTooltip="{{monster.translatedName}}" matTooltipPosition="before">
-                        <img class="cropped-img-modern" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="140" width="140">
+                        <img class="cropped-img-modern"
+                             ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png"
+                             alt="boss image" height="140" width="140">
                       </div>
                     </div>
 
                     <div fxFlex="8" fxLayoutAlign="center center">
-                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon></button>
-                      <img style="padding-left: 25px" ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
+                      <button style="position: absolute; right: -15px; top: 0" mat-icon-button
+                              (click)="addToCompare(rar)">
+                        <mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon>
+                      </button>
+                      <img style="padding-left: 25px"
+                           ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}"
+                           height="auto" width="auto">
                     </div>
 
                     <div fxFlex="21" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8">
                       <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="width: 120px !important">
                         <div fxFlex="20" fxLayoutAlign="center center">
-                          <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
+                          <button mat-icon-button (click)="removeStar(rar)">
+                            <mat-icon>remove</mat-icon>
+                          </button>
                         </div>
-                        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
-                          <div *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
-                            <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
+                        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}"
+                             matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
+                          <div
+                            *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
+                            <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)"
+                                 ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
                           </div>
-                          <div *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 4 && rar.incrustationLevel <= 6">
-                            <img *ngFor="let i of Array(rar.incrustationLevel - 3).fill(0)" ngSrc="./assets/rars/addons/star_silver.png" alt="{{rar.name}}" height="23" width="23">
+                          <div
+                            *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 4 && rar.incrustationLevel <= 6">
+                            <img *ngFor="let i of Array(rar.incrustationLevel - 3).fill(0)"
+                                 ngSrc="./assets/rars/addons/star_silver.png" alt="{{rar.name}}" height="23" width="23">
                           </div>
                           <div *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 7">
-                            <img *ngFor="let i of Array(rar.incrustationLevel - 6).fill(0)" ngSrc="./assets/rars/addons/star_gold.png" alt="{{rar.name}}" height="23" width="23">
+                            <img *ngFor="let i of Array(rar.incrustationLevel - 6).fill(0)"
+                                 ngSrc="./assets/rars/addons/star_gold.png" alt="{{rar.name}}" height="23" width="23">
                           </div>
                         </div>
                         <div fxFlex="20" fxLayoutAlign="center center">
-                          <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)"><mat-icon>add</mat-icon></button>
+                          <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)">
+                            <mat-icon>add</mat-icon>
+                          </button>
                         </div>
                       </div>
                       <div fxLayout="row" fxLayoutAlign="center center">
-                        <div class="modern-rar-name">"{{rar.translatedName}}"</div>
-                        <div class="modern-rar-rank">&nbsp;[{{rar.rank | arabian}}]</div>
+                        <div class="modern-rar-name">"{{ rar.translatedName }}"</div>
+                        <div class="modern-rar-rank">&nbsp;[{{ rar.rank | arabian }}]</div>
                       </div>
                       <div fxLayoutAlign="center center">
                         <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
-                        <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
-                        <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)"
+                             ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+                        <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}"
+                             height="24" width="24">
                       </div>
-                      <div *ngIf="monster.name === 'Sidraga'" class="modern-rar-name">Wzmocnienie drifów: <span class="element-value">+15%</span></div>
+                      <div *ngIf="monster.name === 'Sidraga'" class="modern-rar-name">Wzmocnienie drifów: <span
+                        class="element-value">+15%</span></div>
                     </div>
 
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.type">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}</li>
-                        <li *ngIf="rar.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}}</li>
-                        <li *ngIf="rar.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}</li>
-                        <li *ngIf="rar.value">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</li>
+                        <li *ngIf="rar.type">{{ 'ITEMS_LIST.TYPE' | translate }}
+                          : {{ 'ITEMS.TYPES.' + rar.type | translate }}
+                        </li>
+                        <li *ngIf="rar.weight">{{ 'ITEMS_LIST.WEIGHT' | translate }}: {{ rar.weight }}</li>
+                        <li *ngIf="rar.capacity">{{ 'ITEMS_LIST.CAPACITY' | translate }}: {{ getItemCapacity(rar) }}
+                        </li>
+                        <li *ngIf="rar.value">{{ 'ITEMS_LIST.VALUE' | translate }}
+                          : {{ rar.value.toLocaleString() }} {{ 'ITEMS_LIST.GOLD' | translate }}
+                        </li>
                       </ul>
                     </div>
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
-                        <li *ngIf="rar.requiredLevel">{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}</li>
-                        <li *ngIf="rar.requiredStrength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: {{rar.requiredStrength}}</li>
-                        <li *ngIf="rar.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: {{rar.requiredDexterity}}</li>
-                        <li *ngIf="rar.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: {{rar.requiredPower}}</li>
-                        <li *ngIf="rar.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: {{rar.requiredKnowledge}}</li>
-                        <li *ngIf="rar.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: {{rar.damage}}</li>
-                        <li *ngIf="rar.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: {{'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate}}</li>
+                        <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()"
+                            style="color: red">{{ 'ITEMS_LIST.ONLY_KNIGHT' | translate }}
+                        </li>
+                        <li *ngIf="rar.requiredLevel">{{ 'ITEMS_LIST.REQUIRED_LEVEL' | translate }}
+                          : {{ rar.requiredLevel }}
+                        </li>
+                        <li *ngIf="rar.requiredStrength">{{ 'ITEMS_LIST.REQUIRED_STRENGTH' | translate }}
+                          : {{ rar.requiredStrength }}
+                        </li>
+                        <li *ngIf="rar.requiredDexterity">{{ 'ITEMS_LIST.REQUIRED_DEXTERITY' | translate }}
+                          : {{ rar.requiredDexterity }}
+                        </li>
+                        <li *ngIf="rar.requiredPower">{{ 'ITEMS_LIST.REQUIRED_POWER' | translate }}
+                          : {{ rar.requiredPower }}
+                        </li>
+                        <li *ngIf="rar.requiredKnowledge">{{ 'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate }}
+                          : {{ rar.requiredKnowledge }}
+                        </li>
+                        <li *ngIf="rar.damage">{{ 'ITEMS_LIST.DAMAGE' | translate }}: {{ rar.damage }}</li>
+                        <li *ngIf="rar.damageType">{{ 'ITEMS_LIST.DAMAGE_TYPE' | translate }}
+                          : {{ 'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate }}
+                        </li>
                       </ul>
                     </div>
                     <div fxFlex="12" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">{{'ITEMS_LIST.STRENGTH' | translate}}: {{getValueString(rar.strength)}}</li>
-                        <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">{{'ITEMS_LIST.DEXTERITY' | translate}}: {{getValueString(rar.dexterity)}}</li>
-                        <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{'ITEMS_LIST.POWER' | translate}}: {{getValueString(rar.power)}}</li>
-                        <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: {{getValueString(rar.knowledge)}}</li>
-                        <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{'ITEMS_LIST.HEALTH' | translate}}: {{getValueString(rar.health)}}</li>
-                        <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{'ITEMS_LIST.MANA' | translate}}: {{getValueString(rar.mana)}}</li>
-                        <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">{{'ITEMS_LIST.STAMINA' | translate}}: {{getValueString(rar.stamina)}}</li>
+                        <li *ngIf="rar.strength"
+                            [class.below-zero]="rar.strength < 0">{{ 'ITEMS_LIST.STRENGTH' | translate }}
+                          : {{ getValueString(rar.strength) }}
+                        </li>
+                        <li *ngIf="rar.dexterity"
+                            [class.below-zero]="rar.dexterity < 0">{{ 'ITEMS_LIST.DEXTERITY' | translate }}
+                          : {{ getValueString(rar.dexterity) }}
+                        </li>
+                        <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{ 'ITEMS_LIST.POWER' | translate }}
+                          : {{ getValueString(rar.power) }}
+                        </li>
+                        <li *ngIf="rar.knowledge"
+                            [class.below-zero]="rar.knowledge < 0">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}
+                          : {{ getValueString(rar.knowledge) }}
+                        </li>
+                        <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{ 'ITEMS_LIST.HEALTH' | translate }}
+                          : {{ getValueString(rar.health) }}
+                        </li>
+                        <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{ 'ITEMS_LIST.MANA' | translate }}
+                          : {{ getValueString(rar.mana) }}
+                        </li>
+                        <li *ngIf="rar.stamina"
+                            [class.below-zero]="rar.stamina < 0">{{ 'ITEMS_LIST.STAMINA' | translate }}
+                          : {{ getValueString(rar.stamina) }}
+                        </li>
                       </ul>
                     </div>
                     <div fxFlex="17" fxLayoutAlign="start center">
                       <ul class="modern-ul">
-                        <li *ngIf="rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: +{{rar.armorSlashing}}</li>
-                        <li *ngIf="rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: +{{rar.armorCrushing}}</li>
-                        <li *ngIf="rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: +{{rar.armorPiercing}}</li>
+                        <li *ngIf="rar.armorSlashing">{{ 'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate }}:
+                          +{{ rar.armorSlashing }}
+                        </li>
+                        <li *ngIf="rar.armorCrushing">{{ 'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate }}:
+                          +{{ rar.armorCrushing }}
+                        </li>
+                        <li *ngIf="rar.armorPiercing">{{ 'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate }}:
+                          +{{ rar.armorPiercing }}
+                        </li>
 
-                        <li *ngIf="rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: +{{rar.fireResistance}}</li>
-                        <li *ngIf="rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: +{{rar.coldResistance}}</li>
-                        <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>
-                        <li *ngIf="rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: +{{rar.mentalResistance}}</li>
+                        <li *ngIf="rar.fireResistance">{{ 'ITEMS_LIST.FIRE_RESISTANCE' | translate }}:
+                          +{{ rar.fireResistance }}
+                        </li>
+                        <li *ngIf="rar.coldResistance">{{ 'ITEMS_LIST.COLD_RESISTANCE' | translate }}:
+                          +{{ rar.coldResistance }}
+                        </li>
+                        <li *ngIf="rar.energyResistance">{{ 'ITEMS_LIST.ENERGY_RESISTANCE' | translate }}:
+                          +{{ rar.energyResistance }}
+                        </li>
+                        <li *ngIf="rar.mentalResistance">{{ 'ITEMS_LIST.MENTAL_RESISTANCE' | translate }}:
+                          +{{ rar.mentalResistance }}
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -213,95 +514,10 @@
           </mat-list>
         </div>
       </div>
-
-      <!--LISTING MONSTERS CLASSIC-->
-      <div *ngIf="monsters && !modernView">
-        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
-          <div *ngFor="let monster of getPartOfMonsters()">
-            <div fxLayout="row" fxLayoutAlign="start">
-              <div fxFlex fxLayout="column" fxLayoutAlign="center center">
-                <div class="cropped-classic" fxLayoutAlign="start center">
-                  <img class="cropped-img-classic" ngSrc="./assets/bosses/{{monster.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="boss image" height="256" width="256">
-                </div>
-                <h2 class="classic-boss-name">{{monster.translatedName}}</h2>
-              </div>
-
-              <div class="rar-container">
-                <div *ngFor="let rar of monster.legendaryDrops">
-                  <div>
-                    <div fxLayout="column" fxLayoutAlign="center center">
-                      <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="width: 120px !important; height: 30px; position: relative">
-                        <button style="position: absolute; left: 120px" mat-icon-button (click)="addToCompare(rar)"><mat-icon matTooltip="{{'ITEMS_LIST.COMPARATOR_ADD' | translate}}">loyalty</mat-icon></button>
-                        <div fxFlex="20" fxLayoutAlign="center center">
-                          <button mat-icon-button (click)="removeStar(rar)"><mat-icon>remove</mat-icon></button>
-                        </div>
-                        <div fxFlex fxLayoutAlign="center center" matTooltip="{{'ITEMS_LIST.REDO_TOOLTIP' | translate}}" matTooltipPosition="above" class="rerol-stat-star" (click)="reRollIncrustation(rar)">
-                          <div *ngIf="!rar.incrustationLevel || rar.incrustationLevel >= 1 && rar.incrustationLevel <= 3">
-                            <img *ngFor="let i of Array(rar.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{rar.name}}" height="23" width="23">
-                          </div>
-                          <div *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 4 && rar.incrustationLevel <= 6">
-                            <img *ngFor="let i of Array(rar.incrustationLevel - 3).fill(0)" ngSrc="./assets/rars/addons/star_silver.png" alt="{{rar.name}}" height="23" width="23">
-                          </div>
-                          <div *ngIf="rar.incrustationLevel && rar.incrustationLevel >= 7">
-                            <img *ngFor="let i of Array(rar.incrustationLevel - 6).fill(0)" ngSrc="./assets/rars/addons/star_gold.png" alt="{{rar.name}}" height="23" width="23">
-                          </div>
-                        </div>
-                        <div fxFlex="20" fxLayoutAlign="center center">
-                          <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)"><mat-icon>add</mat-icon></button>
-                        </div>
-                      </div>
-                      <h3 class="classic-rar-name">"{{rar.translatedName}}"</h3>
-                      <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5">
-                        <div>
-                          <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
-                        </div>
-                        <div fxLayout="column">
-                          <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
-                          <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
-                          <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
-                        </div>
-                      </div>
-                    </div>
-                    <ul>
-                      <li *ngIf="rar.type">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}</li>
-                      <li *ngIf="rar.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}}</li>
-                      <li *ngIf="rar.rank">{{'ITEMS_LIST.RANK' | translate}}: {{rar.rank | arabian}}</li>
-                      <li *ngIf="rar.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}</li>
-                      <li *ngIf="rar.value">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</li>
-                      <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
-                      <li *ngIf="rar.requiredLevel">{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}</li>
-                      <li *ngIf="rar.requiredStrength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: {{rar.requiredStrength}}</li>
-                      <li *ngIf="rar.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: {{rar.requiredDexterity}}</li>
-                      <li *ngIf="rar.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: {{rar.requiredPower}}</li>
-                      <li *ngIf="rar.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: {{rar.requiredKnowledge}}</li>
-                      <li *ngIf="rar.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: {{rar.damage}}</li>
-                      <li *ngIf="rar.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: {{'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate}}</li>
-                      <li *ngIf="rar.strength" [class.below-zero]="rar.strength < 0">{{'ITEMS_LIST.STRENGTH' | translate}}: {{getValueString(rar.strength)}}</li>
-                      <li *ngIf="rar.dexterity" [class.below-zero]="rar.dexterity < 0">{{'ITEMS_LIST.DEXTERITY' | translate}}: {{getValueString(rar.dexterity)}}</li>
-                      <li *ngIf="rar.power" [class.below-zero]="rar.power < 0">{{'ITEMS_LIST.POWER' | translate}}: {{getValueString(rar.power)}}</li>
-                      <li *ngIf="rar.knowledge" [class.below-zero]="rar.knowledge < 0">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: {{getValueString(rar.knowledge)}}</li>
-                      <li *ngIf="rar.health" [class.below-zero]="rar.health < 0">{{'ITEMS_LIST.HEALTH' | translate}}: {{getValueString(rar.health)}}</li>
-                      <li *ngIf="rar.mana" [class.below-zero]="rar.mana < 0">{{'ITEMS_LIST.MANA' | translate}}: {{getValueString(rar.mana)}}</li>
-                      <li *ngIf="rar.stamina" [class.below-zero]="rar.stamina < 0">{{'ITEMS_LIST.STAMINA' | translate}}: {{getValueString(rar.stamina)}}</li>
-                      <li *ngIf="rar.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: +{{rar.armorSlashing}}</li>
-                      <li *ngIf="rar.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: +{{rar.armorCrushing}}</li>
-                      <li *ngIf="rar.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: +{{rar.armorPiercing}}</li>
-                      <li *ngIf="rar.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: +{{rar.fireResistance}}</li>
-                      <li *ngIf="rar.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: +{{rar.coldResistance}}</li>
-                      <li *ngIf="rar.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: +{{rar.energyResistance}}</li>
-                      <li *ngIf="rar.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: +{{rar.mentalResistance}}</li>
-                    </ul>
-                    <div *ngIf="monster.name === 'Sidraga'" class="classic-rar-name">Wzmocnienie drifów: <span class="element-value">+15%</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <mat-divider style="margin-top: 5px"></mat-divider>
-          </div>
-        </div>
-      </div>
       <div fxLayoutAlign="center">
-        <button *ngIf=" monsters && page * 5 <= monsters.length" mat-stroked-button color="accent" (click)="page = page + 1">{{'ITEMS_LIST.LOAD_MORE' | translate}}</button>
+        <button *ngIf=" monsters && page * 5 <= monsters.length" mat-stroked-button color="accent"
+                (click)="page = page + 1">{{ 'ITEMS_LIST.LOAD_MORE' | translate }}
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

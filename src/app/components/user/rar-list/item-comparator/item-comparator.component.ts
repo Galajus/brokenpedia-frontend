@@ -8,6 +8,7 @@ import {ItemType} from "@models/items/itemType";
 import {DamageType} from "@models/items/damageType";
 import {LegendaryItem} from "@models/items/legendaryItem";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
+import {ItemFamily} from "@models/items/itemFamily";
 
 @Component({
   selector: 'app-item-comparator',
@@ -18,6 +19,8 @@ export class ItemComparatorComponent implements OnInit {
 
   toCompare: IncrustatedLegendaryItem[] = [];
   fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
+  fallBackSets!: IncrustatedLegendaryItem[];
+  fallBackEpics!: IncrustatedLegendaryItem[];
   targetIncrustationStat: string = "evenly";
 
   protected readonly ItemType = ItemType;
@@ -29,6 +32,8 @@ export class ItemComparatorComponent implements OnInit {
   ) {
     this.toCompare = data.items;
     this.fallBackMonsters = data.fallBackMonsters;
+    this.fallBackSets = data.fallBackSets;
+    this.fallBackEpics = data.fallBackEpics;
     this.targetIncrustationStat = data.targetIncrustationStat;
   }
 
@@ -40,7 +45,7 @@ export class ItemComparatorComponent implements OnInit {
       return;
     }
     rar.incrustationLevel--;
-    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
+    this.reRollIncrustation(rar);
   }
 
   addStar(rar: IncrustatedLegendaryItem) {
@@ -51,29 +56,26 @@ export class ItemComparatorComponent implements OnInit {
       rar.incrustationLevel = 1;
     }
     rar.incrustationLevel++;
-    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
+    this.reRollIncrustation(rar);
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    if (this.isItemFamilyEqual(rar.family, ItemFamily.EPIC)) {
+      let epic = this.fallBackEpics.find(e => e.name === rar.name);
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
+      return;
+    }
     this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
+  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
+    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
+  }
 
-  convertArabianToRomanNumber(arabianNumber: number) {
-    switch (arabianNumber) {
-      case 1: return "I";
-      case 2: return "II";
-      case 3: return "III";
-      case 4: return "IV";
-      case 5: return "V";
-      case 6: return "VI";
-      case 7: return "VII";
-      case 8: return "VIII";
-      case 9: return "IX";
-      case 10: return "X";
-      case 11: return "XI";
-      case 12: return "XII";
-      default: return "I";
+  getTranslatedName(rar: IncrustatedLegendaryItem) {
+    if(rar.family === ItemFamily[ItemFamily.RAR as unknown as keyof typeof ItemFamily]) {
+      return '"' + rar.translatedName + '"';
     }
+    return rar.translatedName;
   }
 
   drop(event: CdkDragDrop<IncrustatedLegendaryItem[], any>) {
@@ -284,4 +286,6 @@ export class ItemComparatorComponent implements OnInit {
     }
     return rar.capacity + 4;
   }
+
+  protected readonly ItemFamily = ItemFamily;
 }
