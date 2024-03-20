@@ -42,6 +42,9 @@ import {SuggestionsComponent} from "./components/admin/suggestions/suggestions.c
 import {DrifsComponent} from "./components/admin/drifs/drifs.component";
 import {OrbsComponent} from "./components/admin/orbs/orbs.component";
 import {UpdateOrbComponent} from "@app/components/admin/orbs/update-orb/update-orb.component";
+import {SetsComponent} from "@app/components/admin/sets/sets.component";
+import {SetsCreateComponent} from "@app/components/admin/sets/sets-create/sets-create.component";
+import {SetsUpdateComponent} from "@app/components/admin/sets/sets-update/sets-update.component";
 
 const routes: Routes = [
 
@@ -101,6 +104,9 @@ const routes: Routes = [
       { path: 'drifs', component: DrifsComponent, title: "Drifs", canActivate: [AdminAuthorizationGuard] },
       { path: 'orbs', component: OrbsComponent, title: "Orbs", canActivate: [AdminAuthorizationGuard] },
       { path: 'orbs/update/:id', component: UpdateOrbComponent, title: "Admin update orbs", canActivate: [AdminAuthorizationGuard] },
+      { path: 'sets', component: SetsComponent, title: "Admin sets", canActivate: [AdminAuthorizationGuard] },
+      { path: 'sets/add', component: SetsCreateComponent, title: "Admin create set", canActivate: [AdminAuthorizationGuard] },
+      { path: 'sets/update/:id', component: SetsUpdateComponent, title: "Admin update set", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

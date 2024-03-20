@@ -56,6 +56,12 @@
         <mat-option *ngFor="let monster of monsters" [value]="monster">{{monster.name}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>itemSet</mat-label>
+      <mat-select formControlName="itemSet">
+        <mat-option *ngFor="let set of sets" [value]="set">{{set.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <h1>REQUIREMENTS</h1>
     <div fxLayout="row" fxLayoutGap="5">
       <mat-form-field appearance="fill" style="width: 170px" color="accent">
