@@ -12,6 +12,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {DamageType} from "@models/items/damageType";
 import {ItemType} from "@models/items/itemType";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
+import {ItemFamily} from "@models/items/itemFamily";
 
 @Component({
   selector: 'app-rar-list',
@@ -26,6 +27,10 @@ export class RarListComponent implements OnInit, OnDestroy {
   @ViewChild('types') typeSelector!: MatSelect;
   monsters!: MonsterWithIncrustatedLegendaryItems[];
   fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
+  sets!: IncrustatedLegendaryItem[];
+  fallBackSets!: IncrustatedLegendaryItem[];
+  epics!: IncrustatedLegendaryItem[];
+  fallBackEpics!: IncrustatedLegendaryItem[];
   toCompare: IncrustatedLegendaryItem[] = [];
   searchValue!: string;
   searchItemType: ItemType[] = [];
@@ -35,7 +40,8 @@ export class RarListComponent implements OnInit, OnDestroy {
   searchItemRank!: number[];
   searchMagicItems: boolean = true;
   searchPhysicalItems: boolean = true;
-  modernView: boolean = true;
+  modernView: boolean = false;
+  currentItemsType: string = "rars";
   ranks: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   searchMinLvl: number = 0;
   searchMaxLvl: number = 0;
@@ -96,8 +102,20 @@ export class RarListComponent implements OnInit, OnDestroy {
       m.translatedName = this.translate.instant('ITEMS.BOSSES.' + m.name.toUpperCase().replaceAll(" ", "_"));
       m.legendaryDrops.forEach(i => {
         i.translatedName = this.translate.instant('ITEMS.RARS.' + i.name.toUpperCase().replaceAll(" ", "_"));
-      })
+      });
     })
+    if (this.epics) {
+      this.epics.forEach(e => {
+        e.translatedName = this.translate.instant('ITEMS.EPICS.' + e.name.toUpperCase().replaceAll(" ", "_"));
+      });
+    }
+
+    if(this.sets) {
+      this.sets.forEach(s => {
+        s.translatedName = this.translate.instant('ITEMS.SETS.' + s.name.toUpperCase().replaceAll(" ", "_"));
+      })
+    }
+
     this.initSort();
   }
 
@@ -106,6 +124,20 @@ export class RarListComponent implements OnInit, OnDestroy {
       .subscribe(m => {
         this.fallBackMonsters = cloneDeep(m);
         this.monsters = cloneDeep(m);
+        this.translateItemsAndMonsters(this.translate.currentLang);
+      });
+
+    this.rarListService.getAllEpics()
+      .subscribe(e => {
+        this.fallBackEpics = cloneDeep(e);
+        this.epics = e;
+        this.translateItemsAndMonsters(this.translate.currentLang);
+      });
+
+    this.rarListService.getAllSets()
+      .subscribe(s => {
+        this.fallBackSets = cloneDeep(s);
+        this.sets = s;
         this.translateItemsAndMonsters(this.translate.currentLang);
       });
   }
@@ -131,6 +163,8 @@ export class RarListComponent implements OnInit, OnDestroy {
       panelClass: 'rar-comparator-container',
       data: {
         fallBackMonsters: this.fallBackMonsters,
+        fallBackEpics: this.fallBackEpics,
+        fallBackSets: this.fallBackSets,
         targetIncrustationStat: this.targetIncrustationStat,
         items: this.toCompare
       }
@@ -264,6 +298,10 @@ export class RarListComponent implements OnInit, OnDestroy {
     });
   }
 
+  changeCurrentItemsType(type: string) {
+    this.currentItemsType = type;
+  }
+
   rotateList() {
     this.page = 1;
     this.monsters.sort((m1, m2) => {
@@ -333,8 +371,19 @@ export class RarListComponent implements OnInit, OnDestroy {
     return n;
   }
 
+  getTranslatedName(rar: IncrustatedLegendaryItem) {
+    if(rar.family === ItemFamily[ItemFamily.RAR as unknown as keyof typeof ItemFamily]) {
+      return '"' + rar.translatedName + '"';
+    }
+    return rar.translatedName;
+  }
+
   getItemTypeValueByKey(key: string) {
     return ItemType[key as keyof typeof ItemType];
+  }
+
+  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
+    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
   }
 
   isUpperCase(s: string): boolean {
@@ -361,7 +410,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     rar.incrustationLevel--;
 
-    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
+    this.reRollIncrustation(rar);
   }
 
   addStar(rar: IncrustatedLegendaryItem) {
@@ -373,10 +422,15 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     rar.incrustationLevel++;
 
-    this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
+    this.reRollIncrustation(rar);
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    if (this.isItemFamilyEqual(rar.family, ItemFamily.EPIC)) {
+      let epic = this.fallBackEpics.find(e => e.name === rar.name);
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
+      return;
+    }
     this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
 
@@ -454,6 +508,14 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
   }
 
+  getCustomEpicLore(rar: IncrustatedLegendaryItem) {
+    let customEffect = epicsCustomDrifs.find(e => e.epicName === rar.name);
+    if (!customEffect) {
+      throw new Error('custom epic lore not found');
+    }
+    return customEffect;
+  }
+
   saveData() {
     let data: any = {
       modernView: this.modernView,
@@ -470,7 +532,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     let data: any = JSON.parse(dataString);
 
-    this.modernView = data.modernView;
+    this.modernView = false; //todo: temporary disabled
     this.toCompare = data.toCompare;
     this.targetIncrustationStat = data.targetIncrustationStat;
 
@@ -482,4 +544,66 @@ export class RarListComponent implements OnInit, OnDestroy {
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
     this.saveData();
   }
+
+  protected readonly ItemFamily = ItemFamily;
+}
+
+const epicsCustomDrifs: customEpicLore[] = [
+  {
+    epicName: "Żmij",
+    customEffect: "Szansa na podwójny atak",
+    effectValue: "2%",
+    customDrifSizeAndName: "damage_magni",
+    customDrifShortName: "teld"
+  },
+  {
+    epicName: "Gorthdar",
+    customEffect: "Dodatkowe obrażenia od ognia",
+    effectValue: "2%",
+    customDrifSizeAndName: "damage_magni",
+    customDrifShortName: "unn"
+  },
+  {
+    epicName: "Attawa",
+    customEffect: "Modyfikator trafień mentalnych",
+    effectValue: "4%",
+    customDrifSizeAndName: "accuracy_magni",
+    customDrifShortName: "oda"
+  },
+  {
+    epicName: "Imisindo",
+    customEffect: "Modyfikator trafień dystansowych",
+    effectValue: "4%",
+    customDrifSizeAndName: "accuracy_magni",
+    customDrifShortName: "ling"
+  },
+  {
+    epicName: "Washi",
+    customEffect: "Modyfikator trafień wręcz",
+    effectValue: "4%",
+    customDrifSizeAndName: "accuracy_magni",
+    customDrifShortName: "ulk"
+  },
+  {
+    epicName: "Latarnia Życia",
+    customEffect: "Wyssanie many",
+    effectValue: "2%",
+    customDrifSizeAndName: "special_magni",
+    customDrifShortName: "err"
+  },
+  {
+    epicName: "Allenor",
+    customEffect: "Modyfikator obrażeń fizycznych",
+    effectValue: "2%",
+    customDrifSizeAndName: "damage_magni",
+    customDrifShortName: "astah"
+  },
+  ]
+
+export interface customEpicLore {
+  epicName: string,
+  customEffect: string,
+  effectValue: string,
+  customDrifSizeAndName: string,
+  customDrifShortName: string
 }

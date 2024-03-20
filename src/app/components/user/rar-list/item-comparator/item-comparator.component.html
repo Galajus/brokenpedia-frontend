@@ -27,7 +27,11 @@
             <button mat-icon-button style="margin-left: auto" (click)="addStar(rar)"><mat-icon>add</mat-icon></button>
           </div>
         </div>
-        <h3 class="classic-rar-name">"{{rar.translatedName}}"</h3>
+        <h3 [ngClass]="{
+        'classic-rar-name': isItemFamilyEqual(rar.family, ItemFamily.RAR),
+        'classic-epic-name': isItemFamilyEqual(rar.family, ItemFamily.EPIC),
+        'classic-set-name': isItemFamilyEqual(rar.family, ItemFamily.SET)}"
+        >{{getTranslatedName(rar)}}</h3>
         <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center">
           <div>
             <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
@@ -42,7 +46,7 @@
       <ul>
         <li fxLayout="row">{{'ITEMS_LIST.TYPE' | translate}}: {{'ITEMS.TYPES.' + rar.type | translate}}<div [innerHTML]="getCompare('type', rar) | noSanitize"></div></li>
         <li fxLayout="row">{{'ITEMS_LIST.WEIGHT' | translate}}: {{rar.weight}} <div [innerHTML]="getCompare('weight', rar) | noSanitize"></div></li>
-        <li fxLayout="row">{{'ITEMS_LIST.RANK' | translate}}: {{convertArabianToRomanNumber(rar.rank)}}<div [innerHTML]="getCompare('rank', rar) | noSanitize"></div></li>
+        <li fxLayout="row">{{'ITEMS_LIST.RANK' | translate}}: {{rar.rank | arabian}}<div [innerHTML]="getCompare('rank', rar) | noSanitize"></div></li>
         <li fxLayout="row">{{'ITEMS_LIST.CAPACITY' | translate}}: {{getItemCapacity(rar)}}<div [innerHTML]="getCompare('capacity', rar) | noSanitize"></div></li>
         <li fxLayout="row">{{'ITEMS_LIST.VALUE' | translate}}: {{rar.value.toLocaleString()}}<div [innerHTML]="getCompare('value', rar) | noSanitize"></div></li>
         <li fxLayout="row" >{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: {{rar.requiredLevel}}<div [innerHTML]="getCompare('requiredLevel', rar) | noSanitize"></div></li>
