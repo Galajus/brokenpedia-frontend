@@ -1,0 +1,75 @@
+<div fxLayoutAlign="center center">
+  <div [formGroup]="setForm" fxLayout="column" fxLayoutGap="10">
+    <mat-card>
+      <mat-card-title>
+        SET
+        <button mat-mini-fab (click)="save()">
+          <mat-icon class>save</mat-icon>
+        </button>
+      </mat-card-title>
+      <mat-card-content fxLayout="row" fxLayoutGap="5">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Nazwa</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Profesja</mat-label>
+          <mat-select [(value)]="setForm.value.requiredClass" formControlName="requiredClass">
+            <mat-option *ngFor="let prof of professions" value="{{prof}}">{{prof}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <mat-card fxFlex>
+      <mat-card-content>
+        <h4>PSYCHO</h4>
+        <div fxLayout="row" fxLayoutGap="5">
+          <div formArrayName="psychoEffects"
+               *ngFor="let psychoEffect of getFriendlyPsychoEffects().controls; let i = index">
+            <div fxLayoutGap="5" [formGroupName]="i" fxLayout="column">
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Efekt psycho</mat-label>
+                <mat-select [(value)]="psychoEffect.value.psychoEffect" formControlName="effect">
+                  <mat-option *ngFor="let psych of psychoEffects" value="{{psych}}">{{ psych }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Wartość</mat-label>
+                <input matInput formControlName="value">
+              </mat-form-field>
+              <button color="accent" mat-raised-button>
+                <mat-icon color="warn">remove</mat-icon>
+              </button>
+            </div>
+          </div>
+          <button color="accent" mat-raised-button
+                  (click)="addPsychoEffect()">
+            <mat-icon color="warn">add</mat-icon>
+          </button>
+        </div>
+        <h4>CUSTOM</h4>
+        <div fxLayout="row" fxLayoutGap="5">
+          <div formArrayName="customEffects"
+               *ngFor="let customEffect of getFriendlyCustomEffects().controls; let iC = index">
+            <div fxLayoutGap="5" [formGroupName]="iC" fxLayout="column">
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Customowy efekt</mat-label>
+                <input matInput formControlName="effect">
+              </mat-form-field>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Wartość</mat-label>
+                <input matInput formControlName="value">
+              </mat-form-field>
+              <button color="accent" mat-raised-button>
+                <mat-icon color="warn">remove</mat-icon>
+              </button>
+            </div>
+          </div>
+          <button color="accent" mat-raised-button (click)="addCustomEffect()">
+            <mat-icon color="warn">add</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

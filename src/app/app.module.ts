@@ -102,6 +102,9 @@ import {PsychoExpCalculatorComponent} from "./components/user/psycho-exp-calcula
 import {EssenceCalculatorComponent} from "./components/user/essence-calculator/essence-calculator.component";
 import { UpdateOrbComponent } from './components/admin/orbs/update-orb/update-orb.component';
 import { KeyArrayPipe } from './pipes/key-array.pipe';
+import { SetsComponent } from './components/admin/sets/sets.component';
+import { SetsUpdateComponent } from './components/admin/sets/sets-update/sets-update.component';
+import { SetsCreateComponent } from './components/admin/sets/sets-create/sets-create.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -195,7 +198,10 @@ registerLocaleData(localePl, localePlExtra);
     ArabianPipe,
     DrifSumDialogComponent,
     UpdateOrbComponent,
-    KeyArrayPipe
+    KeyArrayPipe,
+    SetsComponent,
+    SetsUpdateComponent,
+    SetsCreateComponent
   ],
   imports: [
     BrowserModule,

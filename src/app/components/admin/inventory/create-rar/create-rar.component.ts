@@ -7,6 +7,8 @@ import {LegendaryItem} from "@models/items/legendaryItem";
 import {ItemType} from "@models/items/itemType";
 import {DamageType} from "@models/items/damageType";
 import {ItemFamily} from "@models/items/itemFamily";
+import {SetService} from "@services/admin/set/set.service";
+import {ItemSet} from "@models/set/itemSet";
 
 @Component({
   selector: 'app-create-rar',
@@ -18,10 +20,12 @@ export class CreateRarComponent implements OnInit {
   @Input() itemForm!: FormGroup;
   textToRead: string = "item data";
   monsters!: Monster[];
+  sets!: ItemSet[];
 
   constructor(
     private formBuilder: FormBuilder,
     private inventoryService: InventoryService,
+    private setService: SetService,
     private monsterService: MonsterService //TODO REFACTOR-> MOVE TO COMMON
   ) { }
 
@@ -33,6 +37,8 @@ export class CreateRarComponent implements OnInit {
   initData() {
     this.monsterService.getAllMonsters()
       .subscribe(m => this.monsters = m);
+    this.setService.getAllSets()
+      .subscribe(s => this.sets = s);
   }
 
   initForm() {
@@ -42,6 +48,7 @@ export class CreateRarComponent implements OnInit {
       droppingMonsters: [],
       type: [],
       family: [],
+      itemSet: [],
       weight: [],
       rank: [],
       capacity: [],
