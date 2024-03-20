@@ -135,12 +135,16 @@ export class RarIncrustationService {
     this.insertNewResistsToRar(rar, resistHolder);
 
     if (originalRarClone.damage) {
-      if (rar.family.valueOf() === ItemFamily.EPIC) {
-        rar.damage = Math.ceil(originalRarClone.damage * ((booster.legendaryDamageBoost * 2) + 1));
+      if (this.isItemFamilyEqual(rar.family, ItemFamily.EPIC)) {
+        rar.damage = Math.ceil(originalRarClone.damage * (booster.epicDamageBoost + 1));
       } else {
         rar.damage = Math.ceil(originalRarClone.damage * (booster.legendaryDamageBoost + 1));
       }
     }
+  }
+
+  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
+    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
   }
 
   findOriginalRar(rar: IncrustatedLegendaryItem, fallBackMonsters: MonsterWithIncrustatedLegendaryItems[]) {
