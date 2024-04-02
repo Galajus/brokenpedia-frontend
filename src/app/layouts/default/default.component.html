@@ -2,7 +2,11 @@
     <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayoutAlign="center center">
         <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-        <img class="logo" routerLink="" ngSrc="assets/logo.svg" alt="Broken Pedia logo" width="200" height="65">
+        <div class="logo">
+          <a routerLink="">
+            <img ngSrc="assets/logo.svg" alt="Broken Pedia logo" width="200" height="65">
+          </a>
+        </div>
       </div>
       <div fxLayoutAlign="center center" fxLayoutGap="2">
         <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag ngSrc="assets/i18n/flags/{{currentLang}}.png" height="28" width="28" alt="flag"></button>
