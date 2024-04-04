@@ -649,7 +649,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     let knw = this.currentStats.find(s => s.image === "knowledge")?.level;
 
     items.forEach(i => {
-      if (!str || !dex || !pow || !knw) { // CHECK BEFORE NOT WORK WHO KNOW WHY??
+      if (!str || !dex || !pow || !knw) {
         return;
       }
       let itemFamily = ItemFamily[i.family as unknown as keyof typeof ItemFamily];
@@ -839,6 +839,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       let oldLevel = this.drifToEdit.level;
       this.drifToEdit.level = e.value;
       if (this.getUsedItemCapacity(undefined, 99) > this.getItemCapacity()) {
+        if (this.getItemFromPlayerInventoryByCurrentSlot()?.family === ItemFamily.EPIC) {
+          return;
+        }
         this.drifToEdit.level = oldLevel;
         e.value = this.drifToEdit.level;
         e.source.value = this.drifToEdit.level;
@@ -1465,6 +1468,10 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       enterAnimationDuration,
       exitAnimationDuration,
     });
+  }
+
+  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
+    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
   }
 
   //SAVING/LOADING
