@@ -45,12 +45,15 @@
           <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png"
                alt="{{rar.name}}" height="auto" width="auto">
         </div>
-        <div *ngIf="!isItemFamilyEqual(rar.family, ItemFamily.EPIC)" fxLayout="column">
-          <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.RAR)" fxLayout="column">
+          <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
           <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)"
-               ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
+               ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
           <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}"
-               height="24" width="24">
+               height="35" width="35">
+        </div>
+        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.SET)" fxLayout="column">
+          <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
         </div>
         <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" fxLayout="column" fxLayoutAlign="center">
           <div class="drif-icon-1">
@@ -292,7 +295,7 @@
   </mat-card>
   <mat-card class="mat-elevation-z6 make-space">
     <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
-      <!--LOADING MONSTERS-->
+      <!--LOADING ITEMS-->
       <div
         *ngIf="(!monsters && currentItemsType === 'rars') || (!sets && currentItemsType === 'sets') || (!epics && currentItemsType === 'epics')"
         fxLayoutAlign="center">
@@ -305,11 +308,44 @@
 
       <!--LISTING CLASSIC-->
       <!--LISTING EPICS-->
-      <div *ngIf="sets && currentItemsType === 'epics' && !modernView">
+      <div *ngIf="epics && currentItemsType === 'epics' && !modernView">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
           <div class="rar-container">
             <div *ngFor="let epic of epics">
               <div *ngTemplateOutlet="itemShow; context: {rar: epic, monster: 'null'}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--LISTING SETS-->
+      <div *ngIf="sets && currentItemsType === 'sets' && !modernView">
+        <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
+          <div *ngFor="let set of sets">
+            <div *ngIf="set.setLegendaryItems.length > 0">
+              <div fxLayout="row" fxLayoutAlign="start">
+                <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+                  <h2 class="classic-boss-name">{{ set.name }}</h2>
+                  <div class="cropped-classic" fxLayoutAlign="center center">
+                    <img
+                         ngSrc="./assets/rars/{{set.setLegendaryItems[0].name.toLowerCase().replaceAll(' ', '_')}}.png" alt="set image"
+                         height="64" width="64">
+                  </div>
+                  <div>
+                    <ul class="set-presentation">
+                      <li class="classic-rar-name" *ngFor="let psycho of set.psychoEffects">{{'PSYCHO_EFFECTS.' + psycho.effect | translate}}: {{psycho.value}}%</li>
+                      <li class="classic-set-name" *ngFor="let custom of set.customEffects">{{'CUSTOM_EFFECTS.' + custom.effect | translate}}: +{{custom.value}}</li>
+                      <li *ngIf="!isProfessionEqual(set.requiredClass, Profession.DEFAULT)" class="below-zero">{{'ITEMS_LIST.REQUIRED_CLASS' | translate}}: {{'BUILD_CALCULATOR.PROFESSION.' + set.requiredClass | translate}}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="rar-container">
+                  <div *ngFor="let item of set.setLegendaryItems">
+                    <div *ngTemplateOutlet="itemShow; context: {rar: item, monster: 'null'}"></div>
+                  </div>
+                </div>
+              </div>
+              <mat-divider style="margin-top: 5px"></mat-divider>
             </div>
           </div>
         </div>

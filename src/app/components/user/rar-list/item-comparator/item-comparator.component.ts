@@ -65,6 +65,12 @@ export class ItemComparatorComponent implements OnInit {
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
       return;
     }
+    if (this.isItemFamilyEqual(rar.family, ItemFamily.SET)) {
+      let setItem: IncrustatedLegendaryItem | undefined;
+      this.fallBackSets.forEach(i => setItem = i as IncrustatedLegendaryItem);
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, setItem);
+      return;
+    }
     this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
   isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {

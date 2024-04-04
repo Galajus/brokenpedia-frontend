@@ -13,6 +13,8 @@ import {DamageType} from "@models/items/damageType";
 import {ItemType} from "@models/items/itemType";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 import {ItemFamily} from "@models/items/itemFamily";
+import {ItemSet} from "@models/set/itemSet";
+import {Profession} from "@models/gameentites/profession";
 
 @Component({
   selector: 'app-rar-list',
@@ -27,8 +29,8 @@ export class RarListComponent implements OnInit, OnDestroy {
   @ViewChild('types') typeSelector!: MatSelect;
   monsters!: MonsterWithIncrustatedLegendaryItems[];
   fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
-  sets!: IncrustatedLegendaryItem[];
-  fallBackSets!: IncrustatedLegendaryItem[];
+  sets!: ItemSet[];
+  fallBackSets!: ItemSet[];
   epics!: IncrustatedLegendaryItem[];
   fallBackEpics!: IncrustatedLegendaryItem[];
   toCompare: IncrustatedLegendaryItem[] = [];
@@ -110,9 +112,11 @@ export class RarListComponent implements OnInit, OnDestroy {
       });
     }
 
-    if(this.sets) {
+    if (this.sets) {
       this.sets.forEach(s => {
-        s.translatedName = this.translate.instant('ITEMS.SETS.' + s.name.toUpperCase().replaceAll(" ", "_"));
+        s.setLegendaryItems.forEach(i => {
+          i.translatedName = this.translate.instant('ITEMS.SETS.' + i.name.toUpperCase().replaceAll(" ", "_"));
+        })
       })
     }
 
@@ -164,12 +168,16 @@ export class RarListComponent implements OnInit, OnDestroy {
       data: {
         fallBackMonsters: this.fallBackMonsters,
         fallBackEpics: this.fallBackEpics,
-        fallBackSets: this.fallBackSets,
+        fallBackSets: this.getFallBackSetItems(),
         targetIncrustationStat: this.targetIncrustationStat,
         items: this.toCompare
       }
     });
     matDialogRef.afterClosed();
+  }
+
+  getFallBackSetItems() {
+    return this.fallBackSets.flatMap(s => s.setLegendaryItems) as IncrustatedLegendaryItem[];
   }
 
   getPartOfMonsters() {
@@ -197,14 +205,14 @@ export class RarListComponent implements OnInit, OnDestroy {
     let name = this.searchValue.toLowerCase();
 
     this.monsters = this.monsters.filter(m => {
-      if (!m.translatedName){
+      if (!m.translatedName) {
         return;
       }
       if (m.translatedName.toLowerCase().includes(name)) {
         return m;
       }
       m.legendaryDrops = m.legendaryDrops.filter(r => {
-        if (!r.translatedName){
+        if (!r.translatedName) {
           return;
         }
         return r.translatedName.toLowerCase().includes(name);
@@ -372,7 +380,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   getTranslatedName(rar: IncrustatedLegendaryItem) {
-    if(rar.family === ItemFamily[ItemFamily.RAR as unknown as keyof typeof ItemFamily]) {
+    if (rar.family === ItemFamily[ItemFamily.RAR as unknown as keyof typeof ItemFamily]) {
       return '"' + rar.translatedName + '"';
     }
     return rar.translatedName;
@@ -384,6 +392,10 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
     return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
+  }
+
+  isProfessionEqual(compare: Profession, target: Profession): boolean {
+    return compare === Profession[target as unknown as keyof typeof Profession] || compare.valueOf() === target;
   }
 
   isUpperCase(s: string): boolean {
@@ -429,6 +441,16 @@ export class RarListComponent implements OnInit, OnDestroy {
     if (this.isItemFamilyEqual(rar.family, ItemFamily.EPIC)) {
       let epic = this.fallBackEpics.find(e => e.name === rar.name);
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
+      return;
+    }
+    if (this.isItemFamilyEqual(rar.family, ItemFamily.SET)) {
+      let setItem: IncrustatedLegendaryItem | undefined;
+      this.fallBackSets.forEach(s => s.setLegendaryItems.forEach(i => {
+        if (!setItem && i.name === rar.name) {
+          setItem = i as IncrustatedLegendaryItem;
+        }
+      }));
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, setItem);
       return;
     }
     this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
@@ -546,6 +568,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   protected readonly ItemFamily = ItemFamily;
+  protected readonly Profession = Profession;
 }
 
 const epicsCustomDrifs: customEpicLore[] = [
