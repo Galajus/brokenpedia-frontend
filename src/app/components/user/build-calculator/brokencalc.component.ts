@@ -778,6 +778,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkItemDrifSpace(item: InventoryItem, tries: number) {
+    if (this.isItemFamilyEqual(item.family, ItemFamily.EPIC)) {
+      return;
+    }
     if (item.rank <= 3) {
       if (item.incrustationLevel < 7) {
         delete item.drifs[1];
