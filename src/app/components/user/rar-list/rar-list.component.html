@@ -332,7 +332,7 @@
                   </div>
                   <div>
                     <ul class="set-presentation">
-                      <li class="classic-rar-name" *ngFor="let psycho of set.psychoEffects">{{'PSYCHO_EFFECTS.' + psycho.effect | translate}}: {{psycho.value}}%</li>
+                      <li class="classic-rar-name" *ngFor="let psycho of set.psychoEffects">{{'PSYCHO_EFFECTS.' + psycho.effect | translate}}: {{psycho.value}}{{willBePercent(psycho.effect)}}</li>
                       <li class="classic-set-name" *ngFor="let custom of set.customEffects">{{'CUSTOM_EFFECTS.' + custom.effect | translate}}: +{{custom.value}}</li>
                       <li *ngIf="!isProfessionEqual(set.requiredClass, Profession.DEFAULT)" class="below-zero">{{'ITEMS_LIST.REQUIRED_CLASS' | translate}}: {{'BUILD_CALCULATOR.PROFESSION.' + set.requiredClass | translate}}</li>
                     </ul>
