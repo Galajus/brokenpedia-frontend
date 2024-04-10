@@ -25,20 +25,14 @@ export class DrifSumDialogComponent implements OnInit {
   }
 
   getModSummaryByCategory(modSummary: ModSummary[], category: DrifCategory) {
-    let modSummaries = modSummary.filter(sum => {
-      let cat = DrifCategory[sum.category as keyof typeof DrifCategory];
-      return cat === category.valueOf()
-    })
+    return modSummary.filter(sum => sum.category === category)
       .sort((a, b) => a.mod.localeCompare(b.mod));
-    return modSummaries;
   }
 
   prepareModSummaryRow(summary: ModSummary): string {
     let row;
     if (summary.mod === PsychoMod.EXTRA_AP) {
-      const indexOfS = Object.values(PsychoMod).indexOf(summary.mod as unknown as PsychoMod);
-      const mod = Object.keys(PsychoMod)[indexOfS];
-      row = summary.amountDrifs + "x " + this.translateService.instant('PSYCHO_EFFECTS.' + mod) + ": " + summary.modSum;
+      row = summary.amountDrifs + "x " + this.translateService.instant('PSYCHO_EFFECTS.' + summary.mod) + ": " + summary.modSum;
     } else {
       if (summary.reducedPercent) {
         row = summary.amountDrifs + "x " + this.translateService.instant('PSYCHO_EFFECTS.' + summary.mod) + ': <u title="' + summary.reducedPercent + '% sumy efektu -' + summary.reducedValue?.toFixed(2) + '%">' + summary.modSum.toFixed(2) + "%</u>";
@@ -46,7 +40,6 @@ export class DrifSumDialogComponent implements OnInit {
         row = summary.amountDrifs + "x " + this.translateService.instant('PSYCHO_EFFECTS.' + summary.mod) + ": " + summary.modSum.toFixed(2) + "%";
       }
     }
-
     if (summary.max) {
       row = row + " (max: " + summary.max + "%)";
     }

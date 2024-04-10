@@ -6,7 +6,7 @@ export interface ModSummary {
   drifName: string
   amountDrifs: number,
   modSum: number,
-  category: string | DrifCategory,
+  category: DrifCategory,
   reducedValue?: number
   reducedPercent?: number
   max?: number

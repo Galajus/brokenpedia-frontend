@@ -15,6 +15,9 @@ import {DragDrifItem} from "@models/drif/dragDrifItem";
 import {clone, cloneDeep, round} from "lodash-es";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {PsychoMod} from "@models/items/psychoMod";
+import {TranslateService} from "@ngx-translate/core";
+import {DrifSimulatorService} from "@services/user/drif-simulator/drif-simulator.service";
+import {DrifCategory} from "@models/drif/drifCategory";
 
 @Component({
   selector: 'app-drif-simulator',
@@ -24,11 +27,13 @@ import {PsychoMod} from "@models/items/psychoMod";
 export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   protected readonly Number = Number;
+  protected readonly DrifCategory = DrifCategory;
 
   modSummary: ModSummary[] = [];
   illuminatedMod: string = "";
   activeBuild: string = "temp";
   buildToClone: string = "";
+  drifs: DrifItem[] = [];
 
 
   userRarsWithDrifs: UserRarsWithDrifs[] = [
@@ -187,13 +192,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService,
+    private drifSimulatorService: DrifSimulatorService
   ) {
   }
 
   ngOnInit(): void {
+    this.initData();
+  }
+
+  initData() {
     this.fillUserRars();
-    this.load();
+    this.drifSimulatorService.getAllDrifs()
+      .subscribe(d => {
+        this.drifs = this.drifSimulatorService.remapDbDrifs(d);
+        this.load();
+      });
   }
 
   ngOnDestroy() {
@@ -238,7 +253,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         drifSlot: drifSlot,
         drifTier: this.getDrifTier(rarWithDrifs, drifSlot),
         drifLevel: this.getDrifLevel(rarWithDrifs, drifSlot),
-        itemSlot: rarWithDrifs.slot
+        itemSlot: rarWithDrifs.slot,
+        drifs: this.drifs
       }
     });
 
@@ -394,20 +410,16 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   calculateEpicMod(rank: number, ornaments: number) {
     let epikItem = epikItems.find(it => it.indexNumber === rank);
     if (!epikItem) {
-      console.log("NOT FOUND EPIC ITEM");
-      return;
+      throw new Error("Epic item not found");
     }
 
-    let dedicatedDrifItem = drifs.find(drif => this.getPsychoModByString(drif.psychoMod) === epikItem?.psychoModDedicated);
-    let critDrifItem = drifs.find(drif => this.getPsychoModByString(drif.psychoMod) === epikItem?.psychoModCrit);
-
-    if (!dedicatedDrifItem && epikItem.name === "Latarnia Życia") {
-      dedicatedDrifItem = manaDrainDrifItem;
-    }
+    // @ts-ignore
+    let dedicatedDrifItem = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModDedicated);
+    // @ts-ignore
+    let critDrifItem = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModCrit);
 
     if (!dedicatedDrifItem || !critDrifItem) {
-      console.log("epik mods unknown");
-      return;
+      throw new Error("epic mods unknown");
     }
 
     //DEDICATED
@@ -430,7 +442,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (ornaments === 9) {
       modSum = modSum * (0.15 + epikItem.booster);
     }
-    let modCap = modCaps.find(capped => capped.mod === this.getPsychoModByString(dedicatedDrifItem?.psychoMod));
+    let modCap = modCaps.find(capped => capped.mod === dedicatedDrifItem?.psychoMod);
     this.modSummary.push({
       mod: epikItem?.psychoModDedicated,
       drifName: dedicatedDrifItem.shortName,
@@ -459,7 +471,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (ornaments === 9) {
       modSumCrit = modSumCrit * (0.15 + epikItem.booster);
     }
-    let modCapCrit = modCaps.find(capped => capped.mod === this.getPsychoModByString(critDrifItem?.psychoMod));
+    let modCapCrit = modCaps.find(capped => capped.mod === critDrifItem?.psychoMod);
     this.modSummary.push({
       mod: epikItem?.psychoModCrit,
       drifName: critDrifItem.shortName,
@@ -474,13 +486,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       drifName: "?",
       modSum: 1,
       amountDrifs: 1,
-      category: "SPECIAL"
+      category: DrifCategory.SPECIAL
     })
   }
 
   countMod(drif: DrifItem, ornaments: number, sidragaBoost: boolean) {
     let drifTier = drifTiers.filter(drifTier => drifTier.tier === drif.tier)[0];
-    let psychoMod = this.getPsychoModByString(drif.psychoMod);
+    let psychoMod = drif.psychoMod;
     let modSummary = this.modSummary.find(modSum => modSum.mod === psychoMod);
     if (modSummary) {
       let toAdd = 0;
@@ -778,71 +790,43 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   getButtonColorClassByDrifCategory(drif: DrifItem): string {
     switch (drif.category) {
-      case "REDUCTION": {
+      case DrifCategory.REDUCTION: {
         if (drif.shortName === this.illuminatedMod) {
           return "reductionDrif illuminate";
         }
         return "reductionDrif";
       }
-      case "DAMAGE": {
+      case DrifCategory.DAMAGE: {
         if (drif.shortName === this.illuminatedMod) {
           return "damageDrif illuminate";
         }
         return "damageDrif";
       }
-      case "SPECIAL": {
+      case DrifCategory.SPECIAL: {
         if (drif.shortName === this.illuminatedMod) {
           return "specialDrif illuminate";
         }
         return "specialDrif";
       }
-      case "DEFENCE": {
+      case DrifCategory.DEFENCE: {
         if (drif.shortName === this.illuminatedMod) {
           return "defenceDrif illuminate";
         }
         return "defenceDrif";
       }
-      case "ACCURACY": {
+      case DrifCategory.ACCURACY: {
         if (drif.shortName === this.illuminatedMod) {
           return "accuracyDrif illuminate";
         }
         return "accuracyDrif";
       }
     }
-    return "";
   }
 
-  getModSummaryByCategory(modSummary: ModSummary[], category: string) {
-    switch (category) {
-      case "REDUCTION": {
-        return modSummary
-          .filter(sum => sum.category === "REDUCTION")
-          .sort((a, b) => a.mod.localeCompare(b.mod));
-      }
-      case "DAMAGE": {
-        return modSummary.filter(sum => sum.category === "DAMAGE")
-          .sort((a, b) => a.mod.localeCompare(b.mod));
-      }
-      case "SPECIAL": {
-        return modSummary.filter(sum => sum.category === "SPECIAL")
-          .sort((a, b) => a.mod.localeCompare(b.mod));
-      }
-      case "DEFENCE": {
-        return modSummary.filter(sum => sum.category === "DEFENCE")
-          .sort((a, b) => a.mod.localeCompare(b.mod));
-      }
-      case "ACCURACY": {
-        return modSummary.filter(sum => sum.category === "ACCURACY")
-          .sort((a, b) => a.mod.localeCompare(b.mod));
-      }
-    }
-    return null;
-  }
-
-  getPsychoModByString(mod: string | undefined) {
-    if (mod) {
-      return (<any>PsychoMod)[mod];
-    }
+  getModSummaryByCategory(modSummary: ModSummary[], category: DrifCategory) {
+    return modSummary
+      .filter(sum => sum.category === category)
+      .sort((a, b) => a.mod.localeCompare(b.mod));
   }
 
   illuminateHoovered(mod: ModSummary) {
@@ -856,12 +840,12 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   prepareModSummaryRow(summary: ModSummary): string {
     let row;
     if (summary.mod === PsychoMod.EXTRA_AP) {
-      row = summary.amountDrifs + "x " + summary.mod + ": " + summary.modSum;
+      row = summary.amountDrifs + "x " + this.translate.instant('PSYCHO_EFFECTS.' + summary.mod) + ": " + summary.modSum;
     } else {
       if (summary.reducedPercent) {
-        row = summary.amountDrifs + "x " + summary.mod + ': <u title="' + summary.reducedPercent + '% sumy efektu -' + summary.reducedValue?.toFixed(2) + '%">' + summary.modSum.toFixed(2) + "%</u>";
+        row = summary.amountDrifs + "x " + this.translate.instant('PSYCHO_EFFECTS.' + summary.mod) + ': <u title="' + summary.reducedPercent + '% sumy efektu -' + summary.reducedValue?.toFixed(2) + '%">' + summary.modSum.toFixed(2) + "%</u>";
       } else {
-        row = summary.amountDrifs + "x " + summary.mod + ": " + summary.modSum.toFixed(2) + "%";
+        row = summary.amountDrifs + "x " + this.translate.instant('PSYCHO_EFFECTS.' + summary.mod) + ": " + summary.modSum.toFixed(2) + "%";
       }
 
     }
@@ -878,6 +862,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   saveBuild(name: string) {
+    if (!this.drifs) {
+      return;
+    }
     let temp = this.userRarsWithDrifs.find(rars => rars.name === name);
     let dataArray = localStorage.getItem('drif-simulator-array');
     if (!dataArray) {
@@ -1193,295 +1180,3 @@ const drifTiers: DrifTier[] = [
     maxDrifLevel: 21
   },
 ];
-
-const drifs: DrifItem[] = [
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "alorn"
-
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CRIT_CHANCE",
-    category: "DAMAGE",
-    shortName: "band"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DOUBLE_HIT_CHANCE",
-    category: "DAMAGE",
-    shortName: "teld"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "FARID",
-    category: "REDUCTION",
-    shortName: "farid"
-  },
-
-  //--------------- POWER 3
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_FIRE_DAMAGE",
-    category: "DAMAGE",
-    shortName: "unn"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_COLD_DAMAGE",
-    category: "DAMAGE",
-    shortName: "kalh"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_ENERGY_DAMAGE",
-    category: "DAMAGE",
-    shortName: "val"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "PHYSICAL_DAMAGE_INCREASE",
-    category: "DAMAGE",
-    shortName: "astah"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "MAGICAL_DAMAGE_INCREASE",
-    category: "DAMAGE",
-    shortName: "abaf"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "HOLM",
-    category: "REDUCTION",
-    shortName: "holm"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CHANCE_OF_DISENCHANTMENT",
-    category: "SPECIAL",
-    shortName: "verd"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "MAGICAL_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "oda"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "RANGE_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "ling"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "PHYSICAL_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "ulk"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "PASSIVE_DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "iori"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 2,
-    psychoMod: "CRIT_DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "faln"
-  },
-
-  //--------------- POWER 2
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: -1,
-    psychoMod: "MANA_USAGE",
-    category: "SPECIAL",
-    shortName: "von"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: -1,
-    psychoMod: "STAMINA_USAGE",
-    category: "SPECIAL",
-    shortName: "amad"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.15,
-    psychoMod: "MANA_REGENERATION",
-    category: "SPECIAL",
-    shortName: "ann"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.15,
-    psychoMod: "STAMINA_REGENERATION",
-    category: "SPECIAL",
-    shortName: "eras"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DOUBLE_ATTACK_ROLL_CHANCE",
-    category: "ACCURACY",
-    shortName: "dur"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 1,
-    psychoMod: "MENTAL_ATTACKS_PENETRATION",
-    category: "ACCURACY",
-    shortName: "lorb"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 1,
-    psychoMod: "DOUBLE_DEFENCE_ROLL_CHANCE",
-    category: "DEFENCE",
-    shortName: "elen"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CRIT_RESISTANCE",
-    category: "DEFENCE",
-    shortName: "grod"
-  },
-
-  //--------------- POWER 1
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "MAGICAL_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "grud"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "RANGE_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "tovi"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "PHYSICAL_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "tall"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "RESISTANCE_TO_ROOT",
-    category: "SPECIAL",
-    shortName: "heb"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "RESISTANCE_TO_FREEZING",
-    category: "SPECIAL",
-    shortName: "adrim"
-  }
-]
-
-const manaDrainDrifItem: DrifItem = {
-  tier: 3,
-  level: 1,
-  startPower: 1,
-  psychoGrowByLevel: 0.5,
-  psychoMod: "MANA_DRAIN",
-  category: "SPECIAL",
-  shortName: "err"
-}
