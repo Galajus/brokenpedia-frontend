@@ -204,15 +204,15 @@
 
         <div fxLayout="column" fxLayoutAlign="center center">
           <ul>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DAMAGE')"
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DAMAGE)"
                 class="damageDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'SPECIAL')"
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.SPECIAL)"
                 class="specialDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'DEFENCE')"
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DEFENCE)"
                 class="defenceDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'ACCURACY')"
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.ACCURACY)"
                 class="accuracyDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, 'REDUCTION')"
+            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.REDUCTION)"
                 class="reductionDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
           </ul>
         </div>

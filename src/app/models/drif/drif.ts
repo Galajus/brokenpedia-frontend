@@ -1,5 +1,5 @@
 import {PsychoMod} from "../items/psychoMod";
-import {DrifCategory} from "./drifCategory";
+import {DrifCategory} from "@models/drif/drifCategory";
 
 export interface Drif {
   id: number,

@@ -3,6 +3,7 @@ import {DrifItem} from "@models/drif/drifItem";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {round} from "lodash-es";
 import {PsychoMod} from "@models/items/psychoMod";
+import {DrifCategory} from "@models/drif/drifCategory";
 
 @Component({
   selector: 'app-drif-select',
@@ -11,10 +12,10 @@ import {PsychoMod} from "@models/items/psychoMod";
 })
 export class DrifSelectComponent implements OnInit {
 
-  protected readonly drifs = drifs;
   protected readonly PsychoMod = PsychoMod;
   protected readonly Object = Object;
 
+  drifs: DrifItem[];
   drifTier: number = 1;
   leftPower: number = 0;
   drifLevel: number = 0;
@@ -31,6 +32,8 @@ export class DrifSelectComponent implements OnInit {
     this.drifSlot = data.drifSlot;
     this.itemSlot = data.itemSlot;
     this.drifLevel = data.drifLevel;
+
+    this.drifs = data.drifs;
   }
 
   ngOnInit(): void {
@@ -43,19 +46,19 @@ export class DrifSelectComponent implements OnInit {
   }
 
   getReduction(): DrifItem[] {
-    return drifs.filter(d => d.category === "REDUCTION");
+    return this.drifs.filter(d => d.category === DrifCategory.REDUCTION);
   }
   getDamage(): DrifItem[] {
-    return drifs.filter(d => d.category === "DAMAGE");
+    return this.drifs.filter(d => d.category === DrifCategory.DAMAGE);
   }
   getSpecial(): DrifItem[] {
-    return drifs.filter(d => d.category === "SPECIAL");
+    return this.drifs.filter(d => d.category === DrifCategory.SPECIAL);
   }
   getDefence(): DrifItem[] {
-    return drifs.filter(d => d.category === "DEFENCE");
+    return this.drifs.filter(d => d.category === DrifCategory.DEFENCE);
   }
   getAccuracy(): DrifItem[] {
-    return drifs.filter(d => d.category === "ACCURACY");
+    return this.drifs.filter(d => d.category === DrifCategory.ACCURACY);
   }
 
   setTier(number: number) {
@@ -95,286 +98,4 @@ export class DrifSelectComponent implements OnInit {
 
   protected readonly Number = Number;
 }
-
-const drifs: DrifItem[] = [
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "alorn"
-
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CRIT_CHANCE",
-    category: "DAMAGE",
-    shortName: "band"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DOUBLE_HIT_CHANCE",
-    category: "DAMAGE",
-    shortName: "teld"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 4,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "FARID",
-    category: "REDUCTION",
-    shortName: "farid"
-  },
-
-  //--------------- POWER 3
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_FIRE_DAMAGE",
-    category: "DAMAGE",
-    shortName: "unn"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_COLD_DAMAGE",
-    category: "DAMAGE",
-    shortName: "kalh"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "EXTRA_ENERGY_DAMAGE",
-    category: "DAMAGE",
-    shortName: "val"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "PHYSICAL_DAMAGE_INCREASE",
-    category: "DAMAGE",
-    shortName: "astah"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "MAGICAL_DAMAGE_INCREASE",
-    category: "DAMAGE",
-    shortName: "abaf"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "HOLM",
-    category: "REDUCTION",
-    shortName: "holm"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CHANCE_OF_DISENCHANTMENT",
-    category: "SPECIAL",
-    shortName: "verd"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "MAGICAL_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "oda"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "RANGE_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "ling"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "PHYSICAL_HIT_MODIFIER",
-    category: "ACCURACY",
-    shortName: "ulk"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 1,
-    psychoMod: "PASSIVE_DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "iori"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 3,
-    psychoGrowByLevel: 2,
-    psychoMod: "CRIT_DAMAGE_REDUCTION",
-    category: "REDUCTION",
-    shortName: "faln"
-  },
-
-  //--------------- POWER 2
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: -1,
-    psychoMod: "MANA_USAGE",
-    category: "SPECIAL",
-    shortName: "von"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: -1,
-    psychoMod: "STAMINA_USAGE",
-    category: "SPECIAL",
-    shortName: "amad"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.15,
-    psychoMod: "MANA_REGENERATION",
-    category: "SPECIAL",
-    shortName: "ann"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.15,
-    psychoMod: "STAMINA_REGENERATION",
-    category: "SPECIAL",
-    shortName: "eras"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "DOUBLE_ATTACK_ROLL_CHANCE",
-    category: "ACCURACY",
-    shortName: "dur"
-  },
-
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 1,
-    psychoMod: "MENTAL_ATTACKS_PENETRATION",
-    category: "ACCURACY",
-    shortName: "lorb"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 1,
-    psychoMod: "DOUBLE_DEFENCE_ROLL_CHANCE",
-    category: "DEFENCE",
-    shortName: "elen"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 2,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "CRIT_RESISTANCE",
-    category: "DEFENCE",
-    shortName: "grod"
-  },
-
-  //--------------- POWER 1
-
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "MAGICAL_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "grud"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "RANGE_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "tovi"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "PHYSICAL_DEFENCE_MODIFIER",
-    category: "DEFENCE",
-    shortName: "tall"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 0.5,
-    psychoMod: "RESISTANCE_TO_ROOT",
-    category: "SPECIAL",
-    shortName: "heb"
-  },
-  {
-    tier: 1,
-    level: 1,
-    startPower: 1,
-    psychoGrowByLevel: 1,
-    psychoMod: "RESISTANCE_TO_FREEZING",
-    category: "SPECIAL",
-    shortName: "adrim"
-  }
-]
 

@@ -51,6 +51,7 @@ import {UpgradeTarget} from "@models/items/upgradeTarget";
 import {PsychoMod} from "@models/items/psychoMod";
 import {Skill} from "@models/skills/skill";
 import {Build} from "@models/build-calculator/build";
+import {DrifCategory} from "@models/drif/drifCategory";
 
 @Component({
   selector: 'app-brokencalc',
@@ -1079,18 +1080,18 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
           drifName: "?",
           modSum: 1,
           amountDrifs: 1,
-          category: "SPECIAL"
+          category: DrifCategory.SPECIAL
         });
       }
       i.drifs.forEach(drif => {
-        let modSummary = this.modSummary.find(modSum => modSum.mod.valueOf() === drif.drif.psychoMod.valueOf());
+        let modSummary = this.modSummary.find(modSum => modSum.mod === drif.drif.psychoMod);
         let psychoValue = this.getDrifPsychoValue(i, drif);
         if (modSummary) {
           modSummary.amountDrifs++;
           modSummary.modSum += psychoValue;
           return;
         }
-        let modCap = modCaps.find(capped => capped.mod.valueOf() === drif.drif.psychoMod.valueOf());
+        let modCap = modCaps.find(capped => capped.mod === drif.drif.psychoMod);
         this.modSummary.push({
           mod: drif.drif.psychoMod,
           drifName: drif.drif.shortName,
@@ -2055,7 +2056,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDrifCategoryTierString(drif: InventoryDrif) {
-    let cat = drif.drif.category.toString().toLowerCase();
+    let cat = drif.drif.category.toLowerCase();
     let size = this.getDrifTierByLevel(drif.tier).toLowerCase();
     return cat + "_" + size;
   }
