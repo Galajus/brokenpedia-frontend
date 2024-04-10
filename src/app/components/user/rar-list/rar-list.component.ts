@@ -15,6 +15,7 @@ import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster"
 import {ItemFamily} from "@models/items/itemFamily";
 import {ItemSet} from "@models/set/itemSet";
 import {Profession} from "@models/gameentites/profession";
+import {PsychoMod} from "@models/items/psychoMod";
 
 @Component({
   selector: 'app-rar-list',
@@ -307,6 +308,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   changeCurrentItemsType(type: string) {
+    this.page = 1;
     this.currentItemsType = type;
   }
 
@@ -536,6 +538,13 @@ export class RarListComponent implements OnInit, OnDestroy {
       throw new Error('custom epic lore not found');
     }
     return customEffect;
+  }
+
+  willBePercent(effect: PsychoMod) {
+    if (effect === PsychoMod.EXTRA_AP || effect === PsychoMod.CHEAT_DESTINY) {
+      return "";
+    }
+    return "%";
   }
 
   saveData() {
