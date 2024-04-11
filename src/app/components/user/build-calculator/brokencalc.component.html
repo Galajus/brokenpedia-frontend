@@ -2,7 +2,7 @@
 
   <!--TEMPLATES-->
   <ng-template #drifsSelect let-item="item">
-    <div *ngIf="item.rank >= 10">
+    <div *ngIf="item.rank >= 10 && item.family !== ItemFamily.SET">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-3" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-3" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
@@ -19,7 +19,7 @@
         <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[2].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[2])" matTooltipClass="custom-tooltip" matTooltipPosition="before" (click)="setDrifSlotToChange(2)">
       </div>
     </div>
-    <div *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7 && !isItemFamilyEqual(item.family, ItemFamily.SET)) && item.rank < 10">
+    <div *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7) && item.rank < 10 && item.family !== ItemFamily.SET">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-2-2" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-2-2" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
@@ -31,7 +31,7 @@
         <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip" matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
       </div>
     </div>
-    <div *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || isItemFamilyEqual(item.family, ItemFamily.SET)">
+    <div *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || item.family === ItemFamily.SET">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-1" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-1" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
