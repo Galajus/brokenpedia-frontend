@@ -45,17 +45,17 @@
           <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png"
                alt="{{rar.name}}" height="auto" width="auto">
         </div>
-        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.RAR)" fxLayout="column">
+        <div *ngIf="rar.family === ItemFamily.RAR" fxLayout="column">
           <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
           <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)"
                ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
           <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}"
                height="35" width="35">
         </div>
-        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.SET)" fxLayout="column">
+        <div *ngIf="rar.family === ItemFamily.SET" fxLayout="column">
           <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="35" width="35">
         </div>
-        <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" fxLayout="column" fxLayoutAlign="center">
+        <div *ngIf="rar.family === ItemFamily.EPIC" fxLayout="column" fxLayoutAlign="center">
           <div class="drif-icon-1">
             <img class="placeholder" src="assets/drifs/drif_sizes/damage_magni.png" width="40" height="40" alt="">
             <img class="placeholder" src="assets/drifs/drif_types/band.png" width="39" height="39" alt="">
@@ -72,7 +72,7 @@
       </li>
       <li *ngIf="rar.weight">{{ 'ITEMS_LIST.WEIGHT' | translate }}: {{ rar.weight }}</li>
       <li *ngIf="rar.rank">{{ 'ITEMS_LIST.RANK' | translate }}: {{ rar.rank | arabian }}</li>
-      <li *ngIf="rar.capacity && !isItemFamilyEqual(rar.family, ItemFamily.EPIC)">{{ 'ITEMS_LIST.CAPACITY' | translate }}: {{ getItemCapacity(rar) }}</li>
+      <li *ngIf="rar.capacity && rar.family !== ItemFamily.EPIC">{{ 'ITEMS_LIST.CAPACITY' | translate }}: {{ getItemCapacity(rar) }}</li>
       <li *ngIf="rar.value">{{ 'ITEMS_LIST.VALUE' | translate }}: {{ rar.value.toLocaleString() }} {{ 'ITEMS_LIST.GOLD' | translate }}
       </li>
       <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()"
@@ -88,22 +88,22 @@
       </li>
       <li *ngIf="rar.requiredKnowledge">{{ 'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate }}: {{ rar.requiredKnowledge }}
       </li>
-      <li *ngIf="rar.damage">{{ 'ITEMS_LIST.DAMAGE' | translate }}: {{ rar.damage }} <span *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)">+ poziom</span></li>
+      <li *ngIf="rar.damage">{{ 'ITEMS_LIST.DAMAGE' | translate }}: {{ rar.damage }} <span *ngIf="rar.family === ItemFamily.EPIC">+ poziom</span></li>
       <li *ngIf="rar.damageType">{{ 'ITEMS_LIST.DAMAGE_TYPE' | translate }}: {{ 'ITEMS.DAMAGE_TYPES.' + rar.damageType | translate }}
       </li>
     </ul>
       <div *ngIf="monster === 'Sidraga'" class="classic-rar-name">Wzmocnienie drifów: <span
         class="element-value">+15%</span></div>
-      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Szansa na trafienie krytyczne: <span
+      <div *ngIf="rar.family === ItemFamily.EPIC" class="classic-rar-name">Szansa na trafienie krytyczne: <span
         class="element-value">+2%</span></div>
-      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)">
+      <div *ngIf="rar.family === ItemFamily.EPIC">
         <div *ngVar="getCustomEpicLore(rar) as epicLore" class="classic-rar-name">
           {{epicLore.customEffect}}: <span class="element-value">+{{epicLore.effectValue}}</span>
         </div>
       </div>
-      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Wzmocnienie drifów: <span
+      <div *ngIf="rar.family === ItemFamily.EPIC" class="classic-rar-name">Wzmocnienie drifów: <span
         class="element-value">+60%</span></div>
-      <div *ngIf="isItemFamilyEqual(rar.family, ItemFamily.EPIC)" class="classic-rar-name">Dodatkowe PA: <span
+      <div *ngIf="rar.family === ItemFamily.EPIC" class="classic-rar-name">Dodatkowe PA: <span
         class="element-value">1</span></div>
     <ul>
       <li *ngIf="rar.strength"
@@ -275,9 +275,9 @@
             <div fxFlex fxLayout="row" fxLayoutAlign="start center">
               <div fxLayout="row" *ngFor="let compareRar of toCompare">
                 <div [ngClass]="{
-                      'classic-rar-name': isItemFamilyEqual(compareRar.family, ItemFamily.RAR),
-                      'classic-epic-name': isItemFamilyEqual(compareRar.family, ItemFamily.EPIC),
-                      'classic-set-name': isItemFamilyEqual(compareRar.family, ItemFamily.SET)}"
+                      'classic-rar-name': compareRar.family === ItemFamily.RAR,
+                      'classic-epic-name': compareRar.family === ItemFamily.EPIC,
+                      'classic-set-name': compareRar.family === ItemFamily.SET}"
                 >{{getTranslatedName(compareRar)}}</div>
                 <!--<div *ngIf="!compareRar.translatedName">"{{ compareRar.name }}"</div>-->
                 <button mat-icon-button color="warn" class="small-icon-button"

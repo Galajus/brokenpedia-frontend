@@ -357,7 +357,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   mapItemToInventoryItem(item: IncrustatedLegendaryItem) {
-    let itemFamily = ItemFamily[item.family as unknown as keyof typeof ItemFamily];
+    let itemFamily = item.family;
     let mapped: InventoryItem = {
       id: item.id,
       name: item.name,
@@ -653,7 +653,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!str || !dex || !pow || !knw) {
         return;
       }
-      let itemFamily = ItemFamily[i.family as unknown as keyof typeof ItemFamily];
+      let itemFamily = i.family;
       if (itemFamily === ItemFamily.EPIC) {
         if (i.name.toUpperCase() === "GORTHDAR" && this.newClass === "BARBARIAN") {
           if (i.requiredLevel && i.requiredLevel <= this.level) {
@@ -1049,7 +1049,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       return 0;
     }
     let family= currentItem.family;
-    if (family.valueOf() !== ItemFamily.EPIC && family != ItemFamily.RAR && family != ItemFamily.SET) {
+    if (family !== ItemFamily.EPIC && family !== ItemFamily.RAR && family !== ItemFamily.SET) {
       return 0;
     }
 
@@ -1474,10 +1474,6 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
-    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
-  }
-
   //SAVING/LOADING
 
   private saveSimpleBuild(): SimpleBuild | undefined {
@@ -1813,7 +1809,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.itemToShow.upgradeTarget.valueOf() === upgradeTarget.valueOf()) {
       n += this.getUpgradeStats();
     }
-    if (this.itemToShow.family.valueOf() === ItemFamily.EPIC.valueOf() && upgradeTarget.valueOf() === UpgradeTarget.DAMAGE) {
+    if (this.itemToShow.family === ItemFamily.EPIC && upgradeTarget.valueOf() === UpgradeTarget.DAMAGE) {
       n += this.level;
     }
     if (n > 0) {
@@ -2149,9 +2145,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!item) {
       return "";
     }
-    let family = item.family.toString().toLowerCase();
+    let family = item.family.toLowerCase();
     if (!isNaN(Number(family))) {
-      family = ItemFamily[item.family].toLowerCase();
+      family = item.family.toLowerCase();
     }
     return family;
   }

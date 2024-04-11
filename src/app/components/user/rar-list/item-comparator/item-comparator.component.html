@@ -28,9 +28,9 @@
           </div>
         </div>
         <h3 [ngClass]="{
-        'classic-rar-name': isItemFamilyEqual(rar.family, ItemFamily.RAR),
-        'classic-epic-name': isItemFamilyEqual(rar.family, ItemFamily.EPIC),
-        'classic-set-name': isItemFamilyEqual(rar.family, ItemFamily.SET)}"
+        'classic-rar-name': rar.family === ItemFamily.RAR,
+        'classic-epic-name': rar.family === ItemFamily.EPIC,
+        'classic-set-name': rar.family === ItemFamily.SET}"
         >{{getTranslatedName(rar)}}</h3>
         <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center">
           <div>

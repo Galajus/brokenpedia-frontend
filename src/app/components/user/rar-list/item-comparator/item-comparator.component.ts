@@ -60,12 +60,12 @@ export class ItemComparatorComponent implements OnInit {
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
-    if (this.isItemFamilyEqual(rar.family, ItemFamily.EPIC)) {
+    if (rar.family === ItemFamily.EPIC) {
       let epic = this.fallBackEpics.find(e => e.name === rar.name);
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
       return;
     }
-    if (this.isItemFamilyEqual(rar.family, ItemFamily.SET)) {
+    if (rar.family === ItemFamily.SET) {
       let setItem: IncrustatedLegendaryItem | undefined;
       this.fallBackSets.forEach(i => setItem = i as IncrustatedLegendaryItem);
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, setItem);
@@ -73,12 +73,9 @@ export class ItemComparatorComponent implements OnInit {
     }
     this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, this.fallBackMonsters);
   }
-  isItemFamilyEqual(compare: ItemFamily, target: ItemFamily): boolean {
-    return compare === ItemFamily[target as unknown as keyof typeof ItemFamily] || compare.valueOf() === target;
-  }
 
   getTranslatedName(rar: IncrustatedLegendaryItem) {
-    if(rar.family === ItemFamily[ItemFamily.RAR as unknown as keyof typeof ItemFamily]) {
+    if(rar.family === ItemFamily.RAR) {
       return '"' + rar.translatedName + '"';
     }
     return rar.translatedName;
