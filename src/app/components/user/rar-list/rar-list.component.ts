@@ -141,6 +141,11 @@ export class RarListComponent implements OnInit, OnDestroy {
 
     this.rarListService.getAllSets()
       .subscribe(s => {
+        s.sort((a, b) => {
+          let levelA = a.setLegendaryItems[0]?.requiredLevel || 10;
+          let levelB = b.setLegendaryItems[0]?.requiredLevel || 10;
+          return levelA - levelB;
+        })
         this.fallBackSets = cloneDeep(s);
         this.sets = s;
         this.translateItemsAndMonsters(this.translate.currentLang);
