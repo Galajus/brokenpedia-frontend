@@ -75,7 +75,7 @@
       <li *ngIf="rar.capacity && rar.family !== ItemFamily.EPIC">{{ 'ITEMS_LIST.CAPACITY' | translate }}: {{ getItemCapacity(rar) }}</li>
       <li *ngIf="rar.value">{{ 'ITEMS_LIST.VALUE' | translate }}: {{ rar.value.toLocaleString() }} {{ 'ITEMS_LIST.GOLD' | translate }}
       </li>
-      <li *ngIf="ItemType[rar.type].toString() === ItemType.SHIELD.toString()"
+      <li *ngIf="rar.type === ItemType.SHIELD"
           style="color: red">{{ 'ITEMS_LIST.ONLY_KNIGHT' | translate }}
       </li>
       <li *ngIf="rar.requiredLevel">{{ 'ITEMS_LIST.REQUIRED_LEVEL' | translate }}: {{ rar.requiredLevel }}
@@ -186,27 +186,27 @@
             <mat-form-field style="width: 110px" appearance="outline" color="accent">
               <mat-label>{{ 'ITEMS_LIST.INCRUSTATION_TARGET' | translate }}</mat-label>
               <mat-select [(ngModel)]="targetIncrustationStat">
-                <mat-option value="evenly">{{ 'ITEMS_LIST.EVENLY' | translate }}</mat-option>
-                <mat-option value="random">{{ 'ITEMS_LIST.RANDOM' | translate }}</mat-option>
-                <mat-option value="strength" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.EVENLY">{{ 'ITEMS_LIST.EVENLY' | translate }}</mat-option>
+                <mat-option [value]="IncrustationTarget.RANDOM">{{ 'ITEMS_LIST.RANDOM' | translate }}</mat-option>
+                <mat-option [value]="IncrustationTarget.STRENGTH" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.STRENGTH' | translate }}
                 </mat-option>
-                <mat-option value="dexterity" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.DEXTERITY" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.DEXTERITY' | translate }}
                 </mat-option>
-                <mat-option value="power" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.POWER" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.POWER' | translate }}
                 </mat-option>
-                <mat-option value="knowledge" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.KNOWLEDGE" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}
                 </mat-option>
-                <mat-option value="health" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.HEALTH" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.HEALTH' | translate }}
                 </mat-option>
-                <mat-option value="mana" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.MANA" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.MANA' | translate }}
                 </mat-option>
-                <mat-option value="stamina" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
+                <mat-option [value]="IncrustationTarget.STAMINA" matTooltip="{{'ITEMS_LIST.INCRUSTATION_FALLBACK_TOOLTIP' | translate}}"
                             matTooltipPosition="after">{{ 'ITEMS_LIST.STAMINA' | translate }}
                 </mat-option>
               </mat-select>
@@ -334,7 +334,7 @@
                     <ul class="set-presentation">
                       <li class="classic-rar-name" *ngFor="let psycho of set.psychoEffects">{{'PSYCHO_EFFECTS.' + psycho.effect | translate}}: {{psycho.value}}{{willBePercent(psycho.effect)}}</li>
                       <li class="classic-set-name" *ngFor="let custom of set.customEffects">{{'CUSTOM_EFFECTS.' + custom.effect | translate}}: +{{custom.value}}</li>
-                      <li *ngIf="!isProfessionEqual(set.requiredClass, Profession.DEFAULT)" class="below-zero">{{'ITEMS_LIST.REQUIRED_CLASS' | translate}}: {{'BUILD_CALCULATOR.PROFESSION.' + set.requiredClass | translate}}</li>
+                      <li *ngIf="set.requiredClass !== Profession.DEFAULT" class="below-zero">{{'ITEMS_LIST.REQUIRED_CLASS' | translate}}: {{'BUILD_CALCULATOR.PROFESSION.' + set.requiredClass | translate}}</li>
                     </ul>
                   </div>
                 </div>

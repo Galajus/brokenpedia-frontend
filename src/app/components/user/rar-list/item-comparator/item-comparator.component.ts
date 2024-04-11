@@ -9,6 +9,7 @@ import {DamageType} from "@models/items/damageType";
 import {LegendaryItem} from "@models/items/legendaryItem";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 import {ItemFamily} from "@models/items/itemFamily";
+import {IncrustationTarget} from "@models/items/incrustationTarget";
 
 @Component({
   selector: 'app-item-comparator',
@@ -21,7 +22,7 @@ export class ItemComparatorComponent implements OnInit {
   fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
   fallBackSets!: IncrustatedLegendaryItem[];
   fallBackEpics!: IncrustatedLegendaryItem[];
-  targetIncrustationStat: string = "evenly";
+  targetIncrustationStat: IncrustationTarget = IncrustationTarget.EVENLY;
 
   protected readonly ItemType = ItemType;
   protected readonly Array = Array;

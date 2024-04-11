@@ -6,6 +6,7 @@ import {IncrustationBoost} from "@models/incrustation/incrustationBoost";
 import {ItemFamily} from "@models/items/itemFamily";
 import {LegendaryItem} from "@models/items/legendaryItem";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
+import {IncrustationTarget} from "@models/items/incrustationTarget";
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +99,7 @@ export class RarIncrustationService {
     }
   ];
 
-  doIncrustation(rar: IncrustatedLegendaryItem, targetIncrustationStat: string, fallBackMonsters?: MonsterWithIncrustatedLegendaryItems[], originalItem?: IncrustatedLegendaryItem) {
+  doIncrustation(rar: IncrustatedLegendaryItem, targetIncrustationStat: IncrustationTarget, fallBackMonsters?: MonsterWithIncrustatedLegendaryItems[], originalItem?: IncrustatedLegendaryItem) {
     let originalRarClone: IncrustatedLegendaryItem | undefined;
 
     if (!originalItem) {
@@ -201,7 +202,7 @@ export class RarIncrustationService {
     }
   }
 
-  private incrustateSelected(fullStat: number, remainingStat: number, statHolder: StatHolder[], targetIncrustationStat: string) {
+  private incrustateSelected(fullStat: number, remainingStat: number, statHolder: StatHolder[], targetIncrustationStat: IncrustationTarget) {
     let holder = statHolder.find(h => h.name === targetIncrustationStat);
     if (!holder) {
       this.incrustateEvenly(fullStat, remainingStat, statHolder);
@@ -215,7 +216,7 @@ export class RarIncrustationService {
 
     if (remainingStat != 0) {
       let byTenStats: StatHolder[];
-      if (targetIncrustationStat === "health" || targetIncrustationStat === "mana" || targetIncrustationStat === "stamina") {
+      if (targetIncrustationStat === IncrustationTarget.HEALTH || targetIncrustationStat === IncrustationTarget.MANA || targetIncrustationStat === IncrustationTarget.STAMINA) {
         byTenStats = statHolder.filter(h => h.name && h.name == targetIncrustationStat);
       } else {
         byTenStats = statHolder.filter(h => h.isBy10);
@@ -229,7 +230,7 @@ export class RarIncrustationService {
     }
   }
 
-  insertNewStatsToHolder(incrustationLevel: number | undefined, statHolder: StatHolder[], targetIncrustationStat: string) {
+  insertNewStatsToHolder(incrustationLevel: number | undefined, statHolder: StatHolder[], targetIncrustationStat: IncrustationTarget) {
     if (!incrustationLevel || !statHolder || statHolder.length == 0) {
       return;
     }
@@ -270,11 +271,11 @@ export class RarIncrustationService {
     let fullStat = Math.floor(statToAppend / 10);
     let remainingStat = Math.ceil(statToAppend % 10);
 
-    if (targetIncrustationStat == "evenly") {
+    if (targetIncrustationStat === IncrustationTarget.EVENLY) {
       this.incrustateEvenly(fullStat, remainingStat, statHolder);
       return;
     }
-    if (targetIncrustationStat == "random") {
+    if (targetIncrustationStat === IncrustationTarget.RANDOM) {
       this.incrustateRandom(fullStat, remainingStat, statHolder);
       return;
     }
@@ -322,49 +323,49 @@ export class RarIncrustationService {
     let statHolder: StatHolder[] = [];
     if (originalRar.strength) {
       statHolder.push({
-        name: "strength",
+        name: IncrustationTarget.STRENGTH,
         stat: originalRar.strength,
         isBy10: false
       });
     }
     if (originalRar.dexterity) {
       statHolder.push({
-        name: "dexterity",
+        name: IncrustationTarget.DEXTERITY,
         stat: originalRar.dexterity,
         isBy10: false
       });
     }
     if (originalRar.power) {
       statHolder.push({
-        name: "power",
+        name: IncrustationTarget.POWER,
         stat: originalRar.power,
         isBy10: false
       });
     }
     if (originalRar.knowledge) {
       statHolder.push({
-        name: "knowledge",
+        name: IncrustationTarget.KNOWLEDGE,
         stat: originalRar.knowledge,
         isBy10: false
       });
     }
     if (originalRar.health) {
       statHolder.push({
-        name: "health",
+        name: IncrustationTarget.HEALTH,
         stat: originalRar.health,
         isBy10: true
       });
     }
     if (originalRar.mana) {
       statHolder.push({
-        name: "mana",
+        name: IncrustationTarget.MANA,
         stat: originalRar.mana,
         isBy10: true
       });
     }
     if (originalRar.stamina) {
       statHolder.push({
-        name: "stamina",
+        name: IncrustationTarget.STAMINA,
         stat: originalRar.stamina,
         isBy10: true
       });

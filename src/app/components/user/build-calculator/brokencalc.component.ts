@@ -420,106 +420,109 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCurrentItemDrifs(item: IncrustatedLegendaryItem, family: ItemFamily) { //TODO
-    if (family.valueOf() === ItemFamily.EPIC.valueOf()) {
-      let drif2 = this.drifsFromDb.find(d => d.shortName === "band");
-      if (!drif2) {
-        throw new Error("drifs band set to epic error");
+    if (family !== ItemFamily.EPIC) {
+      return [];
+    }
+    let drif2 = this.drifsFromDb.find(d => d.shortName === "band");
+    if (!drif2) {
+      throw new Error("drifs band set to epic error");
+    }
+    let drifs: InventoryDrif[] = [
+      {
+        tier: 3,
+        level: 1,
+        drif: drif2
       }
-      let drifs: InventoryDrif[] = [
-        {
+    ];
+    switch (item.name.toUpperCase()) {
+      case "GORTHDAR": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "unn");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
+        }
+        drifs.push({
           tier: 3,
           level: 1,
-          drif: drif2
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "ŻMIJ": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "teld");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-      ];
-      switch (item.name.toUpperCase()) {
-        case "GORTHDAR": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "unn");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "ALLENOR": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "astah");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-        case "ŻMIJ": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "teld");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "LATARNIA ŻYCIA": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "err");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-        case "ALLENOR": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "astah");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "ATTAWA": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "oda");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-        case "LATARNIA ŻYCIA": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "err");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "IMISINDO": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "ling");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-        case "ATTAWA": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "oda");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      case "WASHI": {
+        let drif1 = this.drifsFromDb.find(d => d.shortName === "ulk");
+        if (!drif1) {
+          throw new Error("drifs dedicated set to epic error");
         }
-        case "IMISINDO": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "ling");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
-        }
-        case "WASHI": {
-          let drif1 = this.drifsFromDb.find(d => d.shortName === "ulk");
-          if (!drif1) {
-            throw new Error("drifs dedicated set to epic error");
-          }
-          drifs.push({
-            tier: 3,
-            level: 1,
-            drif: drif1
-          })
-          return drifs;
-        }
+        drifs.push({
+          tier: 3,
+          level: 1,
+          drif: drif1
+        })
+        return drifs;
+      }
+      default: {
+        return [];
       }
     }
-    return [];
   }
 
   canKeepOrb(rarRank: number, orb: Orb | undefined) { //TODO
@@ -562,72 +565,72 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     this.unavailableToChoose = [];
     switch (slot) {
       case InventorySlot.AMULET: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.AMULET]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.AMULET);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.RING_1:
       case InventorySlot.RING_2: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.RING]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.RING);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.HELMET: {
         let itemsToShow = this.itemsFromDb
-          .filter(i => i.type.toString() === ItemType[ItemType.HELMET]);
+          .filter(i => i.type === ItemType.HELMET);
         this.sortAvailableItems(cloneDeep(itemsToShow));
 
         break;
       }
       case InventorySlot.GLOVES: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.GLOVES]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.GLOVES);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.SHIELDORBRACES: {
         let itemsToShow = this.itemsFromDb
-          .filter(i => i.type.toString() === ItemType[ItemType.SHIELD] || i.type.toString() === ItemType[ItemType.BRACES]);
+          .filter(i => i.type === ItemType.SHIELD || i.type === ItemType.BRACES);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.ARMOR: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.ARMOR]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.ARMOR);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.CAPE: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.CAPE]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.CAPE);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.BELT: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.BELT]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.BELT);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.PANTS: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.PANTS]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.PANTS);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.BOOTS: {
-        let itemsToShow = this.itemsFromDb.filter(i => i.type.toString() === ItemType[ItemType.BOOTS]);
+        let itemsToShow = this.itemsFromDb.filter(i => i.type === ItemType.BOOTS);
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
       }
       case InventorySlot.WEAPON: {
         let itemsToShow = this.itemsFromDb
           .filter(i =>
-            i.type.toString() === ItemType[ItemType.SWORD] ||
-            i.type.toString() === ItemType[ItemType.AXE] ||
-            i.type.toString() === ItemType[ItemType.KNIFE] ||
-            i.type.toString() === ItemType[ItemType.HAMMER] ||
-            i.type.toString() === ItemType[ItemType.BOW] ||
-            i.type.toString() === ItemType[ItemType.STICK] ||
-            i.type.toString() === ItemType[ItemType.KNUCKLES] ||
-            i.type.toString() === ItemType[ItemType.SWORD_TH] ||
-            i.type.toString() === ItemType[ItemType.AXE_TH] ||
-            i.type.toString() === ItemType[ItemType.HAMMER_TH]
+            i.type === ItemType.SWORD ||
+            i.type === ItemType.AXE ||
+            i.type === ItemType.KNIFE ||
+            i.type === ItemType.HAMMER ||
+            i.type === ItemType.BOW ||
+            i.type === ItemType.STICK ||
+            i.type === ItemType.KNUCKLES ||
+            i.type === ItemType.SWORD_TH ||
+            i.type === ItemType.AXE_TH ||
+            i.type === ItemType.HAMMER_TH
           );
         this.sortAvailableItems(cloneDeep(itemsToShow));
         break;
@@ -714,7 +717,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       if (
-        ((i.type.toString() === ItemType[ItemType.SHIELD] && this.newClass === "KNIGHT") || i.type.toString() !== ItemType[ItemType.SHIELD]) &&
+        ((i.type === ItemType.SHIELD && this.newClass === "KNIGHT") || i.type !== ItemType.SHIELD) &&
         ((i.requiredLevel && i.requiredLevel <= this.level) || !i.requiredLevel) &&
         ((i.requiredStrength && i.requiredStrength <= str) || !i.requiredStrength) &&
         ((i.requiredDexterity && i.requiredDexterity <= dex) || !i.requiredDexterity) &&
@@ -738,7 +741,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     item.incrustationLevel--;
 
-    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, IncrustationTarget[item.incrustationTarget].toLowerCase(), undefined, original);
+    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, item.incrustationTarget, undefined, original);
     this.checkItemDrifSpace(item, 0);
     this.setDeducedValues(item);
   }
@@ -753,7 +756,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     item.incrustationLevel++;
 
-    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, IncrustationTarget[item.incrustationTarget].toLowerCase(), undefined, original);
+    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, item.incrustationTarget, undefined, original);
     this.setDeducedValues(item);
   }
 
@@ -769,13 +772,13 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setIncrustationTarget(item: InventoryItem, target: IncrustationTarget, checkStat?: number | undefined) {
-    if (!checkStat && target.valueOf() !== IncrustationTarget.EVENLY) {
+    if (!checkStat && target !== IncrustationTarget.EVENLY) {
       this.snackBar.open("Nie możesz inkrustować po statystyce nie będącej startową", "ok!", {duration: 4000})
       return;
     }
     item.incrustationTarget = target;
     let original = this.getOriginalItem(item);
-    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, IncrustationTarget[item.incrustationTarget].toLowerCase(), undefined, original);
+    this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, item.incrustationTarget, undefined, original);
   }
 
   checkItemDrifSpace(item: InventoryItem, tries: number) {
@@ -1492,7 +1495,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let stats = this.currentStats.map(stat => {
       let x: BuildSkillStatData = {
-        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == stat.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.STAT])?.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == stat.id && ssd.skillStatType == SkillStatType.STAT)?.id,
         skillStatId: stat.id,
         buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: stat.level,
@@ -1502,7 +1505,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let basicsSkills = this.currentBasicSkills.map(basic => {
       let x: BuildSkillStatData = {
-        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == basic.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.BASIC_SKILL])?.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == basic.id && ssd.skillStatType == SkillStatType.BASIC_SKILL)?.id,
         skillStatId: basic.id,
         buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: basic.level,
@@ -1512,7 +1515,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let classSkills = this.currentClassSkills.map(clas => {
       let x: BuildSkillStatData = {
-        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == clas.id && ssd.skillStatType.toString() == SkillStatType[SkillStatType.CLASS_SKILL])?.id,
+        id: this.databaseBuild?.buildDetails.skillStatData.find(ssd => ssd.skillStatId == clas.id && ssd.skillStatType == SkillStatType.CLASS_SKILL)?.id,
         skillStatId: clas.id,
         buildDetailsId: this.databaseBuild?.buildDetails.id ? this.databaseBuild.buildDetails.id : undefined,
         level: clas.level,
@@ -1629,21 +1632,21 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readSkillStatData(skillStatData: BuildSkillStatData[]) {
     skillStatData.forEach(data => {
-      if (data.skillStatType == SkillStatType.STAT || data.skillStatType.toString() == SkillStatType[SkillStatType.STAT]) {
+      if (data.skillStatType === SkillStatType.STAT) {
         let stat = this.currentStats.find(s => s.id == data.skillStatId);
         if (stat) {
           stat.level = data.level;
         }
         return;
       }
-      if (data.skillStatType == SkillStatType.BASIC_SKILL || data.skillStatType.toString() == SkillStatType[SkillStatType.BASIC_SKILL]) {
+      if (data.skillStatType === SkillStatType.BASIC_SKILL) {
         let stat = this.currentBasicSkills.find(s => s.id == data.skillStatId);
         if (stat) {
           stat.level = data.level;
         }
         return;
       }
-      if (data.skillStatType == SkillStatType.CLASS_SKILL || data.skillStatType == SkillStatType[SkillStatType.CLASS_SKILL]) {
+      if (data.skillStatType === SkillStatType.CLASS_SKILL) {
         let stat = this.currentClassSkills.find(s => s.id == data.skillStatId);
         if (stat) {
           stat.level = data.level;
@@ -1667,7 +1670,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let convertedItem = this.mapItemToInventoryItem(item);
       this.fillItemWithLocalData(localItem, convertedItem);
-      this.incrustationService.doIncrustation(convertedItem as IncrustatedLegendaryItem, IncrustationTarget[convertedItem.incrustationTarget].toLowerCase(), undefined, item);
+      this.incrustationService.doIncrustation(convertedItem as IncrustatedLegendaryItem, convertedItem.incrustationTarget, undefined, item);
       this.setDeducedValues(convertedItem);
       this.playerInventory.items.push(convertedItem);
     })
@@ -1806,10 +1809,10 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!n) {
       n = 0;
     }
-    if (this.itemToShow.upgradeTarget.valueOf() === upgradeTarget.valueOf()) {
+    if (this.itemToShow.upgradeTarget === upgradeTarget) {
       n += this.getUpgradeStats();
     }
-    if (this.itemToShow.family === ItemFamily.EPIC && upgradeTarget.valueOf() === UpgradeTarget.DAMAGE) {
+    if (this.itemToShow.family === ItemFamily.EPIC && upgradeTarget === UpgradeTarget.DAMAGE) {
       n += this.level;
     }
     if (n > 0) {
@@ -1826,21 +1829,21 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       return 0;
     }
 
-    if (target && target.valueOf() !== item.upgradeTarget.valueOf()) {
+    if (target && target !== item.upgradeTarget) {
       return 0;
     }
 
     let byTenBooster = 1;
     if (
-        item.upgradeTarget.valueOf() === UpgradeTarget.HEALTH ||
-        item.upgradeTarget.valueOf() === UpgradeTarget.MANA ||
-        item.upgradeTarget.valueOf() === UpgradeTarget.STAMINA
+        item.upgradeTarget === UpgradeTarget.HEALTH ||
+        item.upgradeTarget === UpgradeTarget.MANA ||
+        item.upgradeTarget === UpgradeTarget.STAMINA
     ) {
       byTenBooster = 10;
     }
 
     let upgradeBoost = item.upgradeBoost;
-    if (item.upgradeTarget.valueOf() === UpgradeTarget.DAMAGE) {
+    if (item.upgradeTarget === UpgradeTarget.DAMAGE) {
       return Math.ceil((item.upgradeLevel * 3) * (upgradeBoost + 1));
     }
 
@@ -2176,7 +2179,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
             stat = 0;
           }
           statSum += stat;
-          if (i.upgradeTarget.valueOf() === UpgradeTarget.HEALTH) {
+          if (i.upgradeTarget === UpgradeTarget.HEALTH) {
             statSum += this.getUpgradeStats(i);
           }
         });
@@ -2189,7 +2192,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.MANA) {
+            if (i.upgradeTarget === UpgradeTarget.MANA) {
                 statSum += this.getUpgradeStats(i);
             }
         });
@@ -2202,7 +2205,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.STAMINA) {
+            if (i.upgradeTarget === UpgradeTarget.STAMINA) {
                 statSum += this.getUpgradeStats(i);
             }
         });
@@ -2215,7 +2218,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.STRENGTH) {
+            if (i.upgradeTarget === UpgradeTarget.STRENGTH) {
                 statSum += this.getUpgradeStats(i);
             }
         });
@@ -2228,7 +2231,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.DEXTERITY) {
+            if (i.upgradeTarget === UpgradeTarget.DEXTERITY) {
                 statSum += this.getUpgradeStats(i);
             }
         });
@@ -2241,7 +2244,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.POWER) {
+            if (i.upgradeTarget === UpgradeTarget.POWER) {
                 statSum += this.getUpgradeStats(i);
             }
         });
@@ -2254,7 +2257,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
                 stat = 0;
             }
             statSum += stat;
-            if (i.upgradeTarget.valueOf() === UpgradeTarget.KNOWLEDGE) {
+            if (i.upgradeTarget === UpgradeTarget.KNOWLEDGE) {
                 statSum += this.getUpgradeStats(i);
             }
         });

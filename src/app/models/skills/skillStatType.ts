@@ -1,5 +1,5 @@
 export enum SkillStatType {
-  STAT,
-  BASIC_SKILL,
-  CLASS_SKILL
+  STAT = "STAT",
+  BASIC_SKILL = "BASIC_SKILL",
+  CLASS_SKILL = "CLASS_SKILL"
 }

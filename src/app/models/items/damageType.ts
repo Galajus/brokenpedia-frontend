@@ -1,5 +1,5 @@
 export enum DamageType {
-  SLASHING = <any>"Sieczne",
-  CRUSHING = <any>"Obuchowe",
-  PIERCING = <any>"Kłute"
+  SLASHING = "SLASHING",
+  CRUSHING = "CRUSHING",
+  PIERCING = "PIERCING"
 }

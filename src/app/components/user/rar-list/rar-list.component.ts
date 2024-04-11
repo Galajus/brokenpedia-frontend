@@ -16,6 +16,7 @@ import {ItemFamily} from "@models/items/itemFamily";
 import {ItemSet} from "@models/set/itemSet";
 import {Profession} from "@models/gameentites/profession";
 import {PsychoMod} from "@models/items/psychoMod";
+import {IncrustationTarget} from "@models/items/incrustationTarget";
 
 @Component({
   selector: 'app-rar-list',
@@ -49,7 +50,7 @@ export class RarListComponent implements OnInit, OnDestroy {
   searchMinLvl: number = 0;
   searchMaxLvl: number = 0;
   rotated: boolean = false;
-  targetIncrustationStat: string = "evenly";
+  targetIncrustationStat: IncrustationTarget = IncrustationTarget.EVENLY;
 
   page: number = 1;
 
@@ -269,7 +270,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     this.monsters = this.monsters.filter(m => {
       m.legendaryDrops = m.legendaryDrops.filter(r => {
-        return (((r.power || r.knowledge) || (!r.strength && !r.dexterity)) && ItemType[r.type].toString() !== ItemType.SHIELD.toString());
+        return (((r.power || r.knowledge) || (!r.strength && !r.dexterity)) && r.type !== ItemType.SHIELD);
       });
       if (m.legendaryDrops.length != 0) {
         return m;
@@ -284,7 +285,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     }
     this.monsters = this.monsters.filter(m => {
       m.legendaryDrops = m.legendaryDrops.filter(r => {
-        return ((r.strength || r.dexterity) || (!r.power && !r.knowledge) || ItemType[r.type].toString() === ItemType.SHIELD.toString());
+        return ((r.strength || r.dexterity) || (!r.power && !r.knowledge) || r.type === ItemType.SHIELD);
       });
       if (m.legendaryDrops.length != 0) {
         return m;
@@ -397,10 +398,6 @@ export class RarListComponent implements OnInit, OnDestroy {
     return rar.translatedName;
   }
 
-  isProfessionEqual(compare: Profession, target: Profession): boolean {
-    return compare === Profession[target as unknown as keyof typeof Profession] || compare.valueOf() === target;
-  }
-
   isUpperCase(s: string): boolean {
     return s !== s.toUpperCase();
   }
@@ -480,7 +477,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     let typesToSelect = this.getMultiSelectArray(multiToSelect);
     let selected = find.selected;
     this.typeSelector.options.forEach(o => {
-      let contains = typesToSelect.some(s => typesToSelect.includes(ItemType[o.value as unknown as keyof typeof ItemType]));
+      let contains = typesToSelect.some(s => typesToSelect.includes(o.value));
       if (contains) {
         if (selected) {
           o.select();
@@ -505,7 +502,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     if (option) {
       let multiSelectArray = this.getMultiSelectArray(typeFamily);
       let find = this.typeSelector.options.find(o => {
-        let itFind = multiSelectArray.find(s => multiSelectArray.includes(ItemType[o.value as unknown as keyof typeof ItemType]));
+        let itFind = multiSelectArray.find(s => multiSelectArray.includes(o.value));
         if (itFind) {
           return o.selected;
         }
@@ -569,7 +566,7 @@ export class RarListComponent implements OnInit, OnDestroy {
     this.targetIncrustationStat = data.targetIncrustationStat;
 
     if (!this.targetIncrustationStat) {
-      this.targetIncrustationStat = "evenly";
+      this.targetIncrustationStat = IncrustationTarget.EVENLY;
     }
   }
 
@@ -579,6 +576,7 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   protected readonly ItemFamily = ItemFamily;
   protected readonly Profession = Profession;
+  protected readonly IncrustationTarget = IncrustationTarget;
 }
 
 const epicsCustomDrifs: customEpicLore[] = [

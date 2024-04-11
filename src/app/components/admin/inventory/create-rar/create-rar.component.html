@@ -1,14 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
-  <mat-card fxFill>
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
-        <mat-label>DATA</mat-label>
-        <textarea fxFill matInput rows="12" (change)="read()" [(ngModel)]="textToRead" placeholder="item data"></textarea>
-        <button mat-raised-button color="primary" (click)="read()">CZYTAJ</button>
-        <button mat-raised-button color="accent" (click)="save()">ZAPISZ</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <button mat-raised-button color="accent" (click)="save()">ZAPISZ</button>
 
   <div [formGroup]="itemForm" fxLayout="column" fxLayoutGap="10">
     <h1>BASIC DATA</h1>
@@ -21,7 +12,7 @@
         <mat-label>type</mat-label>
         <mat-select formControlName="type">
           <div *ngFor="let type of getItemTypeKeyArray(ItemType)">
-            <mat-option [value]="type">{{type}}</mat-option>
+            <mat-option [value]="type">{{ type }}</mat-option>
           </div>
         </mat-select>
       </mat-form-field>
@@ -29,7 +20,7 @@
         <mat-label>family</mat-label>
         <mat-select formControlName="family">
           <div *ngFor="let family of getItemFamilyKeyArray(ItemFamily)">
-            <mat-option [value]="family">{{family}}</mat-option>
+            <mat-option [value]="family">{{ family }}</mat-option>
           </div>
         </mat-select>
       </mat-form-field>
@@ -53,13 +44,13 @@
     <mat-form-field appearance="fill">
       <mat-label>droppingMonsters</mat-label>
       <mat-select formControlName="droppingMonsters" multiple>
-        <mat-option *ngFor="let monster of monsters" [value]="monster">{{monster.name}}</mat-option>
+        <mat-option *ngFor="let monster of monsters" [value]="monster">{{ monster.name }}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>itemSet</mat-label>
       <mat-select formControlName="itemSet">
-        <mat-option *ngFor="let set of sets" [value]="set">{{set.name}}</mat-option>
+        <mat-option *ngFor="let set of sets" [value]="set">{{ set.name }}</mat-option>
       </mat-select>
     </mat-form-field>
     <h1>REQUIREMENTS</h1>
@@ -92,7 +83,7 @@
         <mat-label>damageType</mat-label>
         <mat-select formControlName="damageType">
           <div *ngFor="let type of getItemTypeKeyArray(DamageType)">
-            <mat-option [value]="type">{{type}}</mat-option>
+            <mat-option [value]="type">{{ type }}</mat-option>
           </div>
         </mat-select>
       </mat-form-field>
