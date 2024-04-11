@@ -862,7 +862,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   saveBuild(name: string) {
-    if (!this.drifs) {
+    if (!this.drifs || this.drifs.length === 0) {
       return;
     }
     let temp = this.userRarsWithDrifs.find(rars => rars.name === name);
