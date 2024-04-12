@@ -1,4 +1,4 @@
 export enum SuggestionType {
-  BUG = <any>"Błąd",
-  IDEA = <any>"Pomysł",
+  BUG = "BUG",
+  IDEA = "IDEA",
 }

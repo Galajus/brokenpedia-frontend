@@ -44,7 +44,7 @@
             <ng-container matColumnDef="type">
               <th mat-header-cell *matHeaderCellDef> {{'ORBS_TABLE.TYPE' | translate}}</th>
               <td mat-cell *matCellDef="let element">
-                <div class="orb-type-{{OrbType[element.orb.type]}}">
+                <div class="orb-type-{{element.orb.type}}">
                   {{'ORBS.TYPES.' + element.orb.type | translate}}
                 </div>
               </td>

@@ -19,8 +19,8 @@
               <mat-form-field style="width: 300px" appearance="outline" color="accent">
                 <mat-label>Podaj typ zgłoszenia</mat-label>
                 <mat-select formControlName="type">
-                  <mat-option [value]="SuggestionType[SuggestionType.IDEA]">{{SuggestionType.IDEA}}</mat-option>
-                  <mat-option [value]="SuggestionType[SuggestionType.BUG]">{{SuggestionType.BUG}}</mat-option>
+                  <mat-option [value]="SuggestionType[SuggestionType.IDEA]">Pomysł</mat-option>
+                  <mat-option [value]="SuggestionType[SuggestionType.BUG]">Błąd</mat-option>
                 </mat-select>
                 <mat-error *ngIf="suggestionForm.controls['type'].hasError">
                   Typ zgłoszenia jest wymagany

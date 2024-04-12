@@ -1,6 +1,6 @@
 export enum SkillDifficulty {
-  VERY_EASY = "Bardzo łatwa",
-  EASY = "Łatwa",
-  NORMAL = "Średnia",
-  HARD = "Wysoka"
+  VERY_EASY = "VERY_EASY",
+  EASY = "EASY",
+  NORMAL = "NORMAL",
+  HARD = "HARD"
 }

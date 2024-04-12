@@ -1,14 +1,14 @@
 export enum InventorySlot {
-  HELMET,
-  GLOVES,
-  SHIELDORBRACES,
-  BOOTS,
-  PANTS,
-  BELT,
-  ARMOR,
-  CAPE,
-  WEAPON,
-  AMULET,
-  RING_1,
-  RING_2
+  HELMET = "HELMET",
+  GLOVES = "GLOVES",
+  SHIELDORBRACES = "SHIELDORBRACES",
+  BOOTS = "BOOTS",
+  PANTS = "PANTS",
+  BELT = "BELT",
+  ARMOR = "ARMOR",
+  CAPE = "CAPE",
+  WEAPON = "WEAPON",
+  AMULET = "AMULET",
+  RING_1 = "RING_1",
+  RING_2 = "RING_2"
 }

@@ -1,5 +1,5 @@
 export enum UpgradeTarget {
-   DAMAGE = "DAMAGE",
+  DAMAGE = "DAMAGE",
   STRENGTH = "STRENGTH",
   DEXTERITY = "DEXTERITY",
   POWER = "POWER",

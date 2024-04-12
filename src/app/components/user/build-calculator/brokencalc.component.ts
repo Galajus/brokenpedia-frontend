@@ -819,7 +819,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   blockHideRar(e: MouseEvent, newSlot: InventorySlot) {
-    if (this.currentInventorySlot.toString() !== newSlot.toString()) {
+    if (this.currentInventorySlot !== newSlot) {
       let itemToShow = this.getItemFromPlayerInventoryByInventorySlot(newSlot);
       if (itemToShow) {
         this.itemToShow = itemToShow;

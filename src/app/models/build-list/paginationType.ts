@@ -1,5 +1,5 @@
 export enum PaginationType {
-  LEVEL,
-  PROFESSION,
-  PVP
+  LEVEL = "LEVEL",
+  PROFESSION = "PROFESSION",
+  PVP = "PVP"
 }
