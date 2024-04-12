@@ -1,5 +1,4 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {DrifItem} from "@models/drif/drifItem";
 import {DrifTier} from "@models/drif/drifTier";
 import amountReduction from "../../../models/drif/amountDrifReduction";
 import {RarCapacity} from "@models/drif/rarCapacity";
@@ -12,12 +11,14 @@ import {EpikItem} from "@models/drif/epikItem";
 import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "@models/drif/dragDrifItem";
-import {clone, cloneDeep, round} from "lodash-es";
+import {clone, cloneDeep} from "lodash-es";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {PsychoMod} from "@models/items/psychoMod";
 import {TranslateService} from "@ngx-translate/core";
-import {DrifSimulatorService} from "@services/user/drif-simulator/drif-simulator.service";
+import {DrifService} from "@services/user/drif/drif.service";
 import {DrifCategory} from "@models/drif/drifCategory";
+import {Drif} from "@models/drif/drif";
+import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 
 @Component({
   selector: 'app-drif-simulator',
@@ -33,168 +34,15 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   illuminatedMod: string = "";
   activeBuild: string = "temp";
   buildToClone: string = "";
-  drifs: DrifItem[] = [];
-
-
-  userRarsWithDrifs: UserRarsWithDrifs[] = [
-    {
-      name: "temp",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 1",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 2",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 3",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 4",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 5",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 6",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 7",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 8",
-      rarsWithDrifs: []
-    },
-    {
-      name: "build 9",
-      rarsWithDrifs: []
-    }
-  ];
-
-  rarsWithDrifsTemplate: RarWithDrifs[] = [
-    {
-      slot: 'weapon',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'helmet',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'armor',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'pants',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'boots',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'shield',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'belt',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'cape',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'gloves',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'amulet',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'ring1',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-    {
-      slot: 'ring2',
-      rank: 2,
-      ornaments: 1,
-      sidragaBoost: false,
-      drifItem1: null,
-      drifItem2: null,
-      drifItem3: null
-    },
-  ]
+  drifs: Drif[] = [];
+  buildNames: string[] = [ "temp", "build 1", "build 2", "build 3", "build 4", "build 5", "build 6", "build 7", "build 8", "build 9"]
+  userRarsWithDrifs: UserRarsWithDrifs[] = [];
 
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
-    private drifSimulatorService: DrifSimulatorService
+    protected drifService: DrifService
   ) {
   }
 
@@ -203,10 +51,11 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   initData() {
+    this.generateUserRarsWithDrifs();
     this.fillUserRars();
-    this.drifSimulatorService.getAllDrifs()
+    this.drifService.getAllDrifs()
       .subscribe(d => {
-        this.drifs = this.drifSimulatorService.remapDbDrifs(d);
+        this.drifs = d;
         this.load();
       });
   }
@@ -216,16 +65,41 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   fillUserRars() {
-    //.userRarsWithDrifs.forEach(rars => rars.rarsWithDrifs = Object.assign({}, this.rarsWithDrifsTemplate));
-    this.userRarsWithDrifs.forEach(rars => rars.rarsWithDrifs = JSON.parse(JSON.stringify(this.rarsWithDrifsTemplate)));
+    this.userRarsWithDrifs.forEach(rars => rars.rarsWithDrifs = this.generateRarsWithDrifsTemplate());
   }
 
   resetBuild(name: string) {
     let userRarsWithDrifs = this.userRarsWithDrifs.find(userRars => userRars.name === name);
     if (userRarsWithDrifs) {
-      userRarsWithDrifs.rarsWithDrifs = JSON.parse(JSON.stringify(this.rarsWithDrifsTemplate));
+      userRarsWithDrifs.rarsWithDrifs = this.generateRarsWithDrifsTemplate();
       this.calculateModSummary();
     }
+  }
+
+  generateRarsWithDrifsTemplate() {
+    let rarsWithDrifsTemplate: RarWithDrifs[] = [];
+    const slotKeys = Object.keys(InventorySlot)  as (keyof typeof InventorySlot)[];
+    slotKeys.forEach(k => {
+      rarsWithDrifsTemplate.push({
+        slot: InventorySlot[k],
+        rank: 2,
+        ornaments: 1,
+        sidragaBoost: false,
+        drifItem1: null,
+        drifItem2: null,
+        drifItem3: null
+      })
+    })
+    return rarsWithDrifsTemplate;
+  }
+
+  generateUserRarsWithDrifs() {
+    this.buildNames.forEach(n => {
+      this.userRarsWithDrifs.push({
+        name: n,
+        rarsWithDrifs: []
+      })
+    })
   }
 
   getActiveBuild() {
@@ -242,11 +116,11 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.calculateModSummary();
   }
 
-  openDrifDialog(enterAnimationDuration: string, exitAnimationDuration: string, rarWithDrifs: RarWithDrifs, drifSlot: number): void {
+  openDrifDialog(rarWithDrifs: RarWithDrifs, drifSlot: number): void {
     const dialogRef = this.dialog.open(DrifSelectComponent, {
       width: '1000px',
-      enterAnimationDuration,
-      exitAnimationDuration,
+      enterAnimationDuration: '100ms',
+      exitAnimationDuration: '100ms',
       data: {
         leftPower: this.getLeftPower(rarWithDrifs.slot, drifSlot),
         rarRank: rarWithDrifs.rank,
@@ -394,7 +268,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getDrifMaxLevel(drif: DrifItem | null): number {
+  private getDrifMaxLevel(drif: Drif | null): number {
     if (!drif) {
       return 0;
     }
@@ -490,67 +364,45 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     })
   }
 
-  countMod(drif: DrifItem, ornaments: number, sidragaBoost: boolean) {
-    let drifTier = drifTiers.filter(drifTier => drifTier.tier === drif.tier)[0];
-    let psychoMod = drif.psychoMod;
+  countMod(drif: Drif, ornaments: number, sidragaBoost: boolean) {
+    const drifTier = drifTiers.filter(drifTier => drifTier.tier === drif.tier)[0];
+    const psychoMod = drif.psychoMod;
+    const drifLevel = drif?.level || 1;
+    const currentDrifTier = drif.tier || 1;
     let modSummary = this.modSummary.find(modSum => modSum.mod === psychoMod);
     if (modSummary) {
       let toAdd = 0;
-      toAdd += drif.level * drif.psychoGrowByLevel;
-      toAdd += drif.psychoGrowByLevel * (drif.tier - 1);
-      if (drif.tier === 3) {
+      toAdd += drifLevel * drif.psychoGrowByLevel;
+      toAdd += drif.psychoGrowByLevel * (currentDrifTier - 1);
+      if (currentDrifTier === 3) {
         toAdd += drif.psychoGrowByLevel;
       }
-      if (drif.tier === 4) {
+      if (currentDrifTier === 4) {
         toAdd += drif.psychoGrowByLevel * 2;
       }
       modSummary.amountDrifs++;
-      //modSummary.modSum += drif.level * drif.psychoGrowByLevel;
-      //modSummary.modSum += drif.psychoGrowByLevel * (drif.tier - 1);
-      if (drifTier.tier === 4 && drif.level >= 19) {
-        //modSummary.modSum += (drif.level - 18) * drif.psychoGrowByLevel;
-        toAdd += (drif.level - 18) * drif.psychoGrowByLevel;
+      //modSummary.modSum += drifLevel * drif.psychoGrowByLevel;
+      //modSummary.modSum += drif.psychoGrowByLevel * (currentDrifTier - 1);
+      if (drifTier.tier === 4 && drifLevel >= 19) {
+        //modSummary.modSum += (drifLevel - 18) * drif.psychoGrowByLevel;
+        toAdd += (drifLevel - 18) * drif.psychoGrowByLevel;
       }
-      let specialBoost = 1;
-      if (sidragaBoost) {
-        specialBoost += 0.15;
-      }
-      if (ornaments === 7) {
-        specialBoost += 0.03;
-      }
-      if (ornaments === 8) {
-        specialBoost += 0.08;
-      }
-      if (ornaments === 9) {
-        specialBoost += 0.15;
-      }
+      let specialBoost = this.countSpecialBoost(sidragaBoost, ornaments);
       toAdd = toAdd * specialBoost;
       modSummary.modSum += toAdd;
     } else {
-      let value = drif.level * drif.psychoGrowByLevel;
-      value += drif.psychoGrowByLevel * (drif.tier - 1);
-      if (drifTier.tier === 4 && drif.level >= 19) {
-        value += (drif.level - 18) * drif.psychoGrowByLevel;
+      let value = drifLevel * drif.psychoGrowByLevel;
+      value += drif.psychoGrowByLevel * (currentDrifTier - 1);
+      if (drifTier.tier === 4 && drifLevel >= 19) {
+        value += (drifLevel - 18) * drif.psychoGrowByLevel;
       }
-      if (drif.tier === 3) {
+      if (currentDrifTier === 3) {
         value += drif.psychoGrowByLevel;
       }
-      if (drif.tier === 4) {
+      if (currentDrifTier === 4) {
         value += drif.psychoGrowByLevel * 2;
       }
-      let specialBoost = 1;
-      if (sidragaBoost) {
-        specialBoost += 0.15;
-      }
-      if (ornaments === 7) {
-        specialBoost += 0.03;
-      }
-      if (ornaments === 8) {
-        specialBoost += 0.08;
-      }
-      if (ornaments === 9) {
-        specialBoost += 0.15;
-      }
+      let specialBoost = this.countSpecialBoost(sidragaBoost, ornaments);
       value = value * specialBoost;
       let modCap = modCaps.find(capped => capped.mod === psychoMod);
       this.modSummary.push({
@@ -562,6 +414,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         max: modCap?.value
       })
     }
+  }
+
+  countSpecialBoost(sidragaBoost: boolean, ornaments: number) {
+    let specialBoost = 1;
+    if (sidragaBoost) {
+      specialBoost += 0.15;
+    }
+    if (ornaments === 7) {
+      specialBoost += 0.03;
+    }
+    if (ornaments === 8) {
+      specialBoost += 0.08;
+    }
+    if (ornaments === 9) {
+      specialBoost += 0.15;
+    }
+    return specialBoost;
   }
 
   private calculateRealModSum() {
@@ -582,19 +451,19 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     switch (drifSlot) {
       case 1: {
         if (rarWithDrifs.drifItem1) {
-          return rarWithDrifs.drifItem1.tier;
+          return rarWithDrifs.drifItem1.tier  || 1;
         }
         break;
       }
       case 2: {
         if (rarWithDrifs.drifItem2) {
-          return rarWithDrifs.drifItem2.tier;
+          return rarWithDrifs.drifItem2.tier  || 1;
         }
         break;
       }
       case 3: {
         if (rarWithDrifs.drifItem3) {
-          return rarWithDrifs.drifItem3.tier;
+          return rarWithDrifs.drifItem3.tier  || 1;
         }
         break;
       }
@@ -603,30 +472,23 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   private getDrifLevel(rarWithDrifs: RarWithDrifs, drifSlot: number): number {
-    switch (drifSlot) {
-      case 1: {
-        if (rarWithDrifs.drifItem1) {
-          return rarWithDrifs.drifItem1.level;
-        }
-        break;
-      }
-      case 2: {
-        if (rarWithDrifs.drifItem2) {
-          return rarWithDrifs.drifItem2.level;
-        }
-        break;
-      }
-      case 3: {
-        if (rarWithDrifs.drifItem3) {
-          return rarWithDrifs.drifItem3.level;
-        }
-        break;
-      }
+    if (drifSlot === 1) {
+      return rarWithDrifs?.drifItem1?.level || 0;
+    }
+    if (drifSlot === 2) {
+      return rarWithDrifs?.drifItem2?.level || 0;
+    }
+    if (drifSlot === 3) {
+      return rarWithDrifs?.drifItem3?.level || 0;
     }
     return 0;
   }
 
-  private assignDrifToItem(drif: DrifItem, rarWithDrifs: RarWithDrifs, slot: number) {
+  countUsedPower(eq: RarWithDrifs) {
+    return this.drifService.countUsedPower(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.ornaments, eq.rank)
+  }
+
+  private assignDrifToItem(drif: Drif, rarWithDrifs: RarWithDrifs, slot: number) {
 
     switch (slot) {
       case 1: {
@@ -656,7 +518,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  cloneDrif(drif: DrifItem | null) {
+  cloneDrif(drif: Drif | null) {
     if (!drif) {
       return null;
     }
@@ -668,7 +530,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       psychoMod: drif.psychoMod,
       category: drif.category,
       shortName: drif.shortName
-    } as DrifItem;
+    } as Drif;
   }
 
   maximiseDrifLevels() {
@@ -694,7 +556,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private doMaximiseLevel(drif: DrifItem, rar: RarWithDrifs) {
+  private doMaximiseLevel(drif: Drif, rar: RarWithDrifs) {
     let tier = drifTiers.find(drifTier => drifTier.tier === drif.tier);
     if (!tier) {
       console.log("FATAL ERROR: Tier not found")
@@ -721,13 +583,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     let drifItem2 = rarWithDrif.drifItem2;
     let drifItem3 = rarWithDrif.drifItem3;
     if (drifItem1 != null && modSlot != 1) {
-      leftPower -= drifItem1.startPower * this.getDrifPowerBooster(drifItem1.level);
+      leftPower -= this.drifService.getDrifPower(drifItem1.startPower, drifItem1.level || 1);
     }
     if (drifItem2 != null && modSlot != 2) {
-      leftPower -= drifItem2.startPower * this.getDrifPowerBooster(drifItem2.level);
+      leftPower -= this.drifService.getDrifPower(drifItem2.startPower, drifItem2.level || 1);
     }
     if (drifItem3 != null && modSlot != 3) {
-      leftPower -= drifItem3.startPower * this.getDrifPowerBooster(drifItem3.level);
+      leftPower -= this.drifService.getDrifPower(drifItem3.startPower, drifItem3.level || 1);
     }
     return leftPower;
   }
@@ -737,36 +599,6 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     let usedPower = this.countUsedPower(rarWithDrifs);
     let leftPower = cap - usedPower;
     return leftPower + "/" + cap;
-  }
-
-   countUsedPower(rarWithDrifs: RarWithDrifs) {
-    let usedPower = 0;
-
-    let drifItem1 = rarWithDrifs.drifItem1;
-    let drifItem2 = rarWithDrifs.drifItem2;
-    let drifItem3 = rarWithDrifs.drifItem3;
-    if (drifItem1) {
-      usedPower += this.getDrifPower(drifItem1.startPower, drifItem1.level);
-    }
-    if (drifItem2 && (rarWithDrifs.rank >= 4 || rarWithDrifs.ornaments >=7)) {
-      usedPower += this.getDrifPower(drifItem2.startPower, drifItem2.level);
-    }
-    if (drifItem3  && rarWithDrifs.rank >= 10) {
-      usedPower += this.getDrifPower(drifItem3.startPower, drifItem3.level);
-    }
-    return usedPower;
-  }
-
-  getDrifPower(startPower: number, level: number) {
-    return startPower * this.getDrifPowerBooster(level);
-  }
-
-  getDrifPowerBooster(level: number) {
-    let booster = round((level + 1)/ 5, 0);
-    if (booster === 0) {
-      return 1;
-    }
-    return booster;
   }
 
   getPowerCapacityByRank(rar: RarWithDrifs): number {
@@ -788,7 +620,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return capacity;
   }
 
-  getButtonColorClassByDrifCategory(drif: DrifItem): string {
+  getButtonColorClassByDrifCategory(drif: Drif): string {
     switch (drif.category) {
       case DrifCategory.REDUCTION: {
         if (drif.shortName === this.illuminatedMod) {
@@ -924,8 +756,19 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         if (!r.ornaments) {
           r.ornaments = 1;
         }
+        if (r.slot.toString() === "shield") {
+          r.slot = InventorySlot.SHIELDORBRACES;
+        }
+        if (r.slot.toString() === "ring1") {
+          r.slot = InventorySlot.RING_1;
+        }
+        if (r.slot.toString() === "ring2") {
+          r.slot = InventorySlot.RING_2;
+        }
+        r.slot = <InventorySlot>r.slot.toUpperCase();
       })
     })
+
     this.calculateModSummary();
   }
 
@@ -989,7 +832,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeDrifOnItem(rar: RarWithDrifs, drif: DrifItem | null, slot: number) {
+  changeDrifOnItem(rar: RarWithDrifs, drif: Drif | null, slot: number) {
     switch (slot) {
       case 0: {
         rar.drifItem1 = this.cloneDrif(drif);
@@ -1007,7 +850,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDragDrifItemArray(drif1: DrifItem | null, drif2: DrifItem | null, drif3: DrifItem | null, item: string) {
+  getDragDrifItemArray(drif1: Drif | null, drif2: Drif | null, drif3: Drif | null, item: string) {
     let array: DragDrifItem[] = [
       {
         drif: drif1,
@@ -1027,6 +870,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     ];
     return array;
   }
+
+  protected readonly InventorySlot = InventorySlot;
+
 }
 
 const epikItems: EpikItem[] = [

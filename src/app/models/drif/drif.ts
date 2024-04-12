@@ -7,6 +7,7 @@ export interface Drif {
   startPower: number,
   psychoGrowByLevel: number,
   category: DrifCategory,
-  psychoMod: PsychoMod
-
+  psychoMod: PsychoMod,
+  tier?: number,
+  level?: number
 }

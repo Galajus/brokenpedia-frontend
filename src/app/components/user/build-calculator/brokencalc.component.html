@@ -485,7 +485,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_1) as item" class="item ring1" (click)="changeItemsToShow(InventorySlot.RING_1, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_1) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring1.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/ring_1.png" width="31" height="23" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
@@ -495,7 +495,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_2) as item" class="item ring2"  (click)="changeItemsToShow(InventorySlot.RING_2, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_2) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring2.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/ring_2.png" width="31" height="23" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
@@ -505,7 +505,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.SHIELDORBRACES) as item" class="item shield"  (click)="changeItemsToShow(InventorySlot.SHIELDORBRACES, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.SHIELDORBRACES) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="" style="border-radius: 50%;">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/shield.png" width="32" height="57" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/shieldorbraces.png" width="32" height="57" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>

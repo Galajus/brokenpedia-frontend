@@ -35,7 +35,7 @@ import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 import {cloneDeep, floor} from "lodash-es";
 import {MatSliderChange} from "@angular/material/slider";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
-import resistances from "@models/resistances/resistances";
+import resistances from "@models/build-calculator/resistances";
 import deducedInventoryItemValuesTable from "@models/build-calculator/inventory/deducedInventoryItemValues";
 import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "@models/drif/modCap";
@@ -52,6 +52,7 @@ import {PsychoMod} from "@models/items/psychoMod";
 import {Skill} from "@models/skills/skill";
 import {Build} from "@models/build-calculator/build";
 import {DrifCategory} from "@models/drif/drifCategory";
+import {DrifService} from "@services/user/drif/drif.service";
 
 @Component({
   selector: 'app-brokencalc',
@@ -108,7 +109,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('saveButton') saveButton!: MatButton;
   @ViewChild('rar') rarRef!: ElementRef;
   @ViewChild('drifShow') drifLevelRef!: ElementRef;
-  @ViewChild('drifDesc') drifDescRef!: ElementRef;
+  /*@ViewChild('drifDesc') drifDescRef!: ElementRef;*/
   @ViewChild('upgradeShow') upgradeDescRef!: ElementRef;
 
   //BUILD CALC
@@ -196,6 +197,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackBar: MatSnackBar,
     private buildCalculatorService: BuildCalculatorService,
     private incrustationService: RarIncrustationService,
+    private drifService: DrifService,
     protected jwtService: JwtService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -761,7 +763,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setDeducedValues(item: InventoryItem) {
-    const values = deducedInventoryItemValuesTable[item.incrustationLevel-1];
+    let values = deducedInventoryItemValuesTable[item.incrustationLevel-1];
     item.drifBoost = values.drifBoost;
     item.orbBoost = values.orbBoost;
     item.upgradeBoost = values.upgradeBoost;
@@ -908,10 +910,8 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   cantPutDrifTier(tier: number) {
     let currentItem = this.getItemFromPlayerInventoryByCurrentSlot();
-    if (!currentItem) {
-      return true;
-    }
-    if (currentItem.family === ItemFamily.EPIC) {
+
+    if (!currentItem || currentItem.family === ItemFamily.EPIC) {
       return true;
     }
     let usedCapacity = this.getUsedItemCapacity(currentItem);
@@ -919,34 +919,16 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     let remainingCapacity = availableCapacity - usedCapacity;
 
     let editedDrif = currentItem.drifs[this.drifSlot];
-    if (editedDrif) {
-      remainingCapacity += editedDrif.tier * editedDrif.drif.startPower;
-    }
+    remainingCapacity += editedDrif ? this.drifService.getDrifLevelTier(editedDrif.level) * editedDrif.drif.startPower : 0;
 
     if (remainingCapacity === 0) {
       return true;
     }
 
-    if (tier === 4 && currentItem.rank < 10) {
-      return true;
-    }
-    if (tier === 3 && currentItem.rank < 7) {
-      return true;
-    }
-    if (tier === 2 && currentItem.rank < 4) {
-      return true;
-    }
+    let rank = currentItem.rank;
+    /*return (tier === 4 && rank < 10) || (tier === 3 && rank < 7) || (tier === 2 && rank < 4);*/
+    return tier === 4 ? rank < 10 : tier === 3 ? rank < 7 : tier === 2 ? rank < 4 : false;
 
-    if (currentItem.rank >= 10 && remainingCapacity >= 4) {
-      return false;
-    }
-    if (currentItem.rank >= 7 && remainingCapacity >= 3) {
-      return false;
-    }
-    if (currentItem.rank >= 4 && remainingCapacity >= 2) {
-      return false;
-    }
-    return false;
   }
 
   cantPutDrif(drifName: string) {
@@ -1023,19 +1005,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       if (skipIndex === index) {
         return;
       }
-      if (d.level <= 6) {
-        usedCapacity += d.drif.startPower;
-        return;
-      }
-      if (d.level <= 11) {
-        usedCapacity += d.drif.startPower * 2;
-        return;
-      }
-      if (d.level <= 16) {
-        usedCapacity += d.drif.startPower * 3;
-        return;
-      }
-      usedCapacity += d.drif.startPower * 4;
+      usedCapacity += this.drifService.getDrifPower(d.drif.startPower, d.level);
     })
 
     return usedCapacity;
@@ -2363,7 +2333,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly ItemFamily = ItemFamily;
 }
 
-const sortItems = (a: IncrustatedLegendaryItem, b: IncrustatedLegendaryItem) => {
+let sortItems = (a: IncrustatedLegendaryItem, b: IncrustatedLegendaryItem) => {
   if ((!a.requiredLevel || !b.requiredLevel) || (!a.requiredLevel && !b.requiredLevel)) {
     return 0;
   }

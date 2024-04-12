@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {DrifItem} from "@models/drif/drifItem";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {round} from "lodash-es";
 import {PsychoMod} from "@models/items/psychoMod";
 import {DrifCategory} from "@models/drif/drifCategory";
+import {Drif} from "@models/drif/drif";
 
 @Component({
   selector: 'app-drif-select',
@@ -15,7 +15,7 @@ export class DrifSelectComponent implements OnInit {
   protected readonly PsychoMod = PsychoMod;
   protected readonly Object = Object;
 
-  drifs: DrifItem[];
+  drifs: Drif[];
   drifTier: number = 1;
   leftPower: number = 0;
   drifLevel: number = 0;
@@ -45,19 +45,19 @@ export class DrifSelectComponent implements OnInit {
     return (<any>PsychoMod)[mod];
   }
 
-  getReduction(): DrifItem[] {
+  getReduction(): Drif[] {
     return this.drifs.filter(d => d.category === DrifCategory.REDUCTION);
   }
-  getDamage(): DrifItem[] {
+  getDamage(): Drif[] {
     return this.drifs.filter(d => d.category === DrifCategory.DAMAGE);
   }
-  getSpecial(): DrifItem[] {
+  getSpecial(): Drif[] {
     return this.drifs.filter(d => d.category === DrifCategory.SPECIAL);
   }
-  getDefence(): DrifItem[] {
+  getDefence(): Drif[] {
     return this.drifs.filter(d => d.category === DrifCategory.DEFENCE);
   }
-  getAccuracy(): DrifItem[] {
+  getAccuracy(): Drif[] {
     return this.drifs.filter(d => d.category === DrifCategory.ACCURACY);
   }
 
@@ -65,7 +65,7 @@ export class DrifSelectComponent implements OnInit {
     this.drifTier = number;
   }
 
-  close(drif: DrifItem) {
+  close(drif: Drif) {
     drif.tier = this.drifTier;
     if (this.drifLevel === 0) {
       this.drifLevel = 1;

@@ -18,7 +18,7 @@
         <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1"> <!--cdkDropListGroup-->
           <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
             <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
-              <img src="assets/equipment/placeholders/{{eq.slot}}.png" alt="{{eq.slot}}">
+              <img src="assets/equipment/placeholders/{{eq.slot.toLocaleLowerCase()}}.png" alt="{{eq.slot}}">
               <div *ngIf="eq.rank <= 12" class="capacity">{{printUsedCapacity(eq)}}</div>
             </div>
             <div fxLayout="column" fxLayoutAlign="center center" style="padding-bottom: 2px">
@@ -56,13 +56,13 @@
                   <mat-option [value]=10>X</mat-option>
                   <mat-option [value]=11>XI</mat-option>
                   <mat-option [value]=12>XII</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=13>Żmij</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=14>Gorthdar</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=15>Attawa</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=16>Imisindo</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=17>Washi</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=18>Allenor</mat-option>
-                  <mat-option *ngIf="eq.slot === 'weapon'" [value]=19>Latarnia Życia</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=13>Żmij</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=14>Gorthdar</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=15>Attawa</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=16>Imisindo</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=17>Washi</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=18>Allenor</mat-option>
+                  <mat-option *ngIf="eq.slot === InventorySlot.WEAPON" [value]=19>Latarnia Życia</mat-option>
                 </mat-select>
               </mat-form-field>
               <div *ngIf="eq.rank > 12" fxLayout="column" fxLayoutAlign="center center">
@@ -112,18 +112,18 @@
               <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center"> <!--cdkDropList [cdkDropListData]="getDragDrifItemArray(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.slot)" (cdkDropListDropped)="drop($event)"-->
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                        (click)="openDrifDialog( eq, 1)">
                   [MOD 1]
                 </button>
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
-                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                        (click)="openDrifDialog( eq, 1)">
                   [MOD 1]
                 </button>
                 <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem1)" mat-flat-button color="warn"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 1)">
+                        (click)="openDrifDialog( eq, 1)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
                       {{eq.drifItem1.shortName}}
@@ -133,7 +133,7 @@
                         T{{eq.drifItem1.tier}}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level)}}
+                        P{{drifService.getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level  || 1)}}
                       </div>
                     </div>
                   </div>
@@ -141,18 +141,18 @@
 
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                        (click)="openDrifDialog( eq, 2)">
                   [MOD 2]
                 </button>
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
-                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                        (click)="openDrifDialog( eq, 2)">
                   [MOD 2]
                 </button>
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2" style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 2)">
+                        (click)="openDrifDialog( eq, 2)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
                       {{eq.drifItem2.shortName}}
@@ -162,7 +162,7 @@
                         T{{eq.drifItem2.tier}}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level)}}
+                        P{{drifService.getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level  || 1)}}
                       </div>
                     </div>
                   </div>
@@ -170,18 +170,18 @@
 
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                        (click)="openDrifDialog( eq, 3)">
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
-                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                        (click)="openDrifDialog( eq, 3)">
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem3)" mat-flat-button color="warn"
-                        (click)="openDrifDialog('100ms', '100ms', eq, 3)">
+                        (click)="openDrifDialog( eq, 3)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
                       {{eq.drifItem3.shortName}}
@@ -191,7 +191,7 @@
                         T{{eq.drifItem3.tier}}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level)}}
+                        P{{drifService.getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level  || 1)}}
                       </div>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
-import {DrifItem} from "./drifItem";
+import {Drif} from "@models/drif/drif";
 
 export interface DragDrifItem {
-  drif: DrifItem | null,
+  drif: Drif | null,
   fromSlot: number,
   item: string
 }

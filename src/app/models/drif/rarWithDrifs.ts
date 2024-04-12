@@ -1,11 +1,12 @@
-import {DrifItem} from "./drifItem";
+import {Drif} from "@models/drif/drif";
+import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 
 export interface RarWithDrifs {
-  slot: string,
+  slot: InventorySlot,
   rank: number,
   ornaments: number,
   sidragaBoost: boolean,
-  drifItem1: DrifItem | null;
-  drifItem2: DrifItem | null;
-  drifItem3: DrifItem | null;
+  drifItem1: Drif | null;
+  drifItem2: Drif | null;
+  drifItem3: Drif | null;
 }
