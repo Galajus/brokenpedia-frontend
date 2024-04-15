@@ -1,4 +1,4 @@
-import {PsychoMod} from "../items/psychoMod";
+import {PsychoMod} from "../../items/psychoMod";
 
 export interface ModCap {
   mod: PsychoMod,

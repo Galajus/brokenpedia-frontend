@@ -6,11 +6,11 @@
           <div *ngFor="let userRars of userRarsWithDrifs">
             <button *ngIf="activeBuild === userRars.name" style="width: 80px" mat-flat-button color="primary"
                     (click)="setActiveBuild(userRars.name)">
-              {{userRars.name}}
+              {{ userRars.name }}
             </button>
             <button *ngIf="activeBuild !== userRars.name" style="width: 80px" mat-flat-button color="accent"
                     (click)="setActiveBuild(userRars.name)">
-              {{userRars.name}}
+              {{ userRars.name }}
             </button>
           </div>
 
@@ -19,7 +19,7 @@
           <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
             <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
               <img src="assets/equipment/placeholders/{{eq.slot.toLocaleLowerCase()}}.png" alt="{{eq.slot}}">
-              <div *ngIf="eq.rank <= 12" class="capacity">{{printUsedCapacity(eq)}}</div>
+              <div *ngIf="eq.rank <= 12" class="capacity">{{ printUsedCapacity(eq) }}</div>
             </div>
             <div fxLayout="column" fxLayoutAlign="center center" style="padding-bottom: 2px">
               <p class="sidraga">sidraga boost</p>
@@ -70,53 +70,55 @@
                   <mat-label>Krytyk</mat-label>
                   <mat-select [(ngModel)]="getActiveBuild().critEpicModLevel" (selectionChange)="calculateModSummary()">
                     <mat-option [value]=1>1</mat-option>
-                    <mat-option [value]="Number(2)">2</mat-option>
-                    <mat-option [value]="Number(3)">3</mat-option>
-                    <mat-option [value]="Number(4)">4</mat-option>
-                    <mat-option [value]="Number(5)">5</mat-option>
-                    <mat-option [value]="Number(6)">6</mat-option>
-                    <mat-option [value]="Number(7)">7</mat-option>
-                    <mat-option [value]="Number(8)">8</mat-option>
-                    <mat-option [value]="Number(9)">9</mat-option>
-                    <mat-option [value]="Number(10)">10</mat-option>
-                    <mat-option [value]="Number(11)">11</mat-option>
-                    <mat-option [value]="Number(12)">12</mat-option>
-                    <mat-option [value]="Number(13)">13</mat-option>
-                    <mat-option [value]="Number(14)">14</mat-option>
+                    <mat-option [value]=2>2</mat-option>
+                    <mat-option [value]=3>3</mat-option>
+                    <mat-option [value]=4>4</mat-option>
+                    <mat-option [value]=5>5</mat-option>
+                    <mat-option [value]=6>6</mat-option>
+                    <mat-option [value]=7>7</mat-option>
+                    <mat-option [value]=8>8</mat-option>
+                    <mat-option [value]=9>9</mat-option>
+                    <mat-option [value]=10>10</mat-option>
+                    <mat-option [value]=11>11</mat-option>
+                    <mat-option [value]=12>12</mat-option>
+                    <mat-option [value]=13>13</mat-option>
+                    <mat-option [value]=14>14</mat-option>
                     <mat-option [value]=15>15</mat-option>
                     <mat-option [value]=16>16</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field style="width: 70px"  color="accent">
+                <mat-form-field style="width: 70px" color="accent">
                   <mat-label>Dedyk.</mat-label>
-                  <mat-select [(ngModel)]="getActiveBuild().dedicatedEpicModLevel" (selectionChange)="calculateModSummary()">
-                    <mat-option [value]="Number(1)">1</mat-option>
-                    <mat-option [value]="Number(2)">2</mat-option>
-                    <mat-option [value]="Number(3)">3</mat-option>
-                    <mat-option [value]="Number(4)">4</mat-option>
-                    <mat-option [value]="Number(5)">5</mat-option>
-                    <mat-option [value]="Number(6)">6</mat-option>
-                    <mat-option [value]="Number(7)">7</mat-option>
-                    <mat-option [value]="Number(8)">8</mat-option>
-                    <mat-option [value]="Number(9)">9</mat-option>
-                    <mat-option [value]="Number(10)">10</mat-option>
-                    <mat-option [value]="Number(11)">11</mat-option>
-                    <mat-option [value]="Number(12)">12</mat-option>
-                    <mat-option [value]="Number(13)">13</mat-option>
-                    <mat-option [value]="Number(14)">14</mat-option>
-                    <mat-option [value]="Number(15)">15</mat-option>
-                    <mat-option [value]="Number(16)">16</mat-option>
+                  <mat-select [(ngModel)]="getActiveBuild().dedicatedEpicModLevel"
+                              (selectionChange)="calculateModSummary()">
+                    <mat-option [value]=1>1</mat-option>
+                    <mat-option [value]=2>2</mat-option>
+                    <mat-option [value]=3>3</mat-option>
+                    <mat-option [value]=4>4</mat-option>
+                    <mat-option [value]=5>5</mat-option>
+                    <mat-option [value]=6>6</mat-option>
+                    <mat-option [value]=7>7</mat-option>
+                    <mat-option [value]=8>8</mat-option>
+                    <mat-option [value]=9>9</mat-option>
+                    <mat-option [value]=10>10</mat-option>
+                    <mat-option [value]=11>11</mat-option>
+                    <mat-option [value]=12>12</mat-option>
+                    <mat-option [value]=13>13</mat-option>
+                    <mat-option [value]=14>14</mat-option>
+                    <mat-option [value]=15>15</mat-option>
+                    <mat-option [value]=16>16</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center"> <!--cdkDropList [cdkDropListData]="getDragDrifItemArray(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.slot)" (cdkDropListDropped)="drop($event)"-->
+              <div *ngIf="eq.rank <= 12" fxLayout="column" fxLayoutAlign="center center">
+                <!--cdkDropList [cdkDropListData]="getDragDrifItemArray(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.slot)" (cdkDropListDropped)="drop($event)"-->
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
                         (click)="openDrifDialog( eq, 1)">
                   [MOD 1]
                 </button>
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
                         (click)="openDrifDialog( eq, 1)">
                   [MOD 1]
                 </button>
@@ -126,43 +128,46 @@
                         (click)="openDrifDialog( eq, 1)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
-                      {{eq.drifItem1.shortName}}
+                      {{ eq.drifItem1.shortName }}
                     </div>
                     <div fxLayout="column">
                       <div class="tier-power" fxLayoutAlign="center center">
-                        T{{eq.drifItem1.tier}}
+                        T{{ eq.drifItem1.tier }}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{drifService.getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level  || 1)}}
+                        P{{ drifService.getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level || 1) }}
                       </div>
                     </div>
                   </div>
                 </button>
 
-                <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        (click)="openDrifDialog( eq, 2)">
+                <button
+                  *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
+                  style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                  (click)="openDrifDialog( eq, 2)">
                   [MOD 2]
                 </button>
-                <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
-                        (click)="openDrifDialog( eq, 2)">
+                <button
+                  *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
+                  style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
+                  (click)="openDrifDialog( eq, 2)">
                   [MOD 2]
                 </button>
-                <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2" style="width: 70px; margin-bottom: 8px; padding: 0"
+                <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2"
+                        style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 2)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
-                      {{eq.drifItem2.shortName}}
+                      {{ eq.drifItem2.shortName }}
                     </div>
                     <div fxLayout="column">
                       <div class="tier-power" fxLayoutAlign="center center">
-                        T{{eq.drifItem2.tier}}
+                        T{{ eq.drifItem2.tier }}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{drifService.getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level  || 1)}}
+                        P{{ drifService.getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level || 1) }}
                       </div>
                     </div>
                   </div>
@@ -174,7 +179,7 @@
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button disabled
+                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
                         (click)="openDrifDialog( eq, 3)">
                   [MOD 3]
                 </button>
@@ -184,14 +189,14 @@
                         (click)="openDrifDialog( eq, 3)">
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
                     <div>
-                      {{eq.drifItem3.shortName}}
+                      {{ eq.drifItem3.shortName }}
                     </div>
                     <div fxLayout="column">
                       <div class="tier-power" fxLayoutAlign="center center">
-                        T{{eq.drifItem3.tier}}
+                        T{{ eq.drifItem3.tier }}
                       </div>
                       <div class="tier-power" fxLayoutAlign="center center">
-                        P{{drifService.getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level  || 1)}}
+                        P{{ drifService.getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level || 1) }}
                       </div>
                     </div>
                   </div>
@@ -205,24 +210,39 @@
         <div fxLayout="column" fxLayoutAlign="center center">
           <ul>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DAMAGE)"
-                class="damageDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
+                class="damageDrifText">
+              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                   [innerHTML]="prepareModSummaryRow(mod)"></div>
+            </li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.SPECIAL)"
-                class="specialDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
+                class="specialDrifText">
+              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                   [innerHTML]="prepareModSummaryRow(mod)"></div>
+            </li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DEFENCE)"
-                class="defenceDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
+                class="defenceDrifText">
+              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                   [innerHTML]="prepareModSummaryRow(mod)"></div>
+            </li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.ACCURACY)"
-                class="accuracyDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
+                class="accuracyDrifText">
+              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                   [innerHTML]="prepareModSummaryRow(mod)"></div>
+            </li>
             <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.REDUCTION)"
-                class="reductionDrifText"><div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()" [innerHTML]="prepareModSummaryRow(mod)"></div></li>
+                class="reductionDrifText">
+              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                   [innerHTML]="prepareModSummaryRow(mod)"></div>
+            </li>
           </ul>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
-          <button  mat-flat-button color="warn"
+          <button mat-flat-button color="warn"
                   (click)="resetBuild(activeBuild)">
             ZRESETUJ BUILD
           </button>
-          <button  mat-flat-button color="accent"
-                   (click)="maximiseDrifLevels()">
+          <button mat-flat-button color="accent"
+                  (click)="maximiseDrifLevels()">
             WYMAKSUJ LVLE DRIFÓW
           </button>
           <mat-form-field appearance="fill" color="accent" class="cloneForm">

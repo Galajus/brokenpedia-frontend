@@ -38,8 +38,8 @@ import {RarIncrustationService} from "@services/user/incrustation/rar-incrustati
 import resistances from "@models/build-calculator/resistances";
 import deducedInventoryItemValuesTable from "@models/build-calculator/inventory/deducedInventoryItemValues";
 import {ModSummary} from "@models/drif/modSummary";
-import modCaps from "@models/drif/modCap";
-import amountReduction from "@models/drif/amountDrifReduction";
+import modCaps from "@models/drif/data/modCap";
+import amountReduction from "@models/drif/data/amountDrifReduction";
 import {DrifSumDialogComponent} from "./drif-sum-dialog/drif-sum-dialog.component";
 import {LocalDrif, LocalInventory, LocalItem} from "@models/build-calculator/inventory/localInventory";
 import {ItemType} from 'src/app/models/items/itemType';
