@@ -4,6 +4,7 @@ import {round} from "lodash-es";
 import {PsychoMod} from "@models/items/psychoMod";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {Drif} from "@models/drif/drif";
+import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 
 @Component({
   selector: 'app-drif-select',
@@ -97,5 +98,6 @@ export class DrifSelectComponent implements OnInit {
   }
 
   protected readonly Number = Number;
+  protected readonly InventorySlot = InventorySlot;
 }
 

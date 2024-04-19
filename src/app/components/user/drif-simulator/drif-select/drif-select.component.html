@@ -58,7 +58,7 @@
        (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot === 'weapon' &&
+       itemSlot === InventorySlot.WEAPON &&
        getDrifPower(drif.startPower) <= leftPower"
                 mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
           {{'PSYCHO_EFFECTS.' + drif.psychoMod | translate}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
@@ -67,7 +67,7 @@
        (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot === 'weapon' &&
+       itemSlot === InventorySlot.WEAPON  &&
        getDrifPower(drif.startPower) > leftPower"
                 mat-raised-button disabled>
           {{'PSYCHO_EFFECTS.' + drif.psychoMod | translate}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
@@ -76,7 +76,7 @@
        (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
        drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot !== 'weapon'"
+       itemSlot !== InventorySlot.WEAPON"
                 mat-raised-button disabled>
           {{'PSYCHO_EFFECTS.' + drif.psychoMod | translate}} [{{getDrifPower(drif.startPower)}}] {{drif.shortName}}
         </button>
