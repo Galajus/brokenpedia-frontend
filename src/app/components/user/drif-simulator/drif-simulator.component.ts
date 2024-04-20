@@ -70,7 +70,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   resetBuild(name: string) {
-    let userRarsWithDrifs = this.userRarsWithDrifs.find(userRars => userRars.name === name);
+    const userRarsWithDrifs = this.userRarsWithDrifs.find(userRars => userRars.name === name);
     if (userRarsWithDrifs) {
       userRarsWithDrifs.rarsWithDrifs = this.generateRarsWithDrifsTemplate();
       this.calculateModSummary();
@@ -78,7 +78,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   generateRarsWithDrifsTemplate() {
-    let rarsWithDrifsTemplate: RarWithDrifs[] = [];
+    const rarsWithDrifsTemplate: RarWithDrifs[] = [];
     const slotKeys = Object.keys(InventorySlot) as (keyof typeof InventorySlot)[];
     slotKeys.forEach(k => {
       rarsWithDrifsTemplate.push({
@@ -107,7 +107,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   getActiveBuild() {
-    let find = this.userRarsWithDrifs.find(rars => rars.name === this.activeBuild);
+    const find = this.userRarsWithDrifs.find(rars => rars.name === this.activeBuild);
     if (!find) {
       throw "NOT FOUND ACTIVE BUILD";
     }
@@ -178,8 +178,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   private doChangeModLevelAnItem(drif: Drif | null, rarWithDrifs: RarWithDrifs, level: number, tier: number) {
     if (drif) {
-      let oldLevel = clone(drif.level);
-      let oldTier = clone(drif.tier);
+      const oldLevel = clone(drif.level);
+      const oldTier = clone(drif.tier);
       drif.level = level;
       drif.tier = tier;
       if (this.countUsedPower(rarWithDrifs) > this.getPowerCapacityByRank(rarWithDrifs)) {
@@ -245,20 +245,20 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (!drif) {
       return 0;
     }
-    let find = drifTiers.find(dt => {
+    const find = drifTiers.find(dt => {
       return dt.tier === drif.tier;
     });
     return find ? find.maxDrifLevel : 0;
   }
 
   calculateEpicMod(rar: RarWithDrifs, userConfig: UserRarsWithDrifs) {
-    let epikItem = epikItems.find(it => it.indexNumber === rar.rank);
+    const epikItem = epikItems.find(it => it.indexNumber === rar.rank);
     if (!epikItem) {
       throw new Error("Epic item not found");
     }
 
-    let dedicatedDrif = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModDedicated);
-    let critDrifItem = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModCrit);
+    const dedicatedDrif = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModDedicated);
+    const critDrifItem = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModCrit);
 
     if (!dedicatedDrif || !critDrifItem) {
       throw new Error("epic mods unknown");
@@ -299,7 +299,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       modSummary.modSum += psychoValue;
       modSummary.amountDrifs++;
     } else {
-      let modCap = modCaps.find(capped => capped.mod === psychoMod);
+      const modCap = modCaps.find(capped => capped.mod === psychoMod);
       this.modSummary.push({
         mod: psychoMod,
         drifName: drif.shortName,
@@ -321,7 +321,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (drifTier.tier === 4 && drifLevel >= 19) {
       toAdd += (drifLevel - 18) * drif.psychoGrowByLevel;
     }
-    let specialBoost = this.countSpecialBoost(sidragaBoost, isEpic, ornaments, epikBoost);
+    const specialBoost = this.countSpecialBoost(sidragaBoost, isEpic, ornaments, epikBoost);
     return toAdd * specialBoost;
   }
 
@@ -349,9 +349,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   private calculateRealModSum() {
     this.modSummary.forEach(modSum => {
       if (modSum.amountDrifs > 3) {
-        let amountDrifReduction = amountReduction.find(red => red.amount === modSum.amountDrifs);
+        const amountDrifReduction = amountReduction.find(red => red.amount === modSum.amountDrifs);
         if (amountDrifReduction) {
-          let oldSum = cloneDeep(modSum.modSum);
+          const oldSum = cloneDeep(modSum.modSum);
           modSum.modSum = modSum.modSum * amountDrifReduction.efektSum;
           modSum.reducedValue = oldSum - modSum.modSum;
           modSum.reducedPercent = amountDrifReduction.efektSum * 100;
@@ -568,9 +568,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    let data = localStorage.getItem('drif-simulator');
+    const data = localStorage.getItem('drif-simulator');
     if (data != null) {
-      let tempRars = this.userRarsWithDrifs.find(rars => rars.name === 'temp');
+      const tempRars = this.userRarsWithDrifs.find(rars => rars.name === 'temp');
       if (!tempRars) {
         console.log("TEMP RARS NOT FOUND")
         return;
@@ -581,7 +581,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       this.calculateModSummary();
       return;
     }
-    let dataArray = localStorage.getItem('drif-simulator-array');
+    const dataArray = localStorage.getItem('drif-simulator-array');
     if (!dataArray) {
       return;
     }
@@ -608,17 +608,16 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   cloneBuild() {
-    let activeBuild = this.userRarsWithDrifs.find(userRars => userRars.name === this.activeBuild);
-    let buildToClone = this.userRarsWithDrifs.find(userRars => userRars.name === this.buildToClone);
+    const activeBuild = this.userRarsWithDrifs.find(userRars => userRars.name === this.activeBuild);
+    const buildToClone = this.userRarsWithDrifs.find(userRars => userRars.name === this.buildToClone);
     if (activeBuild && buildToClone) {
-      activeBuild.rarsWithDrifs = JSON.parse(JSON.stringify(buildToClone.rarsWithDrifs));
+      activeBuild.rarsWithDrifs = cloneDeep(buildToClone.rarsWithDrifs);
       this.calculateModSummary();
       this.buildToClone = "";
     }
   }
 
   drop(event: CdkDragDrop<DragDrifItem[], any>, slot: InventorySlot) {
-
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.moveDrifInSameItem(event.container.data, slot);
@@ -664,7 +663,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   getDragDrifItemArray(eq: RarWithDrifs) {
-    let array: DragDrifItem[] = [
+    return [
       {
         drif: eq.drifItem1,
         fromSlot: 0,
@@ -680,7 +679,6 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         fromSlot: 2,
         inventorySlot: eq.slot
       }
-    ];
-    return array;
+    ] as DragDrifItem[];
   }
 }
