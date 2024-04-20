@@ -9,7 +9,7 @@ import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "@models/drif/data/modCap";
 import epikItems from "@models/drif/data/epikItem";
 import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
-import {CdkDragDrop, CdkDragEnter, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "@models/drif/dragDrifItem";
 import {clone, cloneDeep} from "lodash-es";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -193,10 +193,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.validateRanks();
     this.validateLevels();
     this.modSummary = [];
-    let activeBuild = this.getActiveBuild();
+    const activeBuild = this.getActiveBuild();
     activeBuild.rarsWithDrifs.forEach(rar => {
       if (rar.rank > 12) {
-        this.calculateEpicMod(rar.rank, rar.ornaments);
+        this.calculateEpicMod(rar, activeBuild);
         return;
       }
       if (rar.drifItem1) {
@@ -251,8 +251,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return find ? find.maxDrifLevel : 0;
   }
 
-  calculateEpicMod(rank: number, ornaments: number) {
-    let epikItem = epikItems.find(it => it.indexNumber === rank);
+  calculateEpicMod(rar: RarWithDrifs, userConfig: UserRarsWithDrifs) {
+    let epikItem = epikItems.find(it => it.indexNumber === rar.rank);
     if (!epikItem) {
       throw new Error("Epic item not found");
     }
@@ -267,15 +267,18 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     //Old version fix
     dedicatedDrif.tier = 3;
     critDrifItem.tier = 3;
-    if (!dedicatedDrif.level) {
-      dedicatedDrif.level = 16;
+    if (!userConfig.dedicatedEpicModLevel) {
+      userConfig.dedicatedEpicModLevel = 16;
     }
-    if (!critDrifItem.level) {
-      critDrifItem.level = 16;
+    if (!userConfig.critEpicModLevel) {
+      userConfig.critEpicModLevel = 16;
     }
+    dedicatedDrif.level = userConfig.dedicatedEpicModLevel;
+    critDrifItem.level = userConfig.critEpicModLevel;
+
     //Counting
-    this.countMod(dedicatedDrif, ornaments, false, true, false);
-    this.countMod(critDrifItem, ornaments, false, true, false);
+    this.countMod(dedicatedDrif, rar.ornaments, false, true, false);
+    this.countMod(critDrifItem, rar.ornaments, false, true, false);
 
     //EXTRA AP
     this.modSummary.push({

@@ -105,6 +105,7 @@ import { KeyArrayPipe } from './pipes/key-array.pipe';
 import { SetsComponent } from './components/admin/sets/sets.component';
 import { SetsUpdateComponent } from './components/admin/sets/sets-update/sets-update.component';
 import { SetsCreateComponent } from './components/admin/sets/sets-create/sets-create.component';
+import { UpdateDrifComponent } from './components/admin/drifs/update-drif/update-drif.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -201,7 +202,8 @@ registerLocaleData(localePl, localePlExtra);
     KeyArrayPipe,
     SetsComponent,
     SetsUpdateComponent,
-    SetsCreateComponent
+    SetsCreateComponent,
+    UpdateDrifComponent
   ],
   imports: [
     BrowserModule,

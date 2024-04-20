@@ -1,0 +1,35 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content fxLayout="column" fxLayoutGap="10">
+      <button mat-raised-button color="accent" (click)="save()">AKTUALIZUJ</button>
+      <div [formGroup]="drifForm" fxLayout="row" fxLayoutGap="10">
+
+        <mat-form-field appearance="fill" style="width: 170px" color="accent">
+          <mat-label>Krótka nazwa</mat-label>
+          <input matInput formControlName="shortName">
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="width: 170px" color="accent">
+          <mat-label>startPower</mat-label>
+          <input matInput formControlName="startPower">
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="width: 170px" color="accent">
+          <mat-label>psychoGrowByLevel</mat-label>
+          <input matInput formControlName="psychoGrowByLevel">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Category</mat-label>
+          <mat-select [(value)]="drifForm.value.category" formControlName="category">
+            <mat-option *ngFor="let type of DrifCategory | keyArray" value="{{type}}">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>psychoMod</mat-label>
+          <mat-select [(value)]="drifForm.value.psychoMod" formControlName="psychoMod">
+            <mat-option *ngFor="let type of PsychoMod | keyArray" value="{{type}}">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

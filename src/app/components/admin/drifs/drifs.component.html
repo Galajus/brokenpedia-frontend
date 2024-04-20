@@ -6,6 +6,50 @@
         <textarea fxFill matInput rows="12" [(ngModel)]="textToRead" placeholder="item data"></textarea>
         <button mat-raised-button color="primary" (click)="read()">ZAPISZ</button>
       </div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFill>
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+          <td mat-cell *matCellDef="let element">{{ element.psychoMod }}</td>
+        </ng-container>
+        <ng-container matColumnDef="shortName">
+          <th mat-header-cell *matHeaderCellDef>Krótka nazwa</th>
+          <td mat-cell *matCellDef="let element">{{ element.shortName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Kategoria</th>
+          <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+        </ng-container>
+        <ng-container matColumnDef="startPower">
+          <th mat-header-cell *matHeaderCellDef>startPower</th>
+          <td mat-cell *matCellDef="let element">{{ element.startPower }}</td>
+        </ng-container>
+        <ng-container matColumnDef="psychoGrowByLevel">
+          <th mat-header-cell *matHeaderCellDef>psychoGrowByLevel</th>
+          <td mat-cell *matCellDef="let element">{{ element.psychoGrowByLevel }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Akcje</th>
+          <td mat-cell *matCellDef="let element">
+            <a [routerLink]="['/admin/drifs/update/', element.id]">
+              <button mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </a>
+            <!--<button mat-icon-button (click)="deleteOrb(element.id)">
+              <mat-icon style="color: red">delete</mat-icon>
+            </button>-->
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
     </mat-card-content>
   </mat-card>
 </div>

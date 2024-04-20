@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {DrifsService} from "@services/admin/drifs/drifs.service";
 import {Drif} from "@models/drif/drif";
 
@@ -7,13 +7,19 @@ import {Drif} from "@models/drif/drif";
   templateUrl: './drifs.component.html',
   styleUrls: ['./drifs.component.scss']
 })
-export class DrifsComponent implements OnInit {
+export class DrifsComponent implements AfterViewInit {
 
   textToRead: string = "";
+  displayedColumns: string[] = ["id", "name", "shortName", "psychoGrowByLevel", "category", "startPower", "actions"];
+  dataSource: Drif[] = [];
 
   constructor(private drifsService: DrifsService) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.drifsService.getAllDrifs()
+      .subscribe(d => {
+        this.dataSource = d;
+      })
   }
 
   read() {

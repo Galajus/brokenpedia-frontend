@@ -33,7 +33,7 @@ export class UpdateOrbComponent implements OnInit {
       startBonus: [],
       shortName: []
     })
-    let id = Number(this.route.snapshot.params['id']);
+    const id = Number(this.route.snapshot.params['id']);
     this.orbsService.getOrb(id)
       .subscribe((orb) => {
         this.orbForm.patchValue(orb);

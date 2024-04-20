@@ -14,4 +14,16 @@ export class DrifsService {
     return this.http.post<Drif[]>("/api/admin/drifs", drifs);
   }
 
+  getAllDrifs(): Observable<Drif[]> {
+    return this.http.get<Drif[]>("/api/admin/drifs");
+  }
+
+  getDrif(id: number): Observable<Drif> {
+    return this.http.get<Drif>("/api/admin/drifs/" + id);
+  }
+
+  updateDrif(drif: Drif): Observable<Drif> {
+    return this.http.put<Drif>("/api/admin/drifs", drif);
+  }
+
 }

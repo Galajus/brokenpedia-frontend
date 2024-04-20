@@ -45,6 +45,7 @@ import {UpdateOrbComponent} from "@app/components/admin/orbs/update-orb/update-o
 import {SetsComponent} from "@app/components/admin/sets/sets.component";
 import {SetsCreateComponent} from "@app/components/admin/sets/sets-create/sets-create.component";
 import {SetsUpdateComponent} from "@app/components/admin/sets/sets-update/sets-update.component";
+import {UpdateDrifComponent} from "@app/components/admin/drifs/update-drif/update-drif.component";
 
 const routes: Routes = [
 
@@ -102,8 +103,9 @@ const routes: Routes = [
       { path: 'monster/update/:id', component: MonsterUpdateComponent, title: "Admin update monsters", canActivate: [AdminAuthorizationGuard] },
       { path: 'suggestions', component: SuggestionsComponent, title: "Admin suggestions", canActivate: [AdminAuthorizationGuard] },
       { path: 'drifs', component: DrifsComponent, title: "Drifs", canActivate: [AdminAuthorizationGuard] },
+      { path: 'drifs/update/:id', component: UpdateDrifComponent, title: "Admin update drif", canActivate: [AdminAuthorizationGuard] },
       { path: 'orbs', component: OrbsComponent, title: "Orbs", canActivate: [AdminAuthorizationGuard] },
-      { path: 'orbs/update/:id', component: UpdateOrbComponent, title: "Admin update orbs", canActivate: [AdminAuthorizationGuard] },
+      { path: 'orbs/update/:id', component: UpdateOrbComponent, title: "Admin update orb", canActivate: [AdminAuthorizationGuard] },
       { path: 'sets', component: SetsComponent, title: "Admin sets", canActivate: [AdminAuthorizationGuard] },
       { path: 'sets/add', component: SetsCreateComponent, title: "Admin create set", canActivate: [AdminAuthorizationGuard] },
       { path: 'sets/update/:id', component: SetsUpdateComponent, title: "Admin update set", canActivate: [AdminAuthorizationGuard] },
