@@ -1,19 +1,39 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {forkJoin, map, Observable} from "rxjs";
 import {Drif} from "@models/drif/drif";
 import {environment} from "../../../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
+import {LegendaryItemsService} from "@services/user/items/legendary-items.service";
+import {EpicDedicatedMod} from "@models/drif/epicDedicatedMod";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrifService {
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private legendaryItemsService: LegendaryItemsService
+  ) {
+  }
 
   getAllDrifs(): Observable<Drif[]> {
     return this.http.get<Drif[]>(environment.endpoints.buildCalculator.getAllDrifs);
+  }
+
+  getDrifSimulatorData(): Observable<{
+    epicsDedicatedMods: EpicDedicatedMod[], drifs: Drif[]
+  }> {
+    const epicsDedicatedMods$ = this.legendaryItemsService.getEpicsDedicatedMods();
+    const drifs$ = this.getAllDrifs();
+
+    return forkJoin({epicsDedicatedMods$, drifs$})
+      .pipe(
+        map((response: {
+          epicsDedicatedMods$: EpicDedicatedMod[], drifs$: Drif[],
+        }) => ({
+          epicsDedicatedMods: response.epicsDedicatedMods$, drifs: response.drifs$,
+        }))
+      )
   }
 
   getDrifPower(startPower: number, level: number) {
@@ -41,10 +61,10 @@ export class DrifService {
     if (drif1) {
       usedPower += this.getDrifPower(drif1.startPower, drif1.level || 1);
     }
-    if (drif2 && (itemRank >= 4 || ornaments >=7)) {
+    if (drif2 && (itemRank >= 4 || ornaments >= 7)) {
       usedPower += this.getDrifPower(drif2.startPower, drif2.level || 1);
     }
-    if (drif3  && itemRank >= 10) {
+    if (drif3 && itemRank >= 10) {
       usedPower += this.getDrifPower(drif3.startPower, drif3.level || 1);
     }
     return usedPower;

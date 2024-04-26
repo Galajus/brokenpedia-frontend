@@ -7,7 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DrifSelectComponent} from "./drif-select/drif-select.component";
 import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "@models/drif/data/modCap";
-import epikItems from "@models/drif/data/epikItem";
+import {EpicDedicatedMod} from "@models/drif/epicDedicatedMod";
 import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "@models/drif/dragDrifItem";
@@ -36,6 +36,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   activeBuild: string = "temp";
   buildToClone: string = "";
   drifs: Drif[] = [];
+  epicsMods: EpicDedicatedMod[] = [];
   buildNames: string[] = ["temp", "build 1", "build 2", "build 3", "build 4", "build 5", "build 6", "build 7", "build 8", "build 9"]
   userRarsWithDrifs: UserRarsWithDrifs[] = [];
 
@@ -54,11 +55,21 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   initData() {
     this.generateUserRarsWithDrifs();
     this.fillUserRars();
-    this.drifService.getAllDrifs()
-      .subscribe(d => {
-        this.drifs = d;
-        this.load();
-      });
+    this.drifService.getDrifSimulatorData()
+      .subscribe(
+        {
+          next:(response) => {
+            this.drifs = response.drifs;
+            this.epicsMods = response.epicsDedicatedMods;
+          },
+          error: () => {
+            throw new Error("LOADING DATA ERROR");
+          },
+          complete: () => {
+            this.load();
+          }
+        }
+      );
   }
 
   ngOnDestroy() {
@@ -208,6 +219,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       if (rar.drifItem3 && rar.rank >= 10) {
         this.countMod(rar.drifItem3, rar.ornaments, rar.sidragaBoost, false, rar.epikBoost);
       }
+      if (rar.epikBoost && rar.rank === 12) {
+        this.addExtraApToSummary();
+      }
     });
 
     this.calculateRealModSum();
@@ -252,19 +266,18 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   calculateEpicMod(rar: RarWithDrifs, userConfig: UserRarsWithDrifs) {
-    const epikItem = epikItems.find(it => it.indexNumber === rar.rank);
-    if (!epikItem) {
-      throw new Error("Epic item not found");
+    const dedicatedMod = this.epicsMods.find(e => e.id === rar.rank - 12);
+    if (!dedicatedMod) {
+      throw new Error("Epic mod not found");
     }
 
-    const dedicatedDrif = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModDedicated);
-    const critDrifItem = this.drifs.find(drif => drif.psychoMod === epikItem?.psychoModCrit);
+    const dedicatedDrif = this.drifs.find(drif => drif.psychoMod === dedicatedMod.effect);
+    const critDrifItem = this.drifs.find(drif => drif.psychoMod === PsychoMod.CRIT_CHANCE);
 
     if (!dedicatedDrif || !critDrifItem) {
       throw new Error("epic mods unknown");
     }
 
-    //Old version fix
     dedicatedDrif.tier = 3;
     critDrifItem.tier = 3;
     if (!userConfig.dedicatedEpicModLevel) {
@@ -281,13 +294,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.countMod(critDrifItem, rar.ornaments, false, true, false);
 
     //EXTRA AP
-    this.modSummary.push({
-      mod: PsychoMod.EXTRA_AP,
-      drifName: "?",
-      modSum: 1,
-      amountDrifs: 1,
-      category: DrifCategory.SPECIAL
-    })
+    this.addExtraApToSummary();
   }
 
   countMod(drif: Drif, ornaments: number, sidragaBoost: boolean, isEpic: boolean, epikBoost: boolean) {
@@ -309,6 +316,16 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         max: modCap?.value
       })
     }
+  }
+
+  private addExtraApToSummary() {
+    this.modSummary.push({
+      mod: PsychoMod.EXTRA_AP,
+      drifName: "?",
+      modSum: 1,
+      amountDrifs: 1,
+      category: DrifCategory.SPECIAL
+    })
   }
 
   private countPsychoValue(drif: Drif, sidragaBoost: boolean, ornaments: number, isEpic: boolean, epikBoost: boolean) {
@@ -366,10 +383,6 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   private getDrifLevel(rar: RarWithDrifs, slot: number): number {
     return slot === 1 ? rar.drifItem1?.level || 0 : slot === 2 ? rar.drifItem2?.level || 0 : slot === 3 ? rar.drifItem3?.level || 0 : 0;
-  }
-
-  private getDrifBySlot(rar: RarWithDrifs, slot: number) {
-    return slot === 1 ? rar.drifItem1 : slot === 2 ? rar.drifItem2 : slot === 3 ? rar.drifItem3 : null;
   }
 
   countUsedPower(eq: RarWithDrifs) {
@@ -611,7 +624,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     const activeBuild = this.userRarsWithDrifs.find(userRars => userRars.name === this.activeBuild);
     const buildToClone = this.userRarsWithDrifs.find(userRars => userRars.name === this.buildToClone);
     if (activeBuild && buildToClone) {
-      activeBuild.rarsWithDrifs = cloneDeep(buildToClone.rarsWithDrifs);
+      const clonedBuild = cloneDeep(buildToClone);
+      activeBuild.rarsWithDrifs = clonedBuild.rarsWithDrifs;
+      activeBuild.dedicatedEpicModLevel = clonedBuild.dedicatedEpicModLevel;
+      activeBuild.critEpicModLevel = clonedBuild.critEpicModLevel;
       this.calculateModSummary();
       this.buildToClone = "";
     }
@@ -681,4 +697,6 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       }
     ] as DragDrifItem[];
   }
+
+  protected readonly Array = Array;
 }

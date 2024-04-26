@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RarListService} from "@services/user/rar-list/rar-list.service";
+import {LegendaryItemsService} from "@services/user/items/legendary-items.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ItemComparatorComponent} from "./item-comparator/item-comparator.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -56,7 +56,7 @@ export class RarListComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private rarListService: RarListService,
+    private rarListService: LegendaryItemsService,
     private snackBar: MatSnackBar,
     private incrustationService: RarIncrustationService,
     private translate: TranslateService
@@ -133,7 +133,7 @@ export class RarListComponent implements OnInit, OnDestroy {
         this.translateItemsAndMonsters(this.translate.currentLang);
       });
 
-    this.rarListService.getAllEpics()
+    this.rarListService.getAllByFamily(ItemFamily.EPIC)
       .subscribe(e => {
         this.fallBackEpics = cloneDeep(e);
         this.epics = e;
