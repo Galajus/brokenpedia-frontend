@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {PostService} from "@services/user/posts/post.service";
 import {SinglePost} from "@models/post/singlePost";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit, OnDestroy {
 
   singlePost?: SinglePost;
   error: boolean = false;
+  postLoadSubscription!: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,16 +24,18 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
 
     this.loadPost();
-
-    this.router.events
+    this.postLoadSubscription = this.router.events
       .subscribe(ev => {
         if (ev instanceof NavigationEnd) {
           this.singlePost = undefined;
           this.error = false;
           this.loadPost();
         }
-      })
+      });
+  }
 
+  ngOnDestroy() {
+    this.postLoadSubscription.unsubscribe();
   }
 
   loadPost() {
