@@ -1,10 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {PaginationType} from "@models/build-list/paginationType";
 import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
 import {JwtService} from "@services/jwt/jwt.service";
 import {BuildListDto} from "@models/build-list/buildListDto";
+import {Profession} from "@models/gameentites/profession";
+import {BuildListSortingOption} from "@models/build-list/buildSortingOption";
 
 @Component({
   selector: 'app-builds-list',
@@ -13,24 +14,46 @@ import {BuildListDto} from "@models/build-list/buildListDto";
 })
 export class BuildsListComponent implements OnInit {
 
+  protected readonly indexedDB = indexedDB;
+  protected readonly Profession = Profession;
+
   @ViewChild('paginator') paginator!: MatPaginator;
   builds!: PageableBuildsDto<BuildListDto>;
-  paginationType: PaginationType = PaginationType.LEVEL;
   displayedColumns = ["lp", "author", "profession", "level", "likes", "buildName", "shortDescription", "pvpBuild", "actions"];
+  sortingOptions: BuildListSortingOption[] = [
+    {id: 0, direction: 'ASC', sortBy: 'LEVEL'},
+    {id: 1, direction: 'DESC', sortBy: 'LEVEL'},
+    {id: 2, direction: 'ASC', sortBy: 'LIKES'},
+    {id: 3, direction: 'DESC', sortBy: 'LIKES'}
+  ]
   isAdmin: boolean = false;
+
+  page: number = 0;
+  selectedProfs: string[] = [Profession.BARBARIAN, Profession.FIRE_MAGE, Profession.VOODOO, Profession.ARCHER, Profession.SHEED, Profession.KNIGHT, Profession.DRUID];
+  isPvp: boolean = false;
+  searchMaxLvl: number = 140;
+  searchMinLvl: number = 0;
+  minLikes: number = 0;
+  sortBy: number = 1;
+
   constructor(
     private buildCalculatorService: BuildCalculatorService,
     private jwtService: JwtService,
     private changeDetectorRef: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.isAdmin = this.jwtService.hasAdminAccess();
-    this.loadBuildsByLevel(200, 0, 0);
+    this.loadBuilds();
   }
 
-  private loadBuildsByLevel(less: number, greater: number, page: number) {
-    this.buildCalculatorService.getBuildsByLevel(less, greater, page)
+  private loadBuilds() {
+    const sort = this.sortingOptions.find(o => o.id === this.sortBy);
+    if (!sort) {
+      throw new Error("UNKNOWN SORTING OPTION");
+    }
+    this.buildCalculatorService.getBuildsFiltered(this.searchMaxLvl, this.searchMinLvl, this.isPvp, this.selectedProfs, this.minLikes, sort.sortBy, sort.direction, this.page)
       .subscribe({
         next: builds => {
           this.builds = builds;
@@ -39,25 +62,9 @@ export class BuildsListComponent implements OnInit {
       });
   }
 
-  private loadBuildsByProfession() {
-    console.log("TODO")
-  }
-
-  private loadBuildByPvp() {
-    console.log("TODO")
-  }
-
   onPageEvent(event: PageEvent) {
-    switch (this.paginationType) {
-      case PaginationType.LEVEL: this.loadBuildsByLevel(200, 0, event.pageIndex);
-        break;
-      case PaginationType.PROFESSION: this.loadBuildsByProfession();
-        break;
-      case PaginationType.PVP: this.loadBuildByPvp();
-        break;
-      default: this.loadBuildsByLevel(200, 0, 0);
-        break;
-    }
+    this.page = event.pageIndex;
+    this.loadBuilds();
   }
 
   deleteBuild(id: number) {
@@ -76,5 +83,16 @@ export class BuildsListComponent implements OnInit {
     return item.id;
   }
 
-    protected readonly indexedDB = indexedDB;
+  doFilter() {
+    this.loadBuilds();
+  }
+
+  selectProfession(profession: string) {
+    if (this.selectedProfs.includes(profession)) {
+      this.selectedProfs = this.selectedProfs.filter(p => p !== profession);
+    } else {
+      this.selectedProfs.push(profession);
+    }
+    this.doFilter();
+  }
 }

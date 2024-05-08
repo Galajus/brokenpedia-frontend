@@ -1,14 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {JwtService} from "../../../../services/jwt/jwt.service";
+import {JwtService} from "@services/jwt/jwt.service";
 import {Router} from "@angular/router";
-import {LoginButtonService} from "../../../../services/layout/login-button.service";
-import {DashboardService} from "../../../../services/user/account/dashboard.service";
-import {Profile} from "../../../../models/user/profile";
+import {LoginButtonService} from "@services/layout/login-button.service";
+import {DashboardService} from "@services/user/account/dashboard.service";
+import {Profile} from "@models/user/profile";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ProfileNicknameDto} from "../../../../models/user/profileNicknameDto";
+import {ProfileNicknameDto} from "@models/user/profileNicknameDto";
 import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
 import {BuildListDto} from "@models/build-list/buildListDto";
+import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,11 +18,17 @@ import {BuildListDto} from "@models/build-list/buildListDto";
 })
 export class DashboardComponent implements OnInit {
 
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild('paginatorLiked') paginatorLiked!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   profile!: Profile;
-  builds!: MatTableDataSource<BuildListDto>;
+  builds!: PageableBuildsDto<BuildListDto>;
+  likedBuilds!: PageableBuildsDto<BuildListDto>;
   displayedColumns = ["id", "profession", "level", "likes", "buildName", "shortDescription", "hidden", "pvpBuild", "actions"];
+  displayedColumnsLiked = ["id", "profession", "level", "likes", "buildName", "shortDescription", "pvpBuild", "actions"];
   isChangingNick: boolean = false;
+  page: number = 0;
+  pageLiked: number = 0;
   newNick: string = "";
 
   constructor(
@@ -38,15 +45,21 @@ export class DashboardComponent implements OnInit {
         this.profile = profile;
         this.newNick = profile.nickname;
       });
-    this.dashboardService.getBuildsList()
-      .subscribe(builds => {
-        this.builds = new MatTableDataSource<BuildListDto>(builds);
-        this.initializeSort();
-      });
+    this.loadCreatedBuild();
+    this.loadLikedBuild();
   }
 
-  initializeSort() {
-    this.builds.sort = this.sort;
+  loadCreatedBuild() {
+    this.dashboardService.getBuildsList(this.page)
+      .subscribe(builds => {
+        this.builds = builds;
+      });
+  }
+  loadLikedBuild() {
+    this.dashboardService.getLikedBuildsList(this.pageLiked)
+      .subscribe(builds => {
+        this.likedBuilds = builds;
+      });
   }
 
   logOut() {
@@ -58,7 +71,7 @@ export class DashboardComponent implements OnInit {
   deleteBuild(id: number) {
     this.dashboardService.deleteBuild(id)
       .subscribe(result => {
-        this.builds.data = this.builds.data.filter(b => {
+        this.builds.pageableBuilds.content = this.builds.pageableBuilds.content.filter(b => {
           return b.id !== id;
         });
       });
@@ -66,6 +79,16 @@ export class DashboardComponent implements OnInit {
 
   trackBy(index: number, item: BuildListDto) {
     return item.id;
+  }
+
+  onPageEvent(event: PageEvent) {
+    this.page = event.pageIndex;
+    this.loadCreatedBuild();
+  }
+
+  onLikedPageEvent(event: PageEvent) {
+    this.pageLiked = event.pageIndex;
+    this.loadLikedBuild();
   }
 
   changeEditNick() {

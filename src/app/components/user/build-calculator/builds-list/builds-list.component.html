@@ -1,31 +1,72 @@
-<table class="restrict-width" *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy">
+<div class="restrict-width" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+  <div *ngFor="let profession of Profession | keyArray">
+    <img class="profession-select" [ngClass]="{'profession-disabled': !selectedProfs.includes(profession)}"
+         (click)="selectProfession(profession)"
+         *ngIf="profession !== 'DEFAULT'" src="../../assets/professions/{{profession.toLowerCase()}}.png"
+         alt="{{profession}}">
+  </div>
+  <div>
+    <mat-checkbox [(ngModel)]="isPvp" (change)="doFilter()">{{ 'BUILD_LIST.PVP' | translate }}</mat-checkbox>
+  </div>
+  <div>
+    <mat-form-field style="width: 70px" appearance="outline" color="accent">
+      <mat-label>{{ 'ITEMS_LIST.MINIMAL_LEVEL' | translate }}</mat-label>
+      <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style="width: 70px" appearance="outline" color="accent">
+      <mat-label>{{ 'ITEMS_LIST.MAXIMUM_LEVEL' | translate }}</mat-label>
+      <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style="width: 120px" appearance="outline" color="accent">
+      <mat-label>{{ 'BUILD_LIST.MIN_LIKES' | translate }}</mat-label>
+      <input matInput type="number" min="0" [(ngModel)]="minLikes" (change)="doFilter()">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style="width: 170px" appearance="outline" color="accent">
+      <mat-label>{{ 'BUILD_LIST.SORT_BY' | translate }}</mat-label>
+      <mat-select [(ngModel)]="sortBy" (selectionChange)="doFilter()">
+        <mat-option *ngFor="let sort of sortingOptions" [value]="sort.id">{{'BUILD_LIST.' + sort.sortBy + '_' + sort.direction | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<table class="restrict-width" *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content"
+       [trackBy]="trackBy">
   <ng-container matColumnDef="lp">
-    <th style="width: 40px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.NUMBER' | translate}}</th>
-    <td mat-cell *matCellDef="let element; let i = index"> {{i + 1 + (paginator.pageIndex * paginator.pageSize)}} </td>
+    <th style="width: 40px" mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.NUMBER' | translate }}</th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 + (paginator.pageIndex * paginator.pageSize) }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="profession">
-    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.PROFESSION' | translate}}</th>
-    <td mat-cell *matCellDef="let element"><img src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.PROFESSION' | translate }}</th>
+    <td mat-cell *matCellDef="let element"><img
+      src="../../assets/professions/{{element.profession.toLowerCase()}}.png" alt="{{element.profession}}"></td>
   </ng-container>
   <ng-container matColumnDef="author">
-    <th style="width: 100px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.AUTHOR' | translate}}</th>
-    <td mat-cell *matCellDef="let element"> {{element.buildAuthor}} </td>
+    <th style="width: 100px" mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.AUTHOR' | translate }}</th>
+    <td mat-cell *matCellDef="let element"> {{ element.buildAuthor }}</td>
   </ng-container>
   <ng-container matColumnDef="level">
-    <th style="width: 55px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.LEVEL' | translate}}</th>
-    <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+    <th style="width: 55px" mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.LEVEL' | translate }}</th>
+    <td mat-cell *matCellDef="let element"> {{ element.level }}</td>
   </ng-container>
   <ng-container matColumnDef="likes">
-    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.LIKES' | translate}}</th>
-    <td mat-cell *matCellDef="let element"> {{element.likes}} </td>
+    <th style="width: 75px" mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.LIKES' | translate }}</th>
+    <td mat-cell *matCellDef="let element"> {{ element.likes }}</td>
   </ng-container>
   <ng-container matColumnDef="buildName">
-    <th mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.NAME' | translate}}</th>
-    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.buildName}} </td>
+    <th mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.NAME' | translate }}</th>
+    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{ element.buildName }}</td>
   </ng-container>
   <ng-container matColumnDef="shortDescription">
-    <th mat-header-cell *matHeaderCellDef> {{'BUILD_LIST.SHORT_DESCRIPTION' | translate}}</th>
-    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{element.shortDescription}} </td>
+    <th mat-header-cell *matHeaderCellDef> {{ 'BUILD_LIST.SHORT_DESCRIPTION' | translate }}</th>
+    <td style="word-wrap: break-word;" mat-cell *matCellDef="let element"> {{ element.shortDescription }}</td>
   </ng-container>
   <ng-container matColumnDef="pvpBuild">
     <th style="width: 75px" mat-header-cell *matHeaderCellDef> PvP</th>
@@ -42,9 +83,9 @@
     <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
     <td mat-cell *matCellDef="let element" fxLayoutGap="5">
       <a [routerLink]="['/build-calculator/build/' + element.id]">
-      <button mat-icon-button>
-        <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
-      </button>
+        <button mat-icon-button>
+          <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
+        </button>
       </a>
       <button *ngIf="isAdmin" mat-icon-button (click)="deleteBuild(element.id)">
         <mat-icon style="color: red">delete</mat-icon>

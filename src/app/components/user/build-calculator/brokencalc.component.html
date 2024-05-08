@@ -173,7 +173,8 @@
         <div fxLayout="row">
 
           <button class="sample" mat-icon-button (click)="upvote()">
-            <mat-icon >thumb_up</mat-icon>
+            <mat-icon *ngIf="isLiking()" color="accent">thumb_up</mat-icon>
+            <mat-icon *ngIf="!isLiking()">thumb_up</mat-icon>
           </button>
           <div class="sample">
             {{databaseBuild.liking.length}}
@@ -227,10 +228,10 @@
                     <mat-slide-toggle [(ngModel)]="resetOnLevelChange">{{'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate}}</mat-slide-toggle>
                   </div>
                   <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="../../../../assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
+                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
                   </div>
                 </div>
               </mat-card-content>
@@ -252,8 +253,8 @@
                   </div>
 
                   <div fxLayoutAlign="center" class="upgrade">
-                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
-                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
+                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
+                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
                   </div>
                 </div>
               </div>
@@ -296,11 +297,11 @@
                 <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
                 <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
                 <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
-                <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +1 </button>
-                <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton upgradeStat"> +10 </button>
+                <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button class="iconButton upgradeStat"> +1 </button>
+                <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button class="iconButton upgradeStat"> +10 </button>
                 <div class="make-space"></div>
-                <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -1 </button>
-                <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button color="disabled" class="iconButton reduceStat"> -10 </button>
+                <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button class="iconButton reduceStat"> -1 </button>
+                <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button class="iconButton reduceStat"> -10 </button>
               </div>
             </div>
           </mat-card-content>
@@ -485,7 +486,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_1) as item" class="item ring1" (click)="changeItemsToShow(InventorySlot.RING_1, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_1) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/ring_1.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_1.png" width="31" height="23" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
@@ -495,7 +496,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_2) as item" class="item ring2"  (click)="changeItemsToShow(InventorySlot.RING_2, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_2) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/ring_2.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_2.png" width="31" height="23" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
@@ -505,7 +506,7 @@
             <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.SHIELDORBRACES) as item" class="item shield"  (click)="changeItemsToShow(InventorySlot.SHIELDORBRACES, $event)">
               <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.SHIELDORBRACES) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="" style="border-radius: 50%;">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="../../../../assets/equipment/placeholders/shieldorbraces.png" width="32" height="57" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/shieldorbraces.png" width="32" height="57" alt="">
                 <div *ngIf="item">
                   <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>

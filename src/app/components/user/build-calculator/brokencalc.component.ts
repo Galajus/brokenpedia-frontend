@@ -115,7 +115,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   //BUILD CALC
   buildName: string = "";
   shortDescription: string = "";
-  privateBuild: boolean = false;
+  privateBuild: boolean = true;
   pvpBuild: boolean = false;
   description: any;
 
@@ -1764,8 +1764,14 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.buildCalculatorService.addLiker(liker)
       .subscribe({
-        next: like => this.databaseBuild.liking.push(like),
-        error: () => this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_LIKED_EARLIER"), "ok", {duration: 3000})
+        next: like => {
+          if (!like) {
+            this.databaseBuild.liking = this.databaseBuild.liking.filter(l => uuid !== l.likerUuid);
+            return;
+          }
+          this.databaseBuild.liking.push(like)
+        },
+        error: () => this.snackBar.open(this.translate.instant("BUILD_CALCULATOR.ALERTS.BUILD_LIKED_EARLIER"), "ok", {duration: 3000}),
       });
   }
 
@@ -2126,6 +2132,15 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   //UTILS
+
+  isLiking() {
+    const uuid = this.jwtService.getUuid();
+    if (!uuid) {
+      return false;
+    }
+    return !!this.databaseBuild.liking.find(l => l.likerUuid === uuid);
+
+  }
 
   hasSomeParentTheClass(parent: ParentNode, classname: string): boolean {
     let parentNode = parent.parentNode;

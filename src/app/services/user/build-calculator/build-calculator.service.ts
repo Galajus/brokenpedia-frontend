@@ -53,16 +53,8 @@ export class BuildCalculatorService {
     return this.http.get<DatabaseBuild>(environment.endpoints.buildCalculator.getBuildWithoutAccount + id);
   }
 
-  getBuildsByLevel(less: number, greater: number, page: number): Observable<PageableBuildsDto<BuildListDto>> {
-    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-level?less=${less}&greater=${greater}&page=${page}`);
-  }
-
-  getBuildsByPvp(isPvp: boolean): Observable<PageableBuildsDto<BuildListDto>> {
-    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-pvp/${isPvp}`);
-  }
-
-  getBuildsByProfession(profession: string): Observable<PageableBuildsDto<BuildListDto>> {
-    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/by-profession/${profession}`);
+  getBuildsFiltered(levelLess: number, levelGreater: number, isPvp: boolean, profession: string[], likes: number, sorting: string, sortDirection: string, page: number): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/filtered?levelLess=${levelLess}&levelGreater=${levelGreater}&isPvp=${isPvp}&profession=${profession}&likes=${likes}&sorting=${sorting}&sortDirection=${sortDirection}&page=${page}`);
   }
 
   showSkillDataBySelectedLevel(level: number) {

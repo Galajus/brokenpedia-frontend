@@ -4,6 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {Profile} from "@models/user/profile";
 import {ProfileNicknameDto} from "@models/user/profileNicknameDto";
 import {BuildListDto} from "@models/build-list/buildListDto";
+import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,12 @@ export class DashboardService {
     return this.http.get<Profile>("/api/profile");
   }
 
-  getBuildsList(): Observable<Array<BuildListDto>> {
-    return this.http.get<Array<BuildListDto>>("/api/profile/builds/builds-list");
+  getBuildsList(page: number): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/profile/builds/filtered?page=${page}`);
+  }
+
+  getLikedBuildsList(page: number): Observable<PageableBuildsDto<BuildListDto>> {
+    return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/profile/builds/liked?page=${page}`);
   }
 
   deleteBuild(id: number): Observable<void> {
