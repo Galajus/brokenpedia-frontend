@@ -390,6 +390,20 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   private assignDrifToItem(drif: Drif, rarWithDrifs: RarWithDrifs, slot: number) {
+    if (this.isElementalDamageDrif(drif)) {
+      if (slot === 1 && (this.isElementalDamageDrif(rarWithDrifs.drifItem2) || this.isElementalDamageDrif(rarWithDrifs.drifItem3))) {
+        this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_LIMITED"), "ok", {duration: 1500});
+        return;
+      }
+      if (slot === 2 && (this.isElementalDamageDrif(rarWithDrifs.drifItem1) || this.isElementalDamageDrif(rarWithDrifs.drifItem3))) {
+        this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_LIMITED"), "ok", {duration: 1500});
+        return;
+      }
+      if (slot === 3 && (this.isElementalDamageDrif(rarWithDrifs.drifItem1) || this.isElementalDamageDrif(rarWithDrifs.drifItem2))) {
+        this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_LIMITED"), "ok", {duration: 1500});
+        return;
+      }
+    }
     if (slot === 1 && (rarWithDrifs.drifItem2?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem3?.psychoMod !== drif.psychoMod)) {
       rarWithDrifs.drifItem1 = cloneDeep(drif);
       return;
@@ -403,6 +417,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       return;
     }
     this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_EXIST", {name: drif.shortName}), "ok", {duration: 1500});
+  }
+
+  private isElementalDamageDrif(drif: Drif | null) {
+    if (!drif) {
+      return false;
+    }
+    return drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE || drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE || drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE;
   }
 
   maximiseDrifLevels() {
