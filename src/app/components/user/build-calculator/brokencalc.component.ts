@@ -32,7 +32,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Inventory, InventoryDrif, InventoryItem} from "@models/build-calculator/inventory/inventory";
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
-import {cloneDeep, floor} from "lodash-es";
+import {cloneDeep, floor, isNumber} from "lodash-es";
 import {MatSliderChange} from "@angular/material/slider";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import resistances from "@models/build-calculator/resistances";
@@ -1634,6 +1634,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     let localInventory: LocalInventory = JSON.parse(data);
 
     localInventory.items.forEach(localItem => {
+      if (isNumber(localItem.supportedSlot) || isNumber(localItem.upgradeTarget) || isNumber(localItem.incrustationTarget)) { // Old version fix
+        return;
+      }
       let item = this.itemsFromDb.find(i => i.id === localItem.id);
       if (!item) {
         return;
