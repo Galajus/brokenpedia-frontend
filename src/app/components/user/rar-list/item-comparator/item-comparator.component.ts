@@ -68,7 +68,11 @@ export class ItemComparatorComponent implements OnInit {
     }
     if (rar.family === ItemFamily.SET) {
       let setItem: IncrustatedLegendaryItem | undefined;
-      this.fallBackSets.forEach(i => setItem = i as IncrustatedLegendaryItem);
+      const set = this.fallBackSets.find(i => rar.name === i.name);
+      if (!set) {
+        throw new Error("SET NOT FOUND");
+      }
+      setItem = set as IncrustatedLegendaryItem;
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, setItem);
       return;
     }
