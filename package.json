@@ -6,7 +6,11 @@
     "start": "ng serve --proxy-config proxy.config.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "update-angular-14-cdk": "ng update @angular/cdk@14",
+    "update-angular-14-cli": "ng update @angular/cli@14",
+    "update-angular-14-core": "ng update @angular/core@14",
+    "update-angular-14-material": "ng update @angular/material@14"
   },
   "private": true,
   "dependencies": {
