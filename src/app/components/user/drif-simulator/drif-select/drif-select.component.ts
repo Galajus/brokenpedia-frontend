@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {round} from "lodash-es";
 import {PsychoMod} from "@models/items/psychoMod";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {Drif} from "@models/drif/drif";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-drif-select',

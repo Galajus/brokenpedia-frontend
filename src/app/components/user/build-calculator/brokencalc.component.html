@@ -62,7 +62,9 @@
         </mat-select>
       </mat-form-field>
       <div class="upgrade-menu">
-        <mat-slider class="upgrade-menu" (mousedown)="blockHideTooltips()" (input)="changeUpgradeLevel($event)" [(ngModel)]="itemToShow.upgradeLevel" [min]="0" [max]="25" step="1" [value]="itemToShow.upgradeLevel"></mat-slider>
+        <mat-slider class="upgrade-menu" (mousedown)="blockHideTooltips()" [(ngModel)]="itemToShow.upgradeLevel" [min]="0" [max]="25" step="1"> <!--(input)="changeUpgradeLevel($event)" [value]="itemToShow.upgradeLevel"-->
+        <input matSliderThumb [(ngModel)]="itemToShow.upgradeLevel">
+        </mat-slider>
       </div>
     </div>
   </ng-template>
@@ -75,7 +77,9 @@
     [cdkConnectedOverlayOpen]="showDrifLevel"
   >
     <div class="drif-show" #drifShow>
-      <mat-slider (mousedown)="blockHideTooltips()" (input)="changeDrifLevel($event)" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1" [value]="drifToEdit.level"></mat-slider>
+      <mat-slider (mousedown)="blockHideTooltips()" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1" > <!--(input)="changeDrifLevel($event)" [value]="drifToEdit.level"-->
+      <input matSliderThumb [(ngModel)]="drifToEdit.level">
+      </mat-slider>
     </div>
   </ng-template>
 

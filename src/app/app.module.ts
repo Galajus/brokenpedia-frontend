@@ -3,24 +3,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatBadgeModule} from "@angular/material/badge";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {MatCardModule} from "@angular/material/card";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatListModule} from "@angular/material/list";
 import {DefaultComponent} from './layouts/default/default.component';
 import {PageNotFoundComponent} from './components/common/page-not-found/page-not-found.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {MatTableModule} from "@angular/material/table";
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
@@ -28,27 +17,19 @@ import {ProfileAuthorizationGuard} from "./guards/profileAuthorizationGuard";
 import {JwtInterceptor} from "./interceptors/jwt.interceptor";
 import {AdminComponent} from './layouts/admin/admin.component';
 import {AdminAuthorizationGuard} from "./guards/adminAuthorizationGuard";
-import {MatTabsModule} from "@angular/material/tabs";
 import {AngularEditorModule} from "@kolkov/angular-editor";
 import {MatTreeModule} from "@angular/material/tree";
 import {MatExpansionModule} from "@angular/material/expansion";
-import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgOptimizedImage, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl'
 import localePlExtra from '@angular/common/locales/extra/pl';
 import {SimpleDate} from "./pipes/simple-date";
 import {NoSanitize} from "./pipes/no-sanitize";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatTooltipModule} from "@angular/material/tooltip";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AdsenseModule} from "ng2-adsense";
-import {MatSliderModule} from "@angular/material/slider";
 import {MatSortModule} from "@angular/material/sort";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {MatMenuModule} from "@angular/material/menu";
 import {Underscore} from "./pipes/underscore";
 import {NgVarDirective} from "./directives/ng-var.directive";
 import {OverlayModule} from "@angular/cdk/overlay";
@@ -106,6 +87,25 @@ import { SetsComponent } from './components/admin/sets/sets.component';
 import { SetsUpdateComponent } from './components/admin/sets/sets-update/sets-update.component';
 import { SetsCreateComponent } from './components/admin/sets/sets-create/sets-create.component';
 import { UpdateDrifComponent } from './components/admin/drifs/update-drif/update-drif.component';
+import {MatListModule} from "@angular/material/list";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatTableModule} from "@angular/material/table";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {FlexLayoutModule} from "@ngbracket/ngx-layout";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -213,7 +213,6 @@ registerLocaleData(localePl, localePlExtra);
     MatButtonModule,
     MatGridListModule,
     MatBadgeModule,
-    FlexLayoutModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -256,7 +255,8 @@ registerLocaleData(localePl, localePlExtra);
       defaultLanguage: 'en'
     }),
     MatMenuModule,
-    OverlayModule
+    OverlayModule,
+    FlexLayoutModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

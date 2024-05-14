@@ -236,7 +236,7 @@ export class SkillUpdateComponent implements OnInit {
   }
 
   getFriendlyCustomEffects(index: number): FormArray {
-    let skillBasics = this.skillForm.get('skillBasics') as FormArray;
+    let skillBasics = this.skillForm.get('skillBasics') as FormArray<FormGroup>;
     return skillBasics.controls.at(index)?.get('skillCustomEffects') as FormArray;
   }
 

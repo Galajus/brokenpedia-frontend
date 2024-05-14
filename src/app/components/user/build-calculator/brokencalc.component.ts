@@ -9,9 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {SkillCost} from "@models/skills/skillCost";
-import {MatDialog} from "@angular/material/dialog";
 import {Statistic} from "@models/build-calculator/statistic";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
 import {SkillBasic} from "@models/skills/skillBasic";
 import {SkillLevelSelectComponent} from "./skill-level-select/skill-level-select.component";
@@ -21,7 +19,6 @@ import {BuildSkillStatData} from "@models/build-calculator/buildSkillStatData";
 import {SkillStatType} from "@models/skills/skillStatType";
 import {DatabaseBuild} from "@models/build-calculator/databaseBuild";
 import {JwtService} from "@services/jwt/jwt.service";
-import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BuildLiker} from "@models/build-calculator/buildLiker";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
@@ -33,7 +30,6 @@ import {Inventory, InventoryDrif, InventoryItem} from "@models/build-calculator/
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 import {cloneDeep, floor, isNumber} from "lodash-es";
-import {MatSliderChange} from "@angular/material/slider";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import resistances from "@models/build-calculator/resistances";
 import deducedInventoryItemValuesTable from "@models/build-calculator/inventory/deducedInventoryItemValues";
@@ -53,6 +49,9 @@ import {Skill} from "@models/skills/skill";
 import {Build} from "@models/build-calculator/build";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {DrifService} from "@services/user/drif/drif.service";
+import {MatButton} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-brokencalc',
@@ -837,7 +836,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     this.blockHide = true;
   }
 
-  changeUpgradeLevel(e: MatSliderChange) {
+  /*changeUpgradeLevel(e: MatSliderChange) {
     if (e.value || e.value === 0) {
       this.itemToShow.upgradeLevel = e.value;
     }
@@ -858,7 +857,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
     }
-  }
+  }*/
 
   setDrifSlotToChange(number: number) {
     this.drifSlot = number;

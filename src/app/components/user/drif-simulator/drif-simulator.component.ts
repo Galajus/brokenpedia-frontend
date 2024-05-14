@@ -3,7 +3,6 @@ import drifTiers from "@models/drif/data/drifTier";
 import amountReduction from "@models/drif/data/amountDrifReduction";
 import rarsCapacity from "@models/drif/data/rarCapacity";
 import {RarWithDrifs} from "@models/drif/rarWithDrifs";
-import {MatDialog} from "@angular/material/dialog";
 import {DrifSelectComponent} from "./drif-select/drif-select.component";
 import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "@models/drif/data/modCap";
@@ -12,13 +11,14 @@ import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "@models/drif/dragDrifItem";
 import {clone, cloneDeep} from "lodash-es";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {PsychoMod} from "@models/items/psychoMod";
 import {TranslateService} from "@ngx-translate/core";
 import {DrifService} from "@services/user/drif/drif.service";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {Drif} from "@models/drif/drif";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-drif-simulator',
