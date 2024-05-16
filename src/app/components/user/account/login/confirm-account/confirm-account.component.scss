@@ -1,3 +1,10 @@
+@import "src/mixins";
+
+.container {
+  @include flex-container(row, center, center);
+  gap: 6px;
+}
+
 .simpleFormatted {
   padding-bottom: 25px !important;
   justify-content: center;

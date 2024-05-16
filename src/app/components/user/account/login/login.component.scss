@@ -1,9 +1,17 @@
+@import "src/mixins";
+
+.container {
+  @include flex-container(row, no-wrap, center);
+  gap: 30px;
+}
+
 .loginForm, .registerForm {
+  @include flex(column);
   width: 300px;
   margin: 0 auto;
 }
 
-.lostPassword{
+.lostPassword {
   margin-top: 7px;
 }
 
@@ -15,9 +23,4 @@
 .success {
   padding-top: 7px;
   color: limegreen;
-}
-
-.simpleFormatted {
-  padding-bottom: 25px !important;
-  justify-content: center;
 }

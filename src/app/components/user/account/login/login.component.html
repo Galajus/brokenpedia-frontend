@@ -1,8 +1,8 @@
-<div class="simpleFormatted restrict-width" fxLayout="row" fxLayoutGap="30">
+<div class="container">
     <mat-card class="mat-elevation-z6">
       <mat-card-content>
         <h2>Logowanie</h2>
-        <form [formGroup]="loginForm" fxLayout="column" (submit)="login()" class="loginForm">
+        <form [formGroup]="loginForm" (submit)="login()" class="loginForm">
           <mat-form-field color="accent" appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput formControlName="username" placeholder="Podaj swój email">
@@ -23,7 +23,7 @@
     <mat-card class="mat-elevation-z6">
       <mat-card-content>
         <h2>Rejestracja</h2>
-        <form [formGroup]="registerForm" fxLayout="column" (submit)="register()" class="registerForm">
+        <form [formGroup]="registerForm" (submit)="register()" class="registerForm">
           <mat-form-field color="accent" appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput formControlName="username" placeholder="Podaj swój email">

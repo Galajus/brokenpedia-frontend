@@ -1,0 +1,31 @@
+@mixin flex($direction: row, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-position($justify-content: flex-start, $align-content: stretch, $align-items: normal) {
+  display: flex;
+  justify-content: $justify-content;
+  align-content: $align-content;
+  align-items: $align-items;
+}
+
+@mixin flex-container(
+  $direction: row,
+  $justify-content: flex-start,
+  $align-items: normal,
+  $wrap: wrap,
+  $align-content: normal) {
+
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  align-content: $align-content;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-x-stretch($width) {
+  width: $width + '%';
+}
