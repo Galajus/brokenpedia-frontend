@@ -1,7 +1,8 @@
 @import "src/mixins";
 
 .container {
-  @include flex-container(row, center, center);
+  @include flex-direction(row);
+  @include flex-position(center, center);
   gap: 6px;
 }
 

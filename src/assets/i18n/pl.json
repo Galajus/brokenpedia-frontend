@@ -270,6 +270,7 @@
     "SZANSA_NA_ODŁAMEK": "Szansa na odłamek",
     "DODATKOWE_OBRAŻENIA_DO_PRECYZYJNEGO": "Dodatkowe obrażenia do precyzyjnego strzału",
     "SZANSA_NA_ZABICIE": "Szansa na zabicie",
+    "SPALANIE_MANY": "Spalanie many",
     "ADDITIONAL_HP": "PŻ",
     "ADDITIONAL_MANA": "Mana",
     "ADDITIONAL_STAMINA": "Kondycja",
@@ -599,7 +600,14 @@
       "ALLENOR": "Allenor",
       "ATTAWA": "Attawa",
       "IMISINDO": "Imisindo",
-      "WASHI": "Washi"
+      "WASHI": "Washi",
+      "LEGENDARNY_GORTHDAR": "Legendarny Gorthdar",
+      "LEGENDARNY_ŻMIJ": "Legendarny Żmij",
+      "LEGENDARNA_LATARNIA_ŻYCIA": "Legendarna Latarnia Życia",
+      "LEGENDARNY_ALLENOR": "Legendarny Allenor",
+      "LEGENDARNA_ATTAWA": "Legendarna Attawa",
+      "LEGENDARNE_IMISINDO": "Legendarne Imisindo",
+      "LEGENDARNE_WASHI": "Legendarne Washi"
     },
     "SETS_NAMES": {
       "OKOWY_SNU": "Okowy Snu",
@@ -674,7 +682,7 @@
       "KORONA_WIECZNYCH_WŁADCÓW": "Korona Wiecznych Władców",
       "OKRYCIE_WIECZNOŚCI": "Okrycie Wieczności",
       "STAROŻYTNA_ZBROJA": "Starożyna Zbroja",
-      "SPODNIE_WIECZNOŚCI": "Spodnie Wiczności",
+      "SPODNIE_WIECZNOŚCI": "Spodnie Wieczności",
       "TCHNIENIE_PRZYSZŁOŚCI": "Tchnienie Przyszłości",
       "KORONA_LASU": "Korona Lasu",
       "WICHER": "Wicher",

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
+    "starth": "ng serve --proxy-config proxy.config.json --host 192.168.138.240",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

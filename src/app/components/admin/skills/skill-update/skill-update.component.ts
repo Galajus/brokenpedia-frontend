@@ -73,6 +73,7 @@ export class SkillUpdateComponent implements OnInit {
       image: skill.image,
       profession: skill.profession,
     });
+    console.log(skill)
     skill.skillBasics.sort((a, b) => a.skillLevel - b.skillLevel);
     skill.skillBasics.forEach(basic => this.addBasic(basic));
   }

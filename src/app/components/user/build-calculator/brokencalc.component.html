@@ -1,4 +1,3 @@
-<mat-tab-group class="restrict-width" cdkOverlayOrigin #trigger="cdkOverlayOrigin" animationDuration="0ms">
 
   <!--TEMPLATES-->
   <ng-template #drifsSelect let-item="item">
@@ -47,7 +46,7 @@
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="showUpgrade"
   >
-    <div class="drif-show" #upgradeShow fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5">
+    <div class="drif-show flex-column flex-center-center flex-gap-5" #upgradeShow>
       <mat-form-field class="upgrade-menu" style="width: 180px; padding-top: 10px;" appearance="outline" color="accent">
         <mat-label>Cel ulepszania</mat-label>
         <mat-select class="upgrade-menu" [(ngModel)]="itemToShow.upgradeTarget">
@@ -88,12 +87,12 @@
       <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="showUpgradeDesc($event)" matTooltip="Zarządzaj ulepszaniem" matTooltipPosition="above" class="upgrade-item">whatshot</mat-icon>
       <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.EVENLY)" matTooltip="Inkrustuj po równo" matTooltipPosition="above" [class]="'incrustation-evenly'" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.EVENLY">straighten</mat-icon>
       <ul class="eq-list">
-        <li class="element stars" fxLayout="column" fxLayoutAlign="center center">
-          <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="width: 120px !important">
-            <div fxFlex="20" fxLayoutAlign="center center">
+        <li class="element stars flex-column flex-center-center">
+          <div class="flex-row flex-center-center" style="width: 120px !important">
+            <div class="flex-x-stretch-1-5 flex-center-center">
               <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button (click)="removeStar(itemToShow)"><mat-icon>remove</mat-icon></button>
             </div>
-            <div fxFlex fxLayoutAlign="center center">
+            <div class="flex-center-center flex-x-stretch-3-5">
               <div *ngIf="!itemToShow.incrustationLevel || itemToShow.incrustationLevel >= 1 && itemToShow.incrustationLevel <= 3">
                 <img *ngFor="let i of Array(itemToShow.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{itemToShow.name}}" height="19" width="19">
               </div>
@@ -104,15 +103,16 @@
                 <img *ngFor="let i of Array(itemToShow.incrustationLevel - 6).fill(0)" ngSrc="./assets/rars/addons/star_gold.png" alt="{{itemToShow.name}}" height="19" width="19">
               </div>
             </div>
-            <div fxFlex="20" fxLayoutAlign="center center" style="margin-left: auto">
+            <div class="flex-x-stretch-1-5 flex-center-center">
               <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button style="margin-left: auto" (click)="addStar(itemToShow)"><mat-icon>add</mat-icon></button>
             </div>
           </div>
         </li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.RAR.valueOf()" class="rar-name divide">"{{itemToShow.name}}" <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.EPIC.valueOf()" class="epic-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SET.valueOf()" class="set-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SYNERGETIC.valueOf()" class="syng-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.RAR" class="rar-name divide">"{{itemToShow.name}}" <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.EPIC" class="epic-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.LEGENDARY_EPIC" class="legendary-epic-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SET" class="set-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SYNERGETIC" class="syng-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
 
         <li class="element" *ngIf="itemToShow.type">{{'ITEMS_LIST.TYPE' | translate}}: <span class="element-value">{{'ITEMS.TYPES.' + itemToShow.type | translate}}</span></li>
         <li class="element" *ngIf="itemToShow.value">{{'ITEMS_LIST.VALUE' | translate}}: <span class="element-gold">{{itemToShow.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</span></li>
@@ -132,7 +132,8 @@
         <li class="rar-name" *ngIf="itemToShow.drifBoost > 0">Wzmocnienie drifów: <span class="element-value">{{itemToShow.drifBoost * 100}}%</span></li>
         <li class="rar-name" *ngIf="itemToShow.upgradeBoost > 0">Wzmocnienie ulepszeń: <span class="element-value">{{itemToShow.upgradeBoost * 100}}%</span></li>
         <li class="rar-name" *ngIf="itemToShow.orbBoost > 0">Wzmocnienie orba: <span class="element-value">{{itemToShow.orbBoost * 100}}%</span></li>
-        <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.EPIC">Dodatkowe PA: <span class="element-value">1</span></li>
+        <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.EPIC || itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe PA: <span class="element-value">1</span></li>
+        <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe Kółko Ataku: <span class="element-value">1</span></li>
         <li class="element divide" *ngIf="itemToShow.drifs[0] || itemToShow.drifs[1] || itemToShow.drifs[2] || itemToShow.drifBoost > 0 || itemToShow.upgradeBoost > 0 || itemToShow.orbBoost > 0 || itemToShow.family === ItemFamily.EPIC"></li>
 
         <li class="element" *ngIf="itemToShow.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: <span class="element-value">{{'ITEMS.DAMAGE_TYPES.' + itemToShow.damageType | translate}}</span></li>
@@ -158,20 +159,21 @@
 
   </ng-template>
 
+  <mat-tab-group class="restrict-width" cdkOverlayOrigin #trigger="cdkOverlayOrigin" animationDuration="0ms"> <!--TODO REMOVE INDEX-->
+
   <!--BUILD-->
 
   <mat-tab labelClass="build-tab" label="Build">
-    <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
-      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
+    <div *ngIf="buildNotFound" class="flex-column flex-gap-10">
+      <mat-card class="mat-elevation-z6 flex-center-center">
         <mat-card-content>
           <h2>Buildu nie znaleziono bądź jest prywatny</h2>
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="restrict-width" *ngIf="!buildNotFound" fxLayout="column" fxLayoutGap="10" style="margin-bottom: 10px">
-      <div *ngIf="databaseBuild" class="reactions" style="" fxLayoutGap="10">
-        <div fxLayout="row">
-
+    <div class="restrict-width flex-column flex-gap-10 tab" *ngIf="!buildNotFound">
+      <div *ngIf="databaseBuild" class="reactions">
+        <div class="flex-row">
           <button class="sample" mat-icon-button (click)="upvote()">
             <mat-icon *ngIf="isLiking()" color="accent">thumb_up</mat-icon>
             <mat-icon *ngIf="!isLiking()">thumb_up</mat-icon>
@@ -182,85 +184,75 @@
         </div>
       </div>
       <div>
-        <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10">
-          <div fxFlex="65">
-            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
-              <mat-card-content>
-                <div fxFlex fxLayoutGap="10" fxLayoutAlign="center center" style="font-size: 14px">
-                  <div fxLayout="column" fxLayoutGap="5">
-                    <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">{{'BUILD_CALCULATOR.SAVE' | translate}}</button>
-                    <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
-                  </div>
-
-                  <mat-form-field appearance="outline" color="accent" *ngIf="!databaseBuild">
-                    <mat-label>{{'BUILD_CALCULATOR.CHOOSE_PROFESSION' | translate}}</mat-label>
-                    <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
-                      <mat-option value="BARBARIAN">{{'BUILD_CALCULATOR.PROFESSION.BARBARIAN' | translate}}</mat-option>
-                      <mat-option value="FIRE_MAGE">{{'BUILD_CALCULATOR.PROFESSION.FIRE_MAGE' | translate}}</mat-option>
-                      <mat-option value="ARCHER">{{'BUILD_CALCULATOR.PROFESSION.ARCHER' | translate}}</mat-option>
-                      <mat-option value="SHEED">{{'BUILD_CALCULATOR.PROFESSION.SHEED' | translate}}</mat-option>
-                      <mat-option value="VOODOO">{{'BUILD_CALCULATOR.PROFESSION.VOODOO' | translate}}</mat-option>
-                      <mat-option value="KNIGHT">{{'BUILD_CALCULATOR.PROFESSION.KNIGHT' | translate}}</mat-option>
-                      <mat-option value="DRUID">{{'BUILD_CALCULATOR.PROFESSION.DRUID' | translate}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-
-
-                  <mat-form-field hintLabel="{{'BUILD_CALCULATOR.CHARACTER_LEVEL_TIP' | translate}}" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
-                    <mat-label>{{'BUILD_CALCULATOR.CHARACTER_LEVEL' | translate}}</mat-label>
-                    <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
-                  </mat-form-field>
-
-                  <h1 *ngIf="databaseBuild && databaseBuild.profile.uuid !== jwtService.getUuid()">
-                    <strong>{{getPrettyProfession(newClass)}}</strong> {{newLevel}} LVL <i>by </i> <strong>{{databaseBuild.profile.nickname}}</strong>
-                  </h1>
+        <div class="flex-row flex-center-center flex-gap-10 flex-x-stretch flex-y-stretch">
+          <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
+            <mat-card-content>
+              <div class="flex-gap-10 flex-center-center" style="font-size: 14px">
+                <div class="flex-column flex-center flex-gap-5">
+                  <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">{{'BUILD_CALCULATOR.SAVE' | translate}}</button>
+                  <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
                 </div>
-              </mat-card-content>
-            </mat-card>
 
-          </div>
-          <div fxFlex="35">
-            <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
-              <mat-card-content>
-                <div>
-                  <div *ngIf="!databaseBuild" fxLayout="column" fxLayoutGap="15" fxLayoutAlign="center center">
-                    <mat-slide-toggle [(ngModel)]="resetOnLevelChange">{{'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate}}</mat-slide-toggle>
-                  </div>
-                  <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="center center">
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
-                    <div fxLayout="column" fxLayoutAlign="center center"><img class="points" src="assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
-                  </div>
+                <mat-form-field appearance="outline" color="accent" *ngIf="!databaseBuild">
+                  <mat-label>{{'BUILD_CALCULATOR.CHOOSE_PROFESSION' | translate}}</mat-label>
+                  <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
+                    <mat-option value="BARBARIAN">{{'BUILD_CALCULATOR.PROFESSION.BARBARIAN' | translate}}</mat-option>
+                    <mat-option value="FIRE_MAGE">{{'BUILD_CALCULATOR.PROFESSION.FIRE_MAGE' | translate}}</mat-option>
+                    <mat-option value="ARCHER">{{'BUILD_CALCULATOR.PROFESSION.ARCHER' | translate}}</mat-option>
+                    <mat-option value="SHEED">{{'BUILD_CALCULATOR.PROFESSION.SHEED' | translate}}</mat-option>
+                    <mat-option value="VOODOO">{{'BUILD_CALCULATOR.PROFESSION.VOODOO' | translate}}</mat-option>
+                    <mat-option value="KNIGHT">{{'BUILD_CALCULATOR.PROFESSION.KNIGHT' | translate}}</mat-option>
+                    <mat-option value="DRUID">{{'BUILD_CALCULATOR.PROFESSION.DRUID' | translate}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+
+                <mat-form-field hintLabel="{{'BUILD_CALCULATOR.CHARACTER_LEVEL_TIP' | translate}}" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
+                  <mat-label>{{'BUILD_CALCULATOR.CHARACTER_LEVEL' | translate}}</mat-label>
+                  <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
+                </mat-form-field>
+
+                <h1 *ngIf="databaseBuild && databaseBuild.profile.uuid !== jwtService.getUuid()">
+                  <strong>{{getPrettyProfession(newClass)}}</strong> {{newLevel}} LVL <i>by </i> <strong>{{databaseBuild.profile.nickname}}</strong>
+                </h1>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
+            <mat-card-content>
+                <div *ngIf="!databaseBuild" class="flex-column flex-center-center flex-gap-15">
+                  <mat-slide-toggle [(ngModel)]="resetOnLevelChange">{{'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate}}</mat-slide-toggle>
                 </div>
-              </mat-card-content>
-            </mat-card>
-          </div>
+                <div class="flex-row flex-center-center flex-gap-15">
+                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
+                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
+                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
+                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
+                </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
 
       <div>
         <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
           <mat-card-content>
-            <div>
-              <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
-                <div *ngFor="let skill of currentClassSkills">
-                  <div>
-                    <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
-                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
-                    </div>
-                  </div>
-
-                  <div fxLayoutAlign="center" class="upgrade">
-                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
-                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
+            <div class="flex-row flex-center flex-gap-10">
+              <div *ngFor="let skill of currentClassSkills">
+                <div>
+                  <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
+                    <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
                   </div>
                 </div>
+
+                <div class="flex-center-center upgrade">
+                  <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
+                  <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
+                </div>
               </div>
-
             </div>
-
           </mat-card-content>
         </mat-card>
       </div>
@@ -269,17 +261,17 @@
         <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
           <mat-card-content>
             <div>
-              <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10">
+              <div class="flex-row flex-center flex-gap-10">
                 <div *ngFor="let skill of currentBasicSkills">
                   <div>
                     <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
-                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
+                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
                     </div>
                   </div>
 
-                  <div fxLayoutAlign="center" class="upgrade">
-                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="../../../../assets/calculator/skilldown.png" alt="skill down">
-                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="../../../../assets/calculator/skillup.png" alt="skill up">
+                  <div class="upgrade flex-center-center">
+                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
+                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
                   </div>
 
                 </div>
@@ -289,11 +281,11 @@
         </mat-card>
       </div>
 
-      <div fxLayout="row" fxFlexAlign="center center" fxLayoutGap="10" style="height: 335px">
-        <mat-card fxFlex="70" class="mat-elevation-z6" fxLayoutAlign="center center" style="padding: 8px">
+      <div class="flex-row flex-center-center flex-gap-10 flex-y-stretch" style="height: 335px">
+        <mat-card class="mat-elevation-z6 flex-center-center flex-x-stretch-2-3" style="padding: 8px">
           <mat-card-content>
-            <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
-              <div *ngFor="let stat of currentStats" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
+            <div class="flex-row flex-center flex-gap-2">
+              <div *ngFor="let stat of currentStats" class="flex-column flex-center-center flex-gap-4">
                 <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
                 <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
                 <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
@@ -306,10 +298,10 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <mat-card fxFlex class="mat-elevation-z6" style="padding: 8px">
+        <mat-card class="mat-elevation-z6 flex-x-stretch-1-3" style="padding: 8px">
           <mat-card-content>
-            <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
-              <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
+            <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" class="flex-column flex-center-center flex-gap-1">
+              <div class="flex-column flex-center-center flex-gap-1 skill-desc-part">
                 <div>
                   <h4 style="display: inline; font-weight: bold">{{'BUILD_CALCULATOR.SKILLS.' + activeSkill.name | uppercase | underscore | translate}}</h4>
                   <h5 style="display: inline"> (lvl: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}+)</h5>
@@ -318,7 +310,7 @@
                 <h5 *ngIf="activeSkill.formula">{{'BUILD_CALCULATOR.FORMULA' | translate}}: {{'SKILL_FORMULAS.' + activeSkill.formula | translate}}</h5>
               </div>
               <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">{{'BUILD_CALCULATOR.LEVEL' | translate}}: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
-              <div *ngIf="activeSkill.level != 0" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1">
+              <div *ngIf="activeSkill.level != 0" class="flex-column flex-center-center flex-gap-1 skill-desc-part">
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">{{'BUILD_CALCULATOR.DAMAGE' | translate}}: {{getActiveSkillBasic(activeSkill.level).damage}}%</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">{{'BUILD_CALCULATOR.CHANCE_TO_HIT' | translate}}: {{getActiveSkillBasic(activeSkill.level).hitChance}}%</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">{{'BUILD_CALCULATOR.MANA' | translate}}: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
@@ -335,7 +327,7 @@
                   {{'BUILD_CALCULATOR.DIFFICULTY' | translate}}: {{'DIFFICULTIES.' + getActiveSkillBasic(activeSkill.level).skillDifficulty | translate}}
                 </h5>
               </div>
-              <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1"
+              <div class="flex-column flex-center-center flex-gap-1"
                    *ngIf="activeSkill?.level != 0 &&
                   (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0 ||
@@ -354,14 +346,14 @@
 
   <!--INVENTORY-->
 
-  <mat-tab labelClass="inventory-tab" *ngIf="!databaseBuild" label="Inventory">
+  <mat-tab labelClass="inventory-tab" *ngIf="!databaseBuild" label="Inventory" >
     <h2 style="color: red; margin-bottom: 0" >WERSJA PRE BETA - ZGŁASZAJ WSZYSTKO PRZEZ FORMULARZ ZGŁASZANIA BŁĘDÓW/SUGESTII PO LEWEJ</h2>
     <h3 style="color: red; margin-bottom: 1px">Sety nie zliczają jeszcze bonusów psycho i nie mają blokad profesji oraz nie działa zapisywanie buildu EQ</h3>
-    <div fxLayout="row" fxLayoutGap="15" fxLayoutAlign="space-between" class="restrict-width">
+    <div class="restrict-width flex-row flex-gap-15">
 
       <!--ITEM SELECT-->
-      <mat-card class="mat-elevation-z6" fxFlex="32" style="padding: 4px">
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
+      <mat-card class="mat-elevation-z6 flex-x-stretch-1-3" style="padding: 4px">
+        <mat-card-content class="flex-column flex-center flex-gap-20">
           <div class="items-choose-container">
             <div class="items-choose-item custom-choose" (click)="setItemToInventory(undefined)">
               <h2 style="color: red">X</h2>
@@ -378,77 +370,77 @@
       </mat-card>
 
       <!--INVENTORY-->
-      <mat-card class="mat-elevation-z6" fxFlex>
-        <mat-card-content fxLayout="row" fxLayoutAlign="center" class="inventory-window">
+      <mat-card class="mat-elevation-z6 flex-x-stretch-2-3">
+        <mat-card-content class="inventory-window flex-row flex-center">
           <div class="mod-sum">
             <img (click)="showDrifSummary()" ngSrc="assets/calculator/mod_sum.png" alt="mod sum" height="25" width="25">
           </div>
           <!--PLAYER-->
           <div id="container" class="inventory-window">
-            <div fxLayout="row" class="stat-container">
-              <div class="stats" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2">
-                <div *ngFor="let stat of currentStats" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+            <div class="stat-container flex-row">
+              <div class="stats flex-column flex-center flex-gap-2">
+                <div *ngFor="let stat of currentStats" class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
                   <h3 *ngIf="stat.minLevel == 20"> {{stat.level * 10}} </h3>
                   <h3 *ngIf="stat.minLevel == 10"> {{stat.level}} </h3>
                 </div>
               </div>
-              <div class="stats-inv" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2">
-                <div *ngFor="let stat of currentStats" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+              <div class="stats-inv flex-column flex-center flex-gap-2">
+                <div *ngFor="let stat of currentStats" class="flex-row flex-center-center flex-gap-4">
                   <h3 *ngIf="stat.minLevel == 20" class="element-gold"> {{stat.level * 10 + getStatSum(stat.image)}} </h3>
                   <h3 *ngIf="stat.minLevel == 10" class="element-gold"> {{stat.level + getStatSum(stat.image)}} </h3>
                 </div>
               </div>
-              <div class="resists" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2">
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+              <div class="resists flex-column flex-center flex-gap-2">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/slash.png" alt="slash">
                   <h3> {{getResSum("slash")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/crush.png" alt="slash">
                   <h3> {{getResSum("crush")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/pierc.png" alt="slash">
                   <h3> {{getResSum("pierc")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/fire.png" alt="slash">
                   <h3> {{getResSum("fire")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/cold.png" alt="slash">
                   <h3> {{getResSum("cold")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/energy.png" alt="slash">
                   <h3> {{getResSum("energy")}} </h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <img class="points" src="assets/stats/mental.png" alt="slash">
                   <h3> {{getResSum("mental")}} </h3>
                 </div>
               </div>
-              <div class="resists-percent" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2">
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+              <div class="resists-percent flex-column flex-center flex-gap-2">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("slash")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("crush")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("pierc")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("fire")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("cold")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("energy")}}%</h3>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                <div class="flex-row flex-center-center flex-gap-4">
                   <h3 class="element-gold"> {{getResSumPercent("mental")}}%</h3>
                 </div>
               </div>
@@ -583,20 +575,20 @@
   <!--BUILD DESCRIPTION-->
 
   <mat-tab labelClass="description-tab" label="{{'BUILD_CALCULATOR.DESCRIPTION' | translate}}">
-    <div *ngIf="buildNotFound" fxLayout="column" fxLayoutGap="10">
-      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6" style="padding: 8px">
+    <div *ngIf="buildNotFound" class="flex-column flex-gap-10">
+      <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
         <mat-card-content>
           <h2>{{'BUILD_CALCULATOR.NOT_FOUND' | translate}}</h2>
         </mat-card-content>
       </mat-card>
     </div>
 
-    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.profile?.uuid === jwtService.getUuid())" fxLayout="column" fxLayoutGap="10" style="padding-bottom: 10px">
-      <mat-card fxFill fxLayoutAlign="center center" class="mat-elevation-z6">
+    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.profile?.uuid === jwtService.getUuid())" class="flex-column flex-gap-10" style="padding-bottom: 10px">
+      <mat-card class="mat-elevation-z6 flex-center-center">
         <mat-card-content>
-          <div fxLayoutGap="15" fxLayout="column" fxLayoutAlign="center center">
-            <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20">
-              <div fxLayout="column" fxLayoutAlign="center center">
+          <div class="flex-column flex-center-center flex-gap-15">
+            <div class="flex-column flex-center-center flex-gap-20">
+              <div class="flex-column flex-center-center">
                 <h3>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</h3>
                 <mat-form-field appearance="fill" color="accent" style="width: 300px">
                   <mat-label>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</mat-label>
@@ -605,7 +597,7 @@
                 </mat-form-field>
               </div>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="flex-column flex-center-center">
               <h3>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</h3>
               <mat-form-field appearance="fill" color="accent" style="width: 800px">
                 <mat-label>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</mat-label>
@@ -613,7 +605,7 @@
                 <mat-hint align="end">{{blShortDesc.value.length}} / 150</mat-hint>
               </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15">
+            <div class="flex-row flex-center-center flex-gap-15">
               <mat-slide-toggle [(ngModel)]="privateBuild">{{'BUILD_CALCULATOR.BUILD_PRIVACY' | translate}}</mat-slide-toggle>
               <mat-slide-toggle [(ngModel)]="pvpBuild">{{'BUILD_CALCULATOR.PVP_BUILD' | translate}}</mat-slide-toggle>
             </div>
@@ -625,7 +617,7 @@
             <div>
               <h3>{{'BUILD_CALCULATOR.RESULT' | translate}}</h3>
             </div>
-            <div style="max-width: 800px; word-wrap: break-word;" fxFill [innerHTML]="description">
+            <div style="max-width: 800px; word-wrap: break-word;" class="flex-x-stretch" [innerHTML]="description">
             </div>
           </div>
         </mat-card-content>
@@ -633,12 +625,12 @@
     </div>
     <div *ngIf="databaseBuild && !buildNotFound && databaseBuild?.profile?.uuid !== jwtService.getUuid()" style="padding-bottom: 10px">
       <mat-card class="mat-elevation-z6">
-        <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+        <mat-card-content class="flex-column flex-center-center flex-gap-10">
           <h1>{{buildName}}</h1>
           <mat-divider></mat-divider>
           <h2>{{shortDescription}}</h2>
           <mat-divider></mat-divider>
-          <div style="max-width: 800px; word-wrap: break-word;" fxFill [innerHTML]="description"></div>
+          <div style="max-width: 800px; word-wrap: break-word;" class="flex-x-stretch" [innerHTML]="description"></div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -681,136 +673,41 @@
 </mat-menu>
 
 <mat-menu #accuracy="matMenu" class="menu-drif">
-  <button mat-menu-item (click)="setDrif('dur')" [matTooltip]="getDrifShortDesc('dur')" [disabled]="cantPutDrif('dur')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/dur.png" alt="" height="50" width="50">
-    <span>Dur</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('ling')" [matTooltip]="getDrifShortDesc('ling')" [disabled]="cantPutDrif('ling')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/ling.png" alt="" height="50" width="50">
-    <span>Ling</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('ulk')" [matTooltip]="getDrifShortDesc('ulk')" [disabled]="cantPutDrif('ulk')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/ulk.png" alt="" height="50" width="50">
-    <span>Ulk</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('lorb')" [matTooltip]="getDrifShortDesc('lorb')" [disabled]="cantPutDrif('lorb')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/lorb.png" alt="" height="50" width="50">
-    <span>Lorb</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('oda')" [matTooltip]="getDrifShortDesc('oda')" [disabled]="cantPutDrif('oda')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/oda.png" alt="" height="50" width="50">
-    <span>Oda</span>
+  <button *ngFor="let drif of getDrifsByCategory(DrifCategory.ACCURACY)"
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
+    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+    <span>{{ drif.shortName | titlecase}}</span>
   </button>
 </mat-menu>
 
 <mat-menu #damage="matMenu" class="menu-drif">
-  <button mat-menu-item (click)="setDrif('abaf')" [matTooltip]="getDrifShortDesc('abaf')" [disabled]="cantPutDrif('abaf')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/abaf.png" alt="" height="50" width="50">
-    <span>Abaf</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('astah')" [matTooltip]="getDrifShortDesc('astah')" [disabled]="cantPutDrif('astah')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/astah.png" alt="" height="50" width="50">
-    <span>Astah</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('band')" [matTooltip]="getDrifShortDesc('band')" [disabled]="cantPutDrif('band')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/band.png" alt="" height="50" width="50">
-    <span>Band</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('teld')" [matTooltip]="getDrifShortDesc('teld')" [disabled]="cantPutDrif('teld')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/teld.png" alt="" height="50" width="50">
-    <span>Teld</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('kalh')" [matTooltip]="getDrifShortDesc('kalh')" [disabled]="cantPutDrif('kalh')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/kalh.png" alt="" height="50" width="50">
-    <span>Kalh</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('unn')" [matTooltip]="getDrifShortDesc('unn')" [disabled]="cantPutDrif('unn')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/unn.png" alt="" height="50" width="50">
-    <span>Unn</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('val')" [matTooltip]="getDrifShortDesc('val')" [disabled]="cantPutDrif('val')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/val.png" alt="" height="50" width="50">
-    <span>Val</span>
+  <button *ngFor="let drif of getDrifsByCategory(DrifCategory.DAMAGE)"
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
+    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+    <span>{{ drif.shortName | titlecase}}</span>
   </button>
 </mat-menu>
 
 <mat-menu #defence="matMenu" class="menu-drif">
-  <button mat-menu-item (click)="setDrif('elen')" [matTooltip]="getDrifShortDesc('elen')" [disabled]="cantPutDrif('elen')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/elen.png" alt="" height="50" width="50">
-    <span>Elen</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('grod')" [matTooltip]="getDrifShortDesc('grod')" [disabled]="cantPutDrif('grod')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/grod.png" alt="" height="50" width="50">
-    <span>Grod</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('grud')" [matTooltip]="getDrifShortDesc('grud')" [disabled]="cantPutDrif('grud')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/grud.png" alt="" height="50" width="50">
-    <span>Grud</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('tall')" [matTooltip]="getDrifShortDesc('tall')" [disabled]="cantPutDrif('tall')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/tall.png" alt="" height="50" width="50">
-    <span>Tall</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('tovi')" [matTooltip]="getDrifShortDesc('tovi')" [disabled]="cantPutDrif('tovi')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/tovi.png" alt="" height="50" width="50">
-    <span>Tovi</span>
+  <button *ngFor="let drif of getDrifsByCategory(DrifCategory.DEFENCE)"
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
+    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+    <span>{{ drif.shortName | titlecase}}</span>
   </button>
 </mat-menu>
 
 <mat-menu #reduction="matMenu" class="menu-drif">
-  <button mat-menu-item (click)="setDrif('alorn')" [matTooltip]="getDrifShortDesc('alorn')" [disabled]="cantPutDrif('alorn')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/alorn.png" alt="" height="50" width="50">
-    <span>Alorn</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('faln')" [matTooltip]="getDrifShortDesc('faln')" [disabled]="cantPutDrif('faln')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/faln.png" alt="" height="50" width="50">
-    <span>Faln</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('farid')" [matTooltip]="getDrifShortDesc('farid')" [disabled]="cantPutDrif('farid')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/farid.png" alt="" height="50" width="50">
-    <span>Farid</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('holm')" [matTooltip]="getDrifShortDesc('holm')" [disabled]="cantPutDrif('holm')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/holm.png" alt="" height="50" width="50">
-    <span>Holm</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('iori')" [matTooltip]="getDrifShortDesc('iori')" [disabled]="cantPutDrif('iori')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/iori.png" alt="" height="50" width="50">
-    <span>Iori</span>
+  <button *ngFor="let drif of getDrifsByCategory(DrifCategory.REDUCTION)"
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
+    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+    <span>{{ drif.shortName | titlecase}}</span>
   </button>
 </mat-menu>
 
 <mat-menu #special="matMenu" class="menu-drif">
-  <button mat-menu-item (click)="setDrif('adrim')" [matTooltip]="getDrifShortDesc('adrim')" [disabled]="cantPutDrif('adrim')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/adrim.png" alt="" height="50" width="50">
-    <span>Adrim</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('amad')" [matTooltip]="getDrifShortDesc('amad')" [disabled]="cantPutDrif('amad')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/amad.png" alt="" height="50" width="50">
-    <span>Amad</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('ann')" [matTooltip]="getDrifShortDesc('ann')" [disabled]="cantPutDrif('ann')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/ann.png" alt="" height="50" width="50">
-    <span>Ann</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('eras')" [matTooltip]="getDrifShortDesc('eras')" [disabled]="cantPutDrif('eras')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/eras.png" alt="" height="50" width="50">
-    <span>Eras</span>
-  </button>
-  <!--<button mat-menu-item (click)="setDrif('err')" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/err.png" alt="" height="50" width="50">
-    <span>Err</span>
-  </button>-->
-  <button mat-menu-item (click)="setDrif('heb')" [matTooltip]="getDrifShortDesc('heb')" [disabled]="cantPutDrif('heb')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/heb.png" alt="" height="50" width="50">
-    <span>Heb</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('verd')" [matTooltip]="getDrifShortDesc('verd')" [disabled]="cantPutDrif('verd')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/verd.png" alt="" height="50" width="50">
-    <span>Verd</span>
-  </button>
-  <button mat-menu-item (click)="setDrif('von')" [matTooltip]="getDrifShortDesc('von')" [disabled]="cantPutDrif('von')" matTooltipPosition="after" fxLayout="row" fxLayoutAlign="space-around center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/von.png" alt="" height="50" width="50">
-    <span>Von</span>
+  <button *ngFor="let drif of getDrifsByCategory(DrifCategory.SPECIAL)"
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
+    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+    <span>{{ drif.shortName | titlecase}}</span>
   </button>
 </mat-menu>

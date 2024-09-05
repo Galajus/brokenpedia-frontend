@@ -1,12 +1,13 @@
 @import "src/mixins";
 
 .container {
-  @include flex-container(row, no-wrap, center);
+  @include flex-direction(row);
+  @include flex-position(center);
   gap: 30px;
 }
 
 .loginForm, .registerForm {
-  @include flex(column);
+  @include flex-direction(column);
   width: 300px;
   margin: 0 auto;
 }

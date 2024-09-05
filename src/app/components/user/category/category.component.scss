@@ -15,8 +15,7 @@ h2 {
   align-items: center;
   align-content: center;
   grid-template-columns: repeat(3, 3fr);
-  column-gap: 10px;
-  row-gap: 10px;
+  gap: 10px;
   justify-items: center;
 }
 

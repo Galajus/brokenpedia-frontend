@@ -1,12 +1,12 @@
 <mat-card class="mat-elevation-z6 restrict-width">
-  <mat-card-content fxLayout="column" fxFlex fxLayoutAlign="center">
+  <mat-card-content class="flex-column flex-center">
 
     <div>
-      <h1 *ngIf="profile" fxLayoutAlign="center center">Witaj na swoim profilu, {{profile.nickname}}!</h1>
-      <h1 *ngIf="!profile" fxLayoutAlign="center center">Witaj na swoim profilu!</h1>
+      <h1 *ngIf="profile" class="flex-center-center">Witaj na swoim profilu, {{profile.nickname}}!</h1>
+      <h1 *ngIf="!profile" class="flex-center-center">Witaj na swoim profilu!</h1>
     </div>
 
-    <div *ngIf="profile" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15">
+    <div *ngIf="profile" class="flex-column-wrap flex-center-center">
       <p>E-mail: {{profile.username}}</p>
       <p *ngIf="!isChangingNick">Nick: {{profile.nickname}} <button mat-icon-button (click)="changeEditNick()"><mat-icon>edit</mat-icon></button></p>
       <p *ngIf="isChangingNick">
@@ -22,7 +22,7 @@
 
     <br>
 
-    <h1 fxLayoutAlign="center center">ZAPISANE BUILDY</h1>
+    <h1 class="flex-center-center">ZAPISANE BUILDY</h1>
 
     <table #table  *ngIf="builds && paginator" mat-table [dataSource]="builds.pageableBuilds.content" [trackBy]="trackBy" matSort>
       <ng-container matColumnDef="id">
@@ -74,7 +74,7 @@
       </ng-container>
       <ng-container matColumnDef="actions">
         <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
-        <td mat-cell *matCellDef="let element" fxLayoutGap="5">
+        <td mat-cell *matCellDef="let element" class="flex-gap-5">
           <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
             <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
           </button>
@@ -92,7 +92,7 @@
                    aria-label="Select page" (page)="onPageEvent($event)">
     </mat-paginator>
 
-    <h1 fxLayoutAlign="center center">POLUBIONE BUILDY</h1>
+    <h1 class="flex-center-center">POLUBIONE BUILDY</h1>
 
     <table #table  *ngIf="likedBuilds && paginatorLiked" mat-table [dataSource]="likedBuilds.pageableBuilds.content" [trackBy]="trackBy" matSort>
       <ng-container matColumnDef="id">
@@ -133,7 +133,7 @@
       </ng-container>
       <ng-container matColumnDef="actions">
         <th style="width: 100px" mat-header-cell *matHeaderCellDef> Akcje</th>
-        <td mat-cell *matCellDef="let element" fxLayoutGap="5">
+        <td mat-cell *matCellDef="let element" class="flex-gap-5">
           <button mat-icon-button [routerLink]="['/build-calculator/build/' + element.id]">
             <mat-icon style="color: cornflowerblue">remove_red_eye</mat-icon>
           </button>

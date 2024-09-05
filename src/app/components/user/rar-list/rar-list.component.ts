@@ -35,6 +35,8 @@ export class RarListComponent implements OnInit, OnDestroy {
   fallBackSets!: ItemSet[];
   epics!: IncrustatedLegendaryItem[];
   fallBackEpics!: IncrustatedLegendaryItem[];
+  legendaryEpics!: IncrustatedLegendaryItem[];
+  fallBackLegendaryEpics!: IncrustatedLegendaryItem[];
   toCompare: IncrustatedLegendaryItem[] = [];
   searchValue!: string;
   searchItemType: ItemType[] = [];
@@ -113,6 +115,11 @@ export class RarListComponent implements OnInit, OnDestroy {
         e.translatedName = this.translate.instant('ITEMS.EPICS.' + e.name.toUpperCase().replaceAll(" ", "_"));
       });
     }
+    if (this.legendaryEpics) {
+      this.legendaryEpics.forEach(e => {
+        e.translatedName = this.translate.instant('ITEMS.EPICS.' + e.name.toUpperCase().replaceAll(" ", "_"));
+      });
+    }
 
     if (this.sets) {
       this.sets.forEach(s => {
@@ -137,6 +144,13 @@ export class RarListComponent implements OnInit, OnDestroy {
       .subscribe(e => {
         this.fallBackEpics = cloneDeep(e);
         this.epics = e;
+        this.translateItemsAndMonsters(this.translate.currentLang);
+      });
+
+    this.rarListService.getAllByFamily(ItemFamily.LEGENDARY_EPIC)
+      .subscribe(e => {
+        this.fallBackLegendaryEpics = cloneDeep(e);
+        this.legendaryEpics = e;
         this.translateItemsAndMonsters(this.translate.currentLang);
       });
 
@@ -181,6 +195,7 @@ export class RarListComponent implements OnInit, OnDestroy {
         fallBackEpics: this.fallBackEpics,
         fallBackSets: this.getFallBackSetItems(),
         targetIncrustationStat: this.targetIncrustationStat,
+        fallBackLegendaryEpics: this.fallBackLegendaryEpics,
         items: this.toCompare
       }
     });
@@ -438,6 +453,11 @@ export class RarListComponent implements OnInit, OnDestroy {
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    if ( rar.family === ItemFamily.LEGENDARY_EPIC) {
+      let epic = this.fallBackLegendaryEpics.find(e => e.name === rar.name);
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
+      return;
+    }
     if (rar.family === ItemFamily.EPIC) {
       let epic = this.fallBackEpics.find(e => e.name === rar.name);
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);

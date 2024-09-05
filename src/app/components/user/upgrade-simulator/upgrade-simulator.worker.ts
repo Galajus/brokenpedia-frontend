@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 
-import {WorkerData} from "../../../models/upgrade-simulator/workerData";
-import {WorkerResponse} from "../../../models/upgrade-simulator/workerResponse";
+import {WorkerData} from "@models/upgrade-simulator/workerData";
+import {WorkerResponse} from "@models/upgrade-simulator/workerResponse";
 
 addEventListener('message', ({ data }) => {
   let workerResponse = work(data);

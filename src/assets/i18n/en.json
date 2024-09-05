@@ -270,6 +270,7 @@
     "SZANSA_NA_ODŁAMEK": "Collateral damage chance",
     "DODATKOWE_OBRAŻENIA_DO_PRECYZYJNEGO": "Additional damage for Precise shot",
     "SZANSA_NA_ZABICIE": "Chance to kill",
+    "SPALANIE_MANY": "Mana burning",
     "ADDITIONAL_HP": "HP",
     "ADDITIONAL_MANA": "Mana",
     "ADDITIONAL_STAMINA": "Stamina",
@@ -592,7 +593,14 @@
       "ALLENOR": "Allenor",
       "ATTAWA": "Attawa",
       "IMISINDO": "Imisindo",
-      "WASHI": "Washi"
+      "WASHI": "Washi",
+      "LEGENDARNY_GORTHDAR": "Legendary Gorthdar",
+      "LEGENDARNY_ŻMIJ": "Legendary Wurm",
+      "LEGENDARNA_LATARNIA_ŻYCIA": "Legendary Lantern of Life",
+      "LEGENDARNY_ALLENOR": "Legendary Allenor",
+      "LEGENDARNA_ATTAWA": "Legendary Attawa",
+      "LEGENDARNE_IMISINDO": "Legendary Imisindo",
+      "LEGENDARNE_WASHI": "Legendary Washi"
     },
     "SETS_NAMES": {
       "OKOWY_SNU": "Dream Shackles",

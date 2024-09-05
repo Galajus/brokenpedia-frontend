@@ -165,8 +165,8 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     items: []
   };
   itemsFromDb!: IncrustatedLegendaryItem[];
-  orbsFromDb!: Orb[];
-  drifsFromDb!: Drif[];
+  orbsFromDb: Orb[] = [];
+  drifsFromDb: Drif[] = [];
   availableToChoose: IncrustatedLegendaryItem[] = [];
   unavailableToChoose: IncrustatedLegendaryItem[] = [];
 
@@ -371,7 +371,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       orb: this.getCurrentItemOrb(item),
       supportedSlot: this.currentInventorySlot,
       droppingMonsters: [],
-      drifBoost: itemFamily === ItemFamily.EPIC ? 0.6 : 0,
+      drifBoost: itemFamily === ItemFamily.EPIC || itemFamily === ItemFamily.LEGENDARY_EPIC ? 0.6 : 0,
       orbBoost: 0,
       upgradeBoost: 0,
       upgradeTarget: UpgradeTarget.HEALTH,
@@ -767,7 +767,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     item.drifBoost = values.drifBoost;
     item.orbBoost = values.orbBoost;
     item.upgradeBoost = values.upgradeBoost;
-    if (item.family.valueOf() === ItemFamily.EPIC.valueOf()) {
+    if (item.family === ItemFamily.EPIC || item.family === ItemFamily.LEGENDARY_EPIC) {
       item.drifBoost += 0.6;
     }
 
@@ -1022,7 +1022,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       return 0;
     }
     let family= currentItem.family;
-    if (family !== ItemFamily.EPIC && family !== ItemFamily.RAR && family !== ItemFamily.SET) {
+    if (family !== ItemFamily.LEGENDARY_EPIC && family !== ItemFamily.EPIC && family !== ItemFamily.RAR && family !== ItemFamily.SET) {
       return 0;
     }
 
@@ -2039,6 +2039,10 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     return cat + "_" + size;
   }
 
+  getDrifsByCategory(category: DrifCategory) {
+    return this.drifsFromDb.filter(c => c.category === category);
+  }
+
   getDrifTierByName() {
     switch (this.drifSize) {
       case "sub": {
@@ -2349,6 +2353,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly IncrustationTarget = IncrustationTarget;
   protected readonly UpgradeTarget = UpgradeTarget;
   protected readonly ItemFamily = ItemFamily;
+  protected readonly DrifCategory = DrifCategory;
 }
 
 let sortItems = (a: IncrustatedLegendaryItem, b: IncrustatedLegendaryItem) => {

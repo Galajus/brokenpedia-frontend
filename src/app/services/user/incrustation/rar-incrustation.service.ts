@@ -136,7 +136,7 @@ export class RarIncrustationService {
     this.insertNewResistsToRar(rar, resistHolder);
 
     if (originalRarClone.damage) {
-      if (rar.family === ItemFamily.EPIC) {
+      if (rar.family === ItemFamily.EPIC || rar.family === ItemFamily.LEGENDARY_EPIC) {
         rar.damage = Math.ceil(originalRarClone.damage * (booster.epicDamageBoost + 1));
       } else {
         rar.damage = Math.ceil(originalRarClone.damage * (booster.legendaryDamageBoost + 1));

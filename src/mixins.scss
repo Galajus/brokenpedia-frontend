@@ -1,29 +1,39 @@
-@mixin flex($direction: row, $wrap: nowrap) {
+@mixin flex-direction($direction: row) {
   display: flex;
-  flex-direction: $direction;
-  flex-wrap: $wrap;
+  flex-direction: $direction
 }
 
-@mixin flex-position($justify-content: flex-start, $align-content: stretch, $align-items: normal) {
+@mixin flex-position($justify-content: flex-start, $align-items: normal) {
   display: flex;
   justify-content: $justify-content;
-  align-content: $align-content;
   align-items: $align-items;
 }
 
-@mixin flex-container(
-  $direction: row,
+@mixin flex-wrap($wrap: wrap, $align-content: normal) {
+  display: flex;
+  align-content: $align-content;
+  flex-wrap: $wrap;
+}
+
+@mixin flex(
   $justify-content: flex-start,
   $align-items: normal,
-  $wrap: wrap,
-  $align-content: normal) {
-
+  $direction: null,
+  $wrap: null,
+  $align-content: null
+) {
   display: flex;
-  flex-direction: $direction;
   justify-content: $justify-content;
   align-items: $align-items;
-  align-content: $align-content;
-  flex-wrap: $wrap;
+  @if $direction != null {
+    flex-direction: $direction;
+  }
+  @if $wrap != null {
+    flex-wrap: $direction;
+    @if $align-content != null {
+      align-content: $align-content;
+    }
+  }
 }
 
 @mixin flex-x-stretch($width) {

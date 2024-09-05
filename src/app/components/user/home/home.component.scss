@@ -10,21 +10,22 @@ h2 {
 }
 
 .post-container {
-  width: 100%;
-  display: grid;
-  align-items: center;
-  align-content: center;
-  grid-template-columns: repeat(3, 3fr);
-  column-gap: 10px;
-  row-gap: 10px;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 10px; /* Możesz użyć gap zamiast column-gap i row-gap */
+  min-height: 0; /* Dodano min-height: 0 */
 }
 
-.post-container.is-mobile {
-  grid-template-columns: repeat(1, 1fr);
+.post-container > * {
+  flex: 1 calc(33.33% - 7px);
+  max-width: calc(33.33% - 7px);
 }
 
 .post-card {
+  flex: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -32,11 +33,17 @@ h2 {
   box-sizing: border-box;
   cursor: pointer;
   transition: all .5s ease;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .post-card:hover {
   @include mat.elevation(12, rgb(100, 255, 166));
   transition: all .4s ease;
+}
+
+.post-content {
+  flex: 1;
 }
 
 .post-actions {

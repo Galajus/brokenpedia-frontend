@@ -22,6 +22,7 @@ export class ItemComparatorComponent implements OnInit {
   fallBackMonsters!: MonsterWithIncrustatedLegendaryItems[];
   fallBackSets!: IncrustatedLegendaryItem[];
   fallBackEpics!: IncrustatedLegendaryItem[];
+  fallBackLegendaryEpics!: IncrustatedLegendaryItem[];
   targetIncrustationStat: IncrustationTarget = IncrustationTarget.EVENLY;
 
   protected readonly ItemType = ItemType;
@@ -35,6 +36,7 @@ export class ItemComparatorComponent implements OnInit {
     this.fallBackMonsters = data.fallBackMonsters;
     this.fallBackSets = data.fallBackSets;
     this.fallBackEpics = data.fallBackEpics;
+    this.fallBackLegendaryEpics = data.fallBackLegendaryEpics;
     this.targetIncrustationStat = data.targetIncrustationStat;
   }
 
@@ -61,6 +63,11 @@ export class ItemComparatorComponent implements OnInit {
   }
 
   reRollIncrustation(rar: IncrustatedLegendaryItem) {
+    if (rar.family === ItemFamily.LEGENDARY_EPIC) {
+      let epic = this.fallBackLegendaryEpics.find(e => e.name === rar.name);
+      this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);
+      return;
+    }
     if (rar.family === ItemFamily.EPIC) {
       let epic = this.fallBackEpics.find(e => e.name === rar.name);
       this.incrustationService.doIncrustation(rar, this.targetIncrustationStat, undefined, epic);

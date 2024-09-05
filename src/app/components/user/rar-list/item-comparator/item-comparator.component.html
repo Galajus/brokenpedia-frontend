@@ -30,13 +30,14 @@
         <h3 [ngClass]="{
         'classic-rar-name': rar.family === ItemFamily.RAR,
         'classic-epic-name': rar.family === ItemFamily.EPIC,
+        'classic-legendary-epic-name': rar.family === ItemFamily.LEGENDARY_EPIC,
         'classic-set-name': rar.family === ItemFamily.SET}"
         >{{getTranslatedName(rar)}}</h3>
         <div style="height: 80px" fxLayout="row" fxLayoutAlign="center center">
           <div>
             <img ngSrc="./assets/rars/{{rar.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="{{rar.name}}" height="auto" width="auto">
           </div>
-          <div *ngIf="rar.family === ItemFamily.RAR || rar.family === ItemFamily.EPIC" fxLayout="column">
+          <div *ngIf="rar.family === ItemFamily.RAR || rar.family === ItemFamily.EPIC || rar.family === ItemFamily.LEGENDARY_EPIC" fxLayout="column">
             <img ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
             <img *ngIf="rar.rank >= 4 || (rar.incrustationLevel && rar.incrustationLevel >= 7)" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">
             <img *ngIf="rar.rank >= 10" ngSrc="./assets/rars/addons/driff_slot.png" alt="{{rar.name}}" height="24" width="24">

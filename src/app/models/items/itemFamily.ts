@@ -4,5 +4,6 @@ export enum ItemFamily {
   RAR = "RAR",
   SET = "SET",
   EPIC = "EPIC",
+  LEGENDARY_EPIC = "LEGENDARY_EPIC",
   SYNERGETIC = "SYNERGETIC"
 }

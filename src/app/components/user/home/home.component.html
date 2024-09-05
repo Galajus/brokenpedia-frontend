@@ -13,7 +13,7 @@
               <mat-card-title>{{post.title}}</mat-card-title>
               <mat-card-subtitle>{{post.author?.nickname}} {{post.creationDate | date: "dd.MM.YYYY HH:mm" : "CET"}}</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
+            <mat-card-content class="post-content" (mousedown)="sendToPostMouseDown($event, post.slug)" (click)="sendToPost(post.slug)">
               <p>
                 {{post.description}}
               </p>
