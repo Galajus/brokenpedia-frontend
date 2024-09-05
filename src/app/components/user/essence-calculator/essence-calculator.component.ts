@@ -295,6 +295,12 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     this.saveData();
   }
 
+  /*
+  ROZBIJANIE:
+  TARALAXA: 20k
+  INHI: x
+  ESSENCE: Y
+   */
   calculateData() {
     if (this.essencePrice <= 0 || Number.isNaN(this.essencePrice)) {
       this.calculations.forEach(item => {
@@ -308,35 +314,30 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     let tax = this.marketPremium ? 0.98 : 0.96;
 
     this.calculations.forEach(item => {
-      let earn;
-      let earnWithInhi;
+      let earnEssences;
+      let earnEssencesWithInhi;
       let cost;
 
       //NORMAL PRICE ESSENCE
       cost = this.extractorPrice;
-      earn = this.essencePrice * item.essences;
+      earnEssences = this.essencePrice * item.essences;
 
       //TAX ESSENCE
       if (this.ignoreTax) {
-        item.priceThreshold = Math.floor(earn - cost);
+        item.priceThreshold = Math.floor(earnEssences - cost);
       } else {
-        item.priceThreshold = Math.floor((earn * tax) - cost);
+        item.priceThreshold = Math.floor((earnEssences * tax) - cost);
       }
 
-      /*if (Number.isNaN(this.platinumPrice) || this.platinumPrice <= 0) {
-        item.priceThresholdWithInhi = 0;
-        item.incomeWithInhi = 0;
-        return;
-      }*/
       //INHI PRICE ESSENCE
       cost += item.inhiPrice * this.platinumPrice;
-      earnWithInhi = this.essencePrice * item.essencesWithInhi;
+      earnEssencesWithInhi = this.essencePrice * item.essencesWithInhi;
 
-      //TAX ESSENCE
+      //TAX ESSENCE WITH INHI
       if (this.ignoreTax) {
-        item.priceThresholdWithInhi = Math.floor(earnWithInhi - cost);
+        item.priceThresholdWithInhi = Math.floor(earnEssencesWithInhi - cost);
       } else {
-        item.priceThresholdWithInhi = Math.floor((earnWithInhi * tax) - cost);
+        item.priceThresholdWithInhi = Math.floor((earnEssencesWithInhi * tax) - cost);
       }
 
       //INHI INCOME
@@ -369,11 +370,11 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
 
       //EARN SHARD
       if (this.ignoreTax) {
-        item.earnShard = (item.shards * this.shardPrice) - this.essencePrice - (ornamentShards.requiredEsences * this.essencePrice);
-        item.earnShardWithInhi = (item.shardsWithInhi * this.shardPrice) - this.essencePrice - (ornamentShards.requiredEsences * this.essencePrice) - (item.inhiPrice * this.platinumPrice);
+        item.earnShard = (item.shards * this.shardPrice) - this.extractorPrice - (ornamentShards.requiredEsences * this.essencePrice);
+        item.earnShardWithInhi = (item.shardsWithInhi * this.shardPrice) - this.extractorPrice - (ornamentShards.requiredEsences * this.essencePrice) - (item.inhiPrice * this.platinumPrice);
       } else {
-        item.earnShard = ((item.shards * this.shardPrice) * tax) - this.essencePrice - (ornamentShards.requiredEsences * this.essencePrice);
-        item.earnShardWithInhi = ((item.shardsWithInhi * this.shardPrice) * tax) - this.essencePrice - (ornamentShards.requiredEsences * this.essencePrice) - (item.inhiPrice * this.platinumPrice);
+        item.earnShard = ((item.shards * this.shardPrice) * tax) - this.extractorPrice - (ornamentShards.requiredEsences * this.essencePrice);
+        item.earnShardWithInhi = ((item.shardsWithInhi * this.shardPrice) * tax) - this.extractorPrice - (ornamentShards.requiredEsences * this.essencePrice) - (item.inhiPrice * this.platinumPrice);
       }
 
       //EARN SHARD SYNG
