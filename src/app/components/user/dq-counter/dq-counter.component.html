@@ -1,0 +1,6 @@
+<div *ngFor="let countdown$ of countDowns$">
+  <div *ngIf="countdown$ | async as countdown">
+    <div style="color: #008dff" >{{ countdown.dq}} {{ countdown.days }}d {{ countdown.hours }}h {{ countdown.minutes }}m {{ countdown.seconds }}s</div>
+  </div>
+</div>
+
