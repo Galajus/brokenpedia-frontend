@@ -39,7 +39,7 @@
           <div>
             <mat-form-field style="width: 100px" hintLabel="Cena platyny za szt." appearance="outline" color="accent">
               <mat-label>Cena platyny</mat-label>
-              <input max="50000" (keyup)="kSpace($event, 'platinumPrice')" matInput [(ngModel)]="platinumPrice">
+              <input max="150000" (keyup)="kSpace($event, 'platinumPrice')" matInput [(ngModel)]="platinumPrice">
             </mat-form-field>
           </div>
           <div>
@@ -51,7 +51,7 @@
           <div>
             <mat-form-field style="width: 100px" hintLabel="Cena flaszy" appearance="outline" color="accent">
               <mat-label>Cena flaszy</mat-label>
-              <input max="1000000" (keyup)="kSpace($event, 'flaskPrice')" matInput [(ngModel)]="flaskPrice">
+              <input max="1500000" (keyup)="kSpace($event, 'flaskPrice')" matInput [(ngModel)]="flaskPrice">
             </mat-form-field>
           </div>
           <div>

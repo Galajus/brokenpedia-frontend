@@ -19,6 +19,7 @@ import {DrifService} from "@services/user/drif/drif.service";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {Drif} from "@models/drif/drif";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
+import {SwapDrifItem} from "@models/drif/swapDrifItem";
 
 @Component({
   selector: 'app-drif-simulator',
@@ -39,6 +40,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   epicsMods: EpicDedicatedMod[] = [];
   buildNames: string[] = ["temp", "build 1", "build 2", "build 3", "build 4", "build 5", "build 6", "build 7", "build 8", "build 9"]
   userRarsWithDrifs: UserRarsWithDrifs[] = [];
+  swappingMode = false;
+  swapDrif: SwapDrifItem | null = null;
 
   constructor(
     private dialog: MatDialog,
@@ -58,7 +61,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.drifService.getDrifSimulatorData()
       .subscribe(
         {
-          next:(response) => {
+          next: (response) => {
             this.drifs = response.drifs;
             this.epicsMods = response.epicsDedicatedMods;
           },
@@ -128,10 +131,76 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   setActiveBuild(name: string) {
     this.saveBuild(this.activeBuild);
     this.activeBuild = name;
+    this.swappingMode = false;
+    this.swapDrif = null;
     this.calculateModSummary();
   }
 
+  doSwap(rarWithDrifs: RarWithDrifs, drifSlot: number): void {
+    if (!this.swapDrif) {
+      this.swapDrif = {
+        slot: drifSlot,
+        item: rarWithDrifs
+      }
+      return;
+    }
+
+    const firstDrif = this.getDrifFromSlot(this.swapDrif.item, this.swapDrif.slot);
+    const secondDrif = this.getDrifFromSlot(rarWithDrifs, drifSlot);
+
+    const swapTestOne = this.canBeSwapped(secondDrif, this.swapDrif.item, this.swapDrif.slot);
+    const swapTestTwo = this.canBeSwapped(firstDrif, rarWithDrifs, drifSlot);
+
+    const sameItem = this.swapDrif.item === rarWithDrifs;
+
+    if (!sameItem && (!swapTestOne || !swapTestTwo)) {
+      this.snackBar.open("Zamiana tych drifów nie jest dozwolona", "ok", {duration: 1500});
+      return;
+    }
+    this.doAssignDrifToItem(this.swapDrif.item, secondDrif, this.swapDrif.slot)
+    this.doAssignDrifToItem(rarWithDrifs,firstDrif, drifSlot)
+
+    this.swapDrif = null;
+
+  }
+
+  canBeSwapped(drif: Drif | null, rar: RarWithDrifs, slot: number): boolean {
+    if (!this.swapDrif) {
+      return true;
+    }
+
+    let leftPower = this.getLeftPower(rar.slot, slot);
+
+    const drifPower: number = drif == null ? 0 : this.drifService.getDrifPower(drif.startPower, drif.level || 1);
+
+
+
+    if (drifPower > leftPower) {
+      return false;
+    }
+
+    if (this.isElementalDamageDrif(drif) && rar.slot !== InventorySlot.WEAPON) {
+      return false;
+    }
+
+    if (drif && drif.psychoMod === PsychoMod.MANA_DRAIN && rar.slot !== InventorySlot.WEAPON) {
+      return false;
+    }
+
+    const containsThatMod = this.itemContainsThatMod(drif, rar, slot);
+
+    if (containsThatMod) {
+      return false;
+    }
+
+    return true;
+  }
+
   openDrifDialog(rarWithDrifs: RarWithDrifs, drifSlot: number): void {
+    if (this.swappingMode) {
+      this.doSwap(rarWithDrifs, drifSlot);
+      return;
+    }
     const dialogRef = this.dialog.open(DrifSelectComponent, {
       width: '1000px',
       enterAnimationDuration: '100ms',
@@ -385,11 +454,28 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return slot === 1 ? rar.drifItem1?.level || 0 : slot === 2 ? rar.drifItem2?.level || 0 : slot === 3 ? rar.drifItem3?.level || 0 : 0;
   }
 
+  private getDrifFromSlot(rar: RarWithDrifs, slot: number): Drif | null {
+    switch (slot) {
+      case 1:
+        return rar.drifItem1;
+      case 2:
+        return rar.drifItem2;
+      case 3:
+        return rar.drifItem3;
+      default:
+        return null;
+    }
+  }
+
   countUsedPower(eq: RarWithDrifs) {
     return this.drifService.countUsedPower(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.ornaments, eq.rank)
   }
 
-  private assignDrifToItem(drif: Drif, rarWithDrifs: RarWithDrifs, slot: number) {
+  private assignDrifToItem(drif: Drif | null, rarWithDrifs: RarWithDrifs, slot: number) {
+    if (!drif) {
+      this.removeModFromItem(rarWithDrifs, slot)
+      return;
+    }
     if (this.isElementalDamageDrif(drif)) {
       if (slot === 1 && (this.isElementalDamageDrif(rarWithDrifs.drifItem2) || this.isElementalDamageDrif(rarWithDrifs.drifItem3))) {
         this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_LIMITED"), "ok", {duration: 1500});
@@ -404,19 +490,50 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    if (slot === 1 && (rarWithDrifs.drifItem2?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem3?.psychoMod !== drif.psychoMod)) {
-      rarWithDrifs.drifItem1 = cloneDeep(drif);
+
+    const containsThatMod = this.itemContainsThatMod(drif, rarWithDrifs, slot);
+    if (!containsThatMod) {
+      this.doAssignDrifToItem(rarWithDrifs, drif, slot);
       return;
     }
-    if (slot === 2 && (rarWithDrifs.drifItem1?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem3?.psychoMod !== drif.psychoMod)) {
-      rarWithDrifs.drifItem2 = cloneDeep(drif);
-      return;
-    }
-    if (slot === 3 && (rarWithDrifs.drifItem1?.psychoMod !== drif.psychoMod && rarWithDrifs.drifItem2?.psychoMod !== drif.psychoMod)) {
-      rarWithDrifs.drifItem3 = cloneDeep(drif);
-      return;
-    }
+
     this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_EXIST", {name: drif.shortName}), "ok", {duration: 1500});
+  }
+
+  private doAssignDrifToItem(rar: RarWithDrifs, drif: Drif | null, slot: number) {
+    if (slot === 1) {
+      rar.drifItem1 = cloneDeep(drif);
+    }
+    if (slot === 2) {
+      rar.drifItem2 = cloneDeep(drif);
+    }
+    if (slot === 3) {
+      rar.drifItem3 = cloneDeep(drif);
+    }
+  }
+
+  /**
+   * Check if item contains drif with specific mod excluding slot with a change process in future
+   * @param drif
+   * @param rar
+   * @param swapSlot
+   * @private
+   */
+  private itemContainsThatMod(drif: Drif | null, rar: RarWithDrifs, swapSlot: number): boolean {
+    if (!drif) {
+      return false;
+    }
+    if (swapSlot === 1 && (rar.drifItem2?.psychoMod !== drif.psychoMod && rar.drifItem3?.psychoMod !== drif.psychoMod)) {
+      return false;
+    }
+    if (swapSlot === 2 && (rar.drifItem1?.psychoMod !== drif.psychoMod && rar.drifItem3?.psychoMod !== drif.psychoMod)) {
+      return false;
+    }
+    if (swapSlot === 3 && (rar.drifItem1?.psychoMod !== drif.psychoMod && rar.drifItem2?.psychoMod !== drif.psychoMod)) {
+      return false;
+    }
+
+    return true;
   }
 
   private isElementalDamageDrif(drif: Drif | null) {
@@ -465,7 +582,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   }
 
-  getLeftPower(slot: string, modSlot: number) {
+  getLeftPower(slot: string | InventorySlot, modSlot: number) {
     const rar = this.getActiveBuild()?.rarsWithDrifs?.find(rar => rar.slot === slot);
     if (!rar) {
       throw new Error("LEFT POWER RAR WITH DRIF NOT FOUND");
@@ -515,14 +632,58 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return capacity;
   }
 
-  getButtonColorClassByDrifCategory(drif: Drif): string {
-    switch (drif.category) {
-      case DrifCategory.REDUCTION: return drif.shortName === this.illuminatedMod ? "reductionDrif illuminate" : "reductionDrif";
-      case DrifCategory.DAMAGE: return drif.shortName === this.illuminatedMod ? "damageDrif illuminate" : "damageDrif";
-      case DrifCategory.SPECIAL: return drif.shortName === this.illuminatedMod ? "specialDrif illuminate" : "specialDrif";
-      case DrifCategory.DEFENCE: return drif.shortName === this.illuminatedMod ? "defenceDrif illuminate" : "defenceDrif";
-      case DrifCategory.ACCURACY: return drif.shortName === this.illuminatedMod ? "accuracyDrif illuminate" : "accuracyDrif";
+  getButtonColorClassByIfSwapMode(rar: RarWithDrifs, slot: number): string {
+    if (!this.swappingMode || !this.swapDrif) {
+      return "";
     }
+    const drifFromSlotOne = this.getDrifFromSlot(this.swapDrif.item, this.swapDrif.slot);
+    const drifFromSlotTwo = this.getDrifFromSlot(rar, slot);
+    const canBeSwappedOne = this.canBeSwapped(drifFromSlotOne, rar, slot);
+    const canBeSwappedTwo = this.canBeSwapped(drifFromSlotTwo, this.swapDrif.item, this.swapDrif.slot);
+
+    const sameItem = this.swapDrif.item === rar;
+
+    if ((!canBeSwappedOne || !canBeSwappedTwo) && !sameItem) {
+      return "no-swap";
+    }
+
+    return "";
+  }
+
+  getButtonColorClassByDrifCategory(drif: Drif, rar: RarWithDrifs, slot: number): string {
+    let classes: string;
+    switch (drif.category) {
+      case DrifCategory.REDUCTION: {
+        classes = drif.shortName === this.illuminatedMod ? "reductionDrif illuminate" : "reductionDrif";
+        break;
+      }
+      case DrifCategory.DAMAGE: {
+        classes = drif.shortName === this.illuminatedMod ? "damageDrif illuminate" : "damageDrif";
+        break;
+      }
+      case DrifCategory.SPECIAL: {
+        classes = drif.shortName === this.illuminatedMod ? "specialDrif illuminate" : "specialDrif";
+        break;
+      }
+      case DrifCategory.DEFENCE: {
+        classes = drif.shortName === this.illuminatedMod ? "defenceDrif illuminate" : "defenceDrif";
+        break;
+      }
+      case DrifCategory.ACCURACY: {
+        classes = drif.shortName === this.illuminatedMod ? "accuracyDrif illuminate" : "accuracyDrif";
+        break;
+      }
+    }
+
+    if (this.swappingMode && this.swapDrif && this.swapDrif.slot === slot && this.swapDrif.item === rar) {
+      classes = classes + " swap";
+    }
+
+    const swapModeColor = this.getButtonColorClassByIfSwapMode(rar, slot);
+
+    classes = classes + " " + swapModeColor;
+
+    return classes;
   }
 
   getModSummaryByCategory(modSummary: ModSummary[], category: DrifCategory) {
@@ -669,6 +830,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   moveDrifInSameItem(dragDrifs: DragDrifItem[], slot: InventorySlot) {
+    if (this.swappingMode && this.swapDrif) {
+      this.snackBar.open("Podczas swapowania nie można przesuwać drifów w pionie", "ok", {duration: 2000});
+      return;
+    }
     const activeBuild = this.getActiveBuild();
     const rar = activeBuild.rarsWithDrifs.find(r => r.slot === slot);
     if (!rar) {
@@ -720,4 +885,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   protected readonly Array = Array;
+
+  switchSwappingMode() {
+    this.swappingMode = !this.swappingMode;
+  }
 }

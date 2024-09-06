@@ -3,6 +3,17 @@
     <mat-card-content>
       <div fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4" style="padding-bottom: 15px">
+          <div style="padding-right: 8px">
+            <button *ngIf="!swappingMode" mat-flat-button color="warn"
+                    (click)="switchSwappingMode()">
+              SWAP OFF
+            </button>
+            <button *ngIf="swappingMode" mat-flat-button color="accent"
+                    (click)="switchSwappingMode()">
+              SWAP ON
+            </button>
+          </div>
+
           <div *ngFor="let userRars of userRarsWithDrifs">
             <button *ngIf="activeBuild === userRars.name" style="width: 80px" mat-flat-button color="primary"
                     (click)="setActiveBuild(userRars.name)">
@@ -82,19 +93,21 @@
                    (cdkDropListDropped)="drop($event, eq.slot)">
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                        [class]="getButtonColorClassByIfSwapMode(eq, 1)"
                         (click)="openDrifDialog( eq, 1)"
                         cdkDrag>
                   [MOD 1]
                 </button>
                 <button *ngIf="!eq.drifItem1 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
+                        [class]="getButtonColorClassByIfSwapMode(eq, 1)"
                         (click)="openDrifDialog( eq, 1)"
                         cdkDrag>
                   [MOD 1]
                 </button>
                 <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem1)" mat-flat-button color="warn"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem1, eq, 1)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 1)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
@@ -115,6 +128,7 @@
                 <button
                   *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                   style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                  [class]="getButtonColorClassByIfSwapMode(eq, 2)"
                   (click)="openDrifDialog( eq, 2)"
                   cdkDrag>
                   [MOD 2]
@@ -122,6 +136,7 @@
                 <button
                   *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                   style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
+                  [class]="getButtonColorClassByIfSwapMode(eq, 2)"
                   (click)="openDrifDialog( eq, 2)"
                   cdkDrag>
                   [MOD 2]
@@ -129,7 +144,7 @@
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2"
                         style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem2)" mat-flat-button color="warn"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem2, eq, 2)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 2)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
@@ -149,19 +164,21 @@
 
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                        [class]="getButtonColorClassByIfSwapMode(eq, 3)"
                         (click)="openDrifDialog( eq, 3)"
                         cdkDrag>
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
                         style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
+                        [class]="getButtonColorClassByIfSwapMode(eq, 3)"
                         (click)="openDrifDialog( eq, 3)"
                         cdkDrag>
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
                         [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem3)" mat-flat-button color="warn"
+                        [class]="getButtonColorClassByDrifCategory(eq.drifItem3, eq, 3)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 3)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">

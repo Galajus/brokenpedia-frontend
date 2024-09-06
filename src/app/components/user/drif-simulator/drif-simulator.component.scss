@@ -81,6 +81,58 @@ sup {
   text-shadow: 1px 1px 2px black;
 }
 
+.no-swap {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    pointer-events: none; // Aby pseudo-element nie wpływał na klikanie przycisku
+  }
+}
+
+.swap {
+  color: #ffef6e;
+  text-shadow:
+    0.07em 0 black,
+    0 0.07em black,
+    -0.07em 0 black,
+    0 -0.07em black;
+  background: linear-gradient(
+      45deg,
+      #ff0900,
+      #ffea00,
+      #00af1e,
+      #00b0ff,
+      #d500f9,
+      #ff4081,
+      #ff6f00,
+      #2196f3,
+      #9c27b0,
+      #ff1744,
+      #00e5ff,
+      #0084e1,
+  );
+  background-size: 2000% 2000%;
+
+  animation: gradient-animation 10s linear infinite;
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+}
+
 .tier-power {
   font-size: 10px;
   height: 14px;
