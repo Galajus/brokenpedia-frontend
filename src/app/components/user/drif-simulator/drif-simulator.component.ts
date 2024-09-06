@@ -888,5 +888,6 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   switchSwappingMode() {
     this.swappingMode = !this.swappingMode;
+    this.swapDrif = null;
   }
 }
