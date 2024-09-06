@@ -173,9 +173,13 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
     const drifPower: number = drif == null ? 0 : this.drifService.getDrifPower(drif.startPower, drif.level || 1);
 
-
-
     if (drifPower > leftPower) {
+      return false;
+    }
+
+    const maxTier = !drif ? 4 : rar.rank >= 10 ? 4 : rar.rank >= 7 ? 3 : rar.rank >= 4 ? 2 : 1;
+    const drifTier = drif?.tier ? drif.tier : 0;
+    if (drifTier > maxTier) {
       return false;
     }
 
