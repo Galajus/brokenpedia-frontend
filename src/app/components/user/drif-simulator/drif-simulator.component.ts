@@ -162,6 +162,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
     this.swapDrif = null;
 
+    this.calculateModSummary();
   }
 
   canBeSwapped(drif: Drif | null, rar: RarWithDrifs, slot: number): boolean {

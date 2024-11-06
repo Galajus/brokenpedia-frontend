@@ -72,7 +72,7 @@ const modCaps: ModCap[] = [
   },
   {
     mod: PsychoMod.MANA_REGENERATION,
-    value: 40
+    value: 80
   },
   {
     mod: PsychoMod.RESISTANCE_TO_FREEZING,
