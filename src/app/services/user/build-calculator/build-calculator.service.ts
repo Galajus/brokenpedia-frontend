@@ -54,6 +54,16 @@ export class BuildCalculatorService {
   }
 
   getBuildsFiltered(levelLess: number, levelGreater: number, isPvp: boolean, profession: string[], likes: number, sorting: string, sortDirection: string, page: number): Observable<PageableBuildsDto<BuildListDto>> {
+    if (!levelLess) {
+      levelLess = 140;
+    }
+    if (!levelGreater) {
+      levelGreater = 0;
+    }
+    if (!likes) {
+      likes = 0;
+    }
+
     return this.http.get<PageableBuildsDto<BuildListDto>>(`/api/builds/filtered?levelLess=${levelLess}&levelGreater=${levelGreater}&isPvp=${isPvp}&profession=${profession}&likes=${likes}&sorting=${sorting}&sortDirection=${sortDirection}&page=${page}`);
   }
 
