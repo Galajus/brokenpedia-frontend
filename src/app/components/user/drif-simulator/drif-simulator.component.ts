@@ -294,7 +294,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         this.countMod(rar.drifItem3, rar.ornaments, rar.sidragaBoost, false, rar.epikBoost);
       }
       if (rar.epikBoost && rar.rank === 12) {
-        this.addExtraApToSummary();
+        this.addExtraApToSummary(true);
       }
     });
 
@@ -368,7 +368,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.countMod(critDrifItem, rar.ornaments, false, true, false);
 
     //EXTRA AP
-    this.addExtraApToSummary();
+    this.addExtraApToSummary(false);
   }
 
   countMod(drif: Drif, ornaments: number, sidragaBoost: boolean, isEpic: boolean, epikBoost: boolean) {
@@ -392,14 +392,24 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addExtraApToSummary() {
+  private addExtraApToSummary(isEpicV2: boolean) {
     this.modSummary.push({
       mod: PsychoMod.EXTRA_AP,
       drifName: "?",
       modSum: 1,
       amountDrifs: 1,
       category: DrifCategory.SPECIAL
-    })
+    });
+    if (isEpicV2) {
+      this.modSummary.push({
+        mod: PsychoMod.EXTRA_ATTACK_CIRCLE,
+        drifName: "??",
+        modSum: 1,
+        amountDrifs: 1,
+        category: DrifCategory.SPECIAL
+      });
+    }
+
   }
 
   private countPsychoValue(drif: Drif, sidragaBoost: boolean, ornaments: number, isEpic: boolean, epikBoost: boolean) {
@@ -448,7 +458,69 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
           modSum.reducedPercent = amountDrifReduction.efektSum * 100;
         }
       }
-    })
+    });
+
+    this.assignGuaranteedMods();
+  }
+
+  assignGuaranteedMods() {
+    //todo refactor for better usage
+    const critMod = this.modSummary.find(m => m.mod === PsychoMod.CRIT_CHANCE);
+    if (critMod) {
+      critMod.modSum += 2;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.CRIT_CHANCE);
+      const drif = this.drifs.find(d => d.psychoMod === PsychoMod.CRIT_CHANCE);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 2,
+        max: modCap?.value
+      })
+    }
+
+    const manaRegenMod = this.modSummary.find(m => m.mod === PsychoMod.MANA_REGENERATION);
+    if (manaRegenMod) {
+      manaRegenMod.modSum += 5;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.MANA_REGENERATION);
+      const drif = this.drifs.find(d => d.psychoMod === PsychoMod.MANA_REGENERATION);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 5,
+        max: modCap?.value
+      })
+    }
+
+    const staminaRegenMod = this.modSummary.find(m => m.mod === PsychoMod.STAMINA_REGENERATION);
+    if (staminaRegenMod) {
+      staminaRegenMod.modSum += 5;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.STAMINA_REGENERATION);
+      const drif = this.drifs.find(d => d.psychoMod === PsychoMod.STAMINA_REGENERATION);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 5,
+        max: modCap?.value
+      })
+    }
   }
 
   private getDrifTier(rar: RarWithDrifs, slot: number): number {
@@ -707,7 +779,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   prepareModSummaryRow(summary: ModSummary): string {
     let row;
-    if (summary.mod === PsychoMod.EXTRA_AP) {
+    if (summary.mod === PsychoMod.EXTRA_AP || summary.mod === PsychoMod.EXTRA_ATTACK_CIRCLE) {
       row = summary.amountDrifs + "x " + this.translate.instant('PSYCHO_EFFECTS.' + summary.mod) + ": " + summary.modSum;
     } else {
       if (summary.reducedPercent) {
