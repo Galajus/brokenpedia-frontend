@@ -14,6 +14,7 @@
     "UPGRADE_SIMULATOR": "Symulator ulepszania",
     "DRIF_SIMULATOR": "Symulator drifów",
     "ORBS_TABLE": "Tabela orbów",
+    "DICTIONARY": "Słowniczek",
     "PROFESSIONS_MODIFIER": "Modyfikatory dla profesji",
 
     "REPORT_BUG_SUGGESTION": "ZGŁOŚ BŁĄD / SUGESTIĘ",
@@ -194,6 +195,7 @@
     "PHYSICAL_DAMAGE_INCREASE": "Modyfikator obrażeń fizycznych",
 
     "EXTRA_AP": "Dodatkowe PA",
+    "EXTRA_ATTACK_CIRCLE": "Dodatkowe koło ataku",
     "MANA_DRAIN": "Wyssanie many",
     "CHANCE_OF_DISENCHANTMENT": "Szansa na odczarowanie",
 

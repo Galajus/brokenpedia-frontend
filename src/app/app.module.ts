@@ -107,6 +107,8 @@ import { SetsUpdateComponent } from './components/admin/sets/sets-update/sets-up
 import { SetsCreateComponent } from './components/admin/sets/sets-create/sets-create.component';
 import { UpdateDrifComponent } from './components/admin/drifs/update-drif/update-drif.component';
 import { DqCounterComponent } from './components/user/dq-counter/dq-counter.component';
+import {DictionaryComponent} from "@app/components/admin/dictionary/dictionary.component";
+import { DictionaryEntryListComponent } from './components/user/dictionary-entry-list/dictionary-entry-list.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -205,7 +207,10 @@ registerLocaleData(localePl, localePlExtra);
     SetsUpdateComponent,
     SetsCreateComponent,
     UpdateDrifComponent,
-    DqCounterComponent
+    DqCounterComponent,
+    DictionaryComponent,
+    DictionaryComponent,
+    DictionaryEntryListComponent
   ],
   imports: [
     BrowserModule,

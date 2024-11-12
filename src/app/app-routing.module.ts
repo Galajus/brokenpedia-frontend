@@ -46,6 +46,8 @@ import {SetsComponent} from "@app/components/admin/sets/sets.component";
 import {SetsCreateComponent} from "@app/components/admin/sets/sets-create/sets-create.component";
 import {SetsUpdateComponent} from "@app/components/admin/sets/sets-update/sets-update.component";
 import {UpdateDrifComponent} from "@app/components/admin/drifs/update-drif/update-drif.component";
+import {DictionaryComponent} from "@app/components/admin/dictionary/dictionary.component";
+import {DictionaryEntryListComponent} from "@app/components/user/dictionary-entry-list/dictionary-entry-list.component";
 
 const routes: Routes = [
 
@@ -65,6 +67,7 @@ const routes: Routes = [
       { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania" },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
       { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów" },
+      { path: 'dictionary', component: DictionaryEntryListComponent, title: "Tabela orbów" },
       /*{ path: 'test', component: TestsComponent, title: "TESTS" },*/
 
       { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię" },
@@ -109,6 +112,7 @@ const routes: Routes = [
       { path: 'sets', component: SetsComponent, title: "Admin sets", canActivate: [AdminAuthorizationGuard] },
       { path: 'sets/add', component: SetsCreateComponent, title: "Admin create set", canActivate: [AdminAuthorizationGuard] },
       { path: 'sets/update/:id', component: SetsUpdateComponent, title: "Admin update set", canActivate: [AdminAuthorizationGuard] },
+      { path: 'dictionary', component: DictionaryComponent, title: "Admin dictionary", canActivate: [AdminAuthorizationGuard] },
     ]
   },
   { path: '**', component: DefaultComponent, title: "404", children: [

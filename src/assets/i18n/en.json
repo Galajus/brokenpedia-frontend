@@ -14,6 +14,7 @@
     "UPGRADE_SIMULATOR": "Upgrade simulator",
     "DRIF_SIMULATOR": "Drif simulator",
     "ORBS_TABLE": "Orbs table",
+    "DICTIONARY": "Disctionary",
     "PROFESSIONS_MODIFIER": "Modifiers for professions",
 
     "REPORT_BUG_SUGGESTION": "REPORT BUG / SUGGESTION",
@@ -194,6 +195,7 @@
     "PHYSICAL_DAMAGE_INCREASE": "Phsical damage",
 
     "EXTRA_AP": "Extra AP",
+    "EXTRA_ATTACK_CIRCLE": "Extra attack circle",
     "MANA_DRAIN": "Drain mana",
     "CHANCE_OF_DISENCHANTMENT": "Dispel chance",
 

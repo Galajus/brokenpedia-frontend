@@ -1,0 +1,65 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+  <mat-card fxFill>
+    <mat-card-content>
+      <h1>SŁOWNICZEK</h1>
+
+      <mat-list>
+        <div fxLayout="column" *ngFor="let entry of dictionaryEntries">
+          <mat-list-item style="height: auto; margin: 14px 0">
+            <div class="entry-list" fxFlex fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15">
+
+              <div *ngIf="isChangingEntry && currentChangingId === entry.id" class="edit-box" fxFlex="22" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5">
+                  <textarea fxFill matInput rows="2" [(ngModel)]="newEntry"></textarea>
+              </div>
+              <div *ngIf="!isChangingEntry || currentChangingId !== entry.id" class="edit-box" fxFlex="22" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="5">
+                {{ entry.entry }}
+              </div>
+                <button fxLayoutAlign="end" mat-icon-button (click)="changeEntry(entry.id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              <div *ngIf="isChangingDescription && currentChangingId === entry.id" fxFlex="68" fxLayoutGap="5"
+                   class="suggestion-inner">
+                <textarea fxFill matInput rows="2" [(ngModel)]="newDescription"></textarea>
+                <button mat-icon-button (click)="changeDescription(entry.id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <div *ngIf="!isChangingDescription || currentChangingId !== entry.id" fxFlex="68" fxLayoutGap="5"
+                   class="suggestion-inner" [innerHTML]="entry.description">
+              </div>
+              <button mat-icon-button (click)="changeDescription(entry.id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteEntry(entry.id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+              <div fxFlex="8" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5">
+              </div>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+
+      <div fxLayout="column" style="padding-top: 10px">
+        <h2>DODAJ NOWY WPIS DO SŁOWNIKA</h2>
+        <div fxLayout="row" fxLayoutGap="15">
+          <div fxLayout="column" fxFlex="22">
+            ENTRY KEY
+            <textarea matInput rows="3" [(ngModel)]="createEntry"></textarea>
+          </div>
+          <div fxLayout="column" fxFlex="68">
+            ENTRY DESCRIPTION
+            <textarea matInput rows="3" [(ngModel)]="createDescription"></textarea>
+          </div>
+        </div>
+        <button mat-icon-button (click)="saveNewEntry()">
+          <mat-icon color="accent">save</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
