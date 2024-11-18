@@ -54,23 +54,23 @@ const routes: Routes = [
   {
 
     path:'', component: DefaultComponent, title: "Aktualności", children: [
-      { path: '', component: HomeComponent, title: "Aktualności" },
-      { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów" },
-      { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów" },
-      { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów" },
-      { path: 'build-calculator/builds', component: BuildsListComponent, title: "Lista buildów" },
-      { path: 'items-list', component: RarListComponent, title: "Lista przedmiotów" },
-      { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper" },
-      { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji" },
-      { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa" },
-      { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów" },
-      { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania" },
-      { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci" },
-      { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów" },
-      { path: 'dictionary', component: DictionaryEntryListComponent, title: "Tabela orbów" },
+      { path: '', component: HomeComponent, title: "Aktualności", data: {description: "Witaj na stronie głównej Brokenpedii"} },
+      { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
+      { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
+      { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Przegląd zapisanego buildu w kalkulatorze"} },
+      { path: 'build-calculator/builds', component: BuildsListComponent, title: "Lista buildów", data: {description: "Lista buildów zapisana przez użytkowników"}},
+      { path: 'items-list', component: RarListComponent, title: "Lista przedmiotów", data: {description: "Lista wszystkich rzadkich przedmiotów w grze: Rarów, Setów, Epików, Synergetyków"} },
+      { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper", data: {description: "Discordowy bot pomocnik do zadań dziennych i odbierania wejściówek"}},
+      { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji i odłamków" , data: {description: "Obliczanie uzyskania esencji i odłamków z przedmiotów oraz zarobku z nich"}},
+      { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa", data: {description: "Sprawdź ile czasu zajmie Ci zdobycie określonego poziomu wyexpienia na drifie"}},
+      { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów", data: {description: "Dedykowany symulator drifów oferujący bardzo wygodne rozplanowanie ułożenia ich w Twoim sprzęcie"}},
+      { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania", data: {description: "Zasymuluj proces ulepszania sprzętu w grze i sprawdź ile może Cię to kosztować"} },
+      { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci", data: {description: "Sprawdź jakie modyfikatory / psychowłaściwości będą najbardziej użyteczne dla Twojej klasy postaci"} },
+      { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów", data: {description: "Lista wsyzstkich orbów w grze wraz z uwzględnieniem ich siły działania w zależności od inkrustacji"}},
+      { path: 'dictionary', component: DictionaryEntryListComponent, title: "Tabela orbów", data: {description: "Słowniczek dla nowych graczy aby szybko odnaleźli się w trudnym słownictwie graczy Broken Ranks"} },
       /*{ path: 'test', component: TestsComponent, title: "TESTS" },*/
 
-      { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię" },
+      { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię", data: {description: "Zaproponuj ulepszenie wikipedii lub zgłoś błąd"} },
 
       { path: 'post/:slug', component: PostComponent, title: "Post" },
       { path: 'category/:slug', component: CategoryComponent, title: "Category" },

@@ -8,6 +8,7 @@ import {
   NgcNoCookieLawEvent,
   NgcStatusChangeEvent
 } from "ngx-cookieconsent";
+import {Meta, Title} from "@angular/platform-browser";
 
 declare let gtag: Function;
 
@@ -32,11 +33,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private ccService: NgcCookieConsentService
+    private ccService: NgcCookieConsentService,
+    private titleService: Title,
+    private metaService: Meta,
   ) {
   }
 
   ngOnInit(): void {
+    this.setupMetaData();
     // subscribe to cookieconsent observables to react to main events
     this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
       () => {
@@ -94,6 +98,36 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.statusChangeSubscription.unsubscribe();
     this.revokeChoiceSubscription.unsubscribe();
     this.noCookieLawSubscription.unsubscribe();
+  }
+
+  setupMetaData() {
+    this.titleService.setTitle('Broken Ranks Wiki');
+    this.metaService.addTag({
+      name: 'description',
+      content: `Wszechstronny niezbędnik i kompedium wiedzy każdego gracza gry MMORPG Broken Ranks tworzony przez streamera/youtubera Galajus'a. Dzięki tej wikipedii bardzo szybko odnajdziesz się w świecie gry.`
+    });
+    this.metaService.addTag({
+      name: 'keywords',
+      content: 'Broken Ranks, MMORPG, gra online, polska gra, strategiczna gra RPG, fantasy, walka turowa, multiplayer, Taern, Broken Rank Wiki, Galajus'
+    });
+    this.metaService.addTag({
+      name: 'og:description',
+      content: `Wszechstronny niezbędnik i kompedium wiedzy każdego gracza gry MMORPG Broken Ranks tworzony przez streamera/youtubera Galajus'a. Dzięki tej wikipedii bardzo szybko odnajdziesz się w świecie gry.`
+    });
+    this.metaService.addTag({
+      name: 'og:title',
+      content: `Brokenpedia.com wikipedia gry Broken Ranks`
+    });
+    this.metaService.addTag({
+      name: 'og:type',
+      content: `website`
+    });
+
+    /*<meta property="og:title" content="Tytuł Twojej strony" />
+    <meta property="og:description" content="Opis Twojej strony" />
+    <meta property="og:image" content="URL do obrazu, który ma się pojawić" />
+    <meta property="og:url" content="URL Twojej strony" />
+    <meta property="og:type" content="website" />*/
   }
 
   setUpAnalytics() {
