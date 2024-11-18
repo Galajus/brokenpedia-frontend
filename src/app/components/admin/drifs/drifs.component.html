@@ -5,6 +5,11 @@
         <mat-label>DRIFY</mat-label>
         <textarea fxFill matInput rows="12" [(ngModel)]="textToRead" placeholder="item data"></textarea>
         <button mat-raised-button color="primary" (click)="read()">ZAPISZ</button>
+        <a [routerLink]="['/admin/drifs/update/', 0]">
+          <button mat-icon-button>
+            <mat-icon>input icon</mat-icon>
+          </button>
+        </a>
       </div>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFill>
 
@@ -41,9 +46,9 @@
                 <mat-icon>edit</mat-icon>
               </button>
             </a>
-            <!--<button mat-icon-button (click)="deleteOrb(element.id)">
+            <button mat-icon-button (click)="deleteDrif(element.id)">
               <mat-icon style="color: red">delete</mat-icon>
-            </button>-->
+            </button>
           </td>
         </ng-container>
 
