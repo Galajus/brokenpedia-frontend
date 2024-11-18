@@ -31,4 +31,11 @@ export class DrifsComponent implements AfterViewInit {
       })
   }
 
+  deleteDrif(id: number) {
+    this.drifsService.deleteDrif(id)
+      .subscribe(() => {
+        this.dataSource = this.dataSource.filter(d => d.id !== id);
+      })
+  }
+
 }

@@ -159,3 +159,10 @@ sup {
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.for-removal {
+  text-decoration: line-through;
+  color: black;
+  font-weight: bold;
+}
+

@@ -841,6 +841,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   load() {
     const data = localStorage.getItem('drif-simulator');
+    //OLD VERSION
     if (data != null) {
       const tempRars = this.userRarsWithDrifs.find(rars => rars.name === 'temp');
       if (!tempRars) {
@@ -853,6 +854,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       this.calculateModSummary();
       return;
     }
+    //NEW VERSION
     const dataArray = localStorage.getItem('drif-simulator-array');
     if (!dataArray) {
       return;
@@ -873,10 +875,58 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
           r.slot = InventorySlot.RING_2;
         }
         r.slot = <InventorySlot>r.slot.toUpperCase();
+
+
+        this.patchSavedDrif(r);
       })
     })
 
     this.calculateModSummary();
+  }
+
+  //TODO CHANGE DRIFS HANDLING IN RAR (ARRAY) NOW THIS IS ABOMINATION
+  patchSavedDrif(rar: RarWithDrifs) {
+    rar.drifItem1;
+    if (rar.drifItem1) {
+      const dbDrif = this.drifs.find(d => d.id === rar.drifItem1?.id);
+      if (!dbDrif) {
+        rar.drifItem1 = null;
+      } else {
+        rar.drifItem1.category = dbDrif.category;
+        rar.drifItem1.psychoGrowByLevel = dbDrif.psychoGrowByLevel;
+        rar.drifItem1.psychoMod = dbDrif.psychoMod;
+        rar.drifItem1.shortName = dbDrif.shortName;
+        rar.drifItem1.startPower = dbDrif.startPower;
+        rar.drifItem1.forRemoval = dbDrif.forRemoval;
+      }
+    }
+    if (rar.drifItem2) {
+      const dbDrif = this.drifs.find(d => d.id === rar.drifItem2?.id);
+      if (!dbDrif) {
+        rar.drifItem2 = null;
+      } else {
+        rar.drifItem2.category = dbDrif.category;
+        rar.drifItem2.psychoGrowByLevel = dbDrif.psychoGrowByLevel;
+        rar.drifItem2.psychoMod = dbDrif.psychoMod;
+        rar.drifItem2.shortName = dbDrif.shortName;
+        rar.drifItem2.startPower = dbDrif.startPower;
+        rar.drifItem2.forRemoval = dbDrif.forRemoval;
+      }
+    }
+    if (rar.drifItem3) {
+      const dbDrif = this.drifs.find(d => d.id === rar.drifItem3?.id);
+      if (!dbDrif) {
+        rar.drifItem3 = null;
+      } else {
+        rar.drifItem3.category = dbDrif.category;
+        rar.drifItem3.psychoGrowByLevel = dbDrif.psychoGrowByLevel;
+        rar.drifItem3.psychoMod = dbDrif.psychoMod;
+        rar.drifItem3.shortName = dbDrif.shortName;
+        rar.drifItem3.startPower = dbDrif.startPower;
+        rar.drifItem3.forRemoval = dbDrif.forRemoval;
+      }
+    }
+
   }
 
   cloneBuild() {

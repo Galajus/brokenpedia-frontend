@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DrifCategory} from "@models/drif/drifCategory";
 import {PsychoMod} from "@models/items/psychoMod";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DrifsService} from "@services/admin/drifs/drifs.service";
 import {Drif} from "@models/drif/drif";
 
@@ -19,6 +19,7 @@ export class UpdateDrifComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private drifsService: DrifsService
   ) { }
@@ -34,7 +35,8 @@ export class UpdateDrifComponent implements OnInit {
       startPower: [],
       psychoGrowByLevel: [],
       category: [],
-      psychoMod: []
+      psychoMod: [],
+      forRemoval: []
     });
     const id = Number(this.route.snapshot.params['id']);
     this.drifsService.getDrif(id)
@@ -44,6 +46,18 @@ export class UpdateDrifComponent implements OnInit {
   }
 
   save() {
+    const id = Number(this.route.snapshot.params['id']);
+    console.log(id);
+
+    if (id === 0) {
+      this.drifsService.createDrif(this.drifForm.value as Drif)
+        .subscribe((d) => {
+          console.log("CREATED");
+          this.router.navigate(["/admin/drifs/update/" + d.id]);
+          this.drifForm.patchValue(d);
+        })
+      return;
+    }
     this.drifsService.updateDrif(this.drifForm.value as Drif)
       .subscribe(() => {
         console.log("SAVED");

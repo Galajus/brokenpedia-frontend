@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
   <mat-card fxFill>
     <mat-card-content fxLayout="column" fxLayoutGap="10">
-      <button mat-raised-button color="accent" (click)="save()">AKTUALIZUJ</button>
+      <button mat-raised-button color="accent" (click)="save()">AKTUALIZUJ/STWÓRZ</button>
       <div [formGroup]="drifForm" fxLayout="row" fxLayoutGap="10">
 
         <mat-form-field appearance="fill" style="width: 170px" color="accent">
@@ -29,6 +29,11 @@
             <mat-option *ngFor="let type of PsychoMod | keyArray" value="{{type}}">{{type}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <div>
+          <input type="checkbox" [value]="drifForm.value.forRemoval" formControlName="forRemoval"> forRemoval
+        </div>
+
+
       </div>
     </mat-card-content>
   </mat-card>

@@ -8,6 +8,7 @@ export interface Drif {
   psychoGrowByLevel: number,
   category: DrifCategory,
   psychoMod: PsychoMod,
+  forRemoval: boolean,
   tier?: number,
   level?: number
 }

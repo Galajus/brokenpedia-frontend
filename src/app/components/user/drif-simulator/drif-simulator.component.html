@@ -49,15 +49,10 @@
               <mat-form-field style="width: 70px" appearance="fill" color="accent">
                 <mat-label>Stars</mat-label>
                 <mat-select [(ngModel)]="eq.ornaments" (selectionChange)="calculateModSummary()">
-                  <mat-option [value]=1>1* - Bronze 1</mat-option>
-                  <mat-option [value]=2>2* - Bronze 2</mat-option>
-                  <mat-option [value]=3>3* - Bronze 3</mat-option>
-                  <mat-option [value]=4>4* - Silver 1</mat-option>
-                  <mat-option [value]=5>5* - Silver 2</mat-option>
-                  <mat-option [value]=6>6* - Silver 3</mat-option>
-                  <mat-option [value]=7>7* - Gold 1</mat-option>
-                  <mat-option [value]=8>8* - Gold 2</mat-option>
-                  <mat-option [value]=9>9* - Gold 3</mat-option>
+                  <mat-option [value]=1>B1-S3</mat-option>
+                  <mat-option [value]=7>G1</mat-option>
+                  <mat-option [value]=8>G2</mat-option>
+                  <mat-option [value]=9>G3</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -106,12 +101,13 @@
                   [MOD 1]
                 </button>
                 <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matTooltip]="eq.drifItem1.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                         [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem1, eq, 1)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 1)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div>
+                    <div [class.for-removal]="eq.drifItem1.forRemoval">
                       {{ eq.drifItem1.shortName }}
                     </div>
                     <div fxLayout="column">
@@ -143,12 +139,13 @@
                 </button>
                 <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2"
                         style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matTooltip]="eq.drifItem2.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                         [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem2, eq, 2)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 2)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div>
+                    <div [class.for-removal]="eq.drifItem2.forRemoval">
                       {{ eq.drifItem2.shortName }}
                     </div>
                     <div fxLayout="column">
@@ -177,12 +174,13 @@
                   [MOD 3]
                 </button>
                 <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
+                        [matTooltip]="eq.drifItem3.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                         [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
                         [class]="getButtonColorClassByDrifCategory(eq.drifItem3, eq, 3)" mat-flat-button color="warn"
                         (click)="openDrifDialog( eq, 3)"
                         cdkDrag>
                   <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div>
+                    <div [class.for-removal]="eq.drifItem3.forRemoval" fxLayout="row">
                       {{ eq.drifItem3.shortName }}
                     </div>
                     <div fxLayout="column">

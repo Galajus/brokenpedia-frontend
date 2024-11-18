@@ -60,6 +60,8 @@
        drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
        itemSlot === InventorySlot.WEAPON &&
        getDrifPower(drif.startPower) <= leftPower"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
@@ -85,6 +87,8 @@
        drif.psychoMod !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
        drif.psychoMod !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
        getDrifPower(drif.startPower) <= leftPower"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
@@ -102,7 +106,10 @@
       <div *ngFor="let drif of getSpecial()">
         <button *ngIf="drif.psychoMod === PsychoMod.MANA_DRAIN &&
                 getDrifPower(drif.startPower) <= leftPower &&
-                itemSlot === InventorySlot.WEAPON" mat-raised-button color="primary" class="specialDrif"
+                itemSlot === InventorySlot.WEAPON"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
+                mat-raised-button color="primary" class="specialDrif"
                 (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
@@ -113,6 +120,8 @@
         </button>
         <button *ngIf="drif.psychoMod !== PsychoMod.MANA_DRAIN &&
                 getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="specialDrif"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
@@ -126,6 +135,8 @@
     <div class="container">
       <div *ngFor="let drif of getAccuracy()">
         <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 class="accuracyDrif"
                 (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
@@ -139,6 +150,8 @@
     <div class="container">
       <div *ngFor="let drif of getDefence()">
         <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="defenceDrif"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
@@ -151,6 +164,8 @@
     <div class="container">
       <div *ngFor="let drif of getReduction()">
         <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary"
+                [class.for-removal]="drif.forRemoval"
+                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
                 class="reductionDrif"
                 (click)="close(drif)">
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}

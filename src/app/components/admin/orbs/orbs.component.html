@@ -7,7 +7,11 @@
         <button mat-raised-button color="primary" (click)="read()">ZAPISZ</button>
       </div>
 
-      <!--<button mat-raised-button color="accent" [routerLink]="['/admin/monster/add']">DODAJ ORB</button>-->
+      <a [routerLink]="['/admin/orbs/update/', 0]">
+        <button mat-icon-button>
+          <mat-icon>input icon</mat-icon>
+        </button>
+      </a>
 
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" fxFill>
 
@@ -42,9 +46,9 @@
                 <mat-icon>edit</mat-icon>
               </button>
             </a>
-            <!--<button mat-icon-button (click)="deleteOrb(element.id)">
+            <button mat-icon-button (click)="deleteOrb(element.id)">
               <mat-icon style="color: red">delete</mat-icon>
-            </button>-->
+            </button>
           </td>
         </ng-container>
 

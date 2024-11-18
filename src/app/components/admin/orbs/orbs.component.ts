@@ -29,4 +29,10 @@ export class OrbsComponent implements AfterViewInit {
       })
   }
 
+  deleteOrb(id: number) {
+    this.orbsService.deleteOrb(id)
+      .subscribe(() => {
+        this.dataSource = this.dataSource.filter(o => o.id !== id);
+      })
+  }
 }
