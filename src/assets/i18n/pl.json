@@ -221,6 +221,8 @@
 
     "FARID": "Szansa na unik",
     "HOLM": "Szansa na redukcję obrażeń",
+    "PERCENTAGE_DAMAGE_REDUCTION": "Redukcja obrażeń z ataków odbierająych % PŻ",
+    "STUN_AND_INSTA_KILL_RESISTANCE": "Odporność na efekty krępujące i ukazanie",
 
     "MENTAL_ATTACKS_PENETRATION": "Przełamanie odporności na urok",
 

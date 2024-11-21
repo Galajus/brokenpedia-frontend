@@ -90,6 +90,14 @@ const modCaps: ModCap[] = [
     mod: PsychoMod.STAMINA_USAGE,
     value: -60
   },
+  {
+    mod: PsychoMod.STUN_AND_INSTA_KILL_RESISTANCE,
+    value: 60
+  },
+  {
+    mod: PsychoMod.PERCENTAGE_DAMAGE_REDUCTION,
+    value: 60
+  }
 ]
 
 export default modCaps;

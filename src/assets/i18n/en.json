@@ -221,6 +221,8 @@
 
     "FARID": "Dodge chance",
     "HOLM": "Damage reduction chance",
+    "PERCENTAGE_DAMAGE_REDUCTION": "Damage reduction from attacks that take away % HP",
+    "STUN_AND_INSTA_KILL_RESISTANCE": "Stuns and instant kill resistance",
 
     "MENTAL_ATTACKS_PENETRATION": "Mental defense penetration",
 

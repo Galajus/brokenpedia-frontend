@@ -122,12 +122,24 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       name: 'og:type',
       content: `website`
     });
+    this.metaService.addTag({
+      name: 'og:url',
+      content: `https://brokenpedia.com`
+    });
+    this.metaService.addTag({
+      name: 'og:image',
+      content: `https://brokenpedia.com/assets/ogimg.jpg`
+    });
 
     /*<meta property="og:title" content="Tytuł Twojej strony" />
     <meta property="og:description" content="Opis Twojej strony" />
     <meta property="og:image" content="URL do obrazu, który ma się pojawić" />
     <meta property="og:url" content="URL Twojej strony" />
-    <meta property="og:type" content="website" />*/
+    <meta property="og:type" content="website" />
+
+    <meta property="og:url" content="https://brokenpedia.com">
+    <meta property="og:image" content="https://brokenpedia.com/assets/ogimg.jpg">
+    */
   }
 
   setUpAnalytics() {
