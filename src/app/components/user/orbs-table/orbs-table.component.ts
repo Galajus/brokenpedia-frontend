@@ -46,6 +46,7 @@ export class OrbsTableComponent implements OnInit {
       .subscribe({
         next: orbs => {
           this.orbs = orbs;
+          this.orbs.sort((a,b) => b.type.localeCompare(a.type))
           this.doCalculations();
         }
       })

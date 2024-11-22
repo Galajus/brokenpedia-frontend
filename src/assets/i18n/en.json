@@ -717,6 +717,7 @@
     "ORBS": {
     "BONUS_EXP": "Bonus experience",
     "BONUS_GOLD": "Bonus gold",
+    "BONUS_DAIMONIT": "Bonus daimonit",
     "BONUS_PSYCHOEXP": "Bonus psychoexperience",
     "BACKPACK_CAPACITY": "Bonus backpack capacity",
     "FAST_RESTING": "Faster resting",
@@ -739,6 +740,7 @@
     "DAMAGE_VS_CHAMPIONS": "Bonus damage versus champions",
     "DAMAGE_VS_BOSSES": "Bonus damage versus bosses",
     "INCREASE_HIT_CHANCE_ON_MISSING": "Bonus hit chance after missing",
+    "INCREASE_DEFENCE_CHANCE_ON_HIT": "Bonus defence chance on get hit",
     "MORE_POWERFUL_CRIT_CHANCE": "Chance to deal more powerful critical hits",
 
       "TYPES": {

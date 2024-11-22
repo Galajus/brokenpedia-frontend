@@ -12,6 +12,7 @@ import {ItemToEssences} from "@models/essences/itemToEssences";
 import {ShardsByTier} from "@models/shards/shardsByTier";
 import {SyngPrice} from "@models/synergetics/syngPrice";
 import {CustomNumberInputService} from "@services/common/custom-number-input.service";
+import {ceil, round} from "lodash-es";
 
 @Component({
   selector: 'app-essence-calculator',
@@ -48,8 +49,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "I",
       inhiPrice: 3,
-      essences: 2,
-      essencesWithInhi: 3,
+      essences: [5, 8, 12, 18, 30, 45, 75, 150, 375],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -65,8 +66,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "II",
       inhiPrice: 4,
-      essences: 5,
-      essencesWithInhi: 7,
+      essences: [5, 8, 12, 18, 30, 45, 75, 150, 375],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -82,8 +83,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "III",
       inhiPrice: 4,
-      essences: 12,
-      essencesWithInhi: 16,
+      essences: [5, 8, 12, 18, 30, 45, 75, 150, 375],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -99,8 +100,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "IV",
       inhiPrice: 5,
-      essences: 24,
-      essencesWithInhi: 32,
+      essences: [23, 30, 60, 90, 150, 225, 375, 750, 1875],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -116,8 +117,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "V",
       inhiPrice: 6,
-      essences: 32,
-      essencesWithInhi: 42,
+      essences: [23, 30, 60, 90, 150, 225, 375, 750, 1875],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -133,8 +134,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "VI",
       inhiPrice: 6,
-      essences: 40,
-      essencesWithInhi: 52,
+      essences: [23, 30, 60, 90, 150, 225, 375, 750, 1875],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -150,8 +151,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "VII",
       inhiPrice: 7,
-      essences: 55,
-      essencesWithInhi: 72,
+      essences: [53, 70, 140, 210, 350, 525, 875, 1750, 4450],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -167,8 +168,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "VIII",
       inhiPrice: 8,
-      essences: 70,
-      essencesWithInhi: 91,
+      essences: [53, 70, 140, 210, 350, 525, 875, 1750, 4450],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -184,8 +185,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "IX",
       inhiPrice: 8,
-      essences: 85,
-      essencesWithInhi: 111,
+      essences: [53, 70, 140, 210, 350, 525, 875, 1750, 4450],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -201,8 +202,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "X",
       inhiPrice: 10,
-      essences: 115,
-      essencesWithInhi: 150,
+      essences: [90, 150, 300, 450, 750, 1200, 1950, 3750, 9000],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -218,8 +219,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "XI",
       inhiPrice: 12,
-      essences: 145,
-      essencesWithInhi: 189,
+      essences: [90, 150, 300, 450, 750, 1200, 1950, 3750, 9000],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -235,8 +236,8 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
     {
       rank: "XII",
       inhiPrice: 12,
-      essences: 175,
-      essencesWithInhi: 228,
+      essences: [90, 150, 300, 450, 750, 1200, 1950, 3750, 9000],
+      essencesWithInhi: [],
       priceThreshold: 0,
       priceThresholdWithInhi: 0,
       incomeWithInhi: 0,
@@ -289,10 +290,19 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   ngOnInit(): void {
+    this.calculateEssences();
   }
 
   ngOnDestroy(): void {
     this.saveData();
+  }
+
+  calculateEssences() {
+    this.calculations.forEach(c => {
+      c.essences.forEach(e => {
+        c.essencesWithInhi.push(ceil(e * 1.3));
+      })
+    })
   }
 
   /*
@@ -320,7 +330,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
 
       //NORMAL PRICE ESSENCE
       cost = this.extractorPrice;
-      earnEssences = this.essencePrice * item.essences;
+      earnEssences = this.essencePrice * item.essences[this.ornaments - 1];
 
       //TAX ESSENCE
       if (this.ignoreTax) {
@@ -331,7 +341,7 @@ export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewI
 
       //INHI PRICE ESSENCE
       cost += item.inhiPrice * this.platinumPrice;
-      earnEssencesWithInhi = this.essencePrice * item.essencesWithInhi;
+      earnEssencesWithInhi = this.essencePrice * item.essencesWithInhi[this.ornaments - 1];
 
       //TAX ESSENCE WITH INHI
       if (this.ignoreTax) {

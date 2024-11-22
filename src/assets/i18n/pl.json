@@ -723,6 +723,7 @@
   "ORBS": {
     "BONUS_EXP": "Dodatkowe doświadczenie",
     "BONUS_GOLD": "Dodatkowe złoto",
+    "BONUS_DAIMONIT": "Dodatkowy daimonit",
     "BONUS_PSYCHOEXP": "Dodatkowe psychodoświadczenie",
     "BACKPACK_CAPACITY": "Większy udźwig",
     "FAST_RESTING": "Szybszy odpoczynek",
@@ -739,12 +740,12 @@
     "CHANCE_DRAIN_MANA": "Szansa na przejęcie many",
     "CHANCE_DRAIN_STAMINA": "Szansa na przejęcie kondycji",
     "DAMAGE_WHEN_CRITICAL_INJURED": "Większa siła ataku gdy ciężko ranny",
-    "CHANCE_PENETRATE_HOLM": "Szansa na przełamanie holma",
-    "CHANCE_PENETRATE_FARID": "Szansa na przełamanie farida",
+    "CHANCE_PENETRATE_FARID_AND_HOLM": "Szansa na przełamanie farida i holma",
     "DAMAGE_VS_NORMAL_MOBS": "Większe obrażenia na zwykłych przeciwnikach",
     "DAMAGE_VS_CHAMPIONS": "Większe obrażenia na czempionach",
     "DAMAGE_VS_BOSSES": "Większe obrażenia na bossach",
     "INCREASE_HIT_CHANCE_ON_MISSING": "Większa szansa na trafienie po chybieniu",
+    "INCREASE_DEFENCE_CHANCE_ON_HIT": "Większa szansa obrony po udanym ataku przeciwnika",
     "MORE_POWERFUL_CRIT_CHANCE": "Szansa na mocniejszy atak krytyczny",
 
     "TYPES": {
