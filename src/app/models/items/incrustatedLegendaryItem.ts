@@ -4,6 +4,7 @@ import {ItemFamily} from "./itemFamily";
 import {ItemType} from "./itemType";
 import {DamageType} from "./damageType";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
+import {ItemSet} from "@models/set/itemSet";
 
 export interface IncrustatedLegendaryItem extends LegendaryItem {
   id?: number,
@@ -11,6 +12,7 @@ export interface IncrustatedLegendaryItem extends LegendaryItem {
   translatedName?: string,
   droppingMonsters: MonsterWithIncrustatedLegendaryItems[],
   family: ItemFamily,
+  itemSet: ItemSet,
   type: ItemType,
   weight: number,
   rank: number,

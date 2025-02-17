@@ -109,6 +109,9 @@ import { UpdateDrifComponent } from './components/admin/drifs/update-drif/update
 import { DqCounterComponent } from './components/user/dq-counter/dq-counter.component';
 import {DictionaryComponent} from "@app/components/admin/dictionary/dictionary.component";
 import { DictionaryEntryListComponent } from './components/user/dictionary-entry-list/dictionary-entry-list.component';
+import { SkinsComponent } from './components/user/skins/skins.component';
+import { DrifTableComponent } from './components/user/drif-table/drif-table.component';
+import { TwitchStreamComponent } from './components/common/twitch-stream/twitch-stream.component';
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -210,7 +213,10 @@ registerLocaleData(localePl, localePlExtra);
     DqCounterComponent,
     DictionaryComponent,
     DictionaryComponent,
-    DictionaryEntryListComponent
+    DictionaryEntryListComponent,
+    SkinsComponent,
+    DrifTableComponent,
+    TwitchStreamComponent
   ],
   imports: [
     BrowserModule,

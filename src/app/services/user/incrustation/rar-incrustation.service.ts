@@ -7,13 +7,16 @@ import {ItemFamily} from "@models/items/itemFamily";
 import {LegendaryItem} from "@models/items/legendaryItem";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 import {IncrustationTarget} from "@models/items/incrustationTarget";
+import {ItemRewriterService} from "@services/user/incrustation/item-rewriter.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RarIncrustationService {
 
-  constructor() { }
+  constructor(
+    private itemRewriterService: ItemRewriterService
+  ) { }
 
   incrustationBoost: IncrustationBoost[] = [
     {
@@ -116,7 +119,7 @@ export class RarIncrustationService {
     }
     let incrustationLevel = rar.incrustationLevel;
     if (!incrustationLevel || incrustationLevel == 1) {
-      this.overrideRarStats(rar, originalRarClone);
+      this.itemRewriterService.overrideItemStats(rar, originalRarClone)
       return;
     }
     let booster = this.incrustationBoost.find(boost => boost.level === incrustationLevel);
@@ -465,25 +468,6 @@ export class RarIncrustationService {
       rar.coldResistance = holder[occurrences].stat;
       occurrences++;
     }
-  }
-
-  private overrideRarStats(oldRar: IncrustatedLegendaryItem, newRar: IncrustatedLegendaryItem) {
-    oldRar.capacity = newRar.capacity;
-    oldRar.damage = newRar.damage;
-    oldRar.strength = newRar.strength;
-    oldRar.dexterity = newRar.dexterity;
-    oldRar.power = newRar.power;
-    oldRar.knowledge = newRar.knowledge;
-    oldRar.health = newRar.health;
-    oldRar.mana = newRar.mana;
-    oldRar.stamina = newRar.stamina;
-    oldRar.armorSlashing = newRar.armorSlashing;
-    oldRar.armorCrushing = newRar.armorCrushing;
-    oldRar.armorPiercing = newRar.armorPiercing;
-    oldRar.mentalResistance = newRar.mentalResistance;
-    oldRar.fireResistance = newRar.fireResistance;
-    oldRar.energyResistance = newRar.energyResistance;
-    oldRar.coldResistance = newRar.coldResistance;
   }
 
 }

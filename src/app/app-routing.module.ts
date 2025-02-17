@@ -48,13 +48,15 @@ import {SetsUpdateComponent} from "@app/components/admin/sets/sets-update/sets-u
 import {UpdateDrifComponent} from "@app/components/admin/drifs/update-drif/update-drif.component";
 import {DictionaryComponent} from "@app/components/admin/dictionary/dictionary.component";
 import {DictionaryEntryListComponent} from "@app/components/user/dictionary-entry-list/dictionary-entry-list.component";
+import {SkinsComponent} from "@app/components/user/skins/skins.component";
+import {DrifTableComponent} from "@app/components/user/drif-table/drif-table.component";
 
 const routes: Routes = [
 
   {
 
-    path:'', component: DefaultComponent, title: "Aktualności", children: [
-      { path: '', component: HomeComponent, title: "Aktualności", data: {description: "Witaj na stronie głównej Brokenpedii"} },
+    path:'', component: DefaultComponent, title: "Brokenpedia.com - wikipedia Broken Ranks", children: [
+      { path: '', component: HomeComponent, title: "Brokenpedia.com - wikipedia Broken Ranks", data: {description: "Witaj na stronie głównej Brokenpedii"} },
       { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
       { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
       { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Przegląd zapisanego buildu w kalkulatorze"} },
@@ -67,7 +69,9 @@ const routes: Routes = [
       { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania", data: {description: "Zasymuluj proces ulepszania sprzętu w grze i sprawdź ile może Cię to kosztować"} },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci", data: {description: "Sprawdź jakie modyfikatory / psychowłaściwości będą najbardziej użyteczne dla Twojej klasy postaci"} },
       { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów", data: {description: "Lista wsyzstkich orbów w grze wraz z uwzględnieniem ich siły działania w zależności od inkrustacji"}},
-      { path: 'dictionary', component: DictionaryEntryListComponent, title: "Tabela orbów", data: {description: "Słowniczek dla nowych graczy aby szybko odnaleźli się w trudnym słownictwie graczy Broken Ranks"} },
+      { path: 'dictionary', component: DictionaryEntryListComponent, title: "Słowniczek", data: {description: "Słowniczek dla nowych graczy aby szybko odnaleźli się w trudnym słownictwie graczy Broken Ranks"} },
+      { path: 'drifs-table', component: DrifTableComponent, title: "Tabela drifów", data: {description: "Tabela drifów z możliwościa sprawdzenia ich włąsciwości w zależności od ich poziomu"} },
+      //{ path: 'skins', component: SkinsComponent, title: "SKINY", data: {description: "SKINY"} },
       /*{ path: 'test', component: TestsComponent, title: "TESTS" },*/
 
       { path: 'suggestion', component: UserSuggestionComponent, title: "Zgłoś błąd lub sugestię", data: {description: "Zaproponuj ulepszenie wikipedii lub zgłoś błąd"} },

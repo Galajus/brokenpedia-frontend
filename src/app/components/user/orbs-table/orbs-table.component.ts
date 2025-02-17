@@ -17,7 +17,7 @@ export class OrbsTableComponent implements OnInit {
 
   ornaments: number = 1;
   calculations: OrbCalculations[] = [];
-    displayedColumns: string[] = [
+  displayedColumns: string[] = [
         "effect",
         "name",
         "type",

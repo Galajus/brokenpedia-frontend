@@ -1,0 +1,72 @@
+#options {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #303030 !important;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+.mat-header-cell {
+  top: 118px !important;
+  z-index: 999 !important;
+}
+
+th.mat-header-cell {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+tr.mat-row {
+  height: 38px;
+}
+
+.click-slot {
+  width: 45px;
+}
+
+.click-drif {
+  //filter: saturate(250%) brightness(120%);
+  cursor: pointer;
+}
+
+.inactive {
+  filter: grayscale(1);
+}
+
+.drif-presentation {
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.drif-type-DAMAGE {
+  color: orangered;
+}
+
+.drif-type-SPECIAL {
+  color: #00ae00;
+}
+
+.drif-type-ACCURACY {
+  color: orange;
+}
+
+.drif-type-DEFENCE {
+  color: #966eec;
+}
+
+.drif-type-REDUCTION {
+  color: dodgerblue;
+}

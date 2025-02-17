@@ -233,6 +233,13 @@ input[type=number] {
   background-color: rgba(255, 223, 12, 0.05);
 }
 
+//TABLES CUSTOM
+.centered-sorted-header {
+  .mat-sort-header-container {
+    justify-content: center !important;
+  }
+}
+
 
 //FLEX DISPLAYING
 
@@ -333,6 +340,8 @@ input[type=number] {
     gap: #{$i}px;
   }
 }
+
+
 
 //FLEX MATERIAL FIXES
 

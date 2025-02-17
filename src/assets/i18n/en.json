@@ -14,6 +14,7 @@
     "UPGRADE_SIMULATOR": "Upgrade simulator",
     "DRIF_SIMULATOR": "Drif simulator",
     "ORBS_TABLE": "Orbs table",
+    "DRIFS_TABLE": "Drifs table",
     "DICTIONARY": "Disctionary",
     "PROFESSIONS_MODIFIER": "Modifiers for professions",
 
@@ -117,6 +118,7 @@
       "STRATEGICZNY_STRZAŁ": "Strategic shot",
       "GRAD_STRZAŁ": "Hail of arrows",
       "LODOWA_STRZAŁA": "Ice arrow",
+      "INSTYNKT_PRZETRWANIA": "Survival instinct",
 
       "LEWY_PRAWY": "One-two punch",
       "FRONT_KICK": "Front kick",
@@ -235,6 +237,12 @@
     "CHEAT_DESTINY": "Cheat fate"
   },
   "CUSTOM_EFFECTS": {
+    "ZABLOKOWANA_KONDYCJA": "Locked stamina",
+    "MAKSYMALNA_OSŁONA_Z_MAX_PŻ": "Maximum barrier from max HP",
+    "WZMOCNIENIE_OSŁONY_TRAFIENIEM": "Recharge by hitting",
+    "KONWERSJA_KONDYCJI_NA_OSŁONĘ": "Stamina-to-barrier conversion",
+    "OBRAŻENIA_PRZENOSZONE_NA_OSŁONĘ": "Damage absorbed by the barrier",
+    "ODPORNOŚCI_ZA_ODEBRANY_PA": "Resistances for each AP",
     "WZMACNIA_KRYTYCZNE_UDERZENIE_O": "Empowers Critical strike by",
     "ODPORNOŚĆ_NA_OGIEŃ": "Fire resistance",
     "MAKSYMALNA_ILOŚĆ_PETÓW": "Maximum number of pets",
@@ -436,7 +444,8 @@
       "MORANA": "Morana",
       "MAHET": "Mahet",
       "TARUL": "Tarul",
-      "SIDRAGA": "Sidraga"
+      "SIDRAGA": "Sidraga",
+      "HVAR": "Hvar"
     },
     "RARS": {
       "DERENGIL": "Derengil",
@@ -588,7 +597,11 @@
       "REMIGESY": "Remigesy",
       "VENGUR": "Vengur",
       "VOGLERY": "Voglery",
-      "WYROK_HELLARA": "Wyrok Hellara"
+      "WYROK_HELLARA": "Wyrok Hellara",
+      "ROZDZIERACZ_ŚWIATÓW": "World Shatterer",
+      "SCORNAXY": "Scornaxes",
+      "FURIONY": "Furions",
+      "HVARIONY": "Hvarions"
     },
     "EPICS": {
       "GORTHDAR": "Gorthdar",

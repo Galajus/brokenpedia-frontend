@@ -1,7 +1,7 @@
 
   <!--TEMPLATES-->
   <ng-template #drifsSelect let-item="item">
-    <div *ngIf="item.rank >= 10 && item.family !== ItemFamily.SET">
+    <div *ngIf="item.rank >= 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-3" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-3" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
@@ -18,7 +18,7 @@
         <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[2].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[2])" matTooltipClass="custom-tooltip" matTooltipPosition="before" (click)="setDrifSlotToChange(2)">
       </div>
     </div>
-    <div *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7) && item.rank < 10 && item.family !== ItemFamily.SET">
+    <div *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7) && item.rank < 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-2-2" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-2-2" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
@@ -30,7 +30,7 @@
         <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip" matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
       </div>
     </div>
-    <div *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || item.family === ItemFamily.SET">
+    <div *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || item.family === ItemFamily.SET || item.family === ItemFamily.SYNERGETIC">
       <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-1" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
       <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-1" [matMenuTriggerFor]="drifMenu">
         <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
@@ -85,9 +85,9 @@
   >
     <div class="rar" #rar>
       <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="showUpgradeDesc($event)" matTooltip="Zarządzaj ulepszaniem" matTooltipPosition="above" class="upgrade-item">whatshot</mat-icon>
-      <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.EVENLY)" matTooltip="Inkrustuj po równo" matTooltipPosition="above" [class]="'incrustation-evenly'" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.EVENLY">straighten</mat-icon>
+      <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot() && itemToShow.family !== ItemFamily.SYNERGETIC" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.EVENLY)" matTooltip="Inkrustuj po równo" matTooltipPosition="above" [class]="'incrustation-evenly'" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.EVENLY">straighten</mat-icon>
       <ul class="eq-list">
-        <li class="element stars flex-column flex-center-center">
+        <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family !== ItemFamily.SYNERGETIC">
           <div class="flex-row flex-center-center" style="width: 120px !important">
             <div class="flex-x-stretch-1-5 flex-center-center">
               <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button (click)="removeStar(itemToShow)"><mat-icon>remove</mat-icon></button>
@@ -105,6 +105,22 @@
             </div>
             <div class="flex-x-stretch-1-5 flex-center-center">
               <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button style="margin-left: auto" (click)="addStar(itemToShow)"><mat-icon>add</mat-icon></button>
+            </div>
+          </div>
+        </li>
+        <!--TODO: BETTER LAYOUT FOR SYNG LEVEL-->
+        <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family === ItemFamily.SYNERGETIC">
+          <div class="flex-row flex-center-center" style="width: 120px !important">
+            <div class="flex-x-stretch-1-5 flex-center-center">
+              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button (click)="decreaseSyngLevel(itemToShow)"><mat-icon>remove</mat-icon></button>
+            </div>
+            <div class="flex-center-center flex-x-stretch-3-5">
+              <div>
+                {{itemToShow.incrustationLevel}}0 lvl
+              </div>
+            </div>
+            <div class="flex-x-stretch-1-5 flex-center-center">
+              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button style="margin-left: auto" (click)="increaseSyngLevel(itemToShow)"><mat-icon>add</mat-icon></button>
             </div>
           </div>
         </li>
@@ -450,7 +466,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/helmet.png" width="32" height="53" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.HELMET)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.HELMET)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -460,7 +476,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/amulet.png" width="50" height="35" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.AMULET)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.AMULET)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -470,7 +486,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/gloves.png" width="51" height="36" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.GLOVES)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.GLOVES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -480,7 +496,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_1.png" width="31" height="23" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -490,7 +506,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_2.png" width="31" height="23" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -500,7 +516,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/shieldorbraces.png" width="32" height="57" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -510,7 +526,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/boots.png" width="44" height="45" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BOOTS)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BOOTS)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -520,7 +536,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/weapon.png" width="58" height="59" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.WEAPON)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.WEAPON)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -530,7 +546,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/pants.png" width="26" height="58" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.PANTS)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.PANTS)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -540,7 +556,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/belt.png" width="48" height="39" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BELT)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BELT)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -550,7 +566,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/armor.png" width="42" height="59" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.ARMOR)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.ARMOR)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -560,7 +576,7 @@
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
                 <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/cape.png" width="24" height="64" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event, InventorySlot.CAPE)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event, InventorySlot.CAPE)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
