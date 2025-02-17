@@ -1,0 +1,33 @@
+.is-streaming {
+  cursor: pointer;
+}
+
+.presentation-streamer-image {
+  height: 34px;
+}
+
+.is-live-name {
+  color: #ffb03a;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: bold;
+}
+
+.is-live {
+  color: red;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.big-red-circle {
+  font-size: 40px;
+  color: red;
+  line-height: 20px;
+}
+
+.streamer-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}

@@ -4,9 +4,12 @@
         <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
         <div class="logo">
           <a routerLink="">
-            <img ngSrc="assets/logo.svg" alt="Broken Pedia logo" width="200" height="65">
+            <img ngSrc="assets/logo.svg" alt="Brokenpedia.com - Wikipedia Broken Ranks" width="200" height="65">
           </a>
         </div>
+      </div>
+      <div fxLayoutAlign="center center">
+        <app-twitch-stream></app-twitch-stream>
       </div>
       <div fxLayoutAlign="center center" fxLayoutGap="2">
         <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag ngSrc="assets/i18n/flags/{{currentLang}}.png" height="28" width="28" alt="flag"></button>
@@ -52,7 +55,8 @@
             <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> {{'MAIN_PAGE.SHARD_ESSENCES_CALCULATOR' | translate}}</a>
             <a mat-list-item routerLink="/upgrade-simulator"><mat-icon class="sidebar-icon">stars</mat-icon> {{'MAIN_PAGE.UPGRADE_SIMULATOR' | translate}}</a>
             <a mat-list-item routerLink="/orbs-table"><mat-icon class="sidebar-icon">select_all</mat-icon> {{'MAIN_PAGE.ORBS_TABLE' | translate}}&nbsp;</a>
-            <a mat-list-item routerLink="/dictionary"><mat-icon class="sidebar-icon">menu_book</mat-icon> {{'MAIN_PAGE.DICTIONARY' | translate}}&nbsp;<div style="color: red; font-weight: bold"><mat-icon>fiber_new</mat-icon></div></a>
+            <a mat-list-item routerLink="/drifs-table"><mat-icon class="sidebar-icon">select_all</mat-icon> {{'MAIN_PAGE.DRIFS_TABLE' | translate}}&nbsp; <div style="color: red; font-weight: bold"><mat-icon>fiber_new</mat-icon></div></a>
+            <a mat-list-item routerLink="/dictionary"><mat-icon class="sidebar-icon">menu_book</mat-icon> {{'MAIN_PAGE.DICTIONARY' | translate}}&nbsp;</a>
             <a mat-list-item routerLink="/drif-simulator"><mat-icon class="sidebar-icon">group_work</mat-icon> {{'MAIN_PAGE.DRIF_SIMULATOR' | translate}}&nbsp;</a>
             <!--<a mat-list-item routerLink="/post/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>-->
             <mat-accordion>

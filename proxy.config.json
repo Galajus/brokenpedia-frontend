@@ -1,9 +1,17 @@
 {
-    "/api": {
-        "target": "http://127.0.0.1:8100",
-        "secure": false,
-        "pathRewrite": {
-            "^/api": ""
-        }
+  "/api": {
+    "target": "http://127.0.0.1:8100",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
     }
+  },
+  "/wsa": {
+    "target": "ws://127.0.0.1:8100",
+    "secure": false,
+    "ws": true,
+    "pathRewrite": {
+      "^/wsa": ""
+    }
+  }
 }

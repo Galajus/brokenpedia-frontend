@@ -101,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setupMetaData() {
-    this.titleService.setTitle('Broken Ranks Wiki');
+    this.titleService.setTitle('Brokenpedia.com - Wikipedia Broken Ranks');
     this.metaService.addTag({
       name: 'description',
       content: `Wszechstronny niezbędnik i kompedium wiedzy każdego gracza gry MMORPG Broken Ranks tworzony przez streamera/youtubera Galajus'a. Dzięki tej wikipedii bardzo szybko odnajdziesz się w świecie gry.`
@@ -116,7 +116,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.metaService.addTag({
       name: 'og:title',
-      content: `Brokenpedia.com wikipedia gry Broken Ranks`
+      content: `Brokenpedia.com - Wikipedia Broken Ranks`
     });
     this.metaService.addTag({
       name: 'og:type',
