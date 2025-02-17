@@ -32,7 +32,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Inventory, InventoryDrif, InventoryItem} from "@models/build-calculator/inventory/inventory";
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
-import {cloneDeep, floor, isNumber} from "lodash-es";
+import {cloneDeep, floor, isNumber, words} from "lodash-es";
 import {MatSliderChange} from "@angular/material/slider";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import resistances from "@models/build-calculator/resistances";
@@ -53,6 +53,9 @@ import {Skill} from "@models/skills/skill";
 import {Build} from "@models/build-calculator/build";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {DrifService} from "@services/user/drif/drif.service";
+import {SyngLevelingService} from "@services/user/incrustation/syng-leveling.service";
+import {allowedSyngMods, SyngData} from "@models/incrustation/synergeticUpgrade";
+import {Profession} from "@models/gameentites/profession";
 
 @Component({
   selector: 'app-brokencalc',
@@ -197,6 +200,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackBar: MatSnackBar,
     private buildCalculatorService: BuildCalculatorService,
     private incrustationService: RarIncrustationService,
+    private syngLevelingService: SyngLevelingService,
     private drifService: DrifService,
     protected jwtService: JwtService,
     private router: Router,
@@ -406,6 +410,11 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       energyResistance: item.energyResistance,
       coldResistance: item.coldResistance
     }
+    if (mapped.family === ItemFamily.SYNERGETIC) {
+      mapped.incrustationLevel = 2;
+    }
+
+    this.setDeducedValues(mapped);
     return mapped;
   }
 
@@ -658,63 +667,85 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!str || !dex || !pow || !knw) {
         return;
       }
+      const itemSet = i.itemSet;
+      if (itemSet && itemSet.requiredClass !== Profession.DEFAULT) {
+        if (itemSet.requiredClass !== this.newClass) {
+          return;
+        }
+      }
       let itemFamily = i.family;
-      if (itemFamily === ItemFamily.EPIC) {
-        if (i.name.toUpperCase() === "GORTHDAR" && this.newClass === "BARBARIAN") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+      if (itemFamily === ItemFamily.EPIC || itemFamily === ItemFamily.LEGENDARY_EPIC) {
+        const iName = i.name.toUpperCase();
+
+        if (this.newClass === "BARBARIAN") {
+          if (iName === "GORTHDAR" || iName === "LEGENDARNY GORTHDAR") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "ŻMIJ" && this.newClass === "FIRE_MAGE") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "FIRE_MAGE") {
+          if (iName === "ŻMIJ" || iName === "LEGENDARNY ŻMIJ") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "ALLENOR" && this.newClass === "KNIGHT") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "KNIGHT") {
+          if (iName === "ALLENOR" || iName === "LEGENDARNY ALLENOR") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "LATARNIA ŻYCIA" && this.newClass === "DRUID") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "DRUID") {
+          if (iName === "LATARNIA ŻYCIA" || iName === "LEGENDARNA LATARNIA ŻYCIA") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "WASHI" && this.newClass === "SHEED") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "SHEED") {
+          if (iName === "WASHI" || iName === "LEGENDARNE WASHI") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "ATTAWA" && this.newClass === "VOODOO") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "VOODOO") {
+          if (iName === "ATTAWA" || iName === "LEGENDARNA ATTAWA") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
-        if (i.name.toUpperCase() === "IMISINDO" && this.newClass === "ARCHER") {
-          if (i.requiredLevel && i.requiredLevel <= this.level) {
-            this.availableToChoose.push(i);
+        if (this.newClass === "ARCHER") {
+          if (iName === "IMISINDO" || iName === "LEGENDARNE IMISINDO") {
+            if (i.requiredLevel && i.requiredLevel <= this.level) {
+              this.availableToChoose.push(i);
+              return;
+            }
+            this.unavailableToChoose.push(i);
             return;
           }
-          this.unavailableToChoose.push(i);
-          return;
         }
         return;
       }
@@ -762,7 +793,80 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setDeducedValues(item);
   }
 
+  decreaseSyngLevel(item: InventoryItem) {
+    let original = this.getOriginalItem(item);
+    if (item.incrustationLevel == 2) {
+      return;
+    }
+    item.incrustationLevel--;
+
+    this.syngLevelingService.changeSyngLevel(item, original);
+    //this.incrustationService.doIncrustation(item as IncrustatedLegendaryItem, item.incrustationTarget, undefined, original);
+    //this.checkItemDrifSpace(item, 0);
+    //this.setDeducedValues(item);
+  }
+
+  increaseSyngLevel(item: InventoryItem) {
+    let original = this.getOriginalItem(item);
+    if (item.incrustationLevel == 14) {
+      return;
+    }
+    if (!item.incrustationLevel) {
+      item.incrustationLevel = 2;
+    }
+
+    const requirements = this.syngLevelingService.getRequirements(item, item.incrustationLevel + 1);
+
+    if (!this.canWearNextLevelSyng(requirements, item)) {
+      this.snackBar.open("Nie spełniasz wymagań!", "Ok", {duration: 2000})
+      return;
+    }
+
+    item.incrustationLevel++;
+
+    this.syngLevelingService.changeSyngLevel(item, original);
+  }
+
+  canWearNextLevelSyng(requirements: SyngData, item: InventoryItem) {
+    const str = this.currentStats.find(s => s.image === "strength")?.level;
+    const dex = this.currentStats.find(s => s.image === "dexterity")?.level;
+    const pow = this.currentStats.find(s => s.image === "power")?.level;
+    const knw = this.currentStats.find(s => s.image === "knowledge")?.level;
+
+    if (requirements.level > this.level) {
+      return false;
+    }
+
+    if (!requirements.requiredOffenseStat && !requirements.requiredAccuracyStat) {
+      return true;
+    }
+
+    //MAGIC SYNG
+    if (this.syngLevelingService.isMagicSyng(item)) {
+      if (!knw || requirements.requiredAccuracyStat > knw) {
+        return false;
+      }
+      if (!pow || requirements.requiredOffenseStat > pow) {
+        return false;
+      }
+      return true;
+    }
+    //PHYSICAL SYNG
+    if (!dex || requirements.requiredAccuracyStat > dex) {
+      return false;
+    }
+    if (!str || requirements.requiredOffenseStat > str) {
+      return false;
+    }
+    return true;
+
+
+  }
+
   setDeducedValues(item: InventoryItem) {
+    if (item.family == ItemFamily.SYNERGETIC) {
+      return;
+    }
     let values = deducedInventoryItemValuesTable[item.incrustationLevel-1];
     item.drifBoost = values.drifBoost;
     item.orbBoost = values.orbBoost;
@@ -770,10 +874,16 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (item.family === ItemFamily.EPIC || item.family === ItemFamily.LEGENDARY_EPIC) {
       item.drifBoost += 0.6;
     }
+    if (item.name === "Dar Skrzydlatej" || item.name === "Vengur" || item.name === "Voglery" || item.name === "Remigesy" || item.name === "Wyrok Hellara") {
+      item.drifBoost += 0.15;
+    }
 
   }
 
   setIncrustationTarget(item: InventoryItem, target: IncrustationTarget, checkStat?: number | undefined) {
+    if (item.family === ItemFamily.SYNERGETIC || item.family === ItemFamily.CUSTOM) {
+      return;
+    }
     if (!checkStat && target !== IncrustationTarget.EVENLY) {
       this.snackBar.open("Nie możesz inkrustować po statystyce nie będącej startową", "ok!", {duration: 4000})
       return;
@@ -813,7 +923,13 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getOriginalItem(item: InventoryItem) {
-    let original = this.itemsFromDb.find(i => i.name === item.name);
+    let itemName: string;
+    if (item.family === ItemFamily.SYNERGETIC) {
+      itemName = words(item.name)[0];
+    } else {
+      itemName = item.name;
+    }
+    const original = this.itemsFromDb.find(i => i.name === itemName);
     if (!original) {
       throw new Error("unknown item");
     }
@@ -914,6 +1030,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!currentItem || currentItem.family === ItemFamily.EPIC) {
       return true;
     }
+    if (currentItem.family === ItemFamily.SYNERGETIC && tier === 1) {
+      return false;
+    }
     let usedCapacity = this.getUsedItemCapacity(currentItem);
     let availableCapacity = this.getItemCapacity(currentItem);
     let remainingCapacity = availableCapacity - usedCapacity;
@@ -936,6 +1055,11 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!currentItem) {
       return true;
     }
+    const drifToCheck = this.getDrifByName(drifName);
+    if (currentItem.family === ItemFamily.SYNERGETIC) {
+      return !(allowedSyngMods.find(m => m === drifToCheck.psychoMod));
+    }
+
     if (this.isDuplicatedDrif(drifName, currentItem)) {
       return true;
     }
@@ -946,15 +1070,15 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    let drifToCheck = this.getDrifByName(drifName);
-    let drifTier = this.getDrifTierByName();
 
-    let requiredCapacity = drifToCheck.startPower;
-    let usedCapacity = this.getUsedItemCapacity(currentItem);
-    let availableCapacity = this.getItemCapacity(currentItem);
+    const drifTier = this.getDrifTierByName();
+
+    const requiredCapacity = drifToCheck.startPower;
+    const usedCapacity = this.getUsedItemCapacity(currentItem);
+    const availableCapacity = this.getItemCapacity(currentItem);
     let remainingCapacity = availableCapacity - usedCapacity;
 
-    let editedDrif = currentItem.drifs[this.drifSlot];
+    const editedDrif = currentItem.drifs[this.drifSlot];
     if (editedDrif) {
       remainingCapacity += editedDrif.tier * editedDrif.drif.startPower;
     }
@@ -1047,10 +1171,22 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   countModSum() {
     this.modSummary = [];
     this.playerInventory.items.forEach( i => {
-      if (i.family === ItemFamily.EPIC) {
+      if (i.family === ItemFamily.SYNERGETIC) {
+        return;
+      }
+      if (i.family === ItemFamily.EPIC || i.family === ItemFamily.LEGENDARY_EPIC) {
         this.modSummary.push({
           mod: PsychoMod.EXTRA_AP,
           drifName: "?",
+          modSum: 1,
+          amountDrifs: 1,
+          category: DrifCategory.SPECIAL
+        });
+      }
+      if (i.family === ItemFamily.LEGENDARY_EPIC) {
+        this.modSummary.push({
+          mod: PsychoMod.EXTRA_ATTACK_CIRCLE,
+          drifName: "??",
           modSum: 1,
           amountDrifs: 1,
           category: DrifCategory.SPECIAL
@@ -1085,7 +1221,101 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
           modSum.reducedPercent = amountDrifReduction.efektSum * 100;
         }
       }
-    })
+    });
+    this.assignGuaranteedMods();
+    this.assignSyngMods();
+  }
+
+  assignSyngMods() {
+    this.playerInventory.items.forEach( i => {
+      if (i.family !== ItemFamily.SYNERGETIC) {
+        return;
+      }
+      const potentialDrift = i.drifs[0];
+      if (!potentialDrift) {
+        return;
+      }
+
+      const drifInSyng = potentialDrift.drif;
+      const summary = this.modSummary.find(s => s.mod === drifInSyng.psychoMod);
+      const modCap = modCaps.find(capped => capped.mod === drifInSyng.psychoMod);
+      if (!i.incrustationLevel) {
+        i.incrustationLevel = 2;
+      }
+      if (!summary) {
+        this.modSummary.push({
+          mod: drifInSyng.psychoMod,
+          drifName: drifInSyng.shortName,
+          amountDrifs: 1,
+          category: drifInSyng.category,
+          modSum: drifInSyng.psychoGrowByLevel * (i.incrustationLevel - 2),
+          max: modCap?.value
+        })
+      } else {
+        summary.amountDrifs = summary.amountDrifs + 1;
+        summary.modSum = summary.modSum + (drifInSyng.psychoGrowByLevel * (i.incrustationLevel - 2));
+      }
+    });
+  }
+
+  assignGuaranteedMods() {
+    //todo refactor for better usage
+    const critMod = this.modSummary.find(m => m.mod === PsychoMod.CRIT_CHANCE);
+    if (critMod) {
+      critMod.modSum += 2;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.CRIT_CHANCE);
+      const drif = this.drifsFromDb.find(d => d.psychoMod === PsychoMod.CRIT_CHANCE);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 2,
+        max: modCap?.value
+      })
+    }
+
+    const manaRegenMod = this.modSummary.find(m => m.mod === PsychoMod.MANA_REGENERATION);
+    if (manaRegenMod) {
+      manaRegenMod.modSum += 5;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.MANA_REGENERATION);
+      const drif = this.drifsFromDb.find(d => d.psychoMod === PsychoMod.MANA_REGENERATION);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 5,
+        max: modCap?.value
+      })
+    }
+
+    const staminaRegenMod = this.modSummary.find(m => m.mod === PsychoMod.STAMINA_REGENERATION);
+    if (staminaRegenMod) {
+      staminaRegenMod.modSum += 5;
+    } else {
+      const modCap = modCaps.find(capped => capped.mod === PsychoMod.STAMINA_REGENERATION);
+      const drif = this.drifsFromDb.find(d => d.psychoMod === PsychoMod.STAMINA_REGENERATION);
+      if (!drif) {
+        throw new Error("GuaranteedModNotFound")
+      }
+      this.modSummary.push({
+        mod: drif.psychoMod,
+        drifName: drif.shortName,
+        amountDrifs: 0,
+        category: drif.category,
+        modSum: 5,
+        max: modCap?.value
+      })
+    }
   }
 
   showUpgradeDesc(e: MouseEvent) {
@@ -1643,7 +1873,12 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let convertedItem = this.mapItemToInventoryItem(item);
       this.fillItemWithLocalData(localItem, convertedItem);
-      this.incrustationService.doIncrustation(convertedItem as IncrustatedLegendaryItem, convertedItem.incrustationTarget, undefined, item);
+      if (item.family !== ItemFamily.SYNERGETIC && item.family !== ItemFamily.CUSTOM) {
+        this.incrustationService.doIncrustation(convertedItem as IncrustatedLegendaryItem, convertedItem.incrustationTarget, undefined, item);
+      } else if (item.family === ItemFamily.SYNERGETIC) {
+        this.syngLevelingService.changeSyngLevel(convertedItem, item);
+      }
+
       this.setDeducedValues(convertedItem);
       this.playerInventory.items.push(convertedItem);
     })
@@ -1791,7 +2026,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.itemToShow.upgradeTarget === upgradeTarget) {
       n += this.getUpgradeStats();
     }
-    if (this.itemToShow.family === ItemFamily.EPIC && upgradeTarget === UpgradeTarget.DAMAGE) {
+    if ((this.itemToShow.family === ItemFamily.EPIC || this.itemToShow.family === ItemFamily.LEGENDARY_EPIC) && upgradeTarget === UpgradeTarget.DAMAGE) {
       n += this.level;
     }
     if (n > 0) {
@@ -2084,6 +2319,12 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDrifPsychoValue(item: InventoryItem, drif: InventoryDrif) {
+    if (item.family === ItemFamily.SYNERGETIC) {
+      if (!item.incrustationLevel) {
+        item.incrustationLevel = 2;
+      }
+      return drif.drif.psychoGrowByLevel * (item.incrustationLevel - 2);
+    }
     let value = drif.level * drif.drif.psychoGrowByLevel;
     if (drif.tier === 2) {
       value += drif.drif.psychoGrowByLevel;
@@ -2136,6 +2377,16 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       family = item.family.toLowerCase();
     }
     return family;
+  }
+
+  getItemImageName(item: InventoryItem) {
+    let name: string;
+    if (item.family === ItemFamily.SYNERGETIC) {
+      name = words(item.name)[0];
+    } else {
+      name = item.name;
+    }
+    return name.toLowerCase().replaceAll(' ', '_');
   }
 
   //UTILS
@@ -2391,7 +2642,7 @@ const notPercentEffects = [
   "Redukcja bazowej wiedzy do",
   "Redukcja bazowych PŻ do",
   "Siła odczarowania",
-  "Redukcja obrażeń many",
+  "Odporności za odebrany PA",
 
   "EXTRA_AP",
 ]

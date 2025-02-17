@@ -8,7 +8,7 @@ import {DrifSelectComponent} from "./drif-select/drif-select.component";
 import {ModSummary} from "@models/drif/modSummary";
 import modCaps from "@models/drif/data/modCap";
 import {EpicDedicatedMod} from "@models/drif/epicDedicatedMod";
-import {UserRarsWithDrifs} from "@models/drif/userRarsWithDrifs";
+import {DrifBuild} from "@models/drif/drifBuild";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {DragDrifItem} from "@models/drif/dragDrifItem";
 import {clone, cloneDeep} from "lodash-es";
@@ -39,7 +39,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   drifs: Drif[] = [];
   epicsMods: EpicDedicatedMod[] = [];
   buildNames: string[] = ["temp", "build 1", "build 2", "build 3", "build 4", "build 5", "build 6", "build 7", "build 8", "build 9"]
-  userRarsWithDrifs: UserRarsWithDrifs[] = [];
+  drifBuilds: DrifBuild[] = [];
   swappingMode = false;
   swapDrif: SwapDrifItem | null = null;
 
@@ -80,11 +80,11 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   fillUserRars() {
-    this.userRarsWithDrifs.forEach(rars => rars.rarsWithDrifs = this.generateRarsWithDrifsTemplate());
+    this.drifBuilds.forEach(rars => rars.rarsWithDrifs = this.generateRarsWithDrifsTemplate());
   }
 
   resetBuild(name: string) {
-    const userRarsWithDrifs = this.userRarsWithDrifs.find(userRars => userRars.name === name);
+    const userRarsWithDrifs = this.drifBuilds.find(userRars => userRars.name === name);
     if (userRarsWithDrifs) {
       userRarsWithDrifs.rarsWithDrifs = this.generateRarsWithDrifsTemplate();
       this.calculateModSummary();
@@ -111,17 +111,18 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
 
   generateUserRarsWithDrifs() {
     this.buildNames.forEach(n => {
-      this.userRarsWithDrifs.push({
+      this.drifBuilds.push({
         name: n,
         rarsWithDrifs: [],
         critEpicModLevel: 16,
-        dedicatedEpicModLevel: 16
+        dedicatedEpicModLevel: 16,
+        backpack: []
       })
     })
   }
 
   getActiveBuild() {
-    const find = this.userRarsWithDrifs.find(rars => rars.name === this.activeBuild);
+    const find = this.drifBuilds.find(rars => rars.name === this.activeBuild);
     if (!find) {
       throw "NOT FOUND ACTIVE BUILD";
     }
@@ -136,7 +137,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.calculateModSummary();
   }
 
-  doSwap(rarWithDrifs: RarWithDrifs, drifSlot: number): void {
+  doSwap(rarWithDrifs: RarWithDrifs | undefined, drifSlot: number): void {
     if (!this.swapDrif) {
       this.swapDrif = {
         slot: drifSlot,
@@ -165,8 +166,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.calculateModSummary();
   }
 
-  canBeSwapped(drif: Drif | null, rar: RarWithDrifs, slot: number): boolean {
-    if (!this.swapDrif) {
+  canBeSwapped(drif: Drif | null, rar: RarWithDrifs | undefined, slot: number): boolean {
+    if (!this.swapDrif || !rar) {
       return true;
     }
 
@@ -201,7 +202,15 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  openDrifDialog(rarWithDrifs: RarWithDrifs, drifSlot: number): void {
+  getDrifFromBackpack(slot: number): Drif {
+    const drif = this.getActiveBuild().backpack[slot];
+    /*if (!drif) {
+      throw new Error("Drif in backpack not exist with slot: " + slot);
+    }*/
+    return drif;
+  }
+
+  openDrifDialog(rarWithDrifs: RarWithDrifs | undefined, drifSlot: number): void {
     if (this.swappingMode) {
       this.doSwap(rarWithDrifs, drifSlot);
       return;
@@ -211,12 +220,12 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       enterAnimationDuration: '100ms',
       exitAnimationDuration: '100ms',
       data: {
-        leftPower: this.getLeftPower(rarWithDrifs.slot, drifSlot),
-        rarRank: rarWithDrifs.rank,
+        leftPower: rarWithDrifs ? this.getLeftPower(rarWithDrifs.slot, drifSlot) : 36,
+        rarRank: rarWithDrifs ? rarWithDrifs.rank : 12,
         drifSlot: drifSlot,
-        drifTier: this.getDrifTier(rarWithDrifs, drifSlot),
-        drifLevel: this.getDrifLevel(rarWithDrifs, drifSlot),
-        itemSlot: rarWithDrifs.slot,
+        drifTier: rarWithDrifs ? this.getDrifTier(rarWithDrifs, drifSlot) : this.getDrifFromBackpack(drifSlot) ? this.getDrifFromBackpack(drifSlot).tier : 1,
+        drifLevel: rarWithDrifs ? this.getDrifLevel(rarWithDrifs, drifSlot) : this.getDrifFromBackpack(drifSlot) ? this.getDrifFromBackpack(drifSlot).level : 1,
+        itemSlot: rarWithDrifs ? rarWithDrifs.slot : drifSlot,
         drifs: this.drifs
       }
     });
@@ -244,7 +253,11 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     );
   }
 
-  removeModFromItem(rar: RarWithDrifs, slot: number) {
+  removeModFromItem(rar: RarWithDrifs | undefined, slot: number) {
+    if (!rar) {
+      this.getActiveBuild().backpack.splice(slot, 1);
+      return;
+    }
     if (slot === 1) {
       rar.drifItem1 = null;
     }
@@ -256,7 +269,16 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeModLevelAnItem(rarWithDrifs: RarWithDrifs, drifSlot: number, level: number, tier: number) {
+  changeModLevelAnItem(rarWithDrifs: RarWithDrifs | undefined, drifSlot: number, level: number, tier: number) {
+    if (!rarWithDrifs) {
+      const drifFromBackpack = this.getDrifFromBackpack(drifSlot);
+      if (!drifFromBackpack) {
+        return;
+      }
+      drifFromBackpack.level = level;
+      drifFromBackpack.tier = tier;
+      return;
+    }
     const drif = drifSlot === 1 ? rarWithDrifs.drifItem1 : drifSlot === 2 ? rarWithDrifs.drifItem2 : drifSlot === 3 ? rarWithDrifs.drifItem3 : null;
     this.doChangeModLevelAnItem(drif, rarWithDrifs, level, tier);
   }
@@ -339,7 +361,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return find ? find.maxDrifLevel : 0;
   }
 
-  calculateEpicMod(rar: RarWithDrifs, userConfig: UserRarsWithDrifs) {
+  calculateEpicMod(rar: RarWithDrifs, userConfig: DrifBuild) {
     const dedicatedMod = this.epicsMods.find(e => e.id === rar.rank - 12);
     if (!dedicatedMod) {
       throw new Error("Epic mod not found");
@@ -531,7 +553,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return slot === 1 ? rar.drifItem1?.level || 0 : slot === 2 ? rar.drifItem2?.level || 0 : slot === 3 ? rar.drifItem3?.level || 0 : 0;
   }
 
-  private getDrifFromSlot(rar: RarWithDrifs, slot: number): Drif | null {
+  private getDrifFromSlot(rar: RarWithDrifs | undefined, slot: number): Drif | null {
+    if (!rar) {
+      return this.getDrifFromBackpack(slot);
+    }
     switch (slot) {
       case 1:
         return rar.drifItem1;
@@ -548,12 +573,12 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return this.drifService.countUsedPower(eq.drifItem1, eq.drifItem2, eq.drifItem3, eq.ornaments, eq.rank)
   }
 
-  private assignDrifToItem(drif: Drif | null, rarWithDrifs: RarWithDrifs, slot: number) {
+  private assignDrifToItem(drif: Drif | null, rarWithDrifs: RarWithDrifs | undefined, slot: number) {
     if (!drif) {
       this.removeModFromItem(rarWithDrifs, slot)
       return;
     }
-    if (this.isElementalDamageDrif(drif)) {
+    if (this.isElementalDamageDrif(drif) && rarWithDrifs) {
       if (slot === 1 && (this.isElementalDamageDrif(rarWithDrifs.drifItem2) || this.isElementalDamageDrif(rarWithDrifs.drifItem3))) {
         this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_LIMITED"), "ok", {duration: 1500});
         return;
@@ -568,7 +593,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       }
     }
 
-    const containsThatMod = this.itemContainsThatMod(drif, rarWithDrifs, slot);
+    const containsThatMod = rarWithDrifs ? this.itemContainsThatMod(drif, rarWithDrifs, slot) : false;
     if (!containsThatMod) {
       this.doAssignDrifToItem(rarWithDrifs, drif, slot);
       return;
@@ -577,7 +602,16 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     this.snackBar.open(this.translate.instant("DRIF_SIMULATOR.MOD_EXIST", {name: drif.shortName}), "ok", {duration: 1500});
   }
 
-  private doAssignDrifToItem(rar: RarWithDrifs, drif: Drif | null, slot: number) {
+  private doAssignDrifToItem(rar: RarWithDrifs | undefined, drif: Drif | null, slot: number) {
+    if (!rar) {
+      const activeBuild = this.getActiveBuild();
+      if (!drif) {
+        activeBuild.backpack.splice(slot, 1);
+        return;
+      }
+      activeBuild.backpack.splice(slot, 1, drif);
+      return;
+    }
     if (slot === 1) {
       rar.drifItem1 = cloneDeep(drif);
     }
@@ -621,7 +655,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   maximiseDrifLevels() {
-    const rars = this.userRarsWithDrifs.find(rars => rars.name === this.activeBuild);
+    const rars = this.drifBuilds.find(rars => rars.name === this.activeBuild);
     if (!rars) {
       return;
     }
@@ -709,8 +743,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return capacity;
   }
 
-  getButtonColorClassByIfSwapMode(rar: RarWithDrifs, slot: number): string {
-    if (!this.swappingMode || !this.swapDrif) {
+  getButtonColorClassByIfSwapMode(rar: RarWithDrifs | undefined, slot: number): string {
+    if (!this.swappingMode || !this.swapDrif || !rar) {
       return "";
     }
     const drifFromSlotOne = this.getDrifFromSlot(this.swapDrif.item, this.swapDrif.slot);
@@ -727,7 +761,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     return "";
   }
 
-  getButtonColorClassByDrifCategory(drif: Drif, rar: RarWithDrifs, slot: number): string {
+  getButtonColorClassByDrifCategory(drif: Drif, rar: RarWithDrifs | undefined, slot: number): string {
     let classes: string;
     switch (drif.category) {
       case DrifCategory.REDUCTION: {
@@ -804,10 +838,10 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (!this.drifs || this.drifs.length === 0) {
       return;
     }
-    const currentRars = this.userRarsWithDrifs.find(rars => rars.name === name);
+    const currentRars = this.drifBuilds.find(rars => rars.name === name);
     const dataArray = localStorage.getItem('drif-simulator-array');
     if (!dataArray) {
-      localStorage.setItem('drif-simulator-array', JSON.stringify(this.userRarsWithDrifs, function replacer(key, value) {
+      localStorage.setItem('drif-simulator-array', JSON.stringify(this.drifBuilds, function replacer(key, value) {
         return value;
       }));
     }
@@ -817,11 +851,11 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let parse: UserRarsWithDrifs[];
+    let parse: DrifBuild[];
     if (dataArray) {
       parse = JSON.parse(dataArray);
     } else {
-      parse = this.userRarsWithDrifs;
+      parse = this.drifBuilds;
     }
 
     const tempParsedRars = parse.find(rars => rars.name === name);
@@ -833,6 +867,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     tempParsedRars.rarsWithDrifs = currentRars.rarsWithDrifs;
     tempParsedRars.critEpicModLevel = currentRars.critEpicModLevel;
     tempParsedRars.dedicatedEpicModLevel = currentRars.dedicatedEpicModLevel;
+    tempParsedRars.backpack = currentRars.backpack;
 
     localStorage.setItem("drif-simulator-array", JSON.stringify(parse, function replacer(key, value) {
       return value;
@@ -843,7 +878,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     const data = localStorage.getItem('drif-simulator');
     //OLD VERSION
     if (data != null) {
-      const tempRars = this.userRarsWithDrifs.find(rars => rars.name === 'temp');
+      const tempRars = this.drifBuilds.find(rars => rars.name === 'temp');
       if (!tempRars) {
         console.log("TEMP RARS NOT FOUND")
         return;
@@ -859,8 +894,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
     if (!dataArray) {
       return;
     }
-    this.userRarsWithDrifs = JSON.parse(dataArray);
-    this.userRarsWithDrifs.forEach(ur => {
+    this.drifBuilds = JSON.parse(dataArray);
+    this.drifBuilds.forEach(ur => {
       ur.rarsWithDrifs.forEach(r => {
         if (!r.ornaments) {
           r.ornaments = 1;
@@ -876,6 +911,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
         }
         r.slot = <InventorySlot>r.slot.toUpperCase();
 
+        if (!ur.backpack) {
+          ur.backpack = [];
+        }
 
         this.patchSavedDrif(r);
       })
@@ -930,8 +968,8 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   }
 
   cloneBuild() {
-    const activeBuild = this.userRarsWithDrifs.find(userRars => userRars.name === this.activeBuild);
-    const buildToClone = this.userRarsWithDrifs.find(userRars => userRars.name === this.buildToClone);
+    const activeBuild = this.drifBuilds.find(userRars => userRars.name === this.activeBuild);
+    const buildToClone = this.drifBuilds.find(userRars => userRars.name === this.buildToClone);
     if (activeBuild && buildToClone) {
       const clonedBuild = cloneDeep(buildToClone);
       activeBuild.rarsWithDrifs = clonedBuild.rarsWithDrifs;
@@ -1016,5 +1054,12 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy {
   switchSwappingMode() {
     this.swappingMode = !this.swappingMode;
     this.swapDrif = null;
+  }
+
+  sortBackpack() {
+    const backpack = this.getActiveBuild().backpack;
+    backpack.sort((a,b) => {
+      return a.category.localeCompare(b.category) || (b.level ?? 0) - (a.level ?? 0);
+    })
   }
 }

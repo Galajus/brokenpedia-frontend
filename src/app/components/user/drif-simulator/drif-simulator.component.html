@@ -1,7 +1,7 @@
 <div class="restrict-width" style="padding-bottom: 15px">
   <mat-card>
     <mat-card-content>
-      <div fxLayout="column">
+      <div fxLayout="column" fxLayoutGap="5">
         <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4" style="padding-bottom: 15px">
           <div style="padding-right: 8px">
             <button *ngIf="!swappingMode" mat-flat-button color="warn"
@@ -14,7 +14,7 @@
             </button>
           </div>
 
-          <div *ngFor="let userRars of userRarsWithDrifs">
+          <div *ngFor="let userRars of drifBuilds">
             <button *ngIf="activeBuild === userRars.name" style="width: 80px" mat-flat-button color="primary"
                     (click)="setActiveBuild(userRars.name)">
               {{ userRars.name }}
@@ -199,34 +199,78 @@
           </div>
         </div>
 
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <ul>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DAMAGE)"
-                class="damageDrifText">
-              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
-                   [innerHTML]="prepareModSummaryRow(mod)"></div>
-            </li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.SPECIAL)"
-                class="specialDrifText">
-              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
-                   [innerHTML]="prepareModSummaryRow(mod)"></div>
-            </li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DEFENCE)"
-                class="defenceDrifText">
-              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
-                   [innerHTML]="prepareModSummaryRow(mod)"></div>
-            </li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.ACCURACY)"
-                class="accuracyDrifText">
-              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
-                   [innerHTML]="prepareModSummaryRow(mod)"></div>
-            </li>
-            <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.REDUCTION)"
-                class="reductionDrifText">
-              <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
-                   [innerHTML]="prepareModSummaryRow(mod)"></div>
-            </li>
-          </ul>
+        <div fxLayout="row" fxLayoutAlign="space-evenly start">
+          <mat-card class="mat-elevation-z24" fxFlex="45">
+            <mat-card-subtitle>
+              BACKPACK
+            </mat-card-subtitle>
+            <mat-card-content>
+              <div class="backpack-container">
+                <div *ngFor=" let drif of getActiveBuild().backpack; let i = index">
+                  <button *ngIf="drif" style="width: 70px; margin-bottom: 8px; padding: 0"
+                          [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
+                          [matBadge]="drif.level" matBadgeSize="small" matBadgeColor="primary"
+                          [class]="getButtonColorClassByDrifCategory(drif, undefined, i)" mat-flat-button color="warn"
+                          (click)="openDrifDialog( undefined, i)">
+                    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                      <div [class.for-removal]="drif.forRemoval">
+                        {{ drif.shortName }}
+                      </div>
+                      <div fxLayout="column">
+                        <div class="tier-power" fxLayoutAlign="center center">
+                          T{{ drif.tier }}
+                        </div>
+                        <div class="tier-power" fxLayoutAlign="center center">
+                          P{{ drifService.getDrifPower(drif.startPower, drif.level || 1) }}
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div>
+                  <button
+                          style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
+                          (click)="openDrifDialog(undefined, getActiveBuild().backpack.length)">
+                    [MOD +]
+                  </button>
+                </div>
+              </div>
+              <div>
+                <button mat-flat-button color="primary" matTooltip="Sortuj po kategorii drifa" (click)="sortBackpack()">
+                  <mat-icon>sort</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <div fxLayout="column" fxLayoutAlign="center center" fxFlex="55">
+            <ul>
+              <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DAMAGE)"
+                  class="damageDrifText">
+                <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                     [innerHTML]="prepareModSummaryRow(mod)"></div>
+              </li>
+              <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.SPECIAL)"
+                  class="specialDrifText">
+                <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                     [innerHTML]="prepareModSummaryRow(mod)"></div>
+              </li>
+              <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.DEFENCE)"
+                  class="defenceDrifText">
+                <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                     [innerHTML]="prepareModSummaryRow(mod)"></div>
+              </li>
+              <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.ACCURACY)"
+                  class="accuracyDrifText">
+                <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                     [innerHTML]="prepareModSummaryRow(mod)"></div>
+              </li>
+              <li *ngFor="let mod of getModSummaryByCategory(modSummary, DrifCategory.REDUCTION)"
+                  class="reductionDrifText">
+                <div (mouseenter)="illuminateHoovered(mod)" (mouseleave)="clearIlluminated()"
+                     [innerHTML]="prepareModSummaryRow(mod)"></div>
+              </li>
+            </ul>
+          </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
           <button mat-flat-button color="warn"

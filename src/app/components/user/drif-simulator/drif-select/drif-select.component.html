@@ -114,8 +114,8 @@
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
         <button *ngIf="drif.psychoMod === PsychoMod.MANA_DRAIN &&
-                getDrifPower(drif.startPower) <= leftPower &&
-                itemSlot !== InventorySlot.WEAPON" mat-raised-button disabled>
+                (getDrifPower(drif.startPower) > leftPower ||
+                itemSlot !== InventorySlot.WEAPON)" mat-raised-button disabled>
           {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
         </button>
         <button *ngIf="drif.psychoMod !== PsychoMod.MANA_DRAIN &&
