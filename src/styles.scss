@@ -1,9 +1,95 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "src/gal-colors" as gal;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 //@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 //@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
+
+
+
+/*$my-theme: mat.define-theme(
+  $config: (
+    typography: (
+      plain-family: '"Roboto", "Helvetica Neue", sans-serif',
+      brand-family: '"Roboto", "Helvetica Neue", sans-serif',
+      bold-weight: 700,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+  ),
+);*/
+
+$my-theme: (
+  color: (
+    primary: gal.$primary-palette,
+    //primary: mat.$green-palette,
+    tertiary: gal.$tertiary-palette,
+    //tertiary: mat.$cyan-palette,
+    theme-type: dark,
+    //use-system-variables: true
+  ),
+  typography: (
+    plain-family: '"Roboto", "Helvetica Neue", sans-serif',
+    brand-family: '"Roboto", "Helvetica Neue", sans-serif',
+    bold-weight: 900,
+    medium-weight: 600,
+    regular-weight: 400
+  ),
+  density: 0,
+);
+
+html {
+  @include mat.theme($my-theme);
+}
+
+:root {
+  @include mat.core-overrides((
+    option-label-text-size: 14px,
+    option-label-text-weight: 400
+  ));
+
+  @include mat.card-overrides((
+    title-text-weight: 500,
+    title-text-line-height: 20px,
+    subtitle-text-color: rgba(255, 255, 255, 0.7),
+    subtitle-text-size: 14px,
+  ));
+
+  @include mat.button-overrides((
+    protected-container-color: rgba(39, 39, 39, 0.7),
+  ));
+
+  @include mat.form-field-overrides((
+    container-text-size: 13px,
+    subscript-text-weight: 300,
+    subscript-text-size: 12px,
+    container-text-weight: 400,
+    filled-label-text-size: 13px,
+    filled-label-text-weight: 500,
+    outlined-label-text-size: 13px,
+    outlined-label-text-populated-size: 13px,
+    outlined-label-text-weight: 500
+  ));
+
+  @include mat.checkbox-overrides((
+    label-text-size: 14px,
+    label-text-weight: 500,
+  ));
+
+  @include mat.select-overrides((
+    trigger-text-size: 13px,
+    trigger-text-weight: 700
+  ));
+}
+
+/*mat-card-content {
+  font-size: 14px;
+}*/
+
+/*:root {
+  @include mat.all-component-typographies($my-theme);
+}*/
 
 header {
   min-height: 100svh;
@@ -12,8 +98,10 @@ header {
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #282727;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-size: 14px;
+  //background-color: #282727;
+
 }
 
 html, body {
@@ -29,6 +117,10 @@ html, body {
   width: 100%;
 }
 
+.hide-checked mat-pseudo-checkbox {
+  display: none !important;
+}
+
 .test-gal {
   /*display: flex;
   flex-direction: column;
@@ -40,7 +132,7 @@ html, body {
 }
 
 mat-card {
-  background-color: rgba(52, 52, 52, 0.68) !important;
+  background-color: #191e1e !important;
 }
 
 .special {
@@ -69,7 +161,7 @@ mat-card {
   width: 100%;
   margin: 15px;
 
-  background-color: #282727;
+  //background-color: #282727;
   text-shadow: 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000, 0.5px 0.5px 0.5px #000000;
 }
 
@@ -185,21 +277,10 @@ input[type=number] {
 }
 
 //BUILD CALCULATOR
-.menu-drif.mat-menu-panel {
-  background-color: rgba(17, 17, 17, 0.97);
-  min-width: unset !important;
-  width: auto !important;
-}
-
-.menu-drif.level.mat-menu-panel {
-  background-color: rgba(17, 17, 17, 0.97);
-  min-width: unset !important;
-  width: auto !important;
-  overflow: hidden;
-}
-
-.upgrade-menu.mat-option {
-  background-color: rgba(17, 17, 17, 0.97);
+.menu-drif  {
+  @include mat.menu-overrides((
+    container-color: rgba(17, 17, 17, 0.97)
+  ));
 }
 
 .cdk-overlay-pane.item-show {
@@ -210,6 +291,21 @@ input[type=number] {
   background-color: rgba(0, 0, 0, 0.91) !important;
   color: white;
   font-size: 13px;
+}
+
+.custom-tooltip .mdc-tooltip__surface {
+  white-space: pre-line !important;
+  //background-color: rgb(32, 32, 34);
+  background-color: rgba(0, 0, 0, 0.92);
+  color: white;
+}
+
+ mat-form-field.no-subscript .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.full-width-dialog .mat-dialog-container {
+  max-width: 100vw !important;
 }
 
 .upgrade-menu .mat-form-field-wrapper {
@@ -300,6 +396,14 @@ input[type=number] {
   text-align: center;
 }
 
+.flex-space-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .flex-end-end {
   display: flex;
   justify-content: flex-end;
@@ -345,8 +449,7 @@ input[type=number] {
 
 //FLEX MATERIAL FIXES
 
-button {
+/*button {
   align-self: center;
   height: unset !important;
-}
-
+}*/

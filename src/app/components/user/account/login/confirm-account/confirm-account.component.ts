@@ -3,9 +3,10 @@ import {ActivatedRoute} from "@angular/router";
 import {LoginService} from "@services/user/account/login.service";
 
 @Component({
-  selector: 'app-confirm-account',
-  templateUrl: './confirm-account.component.html',
-  styleUrls: ['./confirm-account.component.scss']
+    selector: 'app-confirm-account',
+    templateUrl: './confirm-account.component.html',
+    styleUrls: ['./confirm-account.component.scss'],
+    standalone: false
 })
 export class ConfirmAccountComponent implements OnInit {
 

@@ -1,111 +1,168 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="disabled" class="toolbar mat-elevation-z4" fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayoutAlign="center center">
-        <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-        <div class="logo">
-          <a routerLink="">
-            <img ngSrc="assets/logo.svg" alt="Brokenpedia.com - Wikipedia Broken Ranks" width="200" height="65">
+  <mat-toolbar color="disabled" class="toolbar mat-elevation-z4 flex-row flex-space-between-center">
+    <div fxLayoutAlign="center center">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="logo" style="cursor: pointer">
+        <a routerLink="">
+          <img ngSrc="assets/logo.svg" alt="Brokenpedia.com - Wikipedia Broken Ranks" width="200" height="65">
+        </a>
+      </div>
+    </div>
+    <div fxLayoutAlign="center center">
+      <app-twitch-stream></app-twitch-stream>
+    </div>
+    <div fxLayoutAlign="center center" fxLayoutGap="2">
+      <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag
+                                                                  ngSrc="assets/i18n/flags/{{currentLang}}.png"
+                                                                  height="28" width="28" alt="flag"></button>
+      <mat-menu #language="matMenu">
+        <button (click)="changeLanguage('pl')" mat-menu-item>
+          <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+            <img ngSrc="assets/i18n/flags/pl.png" height="28" width="28" alt="flag">
+            <span>Polski</span>
+          </div>
+
+        </button>
+        <button matTooltip="Only menu, build calculator and items list" matTooltipPosition="before"
+                (click)="changeLanguage('en')" mat-menu-item>
+          <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+            <img ngSrc="assets/i18n/flags/en.png" height="28" width="28" alt="flag">
+            <span>English</span>
+          </div>
+        </button>
+      </mat-menu>
+      <button *ngIf="!isLoggedIn" color="primary" mat-flat-button routerLink="/login">
+        <strong>{{ 'MAIN_PAGE.LOGIN' | translate }}</strong></button>
+      <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard">
+        <strong>{{ 'MAIN_PAGE.PROFILE' | translate }}</strong></button>
+      <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container" hasBackdrop="false"
+                         [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav class="sidenav" #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56"
+                 [fixedInViewport]="mobileQuery.matches"> <!--[mode]="mobileQuery.matches ? 'over' : 'side'"-->
+      <div class="menu-gal" fxLayout="column">
+        <mat-nav-list fxFlex>
+
+          <mat-expansion-panel class="mat-elevation-z0">
+            <mat-expansion-panel-header>
+              <mat-icon class="sidebar-icon">today</mat-icon>
+              <span>
+                  {{ 'MAIN_PAGE.NEWS' | translate }}
+                </span>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="sub-list">
+              @for (cat of categories; track $index) {
+                <a class="side-link" routerLink="/category/{{cat.categorySlug}}">
+                  <mat-list-item>{{ cat.categoryName }}
+                  </mat-list-item>
+                </a>
+              }
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="mat-elevation-z0">
+            <mat-expansion-panel-header>
+              <mat-icon class="sidebar-icon">toc</mat-icon>
+              <span>
+                  {{ 'MAIN_PAGE.BUILD_CALCULATOR' | translate }}
+                </span>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="sub-list">
+
+              <a class="side-link" routerLink="/build-calculator">
+                <mat-list-item>{{ 'MAIN_PAGE.CALCULATOR' | translate }}
+                </mat-list-item>
+              </a>
+
+
+              <a class="side-link" routerLink="/build-calculator/builds">
+                <mat-list-item>{{ 'MAIN_PAGE.BUILD_LIST' | translate }}
+                </mat-list-item>
+              </a>
+
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="mat-elevation-z0">
+            <mat-expansion-panel-header>
+              <mat-icon class="sidebar-icon">toc</mat-icon>
+              <span>
+                  Tips & Cheats
+                </span>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="sub-list">
+              <a class="side-link" routerLink="/post/polecane-modyfikatory-dla-kazdej-profesji">
+                <mat-list-item>
+                  <mat-icon class="sidebar-icon">all_out</mat-icon>
+                  {{ 'MAIN_PAGE.PROFESSIONS_MODIFIER' | translate }}
+                </mat-list-item>
+              </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+
+          @for (address of addresses; track $index) {
+            <a [routerLink]="address.addres">
+              <mat-list-item>
+                <mat-icon class="sidebar-icon">{{address.icon}}</mat-icon>
+                {{ address.linkName | translate }}
+              </mat-list-item>
+            </a>
+          }
+
+          <div fxLayoutAlign="center">
+            <a routerLink="/suggestion" class="suggestion-link">{{ 'MAIN_PAGE.REPORT_BUG_SUGGESTION' | translate }}</a>
+          </div>
+          <div fxLayoutAlign="center">
+            <a href="https://patronite.pl/brokenpedia" target="_blank" class="suggestion-link">PATRONITE</a>
+          </div>
+        </mat-nav-list>
+
+        <mat-nav-list fxLayout="column" fxLayoutAlign="end center" style="padding-bottom: 18px">
+          <a href="https://discord.com/invite/skWSKqe" target="_blank"> <img
+            ngSrc="assets/social/discord.png"
+            height="25" width="33">
           </a>
+
+          <p style="cursor: pointer "><a style="cursor: pointer"
+                                         href='javascript:googlefc.callbackQueue.push(googlefc.showRevocationMessage)'>{{ 'MAIN_PAGE.SET_PRIVACY_POLICY' | translate }}</a>
+          </p>
+          <a style="cursor: pointer" routerLink="/privacy-policy">{{ 'MAIN_PAGE.PRIVACY_POLICY' | translate }}</a>
+          <p>Made with
+            <mat-icon class="love">favorite</mat-icon>
+            by Galajus
+          </p>
+          <p class="own">{{ 'MAIN_PAGE.WHITEMOON' | translate }} <a class="owner" href="https://www.whitemoon.com">Whitemoon.com</a>
+          </p>
+        </mat-nav-list>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content id="pageContent">
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div *ngIf="!hideAds" fxFlex="17" #bar1 class="sidebar">
+
         </div>
-      </div>
-      <div fxLayoutAlign="center center">
-        <app-twitch-stream></app-twitch-stream>
-      </div>
-      <div fxLayoutAlign="center center" fxLayoutGap="2">
-        <button mat-icon-button [matMenuTriggerFor]="language"><img #countryFlag ngSrc="assets/i18n/flags/{{currentLang}}.png" height="28" width="28" alt="flag"></button>
-        <mat-menu #language="matMenu">
-          <button (click)="changeLanguage('pl')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/pl.png" height="28" width="28" alt="flag"> Polski</button>
-          <button matTooltip="Only menu, build calculator and items list" matTooltipPosition="before" (click)="changeLanguage('en')" mat-menu-item fxLayoutAlign="evenly center" fxLayoutGap="6"><img ngSrc="assets/i18n/flags/en.png" height="28" width="28" alt="flag"> English</button>
-        </mat-menu>
-        <button *ngIf="!isLoggedIn" color="accent" mat-flat-button routerLink="/login"><strong>{{'MAIN_PAGE.LOGIN' | translate}}</strong></button>
-        <button *ngIf="isLoggedIn" color="accent" mat-flat-button routerLink="/acc/dashboard"><strong>{{'MAIN_PAGE.PROFILE' | translate}}</strong></button>
-        <button *ngIf="isAdmin" color="warn" mat-flat-button routerLink="/admin"><strong>ADMIN</strong></button>
-      </div>
-    </mat-toolbar>
 
-    <mat-sidenav-container class="sidenav-container" hasBackdrop="false" [style.margin-top.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #sidenav opened="{{sidebarOpened}}" (openedChange)="navChange($event)" fixedTopGap="56" [fixedInViewport]="mobileQuery.matches"> <!--[mode]="mobileQuery.matches ? 'over' : 'side'"-->
-        <div class="menu-gal" fxLayout="column">
-          <mat-nav-list fxFlex>
-            <mat-accordion>
-              <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
-                <mat-expansion-panel-header style="height: 32px">
-                  <mat-panel-title>
-                    <span>
-                      <a class="news" routerLink=""><mat-icon class="sidebar-icon">today</mat-icon>{{'MAIN_PAGE.NEWS' | translate}}</a>
-                    </span>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <a *ngFor="let cat of categories" mat-list-item routerLink="/category/{{cat.categorySlug}}"> {{cat.categoryName}} </a>
-              </mat-expansion-panel>
-            </mat-accordion>
-            <mat-accordion>
-              <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
-                <mat-expansion-panel-header style="height: 32px">
-                  <mat-panel-title>
-                    <mat-icon class="sidebar-icon">toc</mat-icon>{{'MAIN_PAGE.BUILD_CALCULATOR' | translate}}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <a mat-list-item routerLink="/build-calculator"><mat-icon class="sidebar-icon">hub</mat-icon> {{'MAIN_PAGE.CALCULATOR' | translate}} </a>
-                <a mat-list-item routerLink="/build-calculator/builds"><mat-icon class="sidebar-icon">view_list</mat-icon> {{'MAIN_PAGE.BUILD_LIST' | translate}}</a>
-              </mat-expansion-panel>
-            </mat-accordion>
-            <a mat-list-item routerLink="/items-list"><mat-icon class="sidebar-icon">waves</mat-icon> {{'MAIN_PAGE.ITEMS_LIST' | translate}}</a>
-            <a mat-list-item routerLink="/psycho-calculator"><mat-icon class="sidebar-icon">gradient</mat-icon> {{'MAIN_PAGE.PSYCHO_EXP_CALCULATOR' | translate}}</a>
-            <a mat-list-item routerLink="/essence-calculator"><mat-icon class="sidebar-icon">battery_charging_full</mat-icon> {{'MAIN_PAGE.SHARD_ESSENCES_CALCULATOR' | translate}}</a>
-            <a mat-list-item routerLink="/upgrade-simulator"><mat-icon class="sidebar-icon">stars</mat-icon> {{'MAIN_PAGE.UPGRADE_SIMULATOR' | translate}}</a>
-            <a mat-list-item routerLink="/orbs-table"><mat-icon class="sidebar-icon">select_all</mat-icon> {{'MAIN_PAGE.ORBS_TABLE' | translate}}&nbsp;</a>
-            <a mat-list-item routerLink="/drifs-table"><mat-icon class="sidebar-icon">select_all</mat-icon> {{'MAIN_PAGE.DRIFS_TABLE' | translate}}&nbsp; <div style="color: red; font-weight: bold"><mat-icon>fiber_new</mat-icon></div></a>
-            <a mat-list-item routerLink="/dictionary"><mat-icon class="sidebar-icon">menu_book</mat-icon> {{'MAIN_PAGE.DICTIONARY' | translate}}&nbsp;</a>
-            <a mat-list-item routerLink="/drif-simulator"><mat-icon class="sidebar-icon">group_work</mat-icon> {{'MAIN_PAGE.DRIF_SIMULATOR' | translate}}&nbsp;</a>
-            <!--<a mat-list-item routerLink="/post/broken-helper"><mat-icon class="sidebar-icon">discord</mat-icon> BrokenHelper bot</a>-->
-            <mat-accordion>
-              <mat-expansion-panel class="soft-panel" style="background-color: transparent; box-shadow: none">
-                <mat-expansion-panel-header style="height: 32px">
-                  <mat-panel-title>
-                    <mat-icon class="sidebar-icon">toc</mat-icon>Tips & Cheats
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <a mat-list-item routerLink="/important-mods"><mat-icon class="sidebar-icon">all_out</mat-icon> {{'MAIN_PAGE.PROFESSIONS_MODIFIER' | translate}} </a>
-              </mat-expansion-panel>
-            </mat-accordion>
-            <div fxLayoutAlign="center">
-              <a routerLink="/suggestion" class="suggestion-link">{{'MAIN_PAGE.REPORT_BUG_SUGGESTION' | translate}}</a>
-            </div>
-            <div fxLayoutAlign="center">
-              <a href="https://patronite.pl/brokenpedia" target="_blank" class="suggestion-link">PATRONITE</a>
-            </div>
-
-          </mat-nav-list>
-
-          <mat-nav-list fxLayout="column" fxLayoutAlign="end center" style="padding-bottom: 18px">
-            <a href="https://discord.com/invite/skWSKqe" target="_blank"> <img ngSrc="assets/social/discord.png" height="25" width="33"></a>
-            <p><a href='javascript:googlefc.callbackQueue.push(googlefc.showRevocationMessage)'>{{'MAIN_PAGE.SET_PRIVACY_POLICY' | translate}}</a></p>
-            <a routerLink="/privacy-policy">{{'MAIN_PAGE.PRIVACY_POLICY' | translate}}</a>
-            <p>Made with <mat-icon class="love">favorite</mat-icon> by Galajus</p>
-            <p class="own">{{'MAIN_PAGE.WHITEMOON' | translate}} <a class="owner" href="https://www.whitemoon.com">Whitemoon.com</a></p>
-          </mat-nav-list>
+        <div class="content restrict-width" [class.is-mobile]="mobileQuery.matches">
+          <!--fxFlex fxLayoutAlign="center"-->
+          <app-dq-counter fxLayout="row" fxLayoutAlign="space-around center"></app-dq-counter>
+          <router-outlet></router-outlet>
         </div>
-      </mat-sidenav>
 
-      <mat-sidenav-content id="pageContent">
-        <div fxLayout="row" fxLayoutAlign="center">
-          <div *ngIf="!hideAds" fxFlex="17" #bar1 class="sidebar">
-
-          </div>
-
-          <div class="content restrict-width" [class.is-mobile]="mobileQuery.matches"> <!--fxFlex fxLayoutAlign="center"-->
-            <app-dq-counter fxLayout="row" fxLayoutAlign="space-around center"></app-dq-counter>
-            <router-outlet></router-outlet>
-          </div>
-
-          <div *ngIf="!hideAds" fxFlex="17" #bar2 class="sidebar">
-            <div class="relax">
-              <p class="shadowed">{{'MAIN_PAGE.AD' | translate}}</p>
-              <ng-adsense *ngIf="!adLoading && environment.production" adFormat="auto" display="block" [fullWidthResponsive]="true" [height]="700"></ng-adsense>
-            </div>
+        <div *ngIf="!hideAds" fxFlex="17" #bar2 class="sidebar">
+          <div class="relax">
+            <p class="shadowed">{{ 'MAIN_PAGE.AD' | translate }}</p>
+            <ng-adsense *ngIf="!adLoading && environment.production" adFormat="auto" display="block"
+                        [fullWidthResponsive]="true" [height]="700"></ng-adsense>
           </div>
         </div>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

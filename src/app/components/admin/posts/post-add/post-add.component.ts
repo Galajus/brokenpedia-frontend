@@ -7,9 +7,10 @@ import {PostsService} from "@services/admin/posts/posts.service";
 import {Category} from "@models/post/category";
 
 @Component({
-  selector: 'app-post-add',
-  templateUrl: './post-add.component.html',
-  styleUrls: ['./post-add.component.scss']
+    selector: 'app-post-add',
+    templateUrl: './post-add.component.html',
+    styleUrls: ['./post-add.component.scss'],
+    standalone: false
 })
 export class PostAddComponent implements OnInit {
 

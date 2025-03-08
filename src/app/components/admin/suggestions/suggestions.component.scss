@@ -1,3 +1,10 @@
 .suggestion-inner {
   font-size: 14px;
 }
+
+mat-list-item div {
+  white-space: normal ;
+  font-size: 14px ;
+  word-wrap: break-word ;
+  overflow-wrap: break-word ;
+}

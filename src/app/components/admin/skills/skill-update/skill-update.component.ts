@@ -9,9 +9,10 @@ import {SkillCustomEffect} from "@models/skills/skillCustomEffect";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-skill-update',
-  templateUrl: './skill-update.component.html',
-  styleUrls: ['./skill-update.component.scss']
+    selector: 'app-skill-update',
+    templateUrl: './skill-update.component.html',
+    styleUrls: ['./skill-update.component.scss'],
+    standalone: false
 })
 export class SkillUpdateComponent implements OnInit {
 

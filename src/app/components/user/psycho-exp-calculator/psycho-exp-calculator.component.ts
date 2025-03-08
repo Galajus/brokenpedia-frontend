@@ -12,9 +12,10 @@ import {ItemPsycho} from "@models/psycho-exp-calculator/itemPsycho";
 import {Calculation} from "@models/psycho-exp-calculator/calculation";
 
 @Component({
-  selector: 'app-psycho-exp-calculator',
-  templateUrl: './psycho-exp-calculator.component.html',
-  styleUrls: ['./psycho-exp-calculator.component.scss']
+    selector: 'app-psycho-exp-calculator',
+    templateUrl: './psycho-exp-calculator.component.html',
+    styleUrls: ['./psycho-exp-calculator.component.scss'],
+    standalone: false
 })
 export class PsychoExpCalculatorComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('inputCost') inputCost!: ElementRef;

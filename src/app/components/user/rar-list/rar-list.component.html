@@ -34,7 +34,7 @@
           </button>
         </div>
       </div>
-      <h3
+      <h3 style="margin-bottom: 12px"
         [ngClass]="{
         'classic-rar-name': rar.family === ItemFamily[ItemFamily.RAR],
         'classic-epic-name': rar.family === ItemFamily[ItemFamily.EPIC],
@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <ul>
+    <ul style="margin-top: 12px">
       <li *ngIf="rar.type">{{ 'ITEMS_LIST.TYPE' | translate }}: {{ 'ITEMS.TYPES.' + rar.type | translate }}
       </li>
       <li *ngIf="rar.weight">{{ 'ITEMS_LIST.WEIGHT' | translate }}: {{ rar.weight }}</li>
@@ -159,8 +159,8 @@
 </ng-template>
 
 <div class="restrict-width" fxLayout="column" fxLayoutGap="6" id="scrolling">
-  <mat-card id="options" class="mat-elevation-z6">
-    <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
+  <div id="options" class="mat-elevation-z6">
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
 
       <!--OPTIONS PANEL-->
       <div fxLayout="row" fxLayoutAlign="space-evenly">
@@ -261,7 +261,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div fxLayout="column" fxLayoutAlign="start">
+            <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="4px">
               <mat-slide-toggle [(ngModel)]="searchPhysicalItems"
                                 (change)="doFilter()"
                                 [disabled]="currentItemsType === 'epics' || currentItemsType === 'sets'">{{ 'ITEMS_LIST.SHOW_MAGIC' | translate }}
@@ -277,12 +277,12 @@
           </div>
           <div fxFlex fxFlexFill fxLayout="row" fxLayoutGap="10">
             <div fxFlex="15">
-              <button mat-stroked-button color="accent"
+              <button mat-button color="accent"
                       (click)="openItemComparator()">{{ 'ITEMS_LIST.COMPARATOR' | translate }}
               </button>
             </div>
             <div fxFlex fxLayout="row" fxLayoutAlign="start center">
-              <div fxLayout="row" *ngFor="let compareRar of toCompare">
+              <div fxLayout="row" fxLayoutAlign="center center" *ngFor="let compareRar of toCompare">
                 <div [ngClass]="{
                       'classic-rar-name': compareRar.family === ItemFamily.RAR,
                       'classic-epic-name': compareRar.family === ItemFamily.EPIC,
@@ -301,8 +301,8 @@
 
       </div>
 
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
   <mat-card class="mat-elevation-z6 make-space">
     <mat-card-content fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20">
       <!--LOADING ITEMS-->

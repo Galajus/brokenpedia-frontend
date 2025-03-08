@@ -3,9 +3,10 @@ import {SetService} from "@services/admin/set/set.service";
 import {ItemSet} from "@models/set/itemSet";
 
 @Component({
-  selector: 'app-sets',
-  templateUrl: './sets.component.html',
-  styleUrls: ['./sets.component.scss']
+    selector: 'app-sets',
+    templateUrl: './sets.component.html',
+    styleUrls: ['./sets.component.scss'],
+    standalone: false
 })
 export class SetsComponent implements AfterViewInit {
 

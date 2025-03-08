@@ -1,97 +1,101 @@
-
 <div fxLayout="column" fxLayoutGap="10">
 
-  <mat-card id="options" class="mat-elevation-z6">
-    <mat-card-content>
-      <div fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center center">
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8">
-          <div fxLayout="row">
-            <div fxLayout="row" class="drif-presentation click-slot" *ngFor="let d of drifCategorySelectPresentation">
-              <img [ngClass]="{'inactive': !d.enabled}" class="placeholder click-drif" src="assets/drifs/drif_sizes/{{d.drifCategory.toLowerCase()}}_arcy.png" width="40" height="40" alt="">
-              <img [ngClass]="{'inactive': !d.enabled}" class="placeholder click-drif" src="assets/drifs/drif_types/{{d.drifName}}.png" width="39" height="39" alt="" (click)="changeDrifEnabled(d)">
-            </div>
-          </div>
-          <div>
-            <mat-slide-toggle [(ngModel)]="hideDisabled" (change)="calculateDrifsValues()">Ukryj usunięte</mat-slide-toggle>
-          </div>
-          <mat-form-field style="width: 180px; padding-top: 10px;" appearance="outline" color="accent">
-            <mat-label>Tier Drifa</mat-label>
-            <mat-select (selectionChange)="calculateDrifsValues()" [(ngModel)]="drifTier">
-              <mat-option [value]="1">Subdrif</mat-option>
-              <mat-option [value]="2">Bidrif</mat-option>
-              <mat-option [value]="3">Magnidrif</mat-option>
-              <mat-option [value]="4">Arcydrif</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div fxLayout="column" fxLayoutAlign="center center">
-          <div>
-
-            Poziom Drifa: <mat-slider (input)="changeDrifLevel($event)" [min]="1" [max]="6 + ((drifTier - 1) * 5)" step="1" [value]="drifLevel"></mat-slider> {{drifLevel}}
+  <div id="options">
+    <div fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center center">
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8">
+        <div fxLayout="row">
+          <div fxLayout="row" class="drif-presentation click-slot" *ngFor="let d of drifCategorySelectPresentation">
+            <img [ngClass]="{'inactive': !d.enabled}" class="placeholder click-drif"
+                 src="assets/drifs/drif_sizes/{{d.drifCategory.toLowerCase()}}_arcy.png" width="40" height="40" alt="">
+            <img [ngClass]="{'inactive': !d.enabled}" class="placeholder click-drif"
+                 src="assets/drifs/drif_types/{{d.drifName}}.png" width="39" height="39" alt=""
+                 (click)="changeDrifEnabled(d)">
           </div>
         </div>
+        <div>
+          <mat-slide-toggle [(ngModel)]="hideDisabled" (change)="calculateDrifsValues()">Ukryj usunięte
+          </mat-slide-toggle>
+        </div>
+        <mat-form-field style="width: 180px; padding-top: 10px;" appearance="outline" color="accent">
+          <mat-label>Tier Drifa</mat-label>
+          <mat-select (selectionChange)="calculateDrifsValues()" [(ngModel)]="drifTier">
+            <mat-option [value]="1">Subdrif</mat-option>
+            <mat-option [value]="2">Bidrif</mat-option>
+            <mat-option [value]="3">Magnidrif</mat-option>
+            <mat-option [value]="4">Arcydrif</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </mat-card-content>
-  </mat-card>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div>
 
-      <!--table-->
-  <mat-card class="mat-elevation-z6">
-    <mat-card-content>
-      <div>
-        <table mat-table [dataSource]="dataSource" matSort matSortActive="category" matSortDirection="asc" matSortDisableClear>
-          <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef > ikona</th>
-            <td mat-cell *matCellDef="let element">
-            <div class="drif-presentation">
-              <img class="placeholder" src="assets/drifs/drif_sizes/{{element.category.toLowerCase()}}_{{tierName}}.png" width="40" height="40" alt="">
-              <img class="placeholder" src="assets/drifs/drif_types/{{element.shortName}}.png" width="39" height="39" alt="">
-            </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="drif-name">
-            <th mat-header-cell *matHeaderCellDef > Nazwa</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="drif-type-{{element.category}}">
-                {{element.shortName}}
-              </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="category">
-            <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header > Kategoria</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="drif-type-{{element.category}}">
-                {{'DRIFS_CATEGORIES.' + element.category | translate}}
-              </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="modificator">
-            <th mat-header-cell *matHeaderCellDef> Modyfikator</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="drif-type-{{element.category}}">
-                {{'PSYCHO_EFFECTS.' + element.psychoMod | translate}}
-              </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="power">
-            <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header > Potęga</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="drif-type-{{element.category}}">
-                {{element.power}}
-              </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="modValue">
-            <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header> Przyrost modyfikatora</th>
-            <td mat-cell *matCellDef="let element">
-              <div class="drif-type-{{element.category}}">
-                {{element.modValue}}
-              </div>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+          Poziom Drifa:
+          <mat-slider [min]="1" [max]="6 + ((drifTier - 1) * 5)" step="1">
+            <input matSliderThumb (input)="changeDrifLevel($event)" [(ngModel)]="drifLevel">
+          </mat-slider>
+          {{ drifLevel }}
+        </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
+
+  <!--table-->
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="category" matSortDirection="asc"
+           matSortDisableClear>
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> ikona</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-presentation">
+            <img class="placeholder" src="assets/drifs/drif_sizes/{{element.category.toLowerCase()}}_{{tierName}}.png"
+                 width="40" height="40" alt="">
+            <img class="placeholder" src="assets/drifs/drif_types/{{element.shortName}}.png" width="39" height="39"
+                 alt="">
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="drif-name">
+        <th mat-header-cell *matHeaderCellDef> Nazwa</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-type-{{element.category}}">
+            {{ element.shortName }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header> Kategoria</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-type-{{element.category}}">
+            {{ 'DRIFS_CATEGORIES.' + element.category | translate }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="modificator">
+        <th mat-header-cell *matHeaderCellDef> Modyfikator</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-type-{{element.category}}">
+            {{ 'PSYCHO_EFFECTS.' + element.psychoMod | translate }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="power">
+        <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header> Potęga</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-type-{{element.category}}">
+            {{ element.power }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="modValue">
+        <th class="centered-sorted-header" mat-header-cell *matHeaderCellDef mat-sort-header> Przyrost modyfikatora</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="drif-type-{{element.category}}">
+            {{ element.modValue }}
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>

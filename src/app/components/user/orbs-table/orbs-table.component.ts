@@ -6,9 +6,10 @@ import {Orb} from "@models/orb/orb";
 import {OrbService} from "@services/user/orb/orb.service";
 
 @Component({
-  selector: 'app-orbs-table',
-  templateUrl: './orbs-table.component.html',
-  styleUrls: ['./orbs-table.component.scss']
+    selector: 'app-orbs-table',
+    templateUrl: './orbs-table.component.html',
+    styleUrls: ['./orbs-table.component.scss'],
+    standalone: false
 })
 export class OrbsTableComponent implements OnInit {
 

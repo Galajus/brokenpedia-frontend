@@ -12,9 +12,10 @@ import {SetService} from "@services/admin/set/set.service";
 import {ItemSet} from "@models/set/itemSet";
 
 @Component({
-  selector: 'app-update-rar',
-  templateUrl: './update-rar.component.html',
-  styleUrls: ['./update-rar.component.scss']
+    selector: 'app-update-rar',
+    templateUrl: './update-rar.component.html',
+    styleUrls: ['./update-rar.component.scss'],
+    standalone: false
 })
 export class UpdateRarComponent implements OnInit {
 

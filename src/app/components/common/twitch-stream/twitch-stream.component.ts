@@ -1,16 +1,14 @@
 import {AfterViewInit, Component, HostListener} from '@angular/core';
 
 @Component({
-  selector: 'app-twitch-stream',
-  templateUrl: './twitch-stream.component.html',
-  styleUrls: ['./twitch-stream.component.scss']
+    selector: 'app-twitch-stream',
+    templateUrl: './twitch-stream.component.html',
+    styleUrls: ['./twitch-stream.component.scss'],
+    standalone: false
 })
 export class TwitchStreamComponent implements AfterViewInit {
 
   socket!: WebSocket;
-  //stompClient!: Client;
-  //sessionId!: string;
-  //socketClient!: Stomp.Client;
 
   online = false;
 
@@ -31,7 +29,7 @@ export class TwitchStreamComponent implements AfterViewInit {
       const data: any[] = JSON.parse(event.data);
       data.forEach(stream => {
         if (stream.channel === "Galajus") {
-          this.online = stream.live;
+          this.online = stream.online;
         }
       })
 
@@ -50,8 +48,8 @@ export class TwitchStreamComponent implements AfterViewInit {
     window.open('https://www.twitch.tv/galajus', '_blank');
   }
 
-  @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
-    /*if (this.stompClient) {
+  /*@HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
+    if (this.stompClient) {
       this.stompClient.deactivate();
     }
 
@@ -59,9 +57,9 @@ export class TwitchStreamComponent implements AfterViewInit {
       if (this.socketClient.connected) {
         this.socketClient.disconnect(() => {});
       }
-    }*/
+    }
 
-  }
+  }*
 
   /*connectToWebSocketV3() {
     const ws = new SockJS('/wsa/twitch-status');

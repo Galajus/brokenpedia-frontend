@@ -1,5 +1,5 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs/internal/Observable";
+import {Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {JwtService} from "@services/jwt/jwt.service";
 
@@ -17,17 +17,15 @@ export class JwtInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-      let token = this.jwtService.getToken();
+    const token = this.jwtService.getToken();
 
-      if (!token) {
-        return next.handle(req);
-      }
-
+    if (token) {
       req = req.clone({
-        headers: req.headers.set("Authorization", "Bearer " + token)
+        setHeaders: {Authorization: `Bearer ${token}`}
       });
+    }
 
-      return next.handle(req);
+    return next.handle(req);
   }
 
 }

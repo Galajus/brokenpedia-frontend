@@ -40,8 +40,9 @@ h2 {
 }
 
 .post-actions {
-  align-self: flex-end;
   margin-top: auto;
+  gap: 6px;
+  column-gap: 10px;
 }
 
 .post-image-container {
@@ -53,9 +54,13 @@ h2 {
 
 .category-button {
   font-size: 12px;
+  color: var(--mdc-protected-button-label-text-color, var(--mat-sys-primary));
+  cursor: pointer;
+  transition: color 0.2s ease, color 0.2s ease;
+  font-weight: 500;
 }
 
-.mat-button-base {
-  margin: 0 !important;
-  padding: 0 7px;
+
+.category-button:hover {
+  color: var(--mdc-protected-button-label-text-color, var(--mat-sys-error));
 }

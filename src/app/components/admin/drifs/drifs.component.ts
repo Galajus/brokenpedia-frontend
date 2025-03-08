@@ -3,9 +3,10 @@ import {DrifsService} from "@services/admin/drifs/drifs.service";
 import {Drif} from "@models/drif/drif";
 
 @Component({
-  selector: 'app-drifs',
-  templateUrl: './drifs.component.html',
-  styleUrls: ['./drifs.component.scss']
+    selector: 'app-drifs',
+    templateUrl: './drifs.component.html',
+    styleUrls: ['./drifs.component.scss'],
+    standalone: false
 })
 export class DrifsComponent implements AfterViewInit {
 

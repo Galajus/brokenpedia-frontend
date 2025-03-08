@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Skill} from "@models/skills/skill";
 import {SkillBasic} from "@models/skills/skillBasic";

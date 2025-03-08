@@ -9,9 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {SkillCost} from "@models/skills/skillCost";
-import {MatDialog} from "@angular/material/dialog";
 import {Statistic} from "@models/build-calculator/statistic";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
 import {SkillBasic} from "@models/skills/skillBasic";
 import {SkillLevelSelectComponent} from "./skill-level-select/skill-level-select.component";
@@ -21,7 +19,6 @@ import {BuildSkillStatData} from "@models/build-calculator/buildSkillStatData";
 import {SkillStatType} from "@models/skills/skillStatType";
 import {DatabaseBuild} from "@models/build-calculator/databaseBuild";
 import {JwtService} from "@services/jwt/jwt.service";
-import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BuildLiker} from "@models/build-calculator/buildLiker";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
@@ -33,7 +30,6 @@ import {Inventory, InventoryDrif, InventoryItem} from "@models/build-calculator/
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {InventorySlot} from "@models/build-calculator/inventory/inventorySlot";
 import {cloneDeep, floor, isNumber, words} from "lodash-es";
-import {MatSliderChange} from "@angular/material/slider";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import resistances from "@models/build-calculator/resistances";
 import deducedInventoryItemValuesTable from "@models/build-calculator/inventory/deducedInventoryItemValues";
@@ -56,11 +52,16 @@ import {DrifService} from "@services/user/drif/drif.service";
 import {SyngLevelingService} from "@services/user/incrustation/syng-leveling.service";
 import {allowedSyngMods, SyngData} from "@models/incrustation/synergeticUpgrade";
 import {Profession} from "@models/gameentites/profession";
+import {MatButton} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from "@angular/material/snack-bar";
+import {MatSlider, MatSliderDragEvent, MatSliderThumb} from "@angular/material/slider";
 
 @Component({
   selector: 'app-brokencalc',
   templateUrl: './brokencalc.component.html',
-  styleUrls: ['./brokencalc.component.scss']
+  styleUrls: ['./brokencalc.component.scss'],
+  standalone: false
 })
 export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -114,6 +115,8 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('drifShow') drifLevelRef!: ElementRef;
   /*@ViewChild('drifDesc') drifDescRef!: ElementRef;*/
   @ViewChild('upgradeShow') upgradeDescRef!: ElementRef;
+  @ViewChild('drifLevelSlider') drifLevelSlider!: ElementRef;
+  capWarnSnackBar: MatSnackBarRef<TextOnlySnackBar> | undefined;
 
   //BUILD CALC
   buildName: string = "";
@@ -867,7 +870,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (item.family == ItemFamily.SYNERGETIC) {
       return;
     }
-    let values = deducedInventoryItemValuesTable[item.incrustationLevel-1];
+    let values = deducedInventoryItemValuesTable[item.incrustationLevel - 1];
     item.drifBoost = values.drifBoost;
     item.orbBoost = values.orbBoost;
     item.upgradeBoost = values.upgradeBoost;
@@ -953,27 +956,48 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     this.blockHide = true;
   }
 
-  changeUpgradeLevel(e: MatSliderChange) {
+  changeUpgradeLevel(e: any) {
     if (e.value || e.value === 0) {
       this.itemToShow.upgradeLevel = e.value;
     }
   }
 
-  changeDrifLevel(e: MatSliderChange) {
-    if (e.value) {
-      let oldLevel = this.drifToEdit.level;
-      this.drifToEdit.level = e.value;
-      if (this.getUsedItemCapacity(undefined, 99) > this.getItemCapacity()) {
-        if (this.getItemFromPlayerInventoryByCurrentSlot()?.family === ItemFamily.EPIC) {
-          return;
-        }
-        this.drifToEdit.level = oldLevel;
-        e.value = this.drifToEdit.level;
-        e.source.value = this.drifToEdit.level;
-        this.snackBar.open("Pojemność przedmiotu nie pozwala kolejne poziomy drifa", "ok", {duration: 3000})
+  warnIfRarCapReached() {
+    if (this.getItemFromPlayerInventoryByCurrentSlot()?.family === ItemFamily.EPIC) {
+      return;
+    }
+
+    if (this.getUsedItemCapacity(undefined, 99) > this.getItemCapacity()) {
+      if (this.capWarnSnackBar) {
         return;
       }
+      this.capWarnSnackBar = this.snackBar.open("Wybierany poziom przekracza maksymalną pojemność drifa, zostanie on cofnięty!", "ok", {duration: 3000});
+
+      this.capWarnSnackBar.afterDismissed().subscribe(() => {
+        this.capWarnSnackBar = undefined;
+      })
     }
+  }
+
+  changeDrifLevel(e: MatSliderDragEvent) {
+    if (this.getItemFromPlayerInventoryByCurrentSlot()?.family === ItemFamily.EPIC) {
+      return;
+    }
+    let changed = false;
+    for (let i = this.drifToEdit.level; i >= 6; i--) {
+      if (this.getUsedItemCapacity(undefined, 99) > this.getItemCapacity()) {
+        this.drifToEdit.level = i;
+        changed = true;
+      } else {
+        break;
+      }
+    }
+
+    if (changed) {
+      e.source.value = this.drifToEdit.level;
+      this.snackBar.open("Pojemność przedmiotu nie pozwala kolejne poziomy drifa, poziom został cofnięty do maksymalnego możliwego", "ok", {duration: 3000})
+    }
+
   }
 
   setDrifSlotToChange(number: number) {
@@ -1145,7 +1169,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!currentItem) {
       return 0;
     }
-    let family= currentItem.family;
+    let family = currentItem.family;
     if (family !== ItemFamily.LEGENDARY_EPIC && family !== ItemFamily.EPIC && family !== ItemFamily.RAR && family !== ItemFamily.SET) {
       return 0;
     }
@@ -1170,7 +1194,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
   countModSum() {
     this.modSummary = [];
-    this.playerInventory.items.forEach( i => {
+    this.playerInventory.items.forEach(i => {
       if (i.family === ItemFamily.SYNERGETIC) {
         return;
       }
@@ -1227,7 +1251,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   assignSyngMods() {
-    this.playerInventory.items.forEach( i => {
+    this.playerInventory.items.forEach(i => {
       if (i.family !== ItemFamily.SYNERGETIC) {
         return;
       }
@@ -2039,7 +2063,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!item) {
       item = this.itemToShow;
     }
-    if(!item) {
+    if (!item) {
       return 0;
     }
 
@@ -2049,9 +2073,9 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let byTenBooster = 1;
     if (
-        item.upgradeTarget === UpgradeTarget.HEALTH ||
-        item.upgradeTarget === UpgradeTarget.MANA ||
-        item.upgradeTarget === UpgradeTarget.STAMINA
+      item.upgradeTarget === UpgradeTarget.HEALTH ||
+      item.upgradeTarget === UpgradeTarget.MANA ||
+      item.upgradeTarget === UpgradeTarget.STAMINA
     ) {
       byTenBooster = 10;
     }
@@ -2108,6 +2132,7 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return upgradeSum;
   }
+
   upgradeArcyTier(item: InventoryItem) {
     let upgradeSum = 0;
     for (let i = 0; i < item.upgradeLevel; i++) {
@@ -2430,79 +2455,79 @@ export class BrokencalcComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       case "mana": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.mana;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.MANA) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.mana;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.MANA) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }
       case "stamina": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.stamina;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.STAMINA) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.stamina;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.STAMINA) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }
       case "strength": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.strength;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.STRENGTH) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.strength;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.STRENGTH) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }
       case "dexterity": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.dexterity;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.DEXTERITY) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.dexterity;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.DEXTERITY) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }
       case "power": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.power;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.POWER) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.power;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.POWER) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }
       case "knowledge": {
         this.playerInventory.items.forEach(i => {
-            let stat = i.knowledge;
-            if (!stat) {
-                stat = 0;
-            }
-            statSum += stat;
-            if (i.upgradeTarget === UpgradeTarget.KNOWLEDGE) {
-                statSum += this.getUpgradeStats(i);
-            }
+          let stat = i.knowledge;
+          if (!stat) {
+            stat = 0;
+          }
+          statSum += stat;
+          if (i.upgradeTarget === UpgradeTarget.KNOWLEDGE) {
+            statSum += this.getUpgradeStats(i);
+          }
         });
         break;
       }

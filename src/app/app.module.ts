@@ -1,54 +1,35 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, REMOVE_STYLES_ON_COMPONENT_DESTROY} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatBadgeModule} from "@angular/material/badge";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {MatCardModule} from "@angular/material/card";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatListModule} from "@angular/material/list";
 import {DefaultComponent} from './layouts/default/default.component';
 import {PageNotFoundComponent} from './components/common/page-not-found/page-not-found.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {MatTableModule} from "@angular/material/table";
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {ProfileAuthorizationGuard} from "./guards/profileAuthorizationGuard";
 import {JwtInterceptor} from "./interceptors/jwt.interceptor";
 import {AdminComponent} from './layouts/admin/admin.component';
 import {AdminAuthorizationGuard} from "./guards/adminAuthorizationGuard";
-import {MatTabsModule} from "@angular/material/tabs";
 import {AngularEditorModule} from "@kolkov/angular-editor";
 import {MatTreeModule} from "@angular/material/tree";
 import {MatExpansionModule} from "@angular/material/expansion";
-import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgOptimizedImage, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl'
 import localePlExtra from '@angular/common/locales/extra/pl';
 import {SimpleDate} from "./pipes/simple-date";
 import {NoSanitize} from "./pipes/no-sanitize";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatTooltipModule} from "@angular/material/tooltip";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AdsenseModule} from "ng2-adsense";
-import {MatSliderModule} from "@angular/material/slider";
 import {MatSortModule} from "@angular/material/sort";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {MatMenuModule} from "@angular/material/menu";
 import {Underscore} from "./pipes/underscore";
 import {NgVarDirective} from "./directives/ng-var.directive";
 import {OverlayModule} from "@angular/cdk/overlay";
@@ -112,6 +93,29 @@ import { DictionaryEntryListComponent } from './components/user/dictionary-entry
 import { SkinsComponent } from './components/user/skins/skins.component';
 import { DrifTableComponent } from './components/user/drif-table/drif-table.component';
 import { TwitchStreamComponent } from './components/common/twitch-stream/twitch-stream.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from "@angular/material/card";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatInputModule} from "@angular/material/input";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatOptionModule} from "@angular/material/core";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {FlexLayoutModule} from "ng-flex-layout";
+import {MatList, MatListItem, MatNavList} from "@angular/material/list";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MatChip} from "@angular/material/chips";
+import {
+  CreateBuildDialogComponent
+} from "@app/components/user/drif-simulator/create-build-dialog/create-build-dialog.component";
 
 
 const cookieConfig:NgcCookieConsentConfig = {
@@ -150,114 +154,95 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 registerLocaleData(localePl, localePlExtra);
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    BrokencalcComponent,
-    HomeComponent,
-    InfoDialogComponent,
-    DefaultComponent,
-    LoginComponent,
-    DashboardComponent,
-    PageNotFoundComponent,
-    BrokenHelperComponent,
-    EssenceCalculatorComponent,
-    PsychoExpCalculatorComponent,
-    TestsComponent,
-    ConfirmAccountComponent,
-    LostPasswordComponent,
-    SkillLevelSelectComponent,
-    AdminComponent,
-    SkillsComponent,
-    SkillUpdateComponent,
-    BuildsListComponent,
-    DrifSimulatorComponent,
-    ImportantModsComponent,
-    DrifSelectComponent,
-    PostsComponent,
-    PostAddComponent,
-    PostEditComponent,
-    SimpleDate,
-    PostComponent,
-    CategoryComponent,
-    NoSanitize,
-    AdminCategoryComponent,
-    CategoryAddComponent,
-    CategoryUpdateComponent,
-    PrivacyPolicyComponent,
-    UpgradeSimulatorComponent,
-    InventoryComponent,
-    CreateRarComponent,
-    UpdateRarComponent,
-    MonsterComponent,
-    MonsterAddComponent,
-    MonsterUpdateComponent,
-    RarListComponent,
-    SuggestionsComponent,
-    UserSuggestionComponent,
-    ItemComparatorComponent,
-    EditAdminCommentComponent,
-    Underscore,
-    OrbsTableComponent,
-    NgVarDirective,
-    DrifsComponent,
-    OrbsComponent,
-    ArabianPipe,
-    DrifSumDialogComponent,
-    UpdateOrbComponent,
-    KeyArrayPipe,
-    SetsComponent,
-    SetsUpdateComponent,
-    SetsCreateComponent,
-    UpdateDrifComponent,
-    DqCounterComponent,
-    DictionaryComponent,
-    DictionaryComponent,
-    DictionaryEntryListComponent,
-    SkinsComponent,
-    DrifTableComponent,
-    TwitchStreamComponent
-  ],
-  imports: [
-    BrowserModule,
+@NgModule({ declarations: [
+        AppComponent,
+        BrokencalcComponent,
+        HomeComponent,
+        InfoDialogComponent,
+        DefaultComponent,
+        LoginComponent,
+        DashboardComponent,
+        PageNotFoundComponent,
+        BrokenHelperComponent,
+        EssenceCalculatorComponent,
+        PsychoExpCalculatorComponent,
+        TestsComponent,
+        ConfirmAccountComponent,
+        LostPasswordComponent,
+        SkillLevelSelectComponent,
+        AdminComponent,
+        SkillsComponent,
+        SkillUpdateComponent,
+        BuildsListComponent,
+        DrifSimulatorComponent,
+        ImportantModsComponent,
+        DrifSelectComponent,
+        PostsComponent,
+        PostAddComponent,
+        PostEditComponent,
+        SimpleDate,
+        PostComponent,
+        CategoryComponent,
+        NoSanitize,
+        AdminCategoryComponent,
+        CategoryAddComponent,
+        CategoryUpdateComponent,
+        PrivacyPolicyComponent,
+        UpgradeSimulatorComponent,
+        InventoryComponent,
+        CreateRarComponent,
+        UpdateRarComponent,
+        MonsterComponent,
+        MonsterAddComponent,
+        MonsterUpdateComponent,
+        RarListComponent,
+        SuggestionsComponent,
+        UserSuggestionComponent,
+        ItemComparatorComponent,
+        EditAdminCommentComponent,
+        Underscore,
+        OrbsTableComponent,
+        NgVarDirective,
+        DrifsComponent,
+        OrbsComponent,
+        ArabianPipe,
+        DrifSumDialogComponent,
+        UpdateOrbComponent,
+        KeyArrayPipe,
+        SetsComponent,
+        SetsUpdateComponent,
+        SetsCreateComponent,
+        UpdateDrifComponent,
+        DqCounterComponent,
+        DictionaryComponent,
+        DictionaryComponent,
+        DictionaryEntryListComponent,
+        SkinsComponent,
+        DrifTableComponent,
+        TwitchStreamComponent,
+        CreateBuildDialogComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     MatGridListModule,
     MatBadgeModule,
     FlexLayoutModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
     FormsModule,
-    MatDialogModule,
-    MatSlideToggleModule,
     MatIconModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatTableModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
     ReactiveFormsModule,
-    MatTabsModule,
     AngularEditorModule,
     MatTreeModule,
     MatExpansionModule,
-    MatPaginatorModule,
     NgOptimizedImage,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
     DragDropModule,
-    MatRadioModule,
-    MatCheckboxModule,
     AdsenseModule.forRoot({
       adClient: 'ca-pub-8605997221846310',
       adSlot: 7391443546,
     }),
-    MatSliderModule,
     MatSortModule,
     BrowserModule,
     TranslateModule.forRoot({
@@ -268,14 +253,32 @@ registerLocaleData(localePl, localePlExtra);
       },
       defaultLanguage: 'en'
     }),
+    OverlayModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatSliderModule,
+    MatTabsModule,
+    MatOptionModule,
     MatMenuModule,
-    OverlayModule
-  ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    ProfileAuthorizationGuard,
-    AdminAuthorizationGuard
-  ],
-  bootstrap: [AppComponent]
-})
+    MatDialogModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatListItem,
+    MatCheckbox,
+    MatList,
+    MatRadioButton,
+    MatRadioGroup,
+    MatNavList, MatChip], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: REMOVE_STYLES_ON_COMPONENT_DESTROY, useValue: false }, //todo maybe use native supported - how?
+        ProfileAuthorizationGuard,
+        AdminAuthorizationGuard,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

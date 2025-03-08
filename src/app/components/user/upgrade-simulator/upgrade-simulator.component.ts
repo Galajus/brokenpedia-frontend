@@ -1,14 +1,15 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CalculationResult} from "@models/upgrade-simulator/calculationResult";
-import {MatCheckboxChange} from "@angular/material/checkbox";
 import {WorkerData} from "@models/upgrade-simulator/workerData";
 import {WorkerResponse} from "@models/upgrade-simulator/workerResponse";
 import {CustomNumberInputService} from "@services/common/custom-number-input.service";
+import {MatCheckboxChange} from "@angular/material/checkbox";
 
 @Component({
-  selector: 'app-upgrade-simulator',
-  templateUrl: './upgrade-simulator.component.html',
-  styleUrls: ['./upgrade-simulator.component.scss']
+    selector: 'app-upgrade-simulator',
+    templateUrl: './upgrade-simulator.component.html',
+    styleUrls: ['./upgrade-simulator.component.scss'],
+    standalone: false
 })
 export class UpgradeSimulatorComponent implements OnInit, OnDestroy {
 

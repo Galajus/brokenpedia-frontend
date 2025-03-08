@@ -1,12 +1,18 @@
 table {
-  width: 100%;
-  table-layout: fixed;
   text-align: center;
   font-weight: bold;
 }
 
 th {
-  text-align: center !important;
+  text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+.mat-column-author, .mat-column-buildName {
+  font-weight: bold;
 }
 
 .profession-select {

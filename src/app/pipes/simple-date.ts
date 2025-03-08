@@ -1,6 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'simpleDate'})
+@Pipe({
+    name: 'simpleDate',
+    standalone: false
+})
 export class SimpleDate implements PipeTransform {
   transform(date: Date | undefined): string {
     if (!date) {

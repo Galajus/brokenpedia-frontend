@@ -5,9 +5,10 @@ import {SkillsService} from "@services/admin/skills/skills.service";
 import {SetService} from "@services/admin/set/set.service";
 
 @Component({
-  selector: 'app-sets-create',
-  templateUrl: './sets-create.component.html',
-  styleUrls: ['./sets-create.component.scss']
+    selector: 'app-sets-create',
+    templateUrl: './sets-create.component.html',
+    styleUrls: ['./sets-create.component.scss'],
+    standalone: false
 })
 export class SetsCreateComponent implements OnInit {
 

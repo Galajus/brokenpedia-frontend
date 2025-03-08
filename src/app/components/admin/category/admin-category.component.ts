@@ -3,9 +3,10 @@ import {CategoryService} from "@services/admin/categories/category.service";
 import {Category} from "@models/post/category";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './admin-category.component.html',
-  styleUrls: ['./admin-category.component.scss']
+    selector: 'app-category',
+    templateUrl: './admin-category.component.html',
+    styleUrls: ['./admin-category.component.scss'],
+    standalone: false
 })
 export class AdminCategoryComponent implements OnInit {
 

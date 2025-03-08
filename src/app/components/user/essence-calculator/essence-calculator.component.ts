@@ -15,9 +15,10 @@ import {CustomNumberInputService} from "@services/common/custom-number-input.ser
 import {ceil, round} from "lodash-es";
 
 @Component({
-  selector: 'app-essence-calculator',
-  templateUrl: './essence-calculator.component.html',
-  styleUrls: ['./essence-calculator.component.scss']
+    selector: 'app-essence-calculator',
+    templateUrl: './essence-calculator.component.html',
+    styleUrls: ['./essence-calculator.component.scss'],
+    standalone: false
 })
 export class EssenceCalculatorComponent implements OnInit, OnDestroy, AfterViewInit {
 

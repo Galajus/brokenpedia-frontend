@@ -3,9 +3,10 @@ import {InventoryService} from "@services/admin/inventory/inventory.service";
 import {LegendaryItem} from "@models/items/legendaryItem";
 
 @Component({
-  selector: 'app-inventory',
-  templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss']
+    selector: 'app-inventory',
+    templateUrl: './inventory.component.html',
+    styleUrls: ['./inventory.component.scss'],
+    standalone: false
 })
 export class InventoryComponent implements AfterViewInit {
 

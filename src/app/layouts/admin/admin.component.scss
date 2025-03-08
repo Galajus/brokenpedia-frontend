@@ -18,14 +18,12 @@
   height: 100% !important;
 }
 
-mat-sidenav-content {
-  background-color: #282727;
+.sidenav {
+  max-width: 150px;
 }
 
-mat-nav-list a {
-  font-size: 14px !important;
-  height: 32px !important;
-  font-family: 'Merriweather Sans', sans-serif;
+mat-sidenav-content {
+  //background-color: #282727;
 }
 
 mat-nav-list p {

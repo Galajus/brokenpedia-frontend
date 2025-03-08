@@ -1,8 +1,11 @@
+@use "@angular/material" as mat;
+
 #options {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #303030 !important;
+  padding-bottom: 10px;
+  background-color: var(--mat-sidenav-content-background-color, var(--mat-sys-background)) !important;
 }
 
 .rar-container {
@@ -128,18 +131,13 @@ mat-slider {
 }
 
 .small-icon-button {
-  width: 22px !important;
-  height: 22px !important;
-  line-height: 22px !important;
+  color: red;
 
-  .mat-icon {
-    width: 15px !important;
-    height: 15px !important;
-    line-height: 15px !important;
-  }
-  .material-icons {
-    font-size: 15px !important;
-  }
+  @include mat.icon-button-overrides((
+    icon-color: red,
+    icon-size: 20px,
+    state-layer-size: 22px
+  ));
 }
 
 .rerol-stat-star {

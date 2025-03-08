@@ -1,12 +1,8 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {LegendaryItemsService} from "@services/user/items/legendary-items.service";
-import {MatDialog} from "@angular/material/dialog";
 import {ItemComparatorComponent} from "./item-comparator/item-comparator.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {cloneDeep} from 'lodash-es';
-import {MatSelect} from "@angular/material/select";
-import {MatOption} from "@angular/material/core";
 import {RarIncrustationService} from "@services/user/incrustation/rar-incrustation.service";
 import {TranslateService} from "@ngx-translate/core";
 import {DamageType} from "@models/items/damageType";
@@ -17,11 +13,16 @@ import {ItemSet} from "@models/set/itemSet";
 import {Profession} from "@models/gameentites/profession";
 import {PsychoMod} from "@models/items/psychoMod";
 import {IncrustationTarget} from "@models/items/incrustationTarget";
+import {MatSelect} from "@angular/material/select";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatOption} from "@angular/material/core";
 
 @Component({
-  selector: 'app-rar-list',
-  templateUrl: './rar-list.component.html',
-  styleUrls: ['./rar-list.component.scss']
+    selector: 'app-rar-list',
+    templateUrl: './rar-list.component.html',
+    styleUrls: ['./rar-list.component.scss'],
+    standalone: false
 })
 export class RarListComponent implements OnInit, OnDestroy {
 

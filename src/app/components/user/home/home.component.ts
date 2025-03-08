@@ -3,13 +3,13 @@ import {HomeService} from "@services/user/home/home.service";
 import {Post} from "@models/post/post";
 import {Router} from "@angular/router";
 import {MediaMatcher} from "@angular/cdk/layout";
-import {DATE_PIPE_DEFAULT_TIMEZONE} from "@angular/common";
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit {
 

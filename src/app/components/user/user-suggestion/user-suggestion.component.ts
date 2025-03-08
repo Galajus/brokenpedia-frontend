@@ -7,9 +7,10 @@ import {SuggestionType} from "@models/suggestion/suggestionType";
 import {Suggestion} from "@models/suggestion/suggestion";
 
 @Component({
-  selector: 'app-user-suggestion',
-  templateUrl: './user-suggestion.component.html',
-  styleUrls: ['./user-suggestion.component.scss']
+    selector: 'app-user-suggestion',
+    templateUrl: './user-suggestion.component.html',
+    styleUrls: ['./user-suggestion.component.scss'],
+    standalone: false
 })
 export class UserSuggestionComponent implements OnInit {
 

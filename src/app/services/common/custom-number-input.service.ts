@@ -23,7 +23,7 @@ export class CustomNumberInputService {
       return Number.parseInt(workValue);
     }
     //GETTING SPACES OF OLD FORMATTED VALUE
-    let oldSpacesSum = workValue.match(/ /g||[])?.length;
+    let oldSpacesSum = workValue.match(/ /g)?.length ?? 0;
     if (!oldSpacesSum) {
       oldSpacesSum = 0;
     }
@@ -33,7 +33,7 @@ export class CustomNumberInputService {
     target.value = workValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
     let readyValue = target.value;
     //GETTING SUM SPACES IN NEW TARGET VALUE
-    let newSpacesSum = readyValue.match(/ /g||[])?.length;
+    let newSpacesSum = readyValue.match(/ /g)?.length ?? 0; //old let newSpacesSum = readyValue.match(/ /g||[])?.length;
     if (!newSpacesSum) {
       newSpacesSum = 0;
     }

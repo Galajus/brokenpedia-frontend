@@ -1,8 +1,8 @@
 <div fxLayoutAlign="center">
-  <h1 style="color: red; font-weight: bold">SŁOWNICZEK JEST ROZWIJANY - ZGŁASZAJ KOLEJNE POJĘCIA NA SUGESTIACH!</h1>
+  <h2 style="color: red; font-weight: bold">SŁOWNICZEK JEST ROZWIJANY - ZGŁASZAJ KOLEJNE POJĘCIA NA SUGESTIACH!</h2>
 </div>
 
-<mat-form-field appearance="standard">
+<mat-form-field appearance="outline" style="width: 100%"> <!--FILL LUB OTULINE - STARE: "STANDARD"-->
   <mat-label>Szukaj po pojęciu</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="np. rc" #input>
 </mat-form-field>

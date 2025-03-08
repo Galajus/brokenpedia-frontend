@@ -3,9 +3,10 @@ import {Observable} from "rxjs/internal/Observable";
 import {DqCounterService} from "@services/user/dq-counter/dq-counter.service";
 
 @Component({
-  selector: 'app-dq-counter',
-  templateUrl: './dq-counter.component.html',
-  styleUrls: ['./dq-counter.component.scss']
+    selector: 'app-dq-counter',
+    templateUrl: './dq-counter.component.html',
+    styleUrls: ['./dq-counter.component.scss'],
+    standalone: false
 })
 export class DqCounterComponent implements OnInit {
 

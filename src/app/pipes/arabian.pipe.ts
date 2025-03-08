@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'arabian'
+    name: 'arabian',
+    standalone: false
 })
 export class ArabianPipe implements PipeTransform {
 

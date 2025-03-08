@@ -2,12 +2,26 @@
   display: grid;
   align-items: center;
   align-content: center;
-  grid-template-columns: repeat(3, 3fr);
-  column-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 15px;
   row-gap: 10px;
   justify-items: center;
+  justify-content: center;
   padding-bottom: 5px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 mat-form-field {
   font-size: 14px;
 }
@@ -15,6 +29,10 @@ mat-form-field {
 h2 {
   text-align: center;
   font-weight: bold;
+}
+
+.delete-drif {
+  color: rgba(255, 0, 0, 0.75);
 }
 
 .damageDrif {
@@ -39,7 +57,30 @@ h2 {
 
 .for-removal {
   text-decoration: line-through;
-  color: black;
+  color: #887171;
   font-weight: bold;
 }
 
+.drif-presentation {
+  position: relative;
+  height: 60px;
+  width: 60px;
+}
+
+.placeholder {
+  position: absolute;
+  cursor: pointer;
+}
+
+.active-interaction {
+  cursor: pointer;
+  &:hover {
+    filter: drop-shadow(0 0 2px rgba(255, 165, 0, 0.4)); // Pomarańczowy glow
+    transform: scale(1.06); // Subtelne powiększenie
+  }
+}
+
+.inactive {
+  filter: grayscale(1);
+  cursor: auto;
+}

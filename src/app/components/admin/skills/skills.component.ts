@@ -1,12 +1,13 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatTable} from "@angular/material/table";
 import {Skill} from "@models/skills/skill";
 import {SkillsService} from "@services/admin/skills/skills.service";
+import {MatTable} from "@angular/material/table";
 
 @Component({
-  selector: 'app-skills',
-  templateUrl: './skills.component.html',
-  styleUrls: ['./skills.component.scss']
+    selector: 'app-skills',
+    templateUrl: './skills.component.html',
+    styleUrls: ['./skills.component.scss'],
+    standalone: false
 })
 export class SkillsComponent implements AfterViewInit {
 

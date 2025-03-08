@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'keyArray'
+    name: 'keyArray',
+    standalone: false
 })
 export class KeyArrayPipe implements PipeTransform {
 

@@ -1,14 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ModSummary} from "@models/drif/modSummary";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {TranslateService} from "@ngx-translate/core";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {PsychoMod} from "@models/items/psychoMod";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-drif-sum-dialog',
-  templateUrl: './drif-sum-dialog.component.html',
-  styleUrls: ['./drif-sum-dialog.component.scss']
+    selector: 'app-drif-sum-dialog',
+    templateUrl: './drif-sum-dialog.component.html',
+    styleUrls: ['./drif-sum-dialog.component.scss'],
+    standalone: false
 })
 export class DrifSumDialogComponent implements OnInit {
 

@@ -3,9 +3,10 @@ import {OrbsService} from "@services/admin/orbs/orbs.service";
 import {Orb} from "@models/orb/orb";
 
 @Component({
-  selector: 'app-orbs',
-  templateUrl: './orbs.component.html',
-  styleUrls: ['./orbs.component.scss']
+    selector: 'app-orbs',
+    templateUrl: './orbs.component.html',
+    styleUrls: ['./orbs.component.scss'],
+    standalone: false
 })
 export class OrbsComponent implements AfterViewInit {
 

@@ -3,9 +3,10 @@ import {MonsterService} from "@services/admin/monsters/monster.service";
 import {Monster} from "@models/gameentites/monster";
 
 @Component({
-  selector: 'app-monster',
-  templateUrl: './monster.component.html',
-  styleUrls: ['./monster.component.scss']
+    selector: 'app-monster',
+    templateUrl: './monster.component.html',
+    styleUrls: ['./monster.component.scss'],
+    standalone: false
 })
 export class MonsterComponent implements AfterViewInit {
 

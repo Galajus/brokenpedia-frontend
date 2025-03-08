@@ -2,17 +2,17 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DrifService} from "@services/user/drif/drif.service";
 import {Drif} from "@models/drif/drif";
 import {MatSort} from "@angular/material/sort";
-import {MatTableDataSource} from "@angular/material/table";
 import {TableDrif} from "@models/drif/tableDrif";
-import {MatSliderChange} from "@angular/material/slider";
 import {cloneDeep, round} from "lodash-es";
 import {DrifCategory} from "@models/drif/drifCategory";
 import {DrifPresentation} from "@models/drif-table/drifPresentation";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
-  selector: 'app-drif-table',
-  templateUrl: './drif-table.component.html',
-  styleUrls: ['./drif-table.component.scss']
+    selector: 'app-drif-table',
+    templateUrl: './drif-table.component.html',
+    styleUrls: ['./drif-table.component.scss'],
+    standalone: false
 })
 export class DrifTableComponent implements OnInit {
 
@@ -118,9 +118,10 @@ export class DrifTableComponent implements OnInit {
     return toAdd;
   }
 
-  changeDrifLevel(e: MatSliderChange) {
-    if (e.value) {
-      this.drifLevel = e.value;
+  changeDrifLevel(e: Event) {
+    const t = e.target as HTMLInputElement;
+    if (t.value) {
+      this.drifLevel = t.valueAsNumber;
       this.calculateDrifsValues();
     }
   }
@@ -143,7 +144,6 @@ export class DrifTableComponent implements OnInit {
           return "sub";
         }
       }
-
   }
 
   filterTable() {

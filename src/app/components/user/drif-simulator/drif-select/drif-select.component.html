@@ -1,11 +1,16 @@
 <div class="background">
-  <div mat-dialog-title fxLayout="row">
-    <div fxFlex="30" fxLayoutAlign="center center">
-      <h1>Wybierz Drif i jego wielkość [{{ leftPower }}]:</h1>
+  <div mat-dialog-title fxLayout="row" fxLayoutGap="3">
+    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" style="font-size: 14px">
+      <div>
+        Max pojemność: {{ leftPower }}
+      </div>
+      <div>
+        <button class="delete-drif" mat-raised-button (click)="removeMod()">Usuń Drif</button>
+      </div>
     </div>
-    <div fxFlex="20" fxLayoutAlign="center center" fxLayoutGap="3">
-      <mat-form-field color="accent">
-        <mat-label>Wybierz poziom drifa</mat-label>
+    <div fxFlex="40" fxLayoutAlign="center center">
+      <mat-form-field appearance="outline">
+        <mat-label>Poziom drifa</mat-label>
         <mat-select [(ngModel)]="drifLevel">
           <mat-option [value]="Number(1)">1</mat-option>
           <mat-option [value]="Number(2)">2</mat-option>
@@ -34,145 +39,306 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div fxFlex="50" fxLayoutAlign="center center" fxLayoutGap="3">
-      <button mat-stroked-button (click)="removeMod()" color="warn">Usuń mod</button>
-      <button *ngIf="drifTier == 1" mat-stroked-button (click)="setTier(1)" color="accent">Subdrif</button>
-      <button *ngIf="drifTier != 1" mat-stroked-button (click)="setTier(1)">Subdrif</button>
-      <button *ngIf="drifTier == 2" mat-stroked-button (click)="setTier(2)" color="accent">Bidrif</button>
-      <button *ngIf="drifTier != 2 && rarRank >= 4" mat-stroked-button (click)="setTier(2)"> Bidrif</button>
-      <button *ngIf="drifTier != 2 && rarRank < 4" mat-stroked-button disabled> Bidrif</button>
-      <button *ngIf="drifTier == 3" mat-stroked-button (click)="setTier(3)" color="accent">Magnidrif</button>
-      <button *ngIf="drifTier != 3 && rarRank >= 7" mat-stroked-button (click)="setTier(3)">Magnidrif</button>
-      <button *ngIf="drifTier != 3 && rarRank < 7" mat-stroked-button disabled>Magnidrif</button>
-      <button *ngIf="drifTier == 4" mat-stroked-button (click)="setTier(4)" color="accent">Arcydrif</button>
-      <button *ngIf="drifTier != 4 && rarRank >= 10" mat-stroked-button (click)="setTier(4)">Arcydrif</button>
-      <button *ngIf="drifTier != 4 && rarRank < 10" mat-stroked-button disabled>Arcydrif</button>
+    <div fxFlex="30" fxLayoutAlign="center center">
+      <mat-form-field appearance="outline">
+        <mat-label>Tier Drifa</mat-label>
+        <mat-select [(ngModel)]="drifTier">
+          <mat-option [value]="1">Subdrif</mat-option>
+          <mat-option [disabled]="rarRank < 4" [value]="2">Bidrif</mat-option>
+          <mat-option [disabled]="rarRank < 7" [value]="3">Magnidrif</mat-option>
+          <mat-option [disabled]="rarRank < 10" [value]="4">Arcydrif</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
   <br>
   <div mat-dialog-content>
     <h2>OBRAŻEŃ</h2>
     <div class="container">
-      <div *ngFor="let drif of getDamage()">
-        <button *ngIf="
-       (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot === InventorySlot.WEAPON &&
-       getDrifPower(drif.startPower) <= leftPower"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="
-       (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot === InventorySlot.WEAPON  &&
-       getDrifPower(drif.startPower) > leftPower"
-                mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="
-       (drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
-       drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       itemSlot !== InventorySlot.WEAPON "
-                mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="
-      (drif.psychoMod !== PsychoMod.EXTRA_COLD_DAMAGE &&
-       drif.psychoMod !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
-       drif.psychoMod !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       getDrifPower(drif.startPower) <= leftPower"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                mat-raised-button color="primary" class="damageDrif" (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="
-       (drif.psychoMod !== PsychoMod.EXTRA_COLD_DAMAGE &&
-       drif.psychoMod !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
-       drif.psychoMod !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
-       getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
+      <div style="width: 100%" *ngFor="let drif of getDamage()">
+        @if (((drif.psychoMod === PsychoMod.EXTRA_COLD_DAMAGE ||
+            drif.psychoMod === PsychoMod.EXTRA_ENERGY_DAMAGE ||
+            drif.psychoMod === PsychoMod.EXTRA_FIRE_DAMAGE) &&
+          itemSlot === InventorySlot.WEAPON &&
+          getDrifPower(drif.startPower) <= leftPower) ||
+        ((drif.psychoMod !== PsychoMod.EXTRA_COLD_DAMAGE &&
+            drif.psychoMod !== PsychoMod.EXTRA_ENERGY_DAMAGE &&
+            drif.psychoMod !== PsychoMod.EXTRA_FIRE_DAMAGE) &&
+          getDrifPower(drif.startPower) <= leftPower)) {
+          <div class="active-interaction" fxFlex fxLayout="row" fxLayoutAlign="center center" (click)="close(drif)"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation">
+                <div>
+                  <img class="placeholder"
+                       src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png"
+                       width="60" height="60" alt="">
+                  <img class="placeholder" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59" height="59"
+                       alt="">
+                </div>
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        } @else {
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation"> <!--TODO: MISSING FOR REMOVAL-->
+                <img class="placeholder inactive"
+                     src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png" width="60"
+                     height="60"
+                     alt="">
+                <img class="placeholder inactive" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59"
+                     height="59" alt="">
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        }
       </div>
     </div>
     <h2>SPECJALNY</h2>
     <div class="container">
-      <div *ngFor="let drif of getSpecial()">
-        <button *ngIf="drif.psychoMod === PsychoMod.MANA_DRAIN &&
-                getDrifPower(drif.startPower) <= leftPower &&
-                itemSlot === InventorySlot.WEAPON"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                mat-raised-button color="primary" class="specialDrif"
-                (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="drif.psychoMod === PsychoMod.MANA_DRAIN &&
-                (getDrifPower(drif.startPower) > leftPower ||
-                itemSlot !== InventorySlot.WEAPON)" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="drif.psychoMod !== PsychoMod.MANA_DRAIN &&
-                getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="specialDrif"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="drif.psychoMod !== PsychoMod.MANA_DRAIN &&
-                getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
+      <div style="width: 100%" *ngFor="let drif of getSpecial()">
+        @if ((drif.psychoMod === PsychoMod.MANA_DRAIN &&
+        getDrifPower(drif.startPower) <= leftPower &&
+        itemSlot === InventorySlot.WEAPON) ||
+        (drif.psychoMod !== PsychoMod.MANA_DRAIN &&
+        getDrifPower(drif.startPower) <= leftPower)) {
+          <div class="active-interaction" fxFlex fxLayout="row" fxLayoutAlign="center center" (click)="close(drif)"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation">
+                <div>
+                  <img class="placeholder"
+                       src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png"
+                       width="60" height="60" alt="">
+                  <img class="placeholder" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59" height="59"
+                       alt="">
+                </div>
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start" [class.for-removal]="drif.forRemoval">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        } @else {
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation"> <!--TODO: MISSING FOR REMOVAL-->
+                <img class="placeholder inactive"
+                     src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png" width="60"
+                     height="60"
+                     alt="">
+                <img class="placeholder inactive" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59"
+                     height="59" alt="">
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        }
+
       </div>
     </div>
     <h2>CELNOŚCI</h2>
     <div class="container">
-      <div *ngFor="let drif of getAccuracy()">
-        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                class="accuracyDrif"
-                (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
+      <div style="width: 100%" *ngFor="let drif of getAccuracy()">
+        @if (getDrifPower(drif.startPower) <= leftPower) {
+          <div class="active-interaction" fxFlex fxLayout="row" fxLayoutAlign="center center" (click)="close(drif)"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation">
+                <div>
+                  <img class="placeholder"
+                       src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png"
+                       width="60" height="60" alt="">
+                  <img class="placeholder" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59" height="59"
+                       alt="">
+                </div>
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        } @else {
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation"> <!--TODO: MISSING FOR REMOVAL-->
+                <img class="placeholder inactive"
+                     src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png" width="60"
+                     height="60"
+                     alt="">
+                <img class="placeholder inactive" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59"
+                     height="59" alt="">
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        }
       </div>
     </div>
     <h2>OBRONY</h2>
     <div class="container">
-      <div *ngFor="let drif of getDefence()">
-        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary" class="defenceDrif"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
+      <div style="width: 100%" *ngFor="let drif of getDefence()">
+        @if (getDrifPower(drif.startPower) <= leftPower) {
+          <div class="active-interaction" fxFlex fxLayout="row" fxLayoutAlign="center center" (click)="close(drif)"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation">
+                <div>
+                  <img class="placeholder"
+                       src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png"
+                       width="60" height="60" alt="">
+                  <img class="placeholder" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59" height="59"
+                       alt="">
+                </div>
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        } @else {
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation"> <!--TODO: MISSING FOR REMOVAL-->
+                <img class="placeholder inactive"
+                     src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png" width="60"
+                     height="60"
+                     alt="">
+                <img class="placeholder inactive" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59"
+                     height="59" alt="">
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        }
       </div>
     </div>
     <h2>REDUKCJI</h2>
     <div class="container">
-      <div *ngFor="let drif of getReduction()">
-        <button *ngIf="getDrifPower(drif.startPower) <= leftPower" mat-raised-button color="primary"
-                [class.for-removal]="drif.forRemoval"
-                [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                class="reductionDrif"
-                (click)="close(drif)">
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
-        <button *ngIf="getDrifPower(drif.startPower) > leftPower" mat-raised-button disabled>
-          {{ 'PSYCHO_EFFECTS.' + drif.psychoMod | translate }} [{{ getDrifPower(drif.startPower) }}] {{ drif.shortName }}
-        </button>
+      <div style="width: 100%" *ngFor="let drif of getReduction()">
+        @if (getDrifPower(drif.startPower) <= leftPower) {
+          <div class="active-interaction" fxFlex fxLayout="row" fxLayoutAlign="center center" (click)="close(drif)"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation">
+                <div>
+                  <img class="placeholder"
+                       src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png"
+                       width="60" height="60" alt="">
+                  <img class="placeholder" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59" height="59"
+                       alt="">
+                </div>
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        } @else {
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center"
+               [matTooltip]="'PSYCHO_EFFECTS.' + drif.psychoMod | translate"
+               matTooltipShowDelay="400">
+            <div fxFlex="50" class="drif-presentation">
+              <div class="drif-presentation"> <!--TODO: MISSING FOR REMOVAL-->
+                <img class="placeholder inactive"
+                     src="assets/drifs/drif_sizes/{{drif.category.toLowerCase()}}_{{tierName}}.png" width="60"
+                     height="60"
+                     alt="">
+                <img class="placeholder inactive" src="assets/drifs/drif_types/{{drif.shortName}}.png" width="59"
+                     height="59" alt="">
+              </div>
+            </div>
+            <div style="font-weight: bold; margin-left: 5px" fxFlex="50" fxLayout="column"
+                 fxLayoutAlign="start start">
+              <span>
+                {{ drif.shortName }}
+              </span>
+              <span>
+                [{{ getDrifPower(drif.startPower) }}]
+              </span>
+            </div>
+          </div>
+        }
       </div>
     </div>
   </div>

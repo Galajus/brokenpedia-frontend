@@ -13,9 +13,10 @@ import {Meta, Title} from "@angular/platform-browser";
 declare let gtag: Function;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'brokenpedia';

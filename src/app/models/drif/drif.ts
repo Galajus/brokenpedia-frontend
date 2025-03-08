@@ -3,6 +3,7 @@ import {DrifCategory} from "@models/drif/drifCategory";
 
 export interface Drif {
   id: number,
+  dbId?: number,
   shortName: string,
   startPower: number,
   psychoGrowByLevel: number,
@@ -11,4 +12,5 @@ export interface Drif {
   forRemoval: boolean,
   tier?: number,
   level?: number
+  drifSlot?: number;
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {forkJoin, map, Observable} from "rxjs";
 import {Drif} from "@models/drif/drif";
 import {environment} from "../../../../environments/environment.prod";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {LegendaryItemsService} from "@services/user/items/legendary-items.service";
 import {EpicDedicatedMod} from "@models/drif/epicDedicatedMod";
 
@@ -36,7 +36,10 @@ export class DrifService {
       )
   }
 
-  getDrifPower(startPower: number, level: number) {
+  getDrifPower(startPower: number | undefined, level: number | undefined) {
+    if (!startPower || !level) {
+      return 0;
+    }
     return startPower * this.getDrifLevelTier(level);
   }
 

@@ -1,32 +1,30 @@
 <div class="restrict-width" fxLayout="column" fxLayoutGap="20">
 
   <!--options-->
-  <div>
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15">
-        <h2 fxLayoutAlign="center center">
-           <a href="/post/orby-nadchodza-nieco-skomplikowane-ale-za-to-jakie-dobre" target="_blank">Wszystko o orbach</a>
-        </h2>
-        <mat-form-field style="margin-bottom: -1.25em" appearance="outline" color="accent">
-          <mat-label>{{'ORBS_TABLE.ORNAMENTS_AMOUNT' | translate}}</mat-label>
-          <mat-select [(ngModel)]="ornaments" (selectionChange)="doCalculations()">
-            <mat-option [value]=1>1-3* - Bronze 1-3</mat-option>
-            <mat-option [value]=4>4* - Silver 1</mat-option>
-            <mat-option [value]=5>5* - Silver 2</mat-option>
-            <mat-option [value]=6>6* - Silver 3</mat-option>
-            <mat-option [value]=7>7* - Gold 1</mat-option>
-            <mat-option [value]=8>8* - Gold 2</mat-option>
-            <mat-option [value]=9>9* - Gold 3</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-card-content>
-    </mat-card>
-  </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15">
+      <h2 fxLayoutAlign="center center">
+         <a href="/post/orby-nadchodza-nieco-skomplikowane-ale-za-to-jakie-dobre" target="_blank">Wszystko o orbach</a>
+      </h2>
+      <mat-form-field style="margin-bottom: -1.25em" appearance="outline" color="accent">
+        <mat-label>{{'ORBS_TABLE.ORNAMENTS_AMOUNT' | translate}}</mat-label>
+        <mat-select [(ngModel)]="ornaments" (selectionChange)="doCalculations()">
+          <mat-option [value]=1>1-3* - Bronze 1-3</mat-option>
+          <mat-option [value]=4>4* - Silver 1</mat-option>
+          <mat-option [value]=5>5* - Silver 2</mat-option>
+          <mat-option [value]=6>6* - Silver 3</mat-option>
+          <mat-option [value]=7>7* - Gold 1</mat-option>
+          <mat-option [value]=8>8* - Gold 2</mat-option>
+          <mat-option [value]=9>9* - Gold 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
 
   <!--table-->
   <div>
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
+      <div>
         <div>
           <table mat-table [dataSource]="calculations">
             <ng-container matColumnDef="effect">
@@ -163,7 +161,6 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
   </div>
 </div>

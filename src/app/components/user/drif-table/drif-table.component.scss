@@ -1,17 +1,23 @@
 #options {
   position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: #303030 !important;
+  top: -1px;
+  z-index: 1000;
+  background-color: var(--mat-sidenav-content-background-color, var(--mat-sys-background));
 }
 
 table {
-  width: 100%;
   text-align: center;
+  font-weight: bold;
 }
 
+td, th {
+  text-align: center;
+  padding: 0 10px;
+}
+
+
 .mat-header-cell {
-  top: 118px !important;
+  top: 200px !important;
   z-index: 999 !important;
 }
 

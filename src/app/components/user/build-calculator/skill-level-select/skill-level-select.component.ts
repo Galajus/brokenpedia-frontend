@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
 
 @Component({
-  selector: 'app-skill-level-select',
-  templateUrl: './skill-level-select.component.html',
-  styleUrls: ['./skill-level-select.component.scss']
+    selector: 'app-skill-level-select',
+    templateUrl: './skill-level-select.component.html',
+    styleUrls: ['./skill-level-select.component.scss'],
+    standalone: false
 })
 export class SkillLevelSelectComponent implements OnInit {
 

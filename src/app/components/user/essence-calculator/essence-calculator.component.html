@@ -2,8 +2,7 @@
 
   <!--options-->
   <div>
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
+    <div>
         <div fxLayout="row" fxLayoutGap="20" fxLayoutAlign="center center">
           <div>
             <mat-form-field style="width: 180px" hintLabel="Cena platyny -> paczka 50: {{((platinumPrice * 50) / 1000) + 0}}k"
@@ -57,22 +56,20 @@
                 </mat-slide-toggle>
               </div>
               <div>
-                <mat-slide-toggle [(ngModel)]="marketPremium" (change)="pushChanges()">Targ premium
+                <mat-slide-toggle [(ngModel)]="marketPremium" matTooltip="Aby zobaczyć efekt zmiany musisz mieć wyłączone ignorowanie podatku" (change)="pushChanges()">Targ premium
                 </mat-slide-toggle>
               </div>
             </div>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+    </div>
   </div>
 
   <!--result table-->
   <div>
 
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
-        <div fxLayout="column" fxLayoutGap="15">
+    <div>
+        <div fxLayout="column" fxLayoutGap="15" *ngIf="!showSyngPrices">
           <div>
             <table mat-table [dataSource]="calculations">
               <ng-container matColumnDef="Ranga">
@@ -182,8 +179,7 @@
             </table>
           </div>-->
         </div>
-        <mat-card *ngIf="showSyngPrices" id="son">
-          <mat-card-content>
+        <div *ngIf="showSyngPrices" >
             <div>
               <table mat-table [dataSource]="syngPrices">
                 <ng-container matColumnDef="lvl">
@@ -202,10 +198,8 @@
                 <tr mat-row *matRowDef="let row; columns: syngColumns;"></tr>
               </table>
             </div>
-          </mat-card-content>
-        </mat-card>
-      </mat-card-content>
-    </mat-card>
+        </div>
+    </div>
   </div>
 
 </div>

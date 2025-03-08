@@ -1,9 +1,8 @@
 <div class="restrict-width" fxLayout="column">
   <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center stretch">
     <!--options-->
-    <mat-card class="mat-elevation-z6">
-      <mat-card-content>
-        <div fxLayout="column" fxLayoutGap="20" fxLayoutAlign="center center">
+    <div>
+        <div fxLayout="column" fxLayoutGap="20" fxLayoutAlign="center center" style="margin-top: 30px">
           <div>
             <mat-form-field appearance="outline" color="accent">
               <mat-label>Wybierz posiadany level</mat-label>
@@ -36,34 +35,33 @@
           <div>
             <mat-form-field hintLabel="Procent wyexpienia od 0 do 99" appearance="outline" color="accent">
               <mat-label>Procent wyexpienia</mat-label>
-              <input type="text" matInput #inputPercent (input)="onInput($event, this.inputPercent, 'percent')">
+              <input type="text" matInput #inputPercent (input)="onInput($event, inputPercent, 'percent')">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field hintLabel="Koszt za instancję" appearance="outline" color="accent">
               <mat-label>Koszt w złocie</mat-label>
-              <input type="text" matInput #inputCost (input)="onInput($event, this.inputCost, 'cost')">
+              <input type="text" matInput #inputCost (input)="onInput($event, inputCost, 'cost')">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field hintLabel="Psycho za instancję" appearance="outline" color="accent">
               <mat-label>Psycho na jeden drif</mat-label>
-              <input type="text" matInput #inputEarn (input)="onInput($event, this.inputEarn, 'earn')">
+              <input type="text" matInput #inputEarn (input)="onInput($event, inputEarn, 'earn')">
             </mat-form-field>
           </div>
           <div>
             <mat-form-field hintLabel="Czas na instancję w sekundach" appearance="outline" color="accent">
               <mat-label>Czas w sekundach</mat-label>
-              <input type="text" matInput #inputTime (input)="onInput($event, this.inputTime, 'time')">
+              <input type="text" matInput #inputTime (input)="onInput($event, inputTime, 'time')">
             </mat-form-field>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+    </div>
 
     <!--result-->
-    <mat-card  class="mat-elevation-z6" fxLayoutAlign="center center">
-      <mat-card-content fxLayout="column">
+    <div fxLayoutAlign="center center">
+      <div fxLayout="column">
         <div fxLayoutAlign="center center">
           <mat-list>
             <mat-list-item class="bold">Posiadany psychoexp: {{currentPsycho}}xp</mat-list-item>
@@ -116,7 +114,7 @@
             </h5>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   </div>
 </div>

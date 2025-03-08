@@ -1,14 +1,14 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {DictionaryService} from "@services/admin/dictionary/dictionary.service";
-import {MatDialog} from "@angular/material/dialog";
 import {DictionaryEntry} from "@models/dictionary/dictionaryEntry";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {clone} from "lodash-es";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-dictionary',
-  templateUrl: './dictionary.component.html',
-  styleUrls: ['./dictionary.component.scss']
+    selector: 'app-dictionary',
+    templateUrl: './dictionary.component.html',
+    styleUrls: ['./dictionary.component.scss'],
+    standalone: false
 })
 export class DictionaryComponent implements AfterViewInit {
 

@@ -7,9 +7,10 @@ import {PostsService} from "@services/admin/posts/posts.service";
 import {Post} from "@models/post/post";
 
 @Component({
-  selector: 'app-post-edit',
-  templateUrl: './post-edit.component.html',
-  styleUrls: ['./post-edit.component.scss']
+    selector: 'app-post-edit',
+    templateUrl: './post-edit.component.html',
+    styleUrls: ['./post-edit.component.scss'],
+    standalone: false
 })
 export class PostEditComponent implements OnInit {
 

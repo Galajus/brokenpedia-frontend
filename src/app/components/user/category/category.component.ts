@@ -5,9 +5,10 @@ import {CategoryService} from "@services/user/category/category.service";
 import {MediaMatcher} from "@angular/cdk/layout";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+    selector: 'app-category',
+    templateUrl: './category.component.html',
+    styleUrls: ['./category.component.scss'],
+    standalone: false
 })
 export class CategoryComponent implements OnInit {
 

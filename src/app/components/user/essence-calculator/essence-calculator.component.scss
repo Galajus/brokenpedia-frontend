@@ -1,27 +1,23 @@
 table {
-  width: 100%;
-  table-layout: fixed;
   text-align: center;
   font-weight: bold;
 }
 
 th {
-  text-align: center !important;
+  text-align: center;
 }
 
-.mat-row:nth-child(even){
-  background-color: #646464;
+td {
+  text-align: center;
 }
 
-.mat-row:nth-child(odd){
-  background-color: #4b4b4b;
+td, th {
+  padding: 8px 8px 8px;
 }
 
 .mat-column-Ranga {
-  flex: none;
   width: 30px;
   border-right: 1px solid currentColor;
-  padding-right: 12px;
 }
 
 .mat-column-Esencje {
@@ -32,7 +28,6 @@ th {
   flex: none;
   width: 50px;
   border-right: 1px solid currentColor;
-  padding-right: 6px;
 }
 .mat-column-Od-amki {
   flex: none;
@@ -42,7 +37,6 @@ th {
   flex: none;
   width: 45px;
   border-right: 1px solid currentColor;
-  padding-right: 6px;
 }
 .mat-column-Od-amki-syng {
   flex: none;
@@ -52,14 +46,12 @@ th {
   flex: none;
   width: 45px;
   border-right: 1px solid currentColor;
-  padding-right: 6px;
 }
 .mat-column-Pr-g-eski-bez-inhi {
   border-right: 1px solid currentColor;
 }
 .mat-column-Pr-g-od-amki-bez-inhi {
   border-right: 1px solid currentColor;
-  padding-right: 3px;
 }
 
 #syngs tr.mat-row {

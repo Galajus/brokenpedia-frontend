@@ -9,13 +9,13 @@
     <mat-checkbox [(ngModel)]="isPvp" (change)="doFilter()">{{ 'BUILD_LIST.PVP' | translate }}</mat-checkbox>
   </div>
   <div>
-    <mat-form-field style="width: 70px" appearance="outline" color="accent">
+    <mat-form-field style="width: 80px" appearance="outline" color="accent">
       <mat-label>{{ 'ITEMS_LIST.MINIMAL_LEVEL' | translate }}</mat-label>
       <input matInput type="number" max="140" min="0" [(ngModel)]="searchMinLvl" (change)="doFilter()">
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field style="width: 70px" appearance="outline" color="accent">
+    <mat-form-field style="width: 80px" appearance="outline" color="accent">
       <mat-label>{{ 'ITEMS_LIST.MAXIMUM_LEVEL' | translate }}</mat-label>
       <input matInput type="number" max="140" min="0" [(ngModel)]="searchMaxLvl" (change)="doFilter()">
     </mat-form-field>
@@ -27,7 +27,7 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field style="width: 170px" appearance="outline" color="accent">
+    <mat-form-field style="width: 220px" appearance="outline" color="accent">
       <mat-label>{{ 'BUILD_LIST.SORT_BY' | translate }}</mat-label>
       <mat-select [(ngModel)]="sortBy" (selectionChange)="doFilter()">
         <mat-option *ngFor="let sort of sortingOptions" [value]="sort.id">{{'BUILD_LIST.' + sort.sortBy + '_' + sort.direction | translate}}</mat-option>

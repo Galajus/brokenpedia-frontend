@@ -1,14 +1,15 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {SuggestionsService} from "@services/admin/suggestions/suggestions.service";
-import {MatDialog} from "@angular/material/dialog";
 import {EditAdminCommentComponent} from "./edit-admin-comment/edit-admin-comment.component";
 import {Suggestion} from "@models/suggestion/suggestion";
 import {SuggestionStatus} from "@models/suggestion/suggestionStatus";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-suggestions',
-  templateUrl: './suggestions.component.html',
-  styleUrls: ['./suggestions.component.scss']
+    selector: 'app-suggestions',
+    templateUrl: './suggestions.component.html',
+    styleUrls: ['./suggestions.component.scss'],
+    standalone: false
 })
 export class SuggestionsComponent implements AfterViewInit {
 

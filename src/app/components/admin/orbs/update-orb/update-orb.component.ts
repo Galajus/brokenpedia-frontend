@@ -7,9 +7,10 @@ import {Orb} from "@models/orb/orb";
 import {Drif} from "@models/drif/drif";
 
 @Component({
-  selector: 'app-update-orb',
-  templateUrl: './update-orb.component.html',
-  styleUrls: ['./update-orb.component.scss']
+    selector: 'app-update-orb',
+    templateUrl: './update-orb.component.html',
+    styleUrls: ['./update-orb.component.scss'],
+    standalone: false
 })
 export class UpdateOrbComponent implements OnInit {
 

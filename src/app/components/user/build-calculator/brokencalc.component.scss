@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 mat-card {
   padding: 25px 25px 25px 25px;
 }
@@ -46,12 +48,15 @@ h3.blue {
   right: 6px;
 }
 
-.sample, .sample mat-icon {
+.sample {
   font-size: 18px;
-  line-height: 35px;
-  padding-bottom: 6px;
+  cursor: pointer;
+  //line-height: 35px;
+  //padding-bottom: 6px;
   font-weight: bold;
-  vertical-align: top;
+  //vertical-align: top;
+  //background-color: unset;
+  //color: white;
 }
 
 .iconButton {
@@ -61,11 +66,15 @@ h3.blue {
 }
 
 .upgradeStat {
-  background-color: rgba(137, 255, 137, 0.1);
+  background-color: rgba(137, 255, 137, 0.2);
+  color: white;
+  height: 28px;
 }
 
 .reduceStat {
-  background-color: rgba(255, 137, 137, 0.1);
+  background-color: rgba(255, 137, 137, 0.2);
+  color: white;
+  height: 28px;
 }
 
 .select-icon {
@@ -86,7 +95,15 @@ h3.blue {
   width: 70%;
 }
 
-mat-card img.activeImg {
+:host {
+  @include mat.badge-overrides((
+    large-size-container-size: 24px,
+    large-size-text-size: 20px,
+    large-size-container-padding: 6px,
+  ));
+}
+
+img.activeImg {
   border: 2px solid transparent !important;
   border-radius: 80px !important;
   background-image: linear-gradient(white, white), linear-gradient(to right, yellow, orange) !important;
@@ -94,11 +111,11 @@ mat-card img.activeImg {
   background-clip: content-box, border-box !important;
 }
 
-mat-card img.skillImg:hover {
+ img.skillImg:hover {
   cursor: pointer;
 }
 
-mat-card img.skillImg{
+img.skillImg{
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
   height: 100%;
@@ -109,24 +126,28 @@ mat-card img.skillImg{
   background-clip: content-box, border-box;
 }
 
-mat-card img.upgradeImg, img.downgradeImg{
+img.upgradeImg, img.downgradeImg{
   object-fit: cover; /*this makes the image in src fit to the size specified below*/
   width: 30%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
   height: 30%;
 }
 
-mat-card img.upgradeImg:active {
+img.upgradeImg:active {
   transform: translateY(-2px);
 }
 
-mat-card img.downgradeImg:active {
+img.downgradeImg:active {
   transform: translateY(2px);
 }
 
-mat-card button {
+h5 {
+  margin-top: 3px;
+}
+
+button {
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  //height: 100%;
 }
 
 button.flex-space-around-center {
@@ -177,7 +198,7 @@ button.flex-space-around-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 95%;
+  width: 70px;
   height: 75px;
   padding-bottom: 8px;
   border: 2px solid black;
@@ -189,6 +210,7 @@ button.flex-space-around-center {
 }
 
 .stat-container {
+  width: 260px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -261,6 +283,7 @@ button.flex-space-around-center {
 
 .circle {
   border-radius: 50%;
+  width: 140px;
 }
 
 .selected-circle {

@@ -48,16 +48,15 @@ import {SetsUpdateComponent} from "@app/components/admin/sets/sets-update/sets-u
 import {UpdateDrifComponent} from "@app/components/admin/drifs/update-drif/update-drif.component";
 import {DictionaryComponent} from "@app/components/admin/dictionary/dictionary.component";
 import {DictionaryEntryListComponent} from "@app/components/user/dictionary-entry-list/dictionary-entry-list.component";
-import {SkinsComponent} from "@app/components/user/skins/skins.component";
 import {DrifTableComponent} from "@app/components/user/drif-table/drif-table.component";
+import {UnsavedChangesGuard} from "@app/guards/unsaved-changes.guard";
 
 const routes: Routes = [
 
   {
 
-    path:'', component: DefaultComponent, title: "Brokenpedia.com - wikipedia Broken Ranks", children: [
-      { path: '', component: HomeComponent, title: "Brokenpedia.com - wikipedia Broken Ranks", data: {description: "Witaj na stronie głównej Brokenpedii"} },
-      { path: 'br', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
+    path:'', component: DefaultComponent, title: "Brokenpedia.com - Wikipedia Broken Ranks", children: [
+      { path: '', component: HomeComponent, title: "Brokenpedia.com - Wikipedia Broken Ranks", data: {description: "Witaj na stronie głównej Brokenpedii"} },
       { path: 'build-calculator', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Zasymuluj swój build, zasymuluj umiejętnośći, ekwipunek czy drify"} },
       { path: 'build-calculator/build/:id', component: BrokencalcComponent, title: "Kalkulator buildów", data: {description: "Przegląd zapisanego buildu w kalkulatorze"} },
       { path: 'build-calculator/builds', component: BuildsListComponent, title: "Lista buildów", data: {description: "Lista buildów zapisana przez użytkowników"}},
@@ -65,7 +64,7 @@ const routes: Routes = [
       { path: 'broken-helper', component: BrokenHelperComponent, title: "Broken Helper", data: {description: "Discordowy bot pomocnik do zadań dziennych i odbierania wejściówek"}},
       { path: 'essence-calculator', component: EssenceCalculatorComponent, title: "Kalkulator esencji i odłamków" , data: {description: "Obliczanie uzyskania esencji i odłamków z przedmiotów oraz zarobku z nich"}},
       { path: 'psycho-calculator', component: PsychoExpCalculatorComponent, title: "Kalkulator psychoexpa", data: {description: "Sprawdź ile czasu zajmie Ci zdobycie określonego poziomu wyexpienia na drifie"}},
-      { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów", data: {description: "Dedykowany symulator drifów oferujący bardzo wygodne rozplanowanie ułożenia ich w Twoim sprzęcie"}},
+      { path: 'drif-simulator', component: DrifSimulatorComponent, title: "Symulator drifów", canDeactivate: [UnsavedChangesGuard], data: {description: "Dedykowany symulator drifów oferujący bardzo wygodne rozplanowanie ułożenia ich w Twoim sprzęcie"}},
       { path: 'upgrade-simulator', component: UpgradeSimulatorComponent, title: "Symulator ulepszania", data: {description: "Zasymuluj proces ulepszania sprzętu w grze i sprawdź ile może Cię to kosztować"} },
       { path: 'important-mods', component: ImportantModsComponent, title: "Modyfikatory dla klas postaci", data: {description: "Sprawdź jakie modyfikatory / psychowłaściwości będą najbardziej użyteczne dla Twojej klasy postaci"} },
       { path: 'orbs-table', component: OrbsTableComponent, title: "Tabela orbów", data: {description: "Lista wsyzstkich orbów w grze wraz z uwzględnieniem ich siły działania w zależności od inkrustacji"}},

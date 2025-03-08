@@ -4,9 +4,10 @@ import {CategoryService} from "@services/admin/categories/category.service";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-category-update',
-  templateUrl: './category-update.component.html',
-  styleUrls: ['./category-update.component.scss']
+    selector: 'app-category-update',
+    templateUrl: './category-update.component.html',
+    styleUrls: ['./category-update.component.scss'],
+    standalone: false
 })
 export class CategoryUpdateComponent implements OnInit {
 

@@ -9,11 +9,13 @@ import {environment} from "../../../environments/environment";
 import {MatSidenav} from "@angular/material/sidenav";
 import {TranslateService} from "@ngx-translate/core";
 import {Category} from "@models/post/category";
+import {SidebarLinks} from "@models/layout/sidebarLinks";
 
 @Component({
-  selector: 'app-default',
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+    selector: 'app-default',
+    templateUrl: './default.component.html',
+    styleUrls: ['./default.component.scss'],
+    standalone: false
 })
 export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -22,6 +24,17 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   @ViewChild('countryFlag') flag!: ElementRef;
   @ViewChild(AdsenseComponent) ads!: AdsenseComponent;
+
+  addresses: SidebarLinks[] = [
+    {addres: "/items-list", linkName: "MAIN_PAGE.ITEMS_LIST", icon: "waves"},
+    {addres: "/psycho-calculator", linkName: "MAIN_PAGE.PSYCHO_EXP_CALCULATOR", icon: "gradient"},
+    {addres: "/essence-calculator", linkName: "MAIN_PAGE.SHARD_ESSENCES_CALCULATOR", icon: "battery_charging_full"},
+    {addres: "/upgrade-simulator", linkName: "MAIN_PAGE.UPGRADE_SIMULATOR", icon: "stars"},
+    {addres: "drif-simulator", linkName: "MAIN_PAGE.DRIF_SIMULATOR", icon: "group_work"},
+    {addres: "/orbs-table", linkName: "MAIN_PAGE.ORBS_TABLE", icon: "select_all"},
+    {addres: "/drifs-table", linkName: "MAIN_PAGE.DRIFS_TABLE", icon: "select_all"},
+    {addres: "/dictionary", linkName: "MAIN_PAGE.DICTIONARY", icon: "menu_book"}
+  ]
 
   adLoading: boolean = false;
   lastAdChange: number = 0;
@@ -156,6 +169,8 @@ export class DefaultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.flag.nativeElement.src = "assets/i18n/flags/" + lang + ".png"
     localStorage.setItem("language", (lang));
   }
+
+  protected readonly indexedDB = indexedDB;
 }
 
 

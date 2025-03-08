@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {DictionaryEntry} from "@models/dictionary/dictionaryEntry";
 import {DictionaryService} from "@services/user/dictionary/dictionary.service";
 import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
-  selector: 'app-dictionary-entry-list',
-  templateUrl: './dictionary-entry-list.component.html',
-  styleUrls: ['./dictionary-entry-list.component.scss']
+    selector: 'app-dictionary-entry-list',
+    templateUrl: './dictionary-entry-list.component.html',
+    styleUrls: ['./dictionary-entry-list.component.scss'],
+    standalone: false
 })
 export class DictionaryEntryListComponent implements AfterViewInit {
 

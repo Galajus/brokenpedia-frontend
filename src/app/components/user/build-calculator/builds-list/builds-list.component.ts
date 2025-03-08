@@ -1,16 +1,17 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {BuildCalculatorService} from "@services/user/build-calculator/build-calculator.service";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
 import {JwtService} from "@services/jwt/jwt.service";
 import {BuildListDto} from "@models/build-list/buildListDto";
 import {Profession} from "@models/gameentites/profession";
 import {BuildListSortingOption} from "@models/build-list/buildSortingOption";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-builds-list',
-  templateUrl: './builds-list.component.html',
-  styleUrls: ['./builds-list.component.scss']
+    selector: 'app-builds-list',
+    templateUrl: './builds-list.component.html',
+    styleUrls: ['./builds-list.component.scss'],
+    standalone: false
 })
 export class BuildsListComponent implements OnInit {
 

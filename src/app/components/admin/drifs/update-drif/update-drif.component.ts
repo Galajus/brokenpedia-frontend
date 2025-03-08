@@ -7,9 +7,10 @@ import {DrifsService} from "@services/admin/drifs/drifs.service";
 import {Drif} from "@models/drif/drif";
 
 @Component({
-  selector: 'app-update-drif',
-  templateUrl: './update-drif.component.html',
-  styleUrls: ['./update-drif.component.scss']
+    selector: 'app-update-drif',
+    templateUrl: './update-drif.component.html',
+    styleUrls: ['./update-drif.component.scss'],
+    standalone: false
 })
 export class UpdateDrifComponent implements OnInit {
 

@@ -4,17 +4,18 @@ import {Router} from "@angular/router";
 import {LoginButtonService} from "@services/layout/login-button.service";
 import {DashboardService} from "@services/user/account/dashboard.service";
 import {Profile} from "@models/user/profile";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProfileNicknameDto} from "@models/user/profileNicknameDto";
 import {MatSort} from "@angular/material/sort";
 import {BuildListDto} from "@models/build-list/buildListDto";
 import {PageableBuildsDto} from "@models/build-list/pageableBuildsDto";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: false
 })
 export class DashboardComponent implements OnInit {
 

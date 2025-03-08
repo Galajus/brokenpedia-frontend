@@ -6,9 +6,10 @@ import {Monster} from "@models/gameentites/monster";
 import {MonsterType} from "@models/gameentites/monsterType";
 
 @Component({
-  selector: 'app-monster-update',
-  templateUrl: './monster-update.component.html',
-  styleUrls: ['./monster-update.component.scss']
+    selector: 'app-monster-update',
+    templateUrl: './monster-update.component.html',
+    styleUrls: ['./monster-update.component.scss'],
+    standalone: false
 })
 export class MonsterUpdateComponent implements OnInit {
 

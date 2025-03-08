@@ -11,9 +11,10 @@ import {SetService} from "@services/admin/set/set.service";
 import {ItemSet} from "@models/set/itemSet";
 
 @Component({
-  selector: 'app-create-rar',
-  templateUrl: './create-rar.component.html',
-  styleUrls: ['./create-rar.component.scss']
+    selector: 'app-create-rar',
+    templateUrl: './create-rar.component.html',
+    styleUrls: ['./create-rar.component.scss'],
+    standalone: false
 })
 export class CreateRarComponent implements OnInit {
 

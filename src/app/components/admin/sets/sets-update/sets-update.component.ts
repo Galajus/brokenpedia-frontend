@@ -6,9 +6,10 @@ import {SetService} from "@services/admin/set/set.service";
 import {ItemSet, SetCustomEffect, SetPsychoEffect} from "@models/set/itemSet";
 
 @Component({
-  selector: 'app-sets-update',
-  templateUrl: './sets-update.component.html',
-  styleUrls: ['./sets-update.component.scss']
+    selector: 'app-sets-update',
+    templateUrl: './sets-update.component.html',
+    styleUrls: ['./sets-update.component.scss'],
+    standalone: false
 })
 export class SetsUpdateComponent implements OnInit {
 

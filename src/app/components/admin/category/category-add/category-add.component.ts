@@ -3,9 +3,10 @@ import {CategoryService} from "@services/admin/categories/category.service";
 import {Category} from "@models/post/category";
 
 @Component({
-  selector: 'app-category-add',
-  templateUrl: './category-add.component.html',
-  styleUrls: ['./category-add.component.scss']
+    selector: 'app-category-add',
+    templateUrl: './category-add.component.html',
+    styleUrls: ['./category-add.component.scss'],
+    standalone: false
 })
 export class CategoryAddComponent implements OnInit {
   categoryName!: string;

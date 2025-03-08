@@ -1,3 +1,47 @@
+@use '@angular/material' as mat;
+
+
+:host {
+  @include mat.list-overrides((
+    list-item-label-text-weight: bold,
+    list-item-supporting-text-weight: bold,
+    list-item-trailing-supporting-text-weight: bold,
+    list-item-one-line-container-height: 32px,
+    active-indicator-shape: square,
+    list-item-container-shape: square
+  ));
+
+  @include mat.expansion-overrides((
+    container-background-color: #0c0f0f,
+    header-collapsed-state-height: 32px,
+    header-expanded-state-height: 32px,
+    header-text-line-height: 14px,
+    container-shape: square
+  ));
+}
+
+a {
+  font-family: inherit;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: inherit;
+  height: 32px;
+}
+
+a.side-link {
+  display: block;
+}
+
+mat-expansion-panel {
+  margin-bottom: 2.5px;
+}
+
+.sub-list mat-list-item {
+  margin-left: 14px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -12,8 +56,20 @@
   height: 100% !important;
 }
 
+.sidenav {
+  max-width: 300px;
+  background-color: #0c0f0f;
+  @include mat.sidenav-overrides((
+    container-shape: square
+  ));
+}
+
+.toolbar {
+  background-color: #0c0f0f;
+}
+
 mat-sidenav-content {
-  background-color: #282727;
+  //background-color: #282727;
 }
 
 .soft-panel {
@@ -21,16 +77,11 @@ mat-sidenav-content {
   box-shadow: none;
 }
 
-mat-panel-title {
-  font-family: 'Merriweather Sans', sans-serif;
-  font-size: 14px !important;
+.sidebar-link {
+  font-weight: bold !important;
+
 }
 
-mat-nav-list a {
-  font-size: 14px;
-  height: 32px;
-  font-family: 'Merriweather Sans', sans-serif;
-}
 
 mat-nav-list p {
   margin-bottom: 0;
@@ -69,7 +120,7 @@ p .owner {
 }
 
 mat-sidenav {
-  background-color: #212121;
+  //background-color: #212121;
   padding-right: 2px;
 }
 
@@ -134,8 +185,9 @@ p.shadowed {
 }
 
 .suggestion-link {
-  margin-top: 50px;
+  margin-top: 20px;
   text-align: center;
+  cursor: pointer;
 
   font-size: 16px !important;
   color: #fff;
@@ -147,17 +199,17 @@ p.shadowed {
 
 @keyframes blur {
   0% {
-      text-shadow: 0px 0px 10px #fff,
-      0px 0px 1px #fff,
-      0px 0px 3px #fff,
-      0px 0px 3px #fff,
-      0px 6px 5px #0015fa,
-      0px 6px 6px #0015fa,
-      0px -6px 6px #0049ff,
-      0px -6px 7px #0049ff,
-      0px -6px 8px #0049ff,
-      0px -6px 8px #008dff,
-      0px -6px 9px #008dff;
+    text-shadow: 0px 0px 10px #fff,
+    0px 0px 1px #fff,
+    0px 0px 3px #fff,
+    0px 0px 3px #fff,
+    0px 6px 5px #0015fa,
+    0px 6px 6px #0015fa,
+    0px -6px 6px #0049ff,
+    0px -6px 7px #0049ff,
+    0px -6px 8px #0049ff,
+    0px -6px 8px #008dff,
+    0px -6px 9px #008dff;
 
   }
   0.8% {

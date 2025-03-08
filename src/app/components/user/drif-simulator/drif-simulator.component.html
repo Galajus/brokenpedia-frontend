@@ -1,83 +1,100 @@
 <div class="restrict-width" style="padding-bottom: 15px">
-  <mat-card>
-    <mat-card-content>
+  <div>
+    <div>
       <div fxLayout="column" fxLayoutGap="5">
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4" style="padding-bottom: 15px">
-          <div style="padding-right: 8px">
-            <button *ngIf="!swappingMode" mat-flat-button color="warn"
-                    (click)="switchSwappingMode()">
-              SWAP OFF
-            </button>
-            <button *ngIf="swappingMode" mat-flat-button color="accent"
-                    (click)="switchSwappingMode()">
-              SWAP ON
-            </button>
-          </div>
+        <div *ngIf="jwtService.isLoggedIn()" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="8" style="padding-bottom: 7px">
+
+          <mat-form-field class="no-subscript" appearance="outline" color="accent" style="width: 100%;">
+            <mat-label>Załaduj build zapisany na profilu</mat-label>
+            <mat-select #dbBuildSelect (selectionChange)="pushDbBuild($event)">
+              <div *ngFor="let build of dbBuilds">
+                <mat-option [value]=build.id>{{ build.name }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+
+          <button [disabled]="activeDbBuild === 0" mat-flat-button (click)="CreateOrRenameBuild(true)">
+            ZMIEŃ NAZWĘ
+          </button>
+
+          <button mat-flat-button style="background-color: #ffc253" (click)="CreateOrRenameBuild(false)">
+            STWÓRZ NOWY BUILD
+          </button>
+
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="4">
 
           <div *ngFor="let userRars of drifBuilds">
-            <button *ngIf="activeBuild === userRars.name" style="width: 80px" mat-flat-button color="primary"
+            <button *ngIf="activeBuild === userRars.name" style="width: 95px; background-color: #b699fa" mat-flat-button
+                    color="primary"
                     (click)="setActiveBuild(userRars.name)">
               {{ userRars.name }}
             </button>
-            <button *ngIf="activeBuild !== userRars.name" style="width: 80px" mat-flat-button color="accent"
+            <button *ngIf="activeBuild !== userRars.name" style="width: 95px" mat-flat-button color="accent"
                     (click)="setActiveBuild(userRars.name)">
               {{ userRars.name }}
             </button>
           </div>
 
         </div>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1" cdkDropListGroup>
-          <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs">
+        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="1" cdkDropListGroup style="height: 450px">
+          <div *ngFor="let eq of getActiveBuild()?.rarsWithDrifs" style="width: 80px">
             <div class="circle" fxLayoutAlign="center center" style="margin-bottom: 8px">
               <img src="assets/equipment/placeholders/{{eq.slot.toLocaleLowerCase()}}.png" alt="{{eq.slot}}">
               <div *ngIf="eq.rank <= 12" class="capacity">{{ printUsedCapacity(eq) }}</div>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-between" style="padding-bottom: 2px">
               <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                <div>
+                <div fxLayout="column" fxLayoutAlign="center center">
                   <p class="sidraga">+15%</p>
-                  <mat-checkbox [(ngModel)]="eq.sidragaBoost" (change)="calculateModSummary()"></mat-checkbox>
+                  <mat-checkbox [(ngModel)]="eq.sidragaBoost" (change)="calculateModSummary(); markAsChanged()"></mat-checkbox>
                 </div>
                 <div *ngIf="eq.slot === InventorySlot.WEAPON">
                   <p class="sidraga">+60%</p>
-                  <mat-checkbox [(ngModel)]="eq.epikBoost" (change)="calculateModSummary()"></mat-checkbox>
+                  <mat-checkbox [(ngModel)]="eq.epikBoost" (change)="calculateModSummary(); markAsChanged()"></mat-checkbox>
                 </div>
               </div>
 
             </div>
             <div>
-              <mat-form-field style="width: 70px" appearance="fill" color="accent">
-                <mat-label>Stars</mat-label>
-                <mat-select [(ngModel)]="eq.ornaments" (selectionChange)="calculateModSummary()">
-                  <mat-option [value]=1>B1-S3</mat-option>
-                  <mat-option [value]=7>G1</mat-option>
-                  <mat-option [value]=8>G2</mat-option>
-                  <mat-option [value]=9>G3</mat-option>
+              <mat-form-field style="width:78px" appearance="outline" color="accent">
+                <mat-select [(ngModel)]="eq.ornaments" (selectionChange)="calculateModSummary(); markAsChanged()">
+                  <mat-option class="hide-checked" [value]=1>B1</mat-option>
+                  <mat-option class="hide-checked" [value]=7>G1</mat-option>
+                  <mat-option class="hide-checked" [value]=8>G2</mat-option>
+                  <mat-option class="hide-checked" [value]=9>G3</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field style="width: 70px" appearance="fill" color="accent">
-                <mat-label>Ranga</mat-label>
-                <mat-select [(ngModel)]="eq.rank" (selectionChange)="calculateModSummary()">
-                  <mat-option *ngFor="let number of Array.from(Array(11).keys())" [value]="number + 2">{{ (number + 2) | arabian }}</mat-option>
+              <mat-form-field style="width: 78px" appearance="outline" color="accent">
+                <mat-select [(ngModel)]="eq.rank" (selectionChange)="calculateModSummary(); markAsChanged()">
+                  <mat-option class="hide-checked" *ngFor="let number of Array.from(Array(11).keys())"
+                              [value]="number + 2">{{ (number + 2) | arabian }}
+                  </mat-option>
                   <div *ngIf="eq.slot === InventorySlot.WEAPON">
-                    <mat-option *ngFor="let epic of epicsMods" [value]="epic.id + 12">{{epic.epicName}}</mat-option>
+                    <mat-option class="hide-checked" *ngFor="let epic of epicsMods"
+                                [value]="epic.id + 12">{{ epic.epicName }}
+                    </mat-option>
                   </div>
                 </mat-select>
               </mat-form-field>
               <div *ngIf="eq.rank > 12" fxLayout="column" fxLayoutAlign="center center">
-                <mat-form-field style="width: 70px" color="accent">
+                <mat-form-field style="width: 78px" color="accent">
                   <mat-label>Krytyk</mat-label>
-                  <mat-select [(ngModel)]="getActiveBuild().critEpicModLevel" (selectionChange)="calculateModSummary()">
-                    <mat-option *ngFor="let number of Array.from(Array(16).keys())" [value]="number + 1">{{ (number + 1) }}</mat-option>
+                  <mat-select [(ngModel)]="getActiveBuild().critEpicModLevel" (selectionChange)="calculateModSummary(); markAsChanged()">
+                    <mat-option *ngFor="let number of Array.from(Array(16).keys())"
+                                [value]="number + 1">{{ (number + 1) }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field style="width: 70px" color="accent">
+                <mat-form-field style="width: 78px" color="accent">
                   <mat-label>Dedyk.</mat-label>
                   <mat-select [(ngModel)]="getActiveBuild().dedicatedEpicModLevel"
-                              (selectionChange)="calculateModSummary()">
-                    <mat-option *ngFor="let number of Array.from(Array(16).keys())" [value]="number + 1">{{ (number + 1) }}</mat-option>
+                              (selectionChange)="calculateModSummary(); markAsChanged()">
+                    <mat-option *ngFor="let number of Array.from(Array(16).keys())"
+                                [value]="number + 1">{{ (number + 1) }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -86,117 +103,81 @@
                    cdkDropListLockAxis="y"
                    [cdkDropListData]=" getDragDrifItemArray(eq)"
                    (cdkDropListDropped)="drop($event, eq.slot)">
-                <button *ngIf="!eq.drifItem1 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        [class]="getButtonColorClassByIfSwapMode(eq, 1)"
-                        (click)="openDrifDialog( eq, 1)"
-                        cdkDrag>
-                  [MOD 1]
-                </button>
-                <button *ngIf="!eq.drifItem1 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
-                        [class]="getButtonColorClassByIfSwapMode(eq, 1)"
-                        (click)="openDrifDialog( eq, 1)"
-                        cdkDrag>
-                  [MOD 1]
-                </button>
-                <button *ngIf="eq.drifItem1" style="width: 70px; margin-bottom: 8px; padding: 0"
-                        [matTooltip]="eq.drifItem1.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                        [matBadge]="eq.drifItem1.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem1, eq, 1)" mat-flat-button color="warn"
-                        (click)="openDrifDialog( eq, 1)"
-                        cdkDrag>
-                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div [class.for-removal]="eq.drifItem1.forRemoval">
-                      {{ eq.drifItem1.shortName }}
-                    </div>
-                    <div fxLayout="column">
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        T{{ eq.drifItem1.tier }}
-                      </div>
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        P{{ drifService.getDrifPower(eq.drifItem1.startPower, eq.drifItem1.level || 1) }}
-                      </div>
-                    </div>
-                  </div>
-                </button>
 
-                <button
-                  *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
-                  style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                  [class]="getButtonColorClassByIfSwapMode(eq, 2)"
-                  (click)="openDrifDialog( eq, 2)"
-                  cdkDrag>
-                  [MOD 2]
-                </button>
-                <button
-                  *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && !eq.drifItem2 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                  style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
-                  [class]="getButtonColorClassByIfSwapMode(eq, 2)"
-                  (click)="openDrifDialog( eq, 2)"
-                  cdkDrag>
-                  [MOD 2]
-                </button>
-                <button *ngIf="(eq.rank > 3 || eq.ornaments >= 7) && eq.drifItem2"
-                        style="width: 70px; margin-bottom: 8px; padding: 0"
-                        [matTooltip]="eq.drifItem2.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                        [matBadge]="eq.drifItem2.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem2, eq, 2)" mat-flat-button color="warn"
-                        (click)="openDrifDialog( eq, 2)"
-                        cdkDrag>
-                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div [class.for-removal]="eq.drifItem2.forRemoval">
-                      {{ eq.drifItem2.shortName }}
-                    </div>
-                    <div fxLayout="column">
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        T{{ eq.drifItem2.tier }}
-                      </div>
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        P{{ drifService.getDrifPower(eq.drifItem2.startPower, eq.drifItem2.level || 1) }}
-                      </div>
-                    </div>
-                  </div>
-                </button>
+                <div *ngFor="let slot of drifSlots">
 
-                <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                        [class]="getButtonColorClassByIfSwapMode(eq, 3)"
-                        (click)="openDrifDialog( eq, 3)"
-                        cdkDrag>
-                  [MOD 3]
-                </button>
-                <button *ngIf="eq.rank > 9 && !eq.drifItem3 && countUsedPower(eq) === getPowerCapacityByRank(eq)"
-                        style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
-                        [class]="getButtonColorClassByIfSwapMode(eq, 3)"
-                        (click)="openDrifDialog( eq, 3)"
-                        cdkDrag>
-                  [MOD 3]
-                </button>
-                <button *ngIf="eq.rank > 9 && eq.drifItem3" style="width: 70px; margin-bottom: 8px; padding: 0"
-                        [matTooltip]="eq.drifItem3.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                        [matBadge]="eq.drifItem3.level" matBadgeSize="small" matBadgeColor="primary"
-                        [class]="getButtonColorClassByDrifCategory(eq.drifItem3, eq, 3)" mat-flat-button color="warn"
-                        (click)="openDrifDialog( eq, 3)"
-                        cdkDrag>
-                  <div fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <div [class.for-removal]="eq.drifItem3.forRemoval" fxLayout="row">
-                      {{ eq.drifItem3.shortName }}
-                    </div>
-                    <div fxLayout="column">
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        T{{ eq.drifItem3.tier }}
-                      </div>
-                      <div class="tier-power" fxLayoutAlign="center center">
-                        P{{ drifService.getDrifPower(eq.drifItem3.startPower, eq.drifItem3.level || 1) }}
-                      </div>
-                    </div>
-                  </div>
+                  <div
+                    *ngIf="slot === 1 || (slot === 2 && (eq.rank > 4 || eq.ornaments >= 7)) || (slot === 3 && eq.rank >= 10)">
 
-                </button>
+                    <button *ngIf="!getDrifFromRarBySlot(eq, slot) && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
+                            style="width: 78px; margin-bottom: 8px; padding: 0" mat-flat-button
+                            class="emptySlot drif-list-button"
+                            [class]="getButtonColorClassByIfSwapMode(eq, slot)"
+                            (click)="openDrifDialog( eq, slot)"
+                            cdkDrag>
+                      [MOD {{ slot }}]
+                    </button>
+                    <button *ngIf="!getDrifFromRarBySlot(eq, slot) && countUsedPower(eq) === getPowerCapacityByRank(eq)"
+                            style="width: 78px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
+                            [class]="getButtonColorClassByIfSwapMode(eq, slot)"
+                            class="drif-list-button"
+                            (click)="openDrifDialog( eq, slot)"
+                            cdkDrag>
+                      [MOD {{ slot }}]
+                    </button>
+                    <button *ngIf="getDrifFromRarBySlot(eq, slot)" style="width: 78px; margin-bottom: 8px; padding: 0"
+                            [matTooltip]="getDrifFromRarBySlot(eq, slot)?.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
+                            [matBadge]="getDrifFromRarBySlot(eq, slot)?.level"
+                            [class]="getButtonColorClassByDrifCategory(getDrifFromRarBySlot(eq, slot), eq, slot)"
+                            mat-flat-button color="warn"
+                            class="drif-list-button"
+                            (click)="openDrifDialog( eq, slot)"
+                            cdkDrag>
+                      <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center" class="drif-desc">
+                        <div [class.for-removal]="getDrifFromRarBySlot(eq, slot)?.forRemoval">
+                          {{ getDrifFromRarBySlot(eq, slot)?.shortName }}
+                        </div>
+                        <div fxLayout="column">
+                          <div class="tier-power" fxLayoutAlign="center center">
+                            T{{ getDrifFromRarBySlot(eq, slot)?.tier }}
+                          </div>
+                          <div class="tier-power" fxLayoutAlign="center center">
+                            P{{ drifService.getDrifPower(getDrifFromRarBySlot(eq, slot)?.startPower, getDrifFromRarBySlot(eq, slot)?.level || 1) }}
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10" style="height: 45px">
+          <div fxFlex="75" fxLayoutAlign="start start" fxLayoutGap="10">
+
+            @if (!swappingMode) {
+              <button mat-flat-button color="warn" style="background-color: #99cefa" (click)="switchSwappingMode()">
+                SWAP OFF
+              </button>
+            } @else {
+              <button mat-flat-button color="accent" style="background-color: #b699fa"
+                      (click)="switchSwappingMode()">
+                SWAP ON
+              </button>
+            }
+            <div [matTooltip]="canUpdateOnServer ? '' : 'Build jest w trakcie aktualizowania lub niedawno go zapisywałeś.'">
+              <button *ngIf="this.activeDbBuild !== 0" mat-stroked-button [disabled]="!canUpdateOnServer"  (click)="updateBuildOnServer()">ZAKTUALIZUJ BUILD</button>
+            </div>
+          </div>
+          <div fxFlex="25">
+            <button *ngIf="this.activeDbBuild !== 0" mat-flat-button color="accent" style="background-color: #fa9999"
+                    (click)="removeBuild()">
+              USUŃ BUILD
+            </button>
+          </div>
+
+
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-evenly start">
@@ -207,12 +188,13 @@
             <mat-card-content>
               <div class="backpack-container">
                 <div *ngFor=" let drif of getActiveBuild().backpack; let i = index">
-                  <button *ngIf="drif" style="width: 70px; margin-bottom: 8px; padding: 0"
+                  <button *ngIf="drif" style="width: 72px; margin-bottom: 8px; padding: 0"
                           [matTooltip]="drif.forRemoval ? 'Ten Drif nie istnieje już w grze lub niedługo zostanie usunięty!' : ''"
-                          [matBadge]="drif.level" matBadgeSize="small" matBadgeColor="primary"
+                          [matBadge]="drif.level"
                           [class]="getButtonColorClassByDrifCategory(drif, undefined, i)" mat-flat-button color="warn"
-                          (click)="openDrifDialog( undefined, i)">
-                    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                          (click)="openDrifDialog( undefined, i)"
+                          class="drif-list-button">
+                    <div fxLayout="row" fxLayoutAlign="space-evenly center" class="drif-desc">
                       <div [class.for-removal]="drif.forRemoval">
                         {{ drif.shortName }}
                       </div>
@@ -229,15 +211,34 @@
                 </div>
                 <div>
                   <button
-                          style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-                          (click)="openDrifDialog(undefined, getActiveBuild().backpack.length)">
-                    [MOD +]
+                    style="width: 72px; margin-bottom: 8px; padding: 0" mat-flat-button
+                    class="emptySlot drif-list-button"
+                    (click)="openDrifDialog(undefined, getActiveBuild().backpack.length)">
+                    @if (swappingMode) {
+                      [SLOT]
+                    } @else {
+                      [MOD +]
+                    }
                   </button>
                 </div>
               </div>
-              <div>
-                <button mat-flat-button color="primary" matTooltip="Sortuj po kategorii drifa" (click)="sortBackpack()">
+              <div fxLayoutGap="5">
+                <button mat-fab color="primary" matTooltip="Sortuj po kategorii drifa" (click)="sortBackpack(); markAsChanged()">
                   <mat-icon>sort</mat-icon>
+                </button>
+                <button mat-fab color="primary" matTooltip="Wrzuć wszystkie drify z ekwpiunku do plecaka"
+                        (click)="dropDrifsToBackpack(); markAsChanged()">
+                  <mat-icon>assignment_returned</mat-icon>
+                </button>
+                <button mat-fab color="primary" matTooltip="Sklonuj wszystkie drify z ekwpiunku i wrzuć plecaka"
+                        (click)="cloneDrifsToBackpack(); markAsChanged()">
+                  <mat-icon>file_copy</mat-icon>
+                </button>
+                <button mat-fab color="primary" matTooltip="Wymaksuj levele drifów w plecaku" (click)="maximiseBackpackDrifs(); markAsChanged()">
+                  <mat-icon>show_chart</mat-icon>
+                </button>
+                <button mat-fab color="primary" matTooltip="Opróżnij plecak" (click)="disposeBackpackDrifs(); markAsChanged()">
+                  <mat-icon>delete</mat-icon>
                 </button>
               </div>
             </mat-card-content>
@@ -272,66 +273,67 @@
             </ul>
           </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
-          <button mat-flat-button color="warn"
-                  (click)="resetBuild(activeBuild)">
-            ZRESETUJ BUILD
-          </button>
-          <button mat-flat-button color="accent"
-                  (click)="maximiseDrifLevels()">
-            WYMAKSUJ LVLE DRIFÓW
-          </button>
-          <mat-form-field appearance="fill" color="accent" class="cloneForm">
-            <mat-label>Sklonuj build</mat-label>
-            <mat-select [(ngModel)]="buildToClone" (selectionChange)="cloneBuild()">
-              <mat-option *ngFor="let name of buildNames" [value]="name">{{name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+            <button mat-flat-button color="warn"
+                    (click)="resetBuild(); markAsChanged()">
+              ZACZNIJ OD NOWA
+            </button>
+            <button mat-flat-button color="warn"
+                    (click)="clearBuild(); markAsChanged()">
+              WYCZYŚĆ SPRZĘT Z DRIFÓW
+            </button>
+            <button mat-flat-button color="accent"
+                    (click)="maximiseDrifLevels(); markAsChanged()">
+              WYMAKSUJ LVLE DRIFÓW
+            </button>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10">
+            <mat-form-field appearance="outline" color="accent" class="cloneForm">
+              <mat-label>Sklonuj cały build</mat-label>
+              <mat-select class="small-option" [(ngModel)]="buildToClone" (selectionChange)="cloneBuild()">
+                <mat-option *ngFor="let name of buildNames" [value]="name">{{ name }}</mat-option>
+                <mat-divider></mat-divider>
+                @if (dbBuilds && dbBuilds.length > 0) {
+                  <mat-option *ngFor="let build of dbBuilds" [value]="build.id">{{ build.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" color="accent" class="cloneForm">
+              <mat-label>Sklonuj rangi i gwiazdki</mat-label>
+              <mat-select [(ngModel)]="buildToClone" (selectionChange)="cloneRarsAndStars()">
+                <mat-option *ngFor="let name of buildNames" [value]="name">{{ name }}</mat-option>
+                <mat-divider></mat-divider>
+                @if (dbBuilds && dbBuilds.length > 0) {
+                  <mat-option *ngFor="let build of dbBuilds" [value]="build.id">{{ build.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" color="accent" class="cloneForm">
+              <mat-label>Sklonuj plecak z buildu</mat-label>
+              <mat-select [(ngModel)]="buildToClone" (selectionChange)="cloneBackpack()">
+                <mat-option *ngFor="let name of buildNames" [value]="name">{{ name }}</mat-option>
+                <mat-divider></mat-divider>
+                @if (dbBuilds && dbBuilds.length > 0) {
+                  <mat-option *ngFor="let build of dbBuilds" [value]="build.id">{{ build.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
         </div>
         <div>
+          * SWAP ON = Możesz przekładać drify między sprzętami, w ramach tego samego przedmiotu bądź z/do plecaka.
+          Najpierw klikasz pierwszy drif, który chcesz przenieść a następnie drugi, który chcesz zamienić miejscem. <br>
+          * Buildy lokalne (temp, build 1-9) zapisują się automatycznie. <br>
+          * Backpack buildów zapisanych na profilu jest zawsze automatycznie sortowane podczas ładowania. <br>
+          * Max buildów na profilu: 20, Max drifów w plecaku na profilu: 60. <br>
+          * B1 = W domyśle inkrustacja na poziomie B1-S3 <br>
           * +15% = Sidraga boost <br>
           * +60% = Epic v2 boost
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-
-<!--
-<div *ngFor="let dragDrif of eq.dragDrop"
-     cdkDropList
-     (cdkDropListEntered)="logEntered($event)"
-     [cdkDropListData]="eq.dragDrop"
-     (cdkDropListDropped)="drop($event)">
-  <button *ngIf="!dragDrif.drif && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
-          style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button class="emptySlot"
-          (click)="openDrifDialog( eq, dragDrif.fromSlot + 1)"
-          cdkDrag>
-    [MOD {{ dragDrif.fromSlot +1 }}]
-  </button>
-  <button *ngIf="!dragDrif.drif && countUsedPower(eq) >= getPowerCapacityByRank(eq)"
-          style="width: 70px; margin-bottom: 8px; padding: 0" mat-flat-button [disabled]="true"
-          (click)="openDrifDialog( eq, dragDrif.fromSlot + 1)"
-          cdkDrag>
-    [MOD {{ dragDrif.fromSlot +1 }}]
-  </button>
-  <button *ngIf="dragDrif.drif" style="width: 70px; margin-bottom: 8px; padding: 0"
-          [matBadge]="dragDrif.drif.level" matBadgeSize="small" matBadgeColor="primary"
-          [class]="getButtonColorClassByDrifCategory(dragDrif.drif)" mat-flat-button color="warn"
-          (click)="openDrifDialog( eq, dragDrif.fromSlot + 1)"
-          cdkDrag>
-    <div fxLayout="row" fxLayoutAlign="space-evenly center">
-      <div>
-        {{ dragDrif.drif.shortName }}
-      </div>
-      <div fxLayout="column">
-        <div class="tier-power" fxLayoutAlign="center center">
-          T{{ dragDrif.drif.tier }}
-        </div>
-        <div class="tier-power" fxLayoutAlign="center center">
-          P{{ drifService.getDrifPower(dragDrif.drif.startPower, dragDrif.drif.level || 1) }}
-        </div>
-      </div>
     </div>
-  </button>
-</div>-->
+  </div>
+</div>

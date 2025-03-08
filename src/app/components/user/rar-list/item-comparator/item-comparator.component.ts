@@ -1,5 +1,4 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {IncrustatedLegendaryItem} from "@models/items/incrustatedLegendaryItem";
 import {round} from "lodash-es";
@@ -10,11 +9,13 @@ import {LegendaryItem} from "@models/items/legendaryItem";
 import {MonsterWithIncrustatedLegendaryItems} from "@models/gameentites/monster";
 import {ItemFamily} from "@models/items/itemFamily";
 import {IncrustationTarget} from "@models/items/incrustationTarget";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-item-comparator',
-  templateUrl: './item-comparator.component.html',
-  styleUrls: ['./item-comparator.component.scss']
+    selector: 'app-item-comparator',
+    templateUrl: './item-comparator.component.html',
+    styleUrls: ['./item-comparator.component.scss'],
+    standalone: false
 })
 export class ItemComparatorComponent implements OnInit {
 

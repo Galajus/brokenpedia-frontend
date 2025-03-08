@@ -4,9 +4,10 @@ import {Post} from "@models/post/post";
 import {Category} from "@models/post/category";
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+    selector: 'app-posts',
+    templateUrl: './posts.component.html',
+    styleUrls: ['./posts.component.scss'],
+    standalone: false
 })
 export class PostsComponent implements OnInit {
 

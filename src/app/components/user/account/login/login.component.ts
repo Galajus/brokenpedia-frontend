@@ -6,9 +6,10 @@ import {LoginService} from "@services/user/account/login.service";
 import {LoginButtonService} from "@services/layout/login-button.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 

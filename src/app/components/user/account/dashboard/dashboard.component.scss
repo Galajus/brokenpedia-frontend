@@ -1,16 +1,9 @@
 table {
-  width: 100%;
-  table-layout: fixed;
   text-align: center;
   font-weight: bold;
 }
 
-th {
-  text-align: center !important;
-}
-
-.comparator-button {
-  position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
+td, th {
+  text-align: center;
+  padding: 0 10px;
 }

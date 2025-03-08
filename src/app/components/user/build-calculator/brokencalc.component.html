@@ -1,346 +1,570 @@
+<!--TEMPLATES-->
+<ng-template #drifsSelect let-item="item">
+  <div *ngIf="item.rank >= 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
+    <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-3" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
+    <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-3" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip"
+           (click)="setDrifSlotToChange(0)">
+    </div>
+    <img *ngIf="!item.drifs[1]" class="placeholder drif drif-2-3" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(1)">
+    <div *ngIf="item.drifs[1]" class="placeholder drif-equipped drif-2-3" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[1])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip"
+           matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
+    </div>
+    <img *ngIf="!item.drifs[2]" class="placeholder drif drif-3-3" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(2)">
+    <div *ngIf="item.drifs[2]" class="placeholder drif-equipped drif-3-3" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[2])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[2].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[2])" matTooltipClass="custom-tooltip"
+           matTooltipPosition="before" (click)="setDrifSlotToChange(2)">
+    </div>
+  </div>
+  <div
+    *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7) && item.rank < 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
+    <img *ngIf="!item.drifs[0]" class="placeholder drif drif-2-2" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
+    <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-2-2" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip"
+           matTooltipPosition="before" (click)="setDrifSlotToChange(0)">
+    </div>
+    <img *ngIf="!item.drifs[1]" class="placeholder drif drif-1-2" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(1)">
+    <div *ngIf="item.drifs[1]" class="placeholder drif-equipped drif-1-2" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[1])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip"
+           matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
+    </div>
+  </div>
+  <div
+    *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || item.family === ItemFamily.SET || item.family === ItemFamily.SYNERGETIC">
+    <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-1" ngSrc="assets/rars/addons/driff_slot.png" width="35"
+         height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
+    <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-1" [matMenuTriggerFor]="drifMenu">
+      <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40"
+           height="40" alt="">
+      <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39"
+           alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip"
+           (click)="setDrifSlotToChange(0)">
+    </div>
+  </div>
+</ng-template>
 
-  <!--TEMPLATES-->
-  <ng-template #drifsSelect let-item="item">
-    <div *ngIf="item.rank >= 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
-      <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-3" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
-      <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-3" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip" (click)="setDrifSlotToChange(0)">
-      </div>
-      <img *ngIf="!item.drifs[1]" class="placeholder drif drif-2-3" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(1)">
-      <div *ngIf="item.drifs[1]" class="placeholder drif-equipped drif-2-3" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[1])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip" matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
-      </div>
-      <img *ngIf="!item.drifs[2]" class="placeholder drif drif-3-3" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(2)">
-      <div *ngIf="item.drifs[2]" class="placeholder drif-equipped drif-3-3" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[2])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[2].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[2])" matTooltipClass="custom-tooltip" matTooltipPosition="before" (click)="setDrifSlotToChange(2)">
-      </div>
+<!--UPGRADE-->
+<ng-template
+  [cdkConnectedOverlayPanelClass]="'item-show'"
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="showUpgrade"
+>
+  <div class="drif-show flex-column flex-center-center flex-gap-5" #upgradeShow>
+    <mat-form-field class="upgrade-menu" style="width: 180px; padding-top: 10px;" appearance="outline" color="accent">
+      <mat-label>Cel ulepszania</mat-label>
+      <mat-select class="upgrade-menu" [(ngModel)]="itemToShow.upgradeTarget">
+        <mat-option class="upgrade-menu" *ngIf="itemToShow.supportedSlot === InventorySlot.WEAPON"
+                    [value]="UpgradeTarget.DAMAGE">Obrażenia
+        </mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.STRENGTH">{{ 'ITEMS_LIST.STRENGTH' | translate }}
+        </mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.DEXTERITY">{{ 'ITEMS_LIST.DEXTERITY' | translate }}
+        </mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.POWER">{{ 'ITEMS_LIST.POWER' | translate }}</mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.KNOWLEDGE">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}
+        </mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.HEALTH">{{ 'ITEMS_LIST.HEALTH' | translate }}
+        </mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.MANA">{{ 'ITEMS_LIST.MANA' | translate }}</mat-option>
+        <mat-option class="upgrade-menu" [value]="UpgradeTarget.STAMINA">{{ 'ITEMS_LIST.STAMINA' | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="upgrade-menu">
+      <mat-slider class="upgrade-menu" (mousedown)="blockHideTooltips()" [min]="0" [max]="25" step="1">
+        <input matSliderThumb [(ngModel)]="itemToShow.upgradeLevel" (input)="changeUpgradeLevel($event)">
+      </mat-slider>
     </div>
-    <div *ngIf="(item.rank >= 4 || item.incrustationLevel >= 7) && item.rank < 10 && item.family !== ItemFamily.SET && item.family !== ItemFamily.SYNERGETIC">
-      <img *ngIf="!item.drifs[0]" class="placeholder drif drif-2-2" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
-      <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-2-2" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip" matTooltipPosition="before" (click)="setDrifSlotToChange(0)">
-      </div>
-      <img *ngIf="!item.drifs[1]" class="placeholder drif drif-1-2" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(1)">
-      <div *ngIf="item.drifs[1]" class="placeholder drif-equipped drif-1-2" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[1])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[1].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[1])" matTooltipClass="custom-tooltip" matTooltipPosition="after" (click)="setDrifSlotToChange(1)">
-      </div>
-    </div>
-    <div *ngIf="(item.rank < 4 && item.incrustationLevel < 7) || item.family === ItemFamily.SET || item.family === ItemFamily.SYNERGETIC">
-      <img *ngIf="!item.drifs[0]" class="placeholder drif drif-1-1" ngSrc="assets/rars/addons/driff_slot.png" width="35" height="35" alt="" [matMenuTriggerFor]="drifMenu" (click)="setDrifSlotToChange(0)">
-      <div *ngIf="item.drifs[0]" class="placeholder drif-equipped drif-1-1" [matMenuTriggerFor]="drifMenu">
-        <img class="placeholder" src="assets/drifs/drif_sizes/{{getDrifCategoryTierString(item.drifs[0])}}.png" width="40" height="40" alt="">
-        <img class="placeholder" src="assets/drifs/drif_types/{{item.drifs[0].drif.shortName}}.png" width="39" height="39" alt="" [matTooltip]="getDrifDesc(item, item.drifs[0])" matTooltipClass="custom-tooltip" (click)="setDrifSlotToChange(0)">
-      </div>
-    </div>
-  </ng-template>
+  </div>
+</ng-template>
 
-  <!--UPGRADE-->
-  <ng-template
-    [cdkConnectedOverlayPanelClass]="'item-show'"
-    cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="showUpgrade"
-  >
-    <div class="drif-show flex-column flex-center-center flex-gap-5" #upgradeShow>
-      <mat-form-field class="upgrade-menu" style="width: 180px; padding-top: 10px;" appearance="outline" color="accent">
-        <mat-label>Cel ulepszania</mat-label>
-        <mat-select class="upgrade-menu" [(ngModel)]="itemToShow.upgradeTarget">
-          <mat-option class="upgrade-menu" *ngIf="itemToShow.supportedSlot === InventorySlot.WEAPON" [value]="UpgradeTarget.DAMAGE">Obrażenia</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.STRENGTH">{{'ITEMS_LIST.STRENGTH' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.DEXTERITY">{{'ITEMS_LIST.DEXTERITY' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.POWER">{{'ITEMS_LIST.POWER' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.KNOWLEDGE">{{'ITEMS_LIST.KNOWLEDGE' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.HEALTH">{{'ITEMS_LIST.HEALTH' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.MANA">{{'ITEMS_LIST.MANA' | translate}}</mat-option>
-          <mat-option class="upgrade-menu" [value]="UpgradeTarget.STAMINA">{{'ITEMS_LIST.STAMINA' | translate}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="upgrade-menu">
-        <mat-slider class="upgrade-menu" (mousedown)="blockHideTooltips()" (input)="changeUpgradeLevel($event)" [(ngModel)]="itemToShow.upgradeLevel" [min]="0" [max]="25" step="1" [value]="itemToShow.upgradeLevel"></mat-slider>
-      </div>
-    </div>
-  </ng-template>
+<!--DRIF LEVEL-->
+<ng-template
+  [cdkConnectedOverlayPanelClass]="'item-show'"
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="showDrifLevel"
+>
+  <div class="drif-show" #drifShow>
+    <mat-slider  (mousedown)="blockHideTooltips()" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1">
+      <input #drifLevelSlider matSliderThumb [attr.aria-valueText]="drifToEdit.level.toString()" (dragEnd)="changeDrifLevel($event)" (input)="warnIfRarCapReached()" [(value)]="drifToEdit.level" [(ngModel)]="drifToEdit.level">
+    </mat-slider>
+  </div>
+</ng-template>
 
-  <!--DRIF LEVEL-->
-  <ng-template
-    [cdkConnectedOverlayPanelClass]="'item-show'"
-    cdkConnectedOverlay
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="showDrifLevel"
-  >
-    <div class="drif-show" #drifShow>
-      <mat-slider (mousedown)="blockHideTooltips()" (input)="changeDrifLevel($event)" [min]="1" [max]="6 + ((drifToEdit.tier - 1) * 5)" step="1" [value]="drifToEdit.level"></mat-slider>
-    </div>
-  </ng-template>
-
-  <ng-template [cdkConnectedOverlayPanelClass]="'item-show'"
-               cdkConnectedOverlay
-               [cdkConnectedOverlayOrigin]="trigger"
-               [cdkConnectedOverlayOpen]="showItemDesc"
-  >
-    <div class="rar" #rar>
-      <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="showUpgradeDesc($event)" matTooltip="Zarządzaj ulepszaniem" matTooltipPosition="above" class="upgrade-item">whatshot</mat-icon>
-      <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot() && itemToShow.family !== ItemFamily.SYNERGETIC" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.EVENLY)" matTooltip="Inkrustuj po równo" matTooltipPosition="above" [class]="'incrustation-evenly'" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.EVENLY">straighten</mat-icon>
-      <ul class="eq-list">
-        <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family !== ItemFamily.SYNERGETIC">
-          <div class="flex-row flex-center-center" style="width: 120px !important">
-            <div class="flex-x-stretch-1-5 flex-center-center">
-              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button (click)="removeStar(itemToShow)"><mat-icon>remove</mat-icon></button>
+<ng-template [cdkConnectedOverlayPanelClass]="'item-show'"
+             cdkConnectedOverlay
+             [cdkConnectedOverlayOrigin]="trigger"
+             [cdkConnectedOverlayOpen]="showItemDesc"
+>
+  <div class="rar" #rar>
+    <mat-icon *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" (click)="showUpgradeDesc($event)"
+              matTooltip="Zarządzaj ulepszaniem" matTooltipPosition="above" class="upgrade-item">whatshot
+    </mat-icon>
+    <mat-icon
+      *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot() && itemToShow.family !== ItemFamily.SYNERGETIC"
+      (click)="setIncrustationTarget(itemToShow, IncrustationTarget.EVENLY)" matTooltip="Inkrustuj po równo"
+      matTooltipPosition="above" [class]="'incrustation-evenly'"
+      [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.EVENLY">straighten
+    </mat-icon>
+    <ul class="eq-list">
+      <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family !== ItemFamily.SYNERGETIC">
+        <div class="flex-row flex-center-center" style="width: 120px !important">
+          <div class="flex-x-stretch-1-5 flex-center-center">
+            <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button
+                    (click)="removeStar(itemToShow)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+          <div class="flex-center-center flex-x-stretch-3-5">
+            <div
+              *ngIf="!itemToShow.incrustationLevel || itemToShow.incrustationLevel >= 1 && itemToShow.incrustationLevel <= 3">
+              <img *ngFor="let i of Array(itemToShow.incrustationLevel).fill(0)"
+                   ngSrc="./assets/rars/addons/star_brown.png" alt="{{itemToShow.name}}" height="19" width="19">
             </div>
-            <div class="flex-center-center flex-x-stretch-3-5">
-              <div *ngIf="!itemToShow.incrustationLevel || itemToShow.incrustationLevel >= 1 && itemToShow.incrustationLevel <= 3">
-                <img *ngFor="let i of Array(itemToShow.incrustationLevel).fill(0)" ngSrc="./assets/rars/addons/star_brown.png" alt="{{itemToShow.name}}" height="19" width="19">
-              </div>
-              <div *ngIf="itemToShow.incrustationLevel && itemToShow.incrustationLevel >= 4 && itemToShow.incrustationLevel <= 6">
-                <img *ngFor="let i of Array(itemToShow.incrustationLevel - 3).fill(0)" ngSrc="./assets/rars/addons/star_silver.png" alt="{{itemToShow.name}}" height="19" width="19">
-              </div>
-              <div *ngIf="itemToShow.incrustationLevel && itemToShow.incrustationLevel >= 7">
-                <img *ngFor="let i of Array(itemToShow.incrustationLevel - 6).fill(0)" ngSrc="./assets/rars/addons/star_gold.png" alt="{{itemToShow.name}}" height="19" width="19">
-              </div>
+            <div
+              *ngIf="itemToShow.incrustationLevel && itemToShow.incrustationLevel >= 4 && itemToShow.incrustationLevel <= 6">
+              <img *ngFor="let i of Array(itemToShow.incrustationLevel - 3).fill(0)"
+                   ngSrc="./assets/rars/addons/star_silver.png" alt="{{itemToShow.name}}" height="19" width="19">
             </div>
-            <div class="flex-x-stretch-1-5 flex-center-center">
-              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button style="margin-left: auto" (click)="addStar(itemToShow)"><mat-icon>add</mat-icon></button>
+            <div *ngIf="itemToShow.incrustationLevel && itemToShow.incrustationLevel >= 7">
+              <img *ngFor="let i of Array(itemToShow.incrustationLevel - 6).fill(0)"
+                   ngSrc="./assets/rars/addons/star_gold.png" alt="{{itemToShow.name}}" height="19" width="19">
             </div>
           </div>
-        </li>
-        <!--TODO: BETTER LAYOUT FOR SYNG LEVEL-->
-        <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family === ItemFamily.SYNERGETIC">
-          <div class="flex-row flex-center-center" style="width: 120px !important">
-            <div class="flex-x-stretch-1-5 flex-center-center">
-              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button (click)="decreaseSyngLevel(itemToShow)"><mat-icon>remove</mat-icon></button>
-            </div>
-            <div class="flex-center-center flex-x-stretch-3-5">
-              <div>
-                {{itemToShow.incrustationLevel}}0 lvl
-              </div>
-            </div>
-            <div class="flex-x-stretch-1-5 flex-center-center">
-              <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button style="margin-left: auto" (click)="increaseSyngLevel(itemToShow)"><mat-icon>add</mat-icon></button>
+          <div class="flex-x-stretch-1-5 flex-center-center">
+            <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button
+                    style="margin-left: auto" (click)="addStar(itemToShow)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </li>
+      <!--TODO: BETTER LAYOUT FOR SYNG LEVEL-->
+      <li class="element stars flex-column flex-center-center" *ngIf="itemToShow.family === ItemFamily.SYNERGETIC">
+        <div class="flex-row flex-center-center" style="width: 120px !important">
+          <div class="flex-x-stretch-1-5 flex-center-center">
+            <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button
+                    (click)="decreaseSyngLevel(itemToShow)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+          <div class="flex-center-center flex-x-stretch-3-5">
+            <div>
+              {{ itemToShow.incrustationLevel }}0 lvl
             </div>
           </div>
-        </li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.RAR" class="rar-name divide">"{{itemToShow.name}}" <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.EPIC" class="epic-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.LEGENDARY_EPIC" class="legendary-epic-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SET" class="set-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
-        <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SYNERGETIC" class="syng-name divide">{{itemToShow.name}} <span class="element-value">[{{itemToShow.rank | arabian}}<span *ngIf="itemToShow.upgradeLevel" class="active-incrustation">+{{itemToShow.upgradeLevel}}</span>]</span></li>
+          <div class="flex-x-stretch-1-5 flex-center-center">
+            <button *ngIf="itemToShow === getItemFromPlayerInventoryByCurrentSlot()" mat-icon-button
+                    style="margin-left: auto" (click)="increaseSyngLevel(itemToShow)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </li>
+      <li *ngIf="itemToShow.family.valueOf() === ItemFamily.RAR" class="rar-name divide">"{{ itemToShow.name }}" <span
+        class="element-value">[{{ itemToShow.rank | arabian }}<span *ngIf="itemToShow.upgradeLevel"
+                                                                    class="active-incrustation">+{{ itemToShow.upgradeLevel }}</span>]</span>
+      </li>
+      <li *ngIf="itemToShow.family.valueOf() === ItemFamily.EPIC" class="epic-name divide">{{ itemToShow.name }} <span
+        class="element-value">[{{ itemToShow.rank | arabian }}<span *ngIf="itemToShow.upgradeLevel"
+                                                                    class="active-incrustation">+{{ itemToShow.upgradeLevel }}</span>]</span>
+      </li>
+      <li *ngIf="itemToShow.family.valueOf() === ItemFamily.LEGENDARY_EPIC"
+          class="legendary-epic-name divide">{{ itemToShow.name }} <span
+        class="element-value">[{{ itemToShow.rank | arabian }}<span *ngIf="itemToShow.upgradeLevel"
+                                                                    class="active-incrustation">+{{ itemToShow.upgradeLevel }}</span>]</span>
+      </li>
+      <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SET" class="set-name divide">{{ itemToShow.name }} <span
+        class="element-value">[{{ itemToShow.rank | arabian }}<span *ngIf="itemToShow.upgradeLevel"
+                                                                    class="active-incrustation">+{{ itemToShow.upgradeLevel }}</span>]</span>
+      </li>
+      <li *ngIf="itemToShow.family.valueOf() === ItemFamily.SYNERGETIC" class="syng-name divide">{{ itemToShow.name }}
+        <span class="element-value">[{{ itemToShow.rank | arabian }}<span *ngIf="itemToShow.upgradeLevel"
+                                                                          class="active-incrustation">+{{ itemToShow.upgradeLevel }}</span>]</span>
+      </li>
 
-        <li class="element" *ngIf="itemToShow.type">{{'ITEMS_LIST.TYPE' | translate}}: <span class="element-value">{{'ITEMS.TYPES.' + itemToShow.type | translate}}</span></li>
-        <li class="element" *ngIf="itemToShow.value">{{'ITEMS_LIST.VALUE' | translate}}: <span class="element-gold">{{itemToShow.value.toLocaleString()}} {{'ITEMS_LIST.GOLD' | translate}}</span></li>
-        <li class="element" *ngIf="itemToShow.weight">{{'ITEMS_LIST.WEIGHT' | translate}}: <span class="element-value">{{itemToShow.weight}}</span></li>
-        <li class="element" *ngIf="itemToShow.capacity">{{'ITEMS_LIST.CAPACITY' | translate}}: <span class="element-value"> {{getUsedItemCapacity(itemToShow)}}/{{getItemCapacity(itemToShow)}}</span></li>
-        <li class="element" *ngIf="ItemType[itemToShow.type].toString() === ItemType.SHIELD.toString()" style="color: red">{{'ITEMS_LIST.ONLY_KNIGHT' | translate}}</li>
-        <li class="element" *ngIf="itemToShow.requiredLevel">{{'ITEMS_LIST.REQUIRED_LEVEL' | translate}}: <span class="element-value">{{itemToShow.requiredLevel}}</span></li>
-        <li class="element" *ngIf="itemToShow.requiredStrength">{{'ITEMS_LIST.REQUIRED_STRENGTH' | translate}}: <span class="element-value">{{itemToShow.requiredStrength}}</span></li>
-        <li class="element" *ngIf="itemToShow.requiredDexterity">{{'ITEMS_LIST.REQUIRED_DEXTERITY' | translate}}: <span class="element-value">{{itemToShow.requiredDexterity}}</span></li>
-        <li class="element" *ngIf="itemToShow.requiredPower">{{'ITEMS_LIST.REQUIRED_POWER' | translate}}: <span class="element-value">{{itemToShow.requiredPower}}</span></li>
-        <li class="element" *ngIf="itemToShow.requiredKnowledge">{{'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate}}: <span class="element-value">{{itemToShow.requiredKnowledge}}</span></li>
-        <li class="element divide"></li>
+      <li class="element" *ngIf="itemToShow.type">{{ 'ITEMS_LIST.TYPE' | translate }}: <span
+        class="element-value">{{ 'ITEMS.TYPES.' + itemToShow.type | translate }}</span></li>
+      <li class="element" *ngIf="itemToShow.value">{{ 'ITEMS_LIST.VALUE' | translate }}: <span
+        class="element-gold">{{ itemToShow.value.toLocaleString() }} {{ 'ITEMS_LIST.GOLD' | translate }}</span></li>
+      <li class="element" *ngIf="itemToShow.weight">{{ 'ITEMS_LIST.WEIGHT' | translate }}: <span
+        class="element-value">{{ itemToShow.weight }}</span></li>
+      <li class="element" *ngIf="itemToShow.capacity">{{ 'ITEMS_LIST.CAPACITY' | translate }}: <span
+        class="element-value"> {{ getUsedItemCapacity(itemToShow) }}/{{ getItemCapacity(itemToShow) }}</span></li>
+      <li class="element" *ngIf="ItemType[itemToShow.type].toString() === ItemType.SHIELD.toString()"
+          style="color: red">{{ 'ITEMS_LIST.ONLY_KNIGHT' | translate }}
+      </li>
+      <li class="element" *ngIf="itemToShow.requiredLevel">{{ 'ITEMS_LIST.REQUIRED_LEVEL' | translate }}: <span
+        class="element-value">{{ itemToShow.requiredLevel }}</span></li>
+      <li class="element" *ngIf="itemToShow.requiredStrength">{{ 'ITEMS_LIST.REQUIRED_STRENGTH' | translate }}: <span
+        class="element-value">{{ itemToShow.requiredStrength }}</span></li>
+      <li class="element" *ngIf="itemToShow.requiredDexterity">{{ 'ITEMS_LIST.REQUIRED_DEXTERITY' | translate }}: <span
+        class="element-value">{{ itemToShow.requiredDexterity }}</span></li>
+      <li class="element" *ngIf="itemToShow.requiredPower">{{ 'ITEMS_LIST.REQUIRED_POWER' | translate }}: <span
+        class="element-value">{{ itemToShow.requiredPower }}</span></li>
+      <li class="element" *ngIf="itemToShow.requiredKnowledge">{{ 'ITEMS_LIST.REQUIRED_KNOWLEDGE' | translate }}: <span
+        class="element-value">{{ itemToShow.requiredKnowledge }}</span></li>
+      <li class="element divide"></li>
 
-        <li (click)="showDrifLevelDesc($event, itemToShow.drifs[0])" class="rar-name pointer" *ngIf="itemToShow.drifs[0]">{{'PSYCHO_EFFECTS.' + itemToShow.drifs[0].drif.psychoMod | translate}}: <span class="element-value">{{getDrifPsychoValue(itemToShow, itemToShow.drifs[0])}}% </span> <span class="element-level">[Poz. {{itemToShow.drifs[0].level}}]</span></li>
-        <li (click)="showDrifLevelDesc($event, itemToShow.drifs[1])" class="rar-name pointer" *ngIf="itemToShow.drifs[1]">{{'PSYCHO_EFFECTS.' + itemToShow.drifs[1].drif.psychoMod | translate}}: <span class="element-value">{{getDrifPsychoValue(itemToShow, itemToShow.drifs[1])}}% </span> <span class="element-level">[Poz. {{itemToShow.drifs[1].level}}]</span></li>
-        <li (click)="showDrifLevelDesc($event, itemToShow.drifs[2])" class="rar-name pointer" *ngIf="itemToShow.drifs[2]">{{'PSYCHO_EFFECTS.' + itemToShow.drifs[2].drif.psychoMod | translate}}: <span class="element-value">{{getDrifPsychoValue(itemToShow, itemToShow.drifs[2])}}% </span> <span class="element-level">[Poz. {{itemToShow.drifs[2].level}}]</span></li>
-        <li class="rar-name" *ngIf="itemToShow.drifBoost > 0">Wzmocnienie drifów: <span class="element-value">{{itemToShow.drifBoost * 100}}%</span></li>
-        <li class="rar-name" *ngIf="itemToShow.upgradeBoost > 0">Wzmocnienie ulepszeń: <span class="element-value">{{itemToShow.upgradeBoost * 100}}%</span></li>
-        <li class="rar-name" *ngIf="itemToShow.orbBoost > 0">Wzmocnienie orba: <span class="element-value">{{itemToShow.orbBoost * 100}}%</span></li>
-        <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.EPIC || itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe PA: <span class="element-value">1</span></li>
-        <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe Kółko Ataku: <span class="element-value">1</span></li>
-        <li class="element divide" *ngIf="itemToShow.drifs[0] || itemToShow.drifs[1] || itemToShow.drifs[2] || itemToShow.drifBoost > 0 || itemToShow.upgradeBoost > 0 || itemToShow.orbBoost > 0 || itemToShow.family === ItemFamily.EPIC"></li>
+      <li (click)="showDrifLevelDesc($event, itemToShow.drifs[0])" class="rar-name pointer"
+          *ngIf="itemToShow.drifs[0]">{{ 'PSYCHO_EFFECTS.' + itemToShow.drifs[0].drif.psychoMod | translate }}: <span
+        class="element-value">{{ getDrifPsychoValue(itemToShow, itemToShow.drifs[0]) }}% </span> <span
+        class="element-level">[Poz. {{ itemToShow.drifs[0].level }}]</span></li>
+      <li (click)="showDrifLevelDesc($event, itemToShow.drifs[1])" class="rar-name pointer"
+          *ngIf="itemToShow.drifs[1]">{{ 'PSYCHO_EFFECTS.' + itemToShow.drifs[1].drif.psychoMod | translate }}: <span
+        class="element-value">{{ getDrifPsychoValue(itemToShow, itemToShow.drifs[1]) }}% </span> <span
+        class="element-level">[Poz. {{ itemToShow.drifs[1].level }}]</span></li>
+      <li (click)="showDrifLevelDesc($event, itemToShow.drifs[2])" class="rar-name pointer"
+          *ngIf="itemToShow.drifs[2]">{{ 'PSYCHO_EFFECTS.' + itemToShow.drifs[2].drif.psychoMod | translate }}: <span
+        class="element-value">{{ getDrifPsychoValue(itemToShow, itemToShow.drifs[2]) }}% </span> <span
+        class="element-level">[Poz. {{ itemToShow.drifs[2].level }}]</span></li>
+      <li class="rar-name" *ngIf="itemToShow.drifBoost > 0">Wzmocnienie drifów: <span
+        class="element-value">{{ itemToShow.drifBoost * 100 }}%</span></li>
+      <li class="rar-name" *ngIf="itemToShow.upgradeBoost > 0">Wzmocnienie ulepszeń: <span
+        class="element-value">{{ itemToShow.upgradeBoost * 100 }}%</span></li>
+      <li class="rar-name" *ngIf="itemToShow.orbBoost > 0">Wzmocnienie orba: <span
+        class="element-value">{{ itemToShow.orbBoost * 100 }}%</span></li>
+      <li class="rar-name"
+          *ngIf="itemToShow.family === ItemFamily.EPIC || itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe PA:
+        <span class="element-value">1</span></li>
+      <li class="rar-name" *ngIf="itemToShow.family === ItemFamily.LEGENDARY_EPIC">Dodatkowe Kółko Ataku: <span
+        class="element-value">1</span></li>
+      <li class="element divide"
+          *ngIf="itemToShow.drifs[0] || itemToShow.drifs[1] || itemToShow.drifs[2] || itemToShow.drifBoost > 0 || itemToShow.upgradeBoost > 0 || itemToShow.orbBoost > 0 || itemToShow.family === ItemFamily.EPIC"></li>
 
-        <li class="element" *ngIf="itemToShow.damageType">{{'ITEMS_LIST.DAMAGE_TYPE' | translate}}: <span class="element-value">{{'ITEMS.DAMAGE_TYPES.' + itemToShow.damageType | translate}}</span></li>
-        <li class="element" *ngIf="itemToShow.damage">{{'ITEMS_LIST.DAMAGE' | translate}}: <span class="element-value">{{getValueString(itemToShow.damage, UpgradeTarget.DAMAGE)}}</span> <span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.DAMAGE" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.strength || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.STRENGTH && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.STRENGTH, itemToShow.strength)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.STRENGTH" [class.below-zero]="itemToShow.strength && (itemToShow.strength + getUpgradeStats(undefined, UpgradeTarget.STRENGTH)) < 0">{{'ITEMS_LIST.STRENGTH' | translate}}: <span class="element-value">{{getValueString(itemToShow.strength, UpgradeTarget.STRENGTH)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.STRENGTH" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.dexterity || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.DEXTERITY && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.DEXTERITY, itemToShow.dexterity)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.DEXTERITY" [class.below-zero]="itemToShow.dexterity && (itemToShow.dexterity + getUpgradeStats(undefined, UpgradeTarget.DEXTERITY)) < 0">{{'ITEMS_LIST.DEXTERITY' | translate}}: <span class="element-value">{{getValueString(itemToShow.dexterity, UpgradeTarget.DEXTERITY)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.DEXTERITY" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.power || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.POWER && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.POWER, itemToShow.power)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.POWER" [class.below-zero]="itemToShow.power && (itemToShow.power + getUpgradeStats(undefined, UpgradeTarget.POWER)) < 0">{{'ITEMS_LIST.POWER' | translate}}: <span class="element-value">{{getValueString(itemToShow.power, UpgradeTarget.POWER)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.POWER" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.knowledge || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.KNOWLEDGE && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.KNOWLEDGE, itemToShow.knowledge)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.KNOWLEDGE" [class.below-zero]="itemToShow.knowledge && (itemToShow.knowledge + getUpgradeStats(undefined, UpgradeTarget.KNOWLEDGE)) < 0">{{'ITEMS_LIST.KNOWLEDGE' | translate}}: <span class="element-value">{{getValueString(itemToShow.knowledge, UpgradeTarget.KNOWLEDGE)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.KNOWLEDGE" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.health || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.HEALTH && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.HEALTH, itemToShow.health)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.HEALTH" [class.below-zero]="itemToShow.health && (itemToShow.health + getUpgradeStats(undefined, UpgradeTarget.HEALTH)) < 0">{{'ITEMS_LIST.HEALTH' | translate}}: <span class="element-value">{{getValueString(itemToShow.health, UpgradeTarget.HEALTH)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.HEALTH" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.mana || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.MANA && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.MANA, itemToShow.mana)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.MANA" [class.below-zero]="itemToShow.mana && (itemToShow.mana + getUpgradeStats(undefined, UpgradeTarget.MANA)) < 0">{{'ITEMS_LIST.MANA' | translate}}: <span class="element-value">{{getValueString(itemToShow.mana, UpgradeTarget.MANA)}}</span><span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.MANA" class="active-incrustation"> (+{{getUpgradeStats()}})</span></li>
-        <li class="element targetable" *ngIf="itemToShow.stamina || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.STAMINA && itemToShow.upgradeLevel > 0)" (click)="setIncrustationTarget(itemToShow, IncrustationTarget.STAMINA, itemToShow.stamina)" [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.STAMINA" [class.below-zero]="itemToShow.stamina && (itemToShow.stamina + getUpgradeStats(undefined, UpgradeTarget.STAMINA)) < 0">{{'ITEMS_LIST.STAMINA' | translate}}: <span class="element-value">{{getValueString(itemToShow.stamina, UpgradeTarget.STAMINA)}}<span *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.STAMINA" class="active-incrustation"> (+{{getUpgradeStats()}})</span></span></li>
+      <li class="element" *ngIf="itemToShow.damageType">{{ 'ITEMS_LIST.DAMAGE_TYPE' | translate }}: <span
+        class="element-value">{{ 'ITEMS.DAMAGE_TYPES.' + itemToShow.damageType | translate }}</span></li>
+      <li class="element" *ngIf="itemToShow.damage">{{ 'ITEMS_LIST.DAMAGE' | translate }}: <span
+        class="element-value">{{ getValueString(itemToShow.damage, UpgradeTarget.DAMAGE) }}</span> <span
+        *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.DAMAGE"
+        class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.strength || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.STRENGTH && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.STRENGTH, itemToShow.strength)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.STRENGTH"
+          [class.below-zero]="itemToShow.strength && (itemToShow.strength + getUpgradeStats(undefined, UpgradeTarget.STRENGTH)) < 0">{{ 'ITEMS_LIST.STRENGTH' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.strength, UpgradeTarget.STRENGTH) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.STRENGTH"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.dexterity || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.DEXTERITY && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.DEXTERITY, itemToShow.dexterity)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.DEXTERITY"
+          [class.below-zero]="itemToShow.dexterity && (itemToShow.dexterity + getUpgradeStats(undefined, UpgradeTarget.DEXTERITY)) < 0">{{ 'ITEMS_LIST.DEXTERITY' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.dexterity, UpgradeTarget.DEXTERITY) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.DEXTERITY"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.power || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.POWER && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.POWER, itemToShow.power)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.POWER"
+          [class.below-zero]="itemToShow.power && (itemToShow.power + getUpgradeStats(undefined, UpgradeTarget.POWER)) < 0">{{ 'ITEMS_LIST.POWER' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.power, UpgradeTarget.POWER) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.POWER"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.knowledge || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.KNOWLEDGE && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.KNOWLEDGE, itemToShow.knowledge)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.KNOWLEDGE"
+          [class.below-zero]="itemToShow.knowledge && (itemToShow.knowledge + getUpgradeStats(undefined, UpgradeTarget.KNOWLEDGE)) < 0">{{ 'ITEMS_LIST.KNOWLEDGE' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.knowledge, UpgradeTarget.KNOWLEDGE) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.KNOWLEDGE"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.health || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.HEALTH && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.HEALTH, itemToShow.health)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.HEALTH"
+          [class.below-zero]="itemToShow.health && (itemToShow.health + getUpgradeStats(undefined, UpgradeTarget.HEALTH)) < 0">{{ 'ITEMS_LIST.HEALTH' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.health, UpgradeTarget.HEALTH) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.HEALTH"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.mana || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.MANA && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.MANA, itemToShow.mana)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.MANA"
+          [class.below-zero]="itemToShow.mana && (itemToShow.mana + getUpgradeStats(undefined, UpgradeTarget.MANA)) < 0">{{ 'ITEMS_LIST.MANA' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.mana, UpgradeTarget.MANA) }}</span><span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.MANA"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></li>
+      <li class="element targetable"
+          *ngIf="itemToShow.stamina || (itemToShow.upgradeTarget.valueOf() === UpgradeTarget.STAMINA && itemToShow.upgradeLevel > 0)"
+          (click)="setIncrustationTarget(itemToShow, IncrustationTarget.STAMINA, itemToShow.stamina)"
+          [class.active-incrustation]="itemToShow.incrustationTarget === IncrustationTarget.STAMINA"
+          [class.below-zero]="itemToShow.stamina && (itemToShow.stamina + getUpgradeStats(undefined, UpgradeTarget.STAMINA)) < 0">{{ 'ITEMS_LIST.STAMINA' | translate }}
+        : <span class="element-value">{{ getValueString(itemToShow.stamina, UpgradeTarget.STAMINA) }}<span
+          *ngIf="itemToShow.upgradeLevel && itemToShow.upgradeTarget === UpgradeTarget.STAMINA"
+          class="active-incrustation"> (+{{ getUpgradeStats() }})</span></span></li>
 
-        <li class="element" *ngIf="itemToShow.armorSlashing">{{'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate}}: <span class="element-value">+{{itemToShow.armorSlashing}}</span></li>
-        <li class="element" *ngIf="itemToShow.armorCrushing">{{'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate}}: <span class="element-value">+{{itemToShow.armorCrushing}}</span></li>
-        <li class="element" *ngIf="itemToShow.armorPiercing">{{'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate}}: <span class="element-value">+{{itemToShow.armorPiercing}}</span></li>
+      <li class="element" *ngIf="itemToShow.armorSlashing">{{ 'ITEMS_LIST.ARMOR_AGAINST_SLASHING' | translate }}: <span
+        class="element-value">+{{ itemToShow.armorSlashing }}</span></li>
+      <li class="element" *ngIf="itemToShow.armorCrushing">{{ 'ITEMS_LIST.ARMOR_AGAINST_CRUSHING' | translate }}: <span
+        class="element-value">+{{ itemToShow.armorCrushing }}</span></li>
+      <li class="element" *ngIf="itemToShow.armorPiercing">{{ 'ITEMS_LIST.ARMOR_AGAINST_PIERCING' | translate }}: <span
+        class="element-value">+{{ itemToShow.armorPiercing }}</span></li>
 
-        <li class="element" *ngIf="itemToShow.fireResistance">{{'ITEMS_LIST.FIRE_RESISTANCE' | translate}}: <span class="element-value">+{{itemToShow.fireResistance}}</span></li>
-        <li class="element" *ngIf="itemToShow.coldResistance">{{'ITEMS_LIST.COLD_RESISTANCE' | translate}}: <span class="element-value">+{{itemToShow.coldResistance}}</span></li>
-        <li class="element" *ngIf="itemToShow.energyResistance">{{'ITEMS_LIST.ENERGY_RESISTANCE' | translate}}: <span class="element-value">+{{itemToShow.energyResistance}}</span></li>
-        <li class="element" *ngIf="itemToShow.mentalResistance">{{'ITEMS_LIST.MENTAL_RESISTANCE' | translate}}: <span class="element-value">+{{itemToShow.mentalResistance}}</span></li>
-      </ul>
-    </div>
+      <li class="element" *ngIf="itemToShow.fireResistance">{{ 'ITEMS_LIST.FIRE_RESISTANCE' | translate }}: <span
+        class="element-value">+{{ itemToShow.fireResistance }}</span></li>
+      <li class="element" *ngIf="itemToShow.coldResistance">{{ 'ITEMS_LIST.COLD_RESISTANCE' | translate }}: <span
+        class="element-value">+{{ itemToShow.coldResistance }}</span></li>
+      <li class="element" *ngIf="itemToShow.energyResistance">{{ 'ITEMS_LIST.ENERGY_RESISTANCE' | translate }}: <span
+        class="element-value">+{{ itemToShow.energyResistance }}</span></li>
+      <li class="element" *ngIf="itemToShow.mentalResistance">{{ 'ITEMS_LIST.MENTAL_RESISTANCE' | translate }}: <span
+        class="element-value">+{{ itemToShow.mentalResistance }}</span></li>
+    </ul>
+  </div>
 
-  </ng-template>
+</ng-template>
 
-  <mat-tab-group class="restrict-width" cdkOverlayOrigin #trigger="cdkOverlayOrigin" animationDuration="0ms"> <!--TODO REMOVE INDEX-->
+<mat-tab-group class="restrict-width" cdkOverlayOrigin #trigger="cdkOverlayOrigin" animationDuration="0ms">
+  <!--TODO REMOVE INDEX-->
 
   <!--BUILD-->
 
   <mat-tab labelClass="build-tab" label="Build">
     <div *ngIf="buildNotFound" class="flex-column flex-gap-10">
-      <mat-card class="mat-elevation-z6 flex-center-center">
-        <mat-card-content>
+      <div class="flex-center-center">
+        <div>
           <h2>Buildu nie znaleziono bądź jest prywatny</h2>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
     </div>
     <div class="restrict-width flex-column flex-gap-10 tab" *ngIf="!buildNotFound">
       <div *ngIf="databaseBuild" class="reactions">
-        <div class="flex-row">
-          <button class="sample" mat-icon-button (click)="upvote()">
-            <mat-icon *ngIf="isLiking()" color="accent">thumb_up</mat-icon>
-            <mat-icon *ngIf="!isLiking()">thumb_up</mat-icon>
-          </button>
-          <div class="sample">
-            {{databaseBuild.liking.length}}
+          <div fxLayout="row" fxLayoutAlign="center center" class="sample" (click)="upvote()">
+            <div>
+              <mat-icon *ngIf="isLiking()" color="accent">thumb_up</mat-icon>
+              <mat-icon *ngIf="!isLiking()">thumb_up</mat-icon>
+            </div>
+
+            <div style="margin-left: 4px">
+              {{ databaseBuild.liking.length }}
+            </div>
           </div>
-        </div>
       </div>
       <div>
         <div class="flex-row flex-center-center flex-gap-10 flex-x-stretch flex-y-stretch">
-          <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
-            <mat-card-content>
+          <div class="flex-center-center" style="padding: 8px">
+            <div>
               <div class="flex-gap-10 flex-center-center" style="font-size: 14px">
                 <div class="flex-column flex-center flex-gap-5">
-                  <button *ngIf="!databaseBuild" #saveButton mat-raised-button (click)="saveOnServer()">{{'BUILD_CALCULATOR.SAVE' | translate}}</button>
-                  <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton mat-raised-button (click)="updateOnServer()">Aktualizuj</button>
+                  <button *ngIf="!databaseBuild" #saveButton mat-raised-button
+                          (click)="saveOnServer()">{{ 'BUILD_CALCULATOR.SAVE' | translate }}
+                  </button>
+                  <button *ngIf="databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()" #saveButton
+                          mat-raised-button (click)="updateOnServer()">Aktualizuj
+                  </button>
                 </div>
 
                 <mat-form-field appearance="outline" color="accent" *ngIf="!databaseBuild">
-                  <mat-label>{{'BUILD_CALCULATOR.CHOOSE_PROFESSION' | translate}}</mat-label>
+                  <mat-label>{{ 'BUILD_CALCULATOR.CHOOSE_PROFESSION' | translate }}</mat-label>
                   <mat-select [(ngModel)]="newClass" (selectionChange)="classUpdate($event.value)">
-                    <mat-option value="BARBARIAN">{{'BUILD_CALCULATOR.PROFESSION.BARBARIAN' | translate}}</mat-option>
-                    <mat-option value="FIRE_MAGE">{{'BUILD_CALCULATOR.PROFESSION.FIRE_MAGE' | translate}}</mat-option>
-                    <mat-option value="ARCHER">{{'BUILD_CALCULATOR.PROFESSION.ARCHER' | translate}}</mat-option>
-                    <mat-option value="SHEED">{{'BUILD_CALCULATOR.PROFESSION.SHEED' | translate}}</mat-option>
-                    <mat-option value="VOODOO">{{'BUILD_CALCULATOR.PROFESSION.VOODOO' | translate}}</mat-option>
-                    <mat-option value="KNIGHT">{{'BUILD_CALCULATOR.PROFESSION.KNIGHT' | translate}}</mat-option>
-                    <mat-option value="DRUID">{{'BUILD_CALCULATOR.PROFESSION.DRUID' | translate}}</mat-option>
+                    <mat-option value="BARBARIAN">{{ 'BUILD_CALCULATOR.PROFESSION.BARBARIAN' | translate }}</mat-option>
+                    <mat-option value="FIRE_MAGE">{{ 'BUILD_CALCULATOR.PROFESSION.FIRE_MAGE' | translate }}</mat-option>
+                    <mat-option value="ARCHER">{{ 'BUILD_CALCULATOR.PROFESSION.ARCHER' | translate }}</mat-option>
+                    <mat-option value="SHEED">{{ 'BUILD_CALCULATOR.PROFESSION.SHEED' | translate }}</mat-option>
+                    <mat-option value="VOODOO">{{ 'BUILD_CALCULATOR.PROFESSION.VOODOO' | translate }}</mat-option>
+                    <mat-option value="KNIGHT">{{ 'BUILD_CALCULATOR.PROFESSION.KNIGHT' | translate }}</mat-option>
+                    <mat-option value="DRUID">{{ 'BUILD_CALCULATOR.PROFESSION.DRUID' | translate }}</mat-option>
                   </mat-select>
                 </mat-form-field>
 
 
-
-                <mat-form-field hintLabel="{{'BUILD_CALCULATOR.CHARACTER_LEVEL_TIP' | translate}}" appearance="outline" color="accent" style="width: 150px !important" *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
-                  <mat-label>{{'BUILD_CALCULATOR.CHARACTER_LEVEL' | translate}}</mat-label>
+                <mat-form-field hintLabel="{{'BUILD_CALCULATOR.CHARACTER_LEVEL_TIP' | translate}}" appearance="outline"
+                                color="accent" style="width: 150px !important"
+                                *ngIf="(databaseBuild && databaseBuild.profile.uuid === jwtService.getUuid()) || !databaseBuild">
+                  <mat-label>{{ 'BUILD_CALCULATOR.CHARACTER_LEVEL' | translate }}</mat-label>
                   <input type="number" [min]="1" [max]="140" matInput [(ngModel)]="newLevel" (change)="levelUpdate()">
                 </mat-form-field>
 
                 <h1 *ngIf="databaseBuild && databaseBuild.profile.uuid !== jwtService.getUuid()">
-                  <strong>{{getPrettyProfession(newClass)}}</strong> {{newLevel}} LVL <i>by </i> <strong>{{databaseBuild.profile.nickname}}</strong>
+                  <strong>{{ getPrettyProfession(newClass) }}</strong> {{ newLevel }} LVL <i>by </i>
+                  <strong>{{ databaseBuild.profile.nickname }}</strong>
                 </h1>
               </div>
-            </mat-card-content>
-          </mat-card>
+            </div>
+          </div>
 
-          <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
-            <mat-card-content>
-                <div *ngIf="!databaseBuild" class="flex-column flex-center-center flex-gap-15">
-                  <mat-slide-toggle [(ngModel)]="resetOnLevelChange">{{'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate}}</mat-slide-toggle>
-                </div>
-                <div class="flex-row flex-center-center flex-gap-15">
-                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/stats.png" alt="stats points"> <h3 class="blue"> {{remainingStatsPoints}}/{{statPoints}} </h3></div>
-                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/student.png" alt="student points"> <h3 class="yellow"> {{studentPoints}} </h3></div>
-                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/adept.png" alt="adept points"> <h3 class="orange"> {{adeptPoints}} </h3></div>
-                  <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/master.png" alt="master points"> <h3 class="red"> {{masterPoints}} </h3></div>
-                </div>
-            </mat-card-content>
-          </mat-card>
+          <div class="mat-elevation-z6 flex-center-center" style="padding: 8px">
+            <div>
+              <div *ngIf="!databaseBuild" class="flex-column flex-center-center flex-gap-15">
+                <mat-slide-toggle
+                  [(ngModel)]="resetOnLevelChange">{{ 'BUILD_CALCULATOR.CLEAR_SKILL_STAT' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="flex-row flex-center-center flex-gap-15">
+                <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/stats.png"
+                                                                 alt="stats points">
+                  <h3 class="blue"> {{ remainingStatsPoints }}/{{ statPoints }} </h3></div>
+                <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/student.png"
+                                                                 alt="student points">
+                  <h3 class="yellow"> {{ studentPoints }} </h3></div>
+                <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/adept.png"
+                                                                 alt="adept points">
+                  <h3 class="orange"> {{ adeptPoints }} </h3></div>
+                <div class="flex-column flex-center-center"><img class="points" src="assets/calculator/master.png"
+                                                                 alt="master points">
+                  <h3 class="red"> {{ masterPoints }} </h3></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div>
-        <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
-          <mat-card-content>
+        <div style="padding: 8px 14px; height: 170px">
+          <div>
             <div class="flex-row flex-center flex-gap-10">
               <div *ngFor="let skill of currentClassSkills">
                 <div>
-                  <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="below after">
-                    <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
+                  <div class="skill-badge" [class]="getLevelStyle(skill.level)"
+                       matBadge="{{getPrettyLevel(skill.level)}}" matBadgeColor="warn" matBadgeSize="large"
+                       matBadgePosition="below after">
+                    <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }"
+                         (click)="setCurrentActive(skill.image)" src="../../assets/skills/{{skill.image}}.png"
+                         alt="{{skill.image}}">
                   </div>
                 </div>
 
                 <div class="flex-center-center upgrade">
-                  <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
-                  <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
+                  <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg"
+                       src="assets/calculator/skilldown.png" alt="skill down">
+                  <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg"
+                       src="assets/calculator/skillup.png" alt="skill up">
                 </div>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
 
       <div>
-        <mat-card class="mat-elevation-z6" style="padding: 8px 14px">
-          <mat-card-content>
+        <div style="padding: 8px 14px; height: 170px">
+          <div>
             <div>
               <div class="flex-row flex-center flex-gap-10">
                 <div *ngFor="let skill of currentBasicSkills">
                   <div>
-                    <div [class]="getLevelStyle(skill.level)" matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
-                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }" (click)="setCurrentActive(skill.image)" src="assets/skills/{{skill.image}}.png" alt="{{skill.image}}">
+                    <div class="skill-badge" [class]="getLevelStyle(skill.level)"
+                         matBadge="{{getPrettyLevel(skill.level)}}" matBadgeSize="large" matBadgePosition="below after">
+                      <img class="skillImg" [ngClass]="{ 'activeImg': (skill.image === activeSkillImageName) }"
+                           (click)="setCurrentActive(skill.image)" src="assets/skills/{{skill.image}}.png"
+                           alt="{{skill.image}}">
                     </div>
                   </div>
 
                   <div class="upgrade flex-center-center">
-                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg" src="assets/calculator/skilldown.png" alt="skill down">
-                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg" src="assets/calculator/skillup.png" alt="skill up">
+                    <img (click)="updateLevelById(false, skill.id); setCurrentActive(skill.image)" class="downgradeImg"
+                         src="assets/calculator/skilldown.png" alt="skill down">
+                    <img (click)="updateLevelById(true, skill.id); setCurrentActive(skill.image)" class="upgradeImg"
+                         src="assets/calculator/skillup.png" alt="skill up">
                   </div>
 
                 </div>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
 
-      <div class="flex-row flex-center-center flex-gap-10 flex-y-stretch" style="height: 335px">
-        <mat-card class="mat-elevation-z6 flex-center-center flex-x-stretch-2-3" style="padding: 8px">
-          <mat-card-content>
-            <div class="flex-row flex-center flex-gap-2">
-              <div *ngFor="let stat of currentStats" class="flex-column flex-center-center flex-gap-4">
+      <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10" style="margin-top: 6px">
+        <div fxLayoutAlign="center start" fxFlex="66.7" style="padding: 8px; height: 330px">
+          <div>
+            <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2">
+              <div *ngFor="let stat of currentStats"  fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="4">
                 <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
-                <h3 *ngIf="stat.minLevel == 20" class="blue"> {{stat.level * 10}} </h3>
-                <h3 *ngIf="stat.minLevel == 10" class="blue"> {{stat.level}} </h3>
-                <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button class="iconButton upgradeStat"> +1 </button>
-                <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button class="iconButton upgradeStat"> +10 </button>
+                <h3 *ngIf="stat.minLevel == 20" class="blue"> {{ stat.level * 10 }} </h3>
+                <h3 *ngIf="stat.minLevel == 10" class="blue"> {{ stat.level }} </h3>
+                <button (click)="updateStatById(true, 1, stat.id)" mat-stroked-button class="iconButton upgradeStat">
+                  +1
+                </button>
+                <button (click)="updateStatById(true, 10, stat.id)" mat-stroked-button class="iconButton upgradeStat">
+                  +10
+                </button>
                 <div class="make-space"></div>
-                <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button class="iconButton reduceStat"> -1 </button>
-                <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button class="iconButton reduceStat"> -10 </button>
+                <button (click)="updateStatById(false, 1, stat.id)" mat-stroked-button class="iconButton reduceStat">
+                  -1
+                </button>
+                <button (click)="updateStatById(false, 10, stat.id)" mat-stroked-button class="iconButton reduceStat">
+                  -10
+                </button>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="mat-elevation-z6 flex-x-stretch-1-3" style="padding: 8px">
-          <mat-card-content>
-            <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0" class="flex-column flex-center-center flex-gap-1">
+          </div>
+        </div>
+        <div fxFlex="33.3" style="padding: 8px">
+          <div>
+            <div *ngIf="activeSkill && activeSkill.skillBasics.length != 0"
+                 class="flex-column flex-center-center flex-gap-1">
               <div class="flex-column flex-center-center flex-gap-1 skill-desc-part">
                 <div>
-                  <h4 style="display: inline; font-weight: bold">{{'BUILD_CALCULATOR.SKILLS.' + activeSkill.name | uppercase | underscore | translate}}</h4>
-                  <h5 style="display: inline"> (lvl: {{getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill)}}+)</h5>
+                  <h4
+                    style="display: inline; font-weight: bold">{{ 'BUILD_CALCULATOR.SKILLS.' + activeSkill.name | uppercase | underscore | translate }}</h4>
+                  <h5 style="display: inline">
+                    (lvl: {{ getRealRequiredLevel(isBasicSkill(activeSkill.id), activeSkill) }}+)</h5>
                 </div>
-                <h5 *ngIf="activeSkill.requirements">{{'BUILD_CALCULATOR.REQUIREMENTS' | translate}}: {{'SKILL_REQUIREMENTS.' + activeSkill.requirements | uppercase | underscore | translate}}</h5>
-                <h5 *ngIf="activeSkill.formula">{{'BUILD_CALCULATOR.FORMULA' | translate}}: {{'SKILL_FORMULAS.' + activeSkill.formula | translate}}</h5>
+                <h5 *ngIf="activeSkill.requirements">{{ 'BUILD_CALCULATOR.REQUIREMENTS' | translate }}
+                  : {{ 'SKILL_REQUIREMENTS.' + activeSkill.requirements | uppercase | underscore | translate }}</h5>
+                <h5 *ngIf="activeSkill.formula">{{ 'BUILD_CALCULATOR.FORMULA' | translate }}
+                  : {{ 'SKILL_FORMULAS.' + activeSkill.formula | translate }}</h5>
               </div>
-              <h5 class="pointer" (click)="openSkillLevelSelectDialog('100ms', '100ms')">{{'BUILD_CALCULATOR.LEVEL' | translate}}: {{getLevelString(activeSkill.level)}} <mat-icon class="select-icon">navigation</mat-icon></h5>
+              <h5 class="pointer"
+                  (click)="openSkillLevelSelectDialog('100ms', '100ms')">{{ 'BUILD_CALCULATOR.LEVEL' | translate }}
+                : {{ getLevelString(activeSkill.level) }}
+                <mat-icon class="select-icon">navigation</mat-icon>
+              </h5>
               <div *ngIf="activeSkill.level != 0" class="flex-column flex-center-center flex-gap-1 skill-desc-part">
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">{{'BUILD_CALCULATOR.DAMAGE' | translate}}: {{getActiveSkillBasic(activeSkill.level).damage}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">{{'BUILD_CALCULATOR.CHANCE_TO_HIT' | translate}}: {{getActiveSkillBasic(activeSkill.level).hitChance}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">{{'BUILD_CALCULATOR.MANA' | translate}}: {{getActiveSkillBasic(activeSkill.level).manaCost}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">{{'BUILD_CALCULATOR.STAMINA' | translate}}: {{getActiveSkillBasic(activeSkill.level).staminaCost}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">{{'BUILD_CALCULATOR.ROUNDS' | translate}}: {{getActiveSkillBasic(activeSkill.level).roundsTime}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">{{'BUILD_CALCULATOR.ADDITIONAL_EFFECT_CHANCE' | translate}}: {{getActiveSkillBasic(activeSkill.level).additionalEffectChance}}%</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{printSpecialEffect(getActiveSkillBasic(activeSkill.level))}}</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).damage">{{ 'BUILD_CALCULATOR.DAMAGE' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).damage }}%</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).hitChance">{{ 'BUILD_CALCULATOR.CHANCE_TO_HIT' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).hitChance }}%</h5>
+                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).manaCost">{{ 'BUILD_CALCULATOR.MANA' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).manaCost }}</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).staminaCost">{{ 'BUILD_CALCULATOR.STAMINA' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).staminaCost }}</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).roundsTime">{{ 'BUILD_CALCULATOR.ROUNDS' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).roundsTime }}</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).additionalEffectChance">{{ 'BUILD_CALCULATOR.ADDITIONAL_EFFECT_CHANCE' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).additionalEffectChance }}%</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).specialEffectValue">{{ printSpecialEffect(getActiveSkillBasic(activeSkill.level)) }}</h5>
                 <h5 *ngIf="getActiveSkillBasic(activeSkill.level).skillDifficulty"
                     matTooltip="
                                 1PA = {{getRequiredWisdomForSkill(activeSkill.level, 1, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
                                 2PA = {{getRequiredWisdomForSkill(activeSkill.level, 2, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
                                 3PA = {{getRequiredWisdomForSkill(activeSkill.level, 3, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
-                    ">
-                  {{'BUILD_CALCULATOR.DIFFICULTY' | translate}}: {{'DIFFICULTIES.' + getActiveSkillBasic(activeSkill.level).skillDifficulty | translate}}
+                                4PA = {{getRequiredWisdomForSkill(activeSkill.level, 4, getActiveSkillBasic(activeSkill.level).skillDifficulty)}}
+                    "
+                    matTooltipClass="custom-tooltip"
+                >
+                  {{ 'BUILD_CALCULATOR.DIFFICULTY' | translate }}
+                  : {{ 'DIFFICULTIES.' + getActiveSkillBasic(activeSkill.level).skillDifficulty | translate }}
                 </h5>
               </div>
               <div class="flex-column flex-center-center flex-gap-1"
@@ -348,37 +572,48 @@
                   (getActiveSkillBasic(activeSkill.level).skillPsychoEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).skillCustomEffects.length > 0 ||
                   getActiveSkillBasic(activeSkill.level).effectRoundsTime)">
-                <h5>{{'BUILD_CALCULATOR.EFFECT' | translate}}:</h5>
-                <h5 *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{'PSYCHO_EFFECTS.' + psycho.psychoEffect | translate}}: {{printPsychoValue(psycho)}}</h5>
-                <h5 *ngFor="let custom of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{'CUSTOM_EFFECTS.' + custom.description | uppercase | underscore | translate}}{{printCustomEffectValue(custom)}}</h5>
-                <h5 *ngIf="getActiveSkillBasic(activeSkill.level).effectRoundsTime">{{'BUILD_CALCULATOR.ROUNDS' | translate}}: {{getActiveSkillBasic(activeSkill.level).effectRoundsTime}}</h5>
+                <h5>{{ 'BUILD_CALCULATOR.EFFECT' | translate }}:</h5>
+                <h5
+                  *ngFor="let psycho of getActiveSkillBasic(activeSkill.level).skillPsychoEffects">{{ 'PSYCHO_EFFECTS.' + psycho.psychoEffect | translate }}
+                  : {{ printPsychoValue(psycho) }}</h5>
+                <h5
+                  *ngFor="let custom of getActiveSkillBasic(activeSkill.level).skillCustomEffects">{{ 'CUSTOM_EFFECTS.' + custom.description | uppercase | underscore | translate }}{{ printCustomEffectValue(custom) }}</h5>
+                <h5
+                  *ngIf="getActiveSkillBasic(activeSkill.level).effectRoundsTime">{{ 'BUILD_CALCULATOR.ROUNDS' | translate }}
+                  : {{ getActiveSkillBasic(activeSkill.level).effectRoundsTime }}</h5>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </div>
   </mat-tab>
 
   <!--INVENTORY-->
 
-  <mat-tab labelClass="inventory-tab" *ngIf="!databaseBuild" label="Inventory" >
-    <h2 style="color: red; margin-bottom: 0" >WERSJA PRE BETA - ZGŁASZAJ WSZYSTKO PRZEZ FORMULARZ ZGŁASZANIA BŁĘDÓW/SUGESTII PO LEWEJ</h2>
-    <h3 style="color: red; margin-bottom: 1px">Sety nie zliczają jeszcze bonusów psycho i nie mają blokad profesji oraz nie działa zapisywanie buildu EQ</h3>
-    <div class="restrict-width flex-row flex-gap-15">
+  <mat-tab labelClass="inventory-tab" *ngIf="!databaseBuild && !buildNotFound" label="Inventory">
+    <h2 style="color: red; margin-bottom: 0">WERSJA PRE BETA - ZGŁASZAJ WSZYSTKO PRZEZ FORMULARZ ZGŁASZANIA
+      BŁĘDÓW/SUGESTII PO LEWEJ</h2>
+    <h3 style="color: red; margin-bottom: 1px">Sety nie zliczają jeszcze bonusów psycho i nie mają blokad profesji oraz
+      nie działa zapisywanie buildu EQ</h3>
+    <div fxLayout="row" fxLayoutGap="15" class="restrict-width">
 
       <!--ITEM SELECT-->
-      <mat-card class="mat-elevation-z6 flex-x-stretch-1-3" style="padding: 4px">
+      <mat-card fxFlex="33.3" style="padding: 4px">
         <mat-card-content class="flex-column flex-center flex-gap-20">
           <div class="items-choose-container">
             <div class="items-choose-item custom-choose" (click)="setItemToInventory(undefined)">
               <h2 style="color: red">X</h2>
             </div>
-            <div [class]="'items-choose-item ' + getFamily(item) + '-choose'" *ngFor="let item of availableToChoose" (click)="setItemToInventory(item)">
-              <img src="./assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item)">
+            <div [class]="'items-choose-item ' + getFamily(item) + '-choose'" *ngFor="let item of availableToChoose"
+                 (click)="setItemToInventory(item)">
+              <img src="./assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt=""
+                   (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item)">
             </div>
-            <div [class]="'unavailable items-choose-item ' + getFamily(item) + '-choose'" *ngFor="let item of unavailableToChoose">
-              <img src="./assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item)">
+            <div [class]="'unavailable items-choose-item ' + getFamily(item) + '-choose'"
+                 *ngFor="let item of unavailableToChoose">
+              <img src="./assets/rars/{{item.name.toLowerCase().replaceAll(' ', '_')}}.png" alt=""
+                   (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item)">
             </div>
           </div>
 
@@ -386,197 +621,264 @@
       </mat-card>
 
       <!--INVENTORY-->
-      <mat-card class="mat-elevation-z6 flex-x-stretch-2-3">
+      <mat-card fxFlex="66.7">
         <mat-card-content class="inventory-window flex-row flex-center">
           <div class="mod-sum">
             <img (click)="showDrifSummary()" ngSrc="assets/calculator/mod_sum.png" alt="mod sum" height="25" width="25">
           </div>
           <!--PLAYER-->
           <div id="container" class="inventory-window">
-            <div class="stat-container flex-row">
-              <div class="stats flex-column flex-center flex-gap-2">
-                <div *ngFor="let stat of currentStats" class="flex-row flex-center-center flex-gap-4">
-                  <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
-                  <h3 *ngIf="stat.minLevel == 20"> {{stat.level * 10}} </h3>
-                  <h3 *ngIf="stat.minLevel == 10"> {{stat.level}} </h3>
+            <div fxLayout="row" class="stat-container">
+              <div fxFlex fxLayout="row" fxLayoutAlign="center center" >
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2" class="stats">
+                  <div *ngFor="let stat of currentStats" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                    <img class="points" src="assets/stats/{{stat.image}}.png" alt="{{stat.image}} points">
+                    <h3 *ngIf="stat.minLevel == 20"> {{ stat.level * 10 }} </h3>
+                    <h3 *ngIf="stat.minLevel == 10"> {{ stat.level }} </h3>
+                  </div>
+                </div>
+                <div fxFlex="50" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2" class="stats-inv">
+                  <div *ngFor="let stat of currentStats" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                    <h3 *ngIf="stat.minLevel == 20"
+                        class="element-gold"> {{ stat.level * 10 + getStatSum(stat.image) }} </h3>
+                    <h3 *ngIf="stat.minLevel == 10"
+                        class="element-gold"> {{ stat.level + getStatSum(stat.image) }} </h3>
+                  </div>
                 </div>
               </div>
-              <div class="stats-inv flex-column flex-center flex-gap-2">
-                <div *ngFor="let stat of currentStats" class="flex-row flex-center-center flex-gap-4">
-                  <h3 *ngIf="stat.minLevel == 20" class="element-gold"> {{stat.level * 10 + getStatSum(stat.image)}} </h3>
-                  <h3 *ngIf="stat.minLevel == 10" class="element-gold"> {{stat.level + getStatSum(stat.image)}} </h3>
-                </div>
-              </div>
-              <div class="resists flex-column flex-center flex-gap-2">
-                <div class="flex-row flex-center-center flex-gap-4">
+
+              <div fxFlex="50" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/slash.png" alt="slash">
-                  <h3> {{getResSum("slash")}} </h3>
+                  <h3> {{ getResSum("slash") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/crush.png" alt="slash">
-                  <h3> {{getResSum("crush")}} </h3>
+                  <h3> {{ getResSum("crush") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/pierc.png" alt="slash">
-                  <h3> {{getResSum("pierc")}} </h3>
+                  <h3> {{ getResSum("pierc") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/fire.png" alt="slash">
-                  <h3> {{getResSum("fire")}} </h3>
+                  <h3> {{ getResSum("fire") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/cold.png" alt="slash">
-                  <h3> {{getResSum("cold")}} </h3>
+                  <h3> {{ getResSum("cold") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/energy.png" alt="slash">
-                  <h3> {{getResSum("energy")}} </h3>
+                  <h3> {{ getResSum("energy") }} </h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
                   <img class="points" src="assets/stats/mental.png" alt="slash">
-                  <h3> {{getResSum("mental")}} </h3>
+                  <h3> {{ getResSum("mental") }} </h3>
                 </div>
               </div>
-              <div class="resists-percent flex-column flex-center flex-gap-2">
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("slash")}}%</h3>
+              <div fxFlex="50" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="2" class="resists-percent">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("slash") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("crush")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("crush") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("pierc")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("pierc") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("fire")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("fire") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("cold")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("cold") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("energy")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("energy") }}%</h3>
                 </div>
-                <div class="flex-row flex-center-center flex-gap-4">
-                  <h3 class="element-gold"> {{getResSumPercent("mental")}}%</h3>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4" style="height: 30px">
+                  <h3 class="element-gold"> {{ getResSumPercent("mental") }}%</h3>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.HELMET) as item" class="item helmet" (click)="changeItemsToShow(InventorySlot.HELMET, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.HELMET) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.HELMET) as item" class="item helmet"
+                 (click)="changeItemsToShow(InventorySlot.HELMET, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.HELMET) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/helmet.png" width="32" height="53" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/helmet.png" width="32"
+                     height="53" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.HELMET)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.HELMET)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.AMULET) as item" class="item amulet" (click)="changeItemsToShow(InventorySlot.AMULET, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.AMULET) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.AMULET) as item" class="item amulet"
+                 (click)="changeItemsToShow(InventorySlot.AMULET, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.AMULET) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/amulet.png" width="50" height="35" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/amulet.png" width="50"
+                     height="35" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.AMULET)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.AMULET)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.GLOVES) as item" class="item gauntlets"  (click)="changeItemsToShow(InventorySlot.GLOVES, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.GLOVES) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.GLOVES) as item" class="item gauntlets"
+                 (click)="changeItemsToShow(InventorySlot.GLOVES, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.GLOVES) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/gloves.png" width="51" height="36" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/gloves.png" width="51"
+                     height="36" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.GLOVES)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.GLOVES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_1) as item" class="item ring1" (click)="changeItemsToShow(InventorySlot.RING_1, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_1) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_1) as item" class="item ring1"
+                 (click)="changeItemsToShow(InventorySlot.RING_1, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_1) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_1.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_1.png" width="31"
+                     height="23" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_1)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_2) as item" class="item ring2"  (click)="changeItemsToShow(InventorySlot.RING_2, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_2) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.RING_2) as item" class="item ring2"
+                 (click)="changeItemsToShow(InventorySlot.RING_2, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.RING_2) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_2.png" width="31" height="23" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/ring_2.png" width="31"
+                     height="23" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.RING_2)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.SHIELDORBRACES) as item" class="item shield"  (click)="changeItemsToShow(InventorySlot.SHIELDORBRACES, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.SHIELDORBRACES) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="" style="border-radius: 50%;">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.SHIELDORBRACES) as item"
+                 class="item shield" (click)="changeItemsToShow(InventorySlot.SHIELDORBRACES, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.SHIELDORBRACES) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt=""
+                   style="border-radius: 50%;">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/shieldorbraces.png" width="32" height="57" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/shieldorbraces.png"
+                     width="32" height="57" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)"
+                       (click)="blockHideRar($event,InventorySlot.SHIELDORBRACES)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.BOOTS) as item" class="item boots"  (click)="changeItemsToShow(InventorySlot.BOOTS, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.BOOTS) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.BOOTS) as item" class="item boots"
+                 (click)="changeItemsToShow(InventorySlot.BOOTS, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.BOOTS) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/boots.png" width="44" height="45" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/boots.png" width="44"
+                     height="45" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BOOTS)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BOOTS)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.WEAPON) as item" class="item weapon"  (click)="changeItemsToShow(InventorySlot.WEAPON, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.WEAPON) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.WEAPON) as item" class="item weapon"
+                 (click)="changeItemsToShow(InventorySlot.WEAPON, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.WEAPON) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/weapon.png" width="58" height="59" alt="">
+                <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/weapon.png" width="58"
+                     height="59" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.WEAPON)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.WEAPON)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.PANTS) as item" class="item pants"  (click)="changeItemsToShow(InventorySlot.PANTS, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.PANTS) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.PANTS) as item" class="item pants"
+                 (click)="changeItemsToShow(InventorySlot.PANTS, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.PANTS) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/pants.png" width="26" height="58" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/pants.png" width="26"
+                     height="58" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.PANTS)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.PANTS)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.BELT) as item" class="item belt"  (click)="changeItemsToShow(InventorySlot.BELT, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.BELT) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.BELT) as item" class="item belt"
+                 (click)="changeItemsToShow(InventorySlot.BELT, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.BELT) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/belt.png" width="48" height="39" alt="">
+                <img *ngIf="!item" class="placeholder" src="assets/equipment/placeholders/belt.png" width="48"
+                     height="39" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BELT)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.BELT)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.ARMOR) as item" class="item armor"  (click)="changeItemsToShow(InventorySlot.ARMOR, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.ARMOR) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.ARMOR) as item" class="item armor"
+                 (click)="changeItemsToShow(InventorySlot.ARMOR, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.ARMOR) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/armor.png" width="42" height="59" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/armor.png" width="42"
+                     height="59" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.ARMOR)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event,InventorySlot.ARMOR)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
             </div>
-            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.CAPE) as item" class="item cape"  (click)="changeItemsToShow(InventorySlot.CAPE, $event)">
-              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.CAPE) ? 'selected-circle' : ''" ngSrc="assets/calculator/rar_slot_circle.png" width="140px" height="140px" alt="">
+            <div *ngVar="getItemFromPlayerInventoryByInventorySlot(InventorySlot.CAPE) as item" class="item cape"
+                 (click)="changeItemsToShow(InventorySlot.CAPE, $event)">
+              <img class="circle" [ngClass]="currentSelectedSlot(InventorySlot.CAPE) ? 'selected-circle' : ''"
+                   ngSrc="assets/calculator/rar_slot_circle.png" width="30px" height="30px" alt="">
               <div [class]="'background placeholder ' + getFamily(item) + '-choose'">
-                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/cape.png" width="24" height="64" alt="">
+                <img *ngIf="!item" class="placeholder" ngSrc="assets/equipment/placeholders/cape.png" width="24"
+                     height="64" alt="">
                 <div *ngIf="item">
-                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt="" (mousemove)="moveStats($event)" (mouseout)="showDesc(false)" (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event, InventorySlot.CAPE)">
+                  <img class="placeholder" src="assets/rars/{{getItemImageName(item)}}.png" alt=""
+                       (mousemove)="moveStats($event)" (mouseout)="showDesc(false)"
+                       (mouseenter)="showDesc(true, item, $event)" (click)="blockHideRar($event, InventorySlot.CAPE)">
                   <div *ngTemplateOutlet="drifsSelect; context: {item: item}"></div>
                 </div>
               </div>
@@ -590,65 +892,71 @@
 
   <!--BUILD DESCRIPTION-->
 
-  <mat-tab labelClass="description-tab" label="{{'BUILD_CALCULATOR.DESCRIPTION' | translate}}">
-    <div *ngIf="buildNotFound" class="flex-column flex-gap-10">
-      <mat-card class="mat-elevation-z6 flex-center-center" style="padding: 8px">
-        <mat-card-content>
-          <h2>{{'BUILD_CALCULATOR.NOT_FOUND' | translate}}</h2>
-        </mat-card-content>
-      </mat-card>
+  <mat-tab labelClass="description-tab" label="{{'BUILD_CALCULATOR.DESCRIPTION' | translate}}" >
+    <div *ngIf="buildNotFound" class="flex-column flex-gap-10" style="padding: 10px 0 10px">
+      <div class="mat-elevation-z6 flex-center-center" style="padding: 8px">
+        <div>
+          <h2>{{ 'BUILD_CALCULATOR.NOT_FOUND' | translate }}</h2>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.profile?.uuid === jwtService.getUuid())" class="flex-column flex-gap-10" style="padding-bottom: 10px">
-      <mat-card class="mat-elevation-z6 flex-center-center">
-        <mat-card-content>
+    <div *ngIf="!databaseBuild || (!buildNotFound && databaseBuild?.profile?.uuid === jwtService.getUuid())"
+         class="flex-column flex-gap-10" style="padding: 10px 0 10px">
+      <div class="flex-center-center">
+        <div>
           <div class="flex-column flex-center-center flex-gap-15">
             <div class="flex-column flex-center-center flex-gap-20">
               <div class="flex-column flex-center-center">
-                <h3>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</h3>
+                <h3>{{ 'BUILD_CALCULATOR.BUILD_NAME' | translate }}</h3>
                 <mat-form-field appearance="fill" color="accent" style="width: 300px">
-                  <mat-label>{{'BUILD_CALCULATOR.BUILD_NAME' | translate}}</mat-label>
+                  <mat-label>{{ 'BUILD_CALCULATOR.BUILD_NAME' | translate }}</mat-label>
                   <input matInput #blName maxlength="30" [(ngModel)]="buildName" placeholder="Nazwa buildu">
-                  <mat-hint align="end">{{blName.value.length}} / 30</mat-hint>
+                  <mat-hint align="end">{{ blName.value.length }} / 30</mat-hint>
                 </mat-form-field>
               </div>
             </div>
             <div class="flex-column flex-center-center">
-              <h3>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</h3>
+              <h3>{{ 'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate }}</h3>
               <mat-form-field appearance="fill" color="accent" style="width: 800px">
-                <mat-label>{{'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate}}</mat-label>
-                <input matInput #blShortDesc maxlength="150" [(ngModel)]="shortDescription" placeholder="Skrócony opis buildu">
-                <mat-hint align="end">{{blShortDesc.value.length}} / 150</mat-hint>
+                <mat-label>{{ 'BUILD_CALCULATOR.SHORT_DESCRIPTION' | translate }}</mat-label>
+                <input matInput #blShortDesc maxlength="150" [(ngModel)]="shortDescription"
+                       placeholder="Skrócony opis buildu">
+                <mat-hint align="end">{{ blShortDesc.value.length }} / 150</mat-hint>
               </mat-form-field>
             </div>
             <div class="flex-row flex-center-center flex-gap-15">
-              <mat-slide-toggle [(ngModel)]="privateBuild">{{'BUILD_CALCULATOR.BUILD_PRIVACY' | translate}}</mat-slide-toggle>
-              <mat-slide-toggle [(ngModel)]="pvpBuild">{{'BUILD_CALCULATOR.PVP_BUILD' | translate}}</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="privateBuild">{{ 'BUILD_CALCULATOR.BUILD_PRIVACY' | translate }}
+              </mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="pvpBuild">{{ 'BUILD_CALCULATOR.PVP_BUILD' | translate }}</mat-slide-toggle>
             </div>
             <div style="max-width: 800px">
-              <h3>{{'BUILD_CALCULATOR.DESCRIPTION' | translate | uppercase}}</h3>
+              <h3>{{ 'BUILD_CALCULATOR.DESCRIPTION' | translate | uppercase }}</h3>
               <angular-editor [(ngModel)]="description" [config]="editorConfig"></angular-editor>
-              <div style="text-align: end">{{description?.toString().length ? description?.toString().length : 0}} / 6000</div>
+              <div style="text-align: end">{{ description?.toString().length ? description?.toString().length : 0 }} /
+                6000
+              </div>
             </div>
             <div>
-              <h3>{{'BUILD_CALCULATOR.RESULT' | translate}}</h3>
+              <h3>{{ 'BUILD_CALCULATOR.RESULT' | translate }}</h3>
             </div>
             <div style="max-width: 800px; word-wrap: break-word;" class="flex-x-stretch" [innerHTML]="description">
             </div>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
     </div>
-    <div *ngIf="databaseBuild && !buildNotFound && databaseBuild?.profile?.uuid !== jwtService.getUuid()" style="padding-bottom: 10px">
-      <mat-card class="mat-elevation-z6">
-        <mat-card-content class="flex-column flex-center-center flex-gap-10">
-          <h1>{{buildName}}</h1>
+    <div *ngIf="databaseBuild && !buildNotFound && databaseBuild?.profile?.uuid !== jwtService.getUuid()"
+         style="padding: 10px 0 10px">
+      <div class="mat-elevation-z6">
+        <div class="flex-column flex-center-center flex-gap-10">
+          <h1>{{ buildName }}</h1>
           <mat-divider></mat-divider>
-          <h2>{{shortDescription}}</h2>
+          <h2>{{ shortDescription }}</h2>
           <mat-divider></mat-divider>
           <div style="max-width: 800px; word-wrap: break-word;" class="flex-x-stretch" [innerHTML]="description"></div>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
     </div>
   </mat-tab>
 
@@ -663,20 +971,27 @@
 <!--MENUS-->
 
 <mat-menu #drifMenu="matMenu" class="menu-drif">
-  <button (menuOpened)="setDrifSize('sub')" [disabled]="cantPutDrifTier(1)" (menuClosed)="unsetDrifSize()" mat-menu-item [matMenuTriggerFor]="types">
+  <button (menuOpened)="setDrifSize('sub')" [disabled]="cantPutDrifTier(1)" (menuClosed)="unsetDrifSize()" mat-menu-item
+          [matMenuTriggerFor]="types">
     <img class="drif-choose-image" ngSrc="assets/drifs/drif_sizes/defence_sub.png" alt="" height="40" width="40">
   </button>
-  <button (menuOpened)="setDrifSize('bi')" [disabled]="cantPutDrifTier(2)" (menuClosed)="unsetDrifSize()" mat-menu-item [matMenuTriggerFor]="types">
-    <img class="drif-choose-image"  ngSrc="assets/drifs/drif_sizes/reduction_bi.png" alt="" height="40" width="40">
+  <button (menuOpened)="setDrifSize('bi')" [disabled]="cantPutDrifTier(2)" (menuClosed)="unsetDrifSize()" mat-menu-item
+          [matMenuTriggerFor]="types">
+    <img class="drif-choose-image" ngSrc="assets/drifs/drif_sizes/reduction_bi.png" alt="" height="40" width="40">
   </button>
-  <button (menuOpened)="setDrifSize('magni')" [disabled]="cantPutDrifTier(3)" (menuClosed)="unsetDrifSize()" mat-menu-item [matMenuTriggerFor]="types">
-    <img class="drif-choose-image"  ngSrc="assets/drifs/drif_sizes/special_magni.png" alt="" height="40" width="40">
+  <button (menuOpened)="setDrifSize('magni')" [disabled]="cantPutDrifTier(3)" (menuClosed)="unsetDrifSize()"
+          mat-menu-item [matMenuTriggerFor]="types">
+    <img class="drif-choose-image" ngSrc="assets/drifs/drif_sizes/special_magni.png" alt="" height="40" width="40">
   </button>
-  <button (menuOpened)="setDrifSize('arcy')" [disabled]="cantPutDrifTier(4)" (menuClosed)="unsetDrifSize()" mat-menu-item [matMenuTriggerFor]="types">
-    <img class="drif-choose-image"  ngSrc="assets/drifs/drif_sizes/damage_arcy.png" alt="" height="40" width="40">
+  <button (menuOpened)="setDrifSize('arcy')" [disabled]="cantPutDrifTier(4)" (menuClosed)="unsetDrifSize()"
+          mat-menu-item [matMenuTriggerFor]="types">
+    <img class="drif-choose-image" ngSrc="assets/drifs/drif_sizes/damage_arcy.png" alt="" height="40" width="40">
   </button>
   <button mat-menu-item class="remove-drif-button" (click)="setDrif('')">
-    X
+    <div style="font-size: 20px; font-weight: 700">
+      X
+    </div>
+
   </button>
 </mat-menu>
 
@@ -690,40 +1005,56 @@
 
 <mat-menu #accuracy="matMenu" class="menu-drif">
   <button *ngFor="let drif of getDrifsByCategory(DrifCategory.ACCURACY)"
-          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
-    <span>{{ drif.shortName | titlecase}}</span>
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)"
+          [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after">
+    <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+      <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+      <span>{{ drif.shortName | titlecase }}</span>
+    </div>
   </button>
 </mat-menu>
 
 <mat-menu #damage="matMenu" class="menu-drif">
   <button *ngFor="let drif of getDrifsByCategory(DrifCategory.DAMAGE)"
-          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
-    <span>{{ drif.shortName | titlecase}}</span>
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)"
+          [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after">
+    <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+      <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+      <span>{{ drif.shortName | titlecase }}</span>
+    </div>
   </button>
 </mat-menu>
 
 <mat-menu #defence="matMenu" class="menu-drif">
   <button *ngFor="let drif of getDrifsByCategory(DrifCategory.DEFENCE)"
-          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
-    <span>{{ drif.shortName | titlecase}}</span>
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)"
+          [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after">
+    <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+      <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+      <span>{{ drif.shortName | titlecase }}</span>
+    </div>
   </button>
 </mat-menu>
 
 <mat-menu #reduction="matMenu" class="menu-drif">
   <button *ngFor="let drif of getDrifsByCategory(DrifCategory.REDUCTION)"
-          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
-    <span>{{ drif.shortName | titlecase}}</span>
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)"
+          [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after">
+    <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+      <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+      <span>{{ drif.shortName | titlecase }}</span>
+    </div>
   </button>
 </mat-menu>
 
 <mat-menu #special="matMenu" class="menu-drif">
   <button *ngFor="let drif of getDrifsByCategory(DrifCategory.SPECIAL)"
-          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)" [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after" class="flex-row flex-space-around-center" style="padding-left: 0">
-    <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
-    <span>{{ drif.shortName | titlecase}}</span>
+          mat-menu-item (click)="setDrif(drif.shortName)" [matTooltip]="getDrifShortDesc(drif.shortName)"
+          [disabled]="cantPutDrif(drif.shortName)" matTooltipPosition="after">
+    <div fxLayoutAlign="evenly center" fxLayoutGap="6">
+      <img ngSrc="assets/drifs/drif_types/{{drif.shortName}}.png" alt="" height="50" width="50">
+      <span>{{ drif.shortName | titlecase }}</span>
+    </div>
+
   </button>
 </mat-menu>

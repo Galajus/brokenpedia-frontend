@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {DictionaryEntry} from "@models/dictionary/dictionaryEntry";
 import {Observable} from "rxjs/internal/Observable";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, interval} from "rxjs";
 
 @Injectable({
@@ -76,7 +76,7 @@ export class DqCounterService {
 
   private startCountdown(targetTimestamp: number, subject: BehaviorSubject<{ dq: string, days: number, hours: number, minutes: number, seconds: number }>) {
     interval(1000).subscribe(() => {
-      const now = Math.floor(Date.now() / 1000);
+      const now = this.getPolandTimestamp();
       const timeDifference = targetTimestamp - now;
       const dq = subject.value.dq;
       if (timeDifference > 0) {
@@ -89,6 +89,17 @@ export class DqCounterService {
         this.setTargetDate(); // Reset the target date
       }
     });
+  }
+
+  private getPolandTimestamp(): number {
+    const nowUTC = Math.floor(Date.now() / 1000);
+    const polandOffsetSeconds = this.getPolandOffset() * 60;
+    return nowUTC + polandOffsetSeconds;
+  }
+
+  private getPolandOffset(date = new Date()): number {
+    const options = { timeZone: "Europe/Warsaw" };
+    return new Date(date.toLocaleString("en-US", options)).getTimezoneOffset();
   }
 
   getCountdown7Days() {

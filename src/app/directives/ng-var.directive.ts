@@ -1,7 +1,8 @@
 import {Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef,} from '@angular/core';
 
 @Directive({
-  selector: '[ngVar]',
+    selector: '[ngVar]',
+    standalone: false
 })
 export class NgVarDirective<T = unknown> {
   private _context: NgVarContext<T> = new NgVarContext<T>();

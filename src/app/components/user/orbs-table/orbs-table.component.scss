@@ -11,29 +11,19 @@
 }
 
 table {
-  width: 100%;
   text-align: center;
+  font-weight: bold;
 }
 
-th {
-  text-align: center !important;
-}
-
-.mat-row:nth-child(even){
-  background-color: #414141;
-}
-
-.mat-row:nth-child(odd){
-  background-color: #3a3a3a;
+td, th {
+  text-align: center;
+  padding: 0 10px;
 }
 
 .mat-column-effect {
   font-weight: bold;
 }
 
-.mat-column-name {
-  padding-left: 0 !important;
-}
 
 .mat-column-type {
   min-width: 95px;

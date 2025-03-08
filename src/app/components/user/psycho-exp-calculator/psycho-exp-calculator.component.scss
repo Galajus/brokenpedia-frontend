@@ -3,31 +3,22 @@ mat-list {
 }
 
 table {
-  width: 100%;
-  table-layout: fixed;
   text-align: center;
   font-weight: bold;
 }
 
-.standard-form {
-  width: 100% !important;
-}
-
 th {
-  text-align: center !important;
+  text-align: center;
 }
 
+td {
+  text-align: center;
+}
+
+.standard-form {
+  width: 100% ;
+}
 
 tr.mat-row {
-  height: 35px !important;
-}
-
-
-
-.mat-row:nth-child(even){
-  background-color: #646464;
-}
-
-.mat-row:nth-child(odd){
-  background-color: #4b4b4b;
+  height: 35px;
 }
