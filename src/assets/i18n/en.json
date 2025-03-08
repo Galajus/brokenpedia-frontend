@@ -383,6 +383,8 @@
       "BRACES": "Vambraces",
       "AMULET":  "Amulet",
       "RING": "Ring",
+      "RING_2": "Ring",
+      "RING_1": "Ring",
       "SHIELD":  "Shield",
       "SWORD": "Sword",
       "AXE":  "Axe",

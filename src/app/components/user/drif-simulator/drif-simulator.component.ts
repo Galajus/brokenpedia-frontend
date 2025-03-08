@@ -446,6 +446,7 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy, HasUnsavedChan
   }
 
   calculateModSummary() {
+    this.removeDuplicatesKeepFirst();
     this.validateRanks();
     this.validateLevels();
     this.modSummary = [];
@@ -464,6 +465,31 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy, HasUnsavedChan
     });
 
     this.calculateRealModSum();
+
+    this.getActiveBuild().rarsWithDrifs.forEach(rar => {
+      if (rar.drifItems.length > 3) {
+        console.log("ERROR: " + rar.slot)
+      }
+    })
+  }
+
+  removeDuplicatesKeepFirst() {
+    const rars = this.getActiveBuild().rarsWithDrifs;
+
+    rars.forEach(item => {
+      const seen = new Set<number>();
+      const filteredDrifs = item.drifItems.filter(d => {
+        if (seen.has(d.drifSlot || 0)) {
+          return false;
+        }
+        seen.add(d.drifSlot || 0);
+        return true;
+      });
+      if (item.drifItems.length !== filteredDrifs.length) {
+        item.drifItems = filteredDrifs;
+        this.snackBar.open("Naprawiono zbugowane drify na przedmicie: " + this.translate.instant('ITEMS.TYPES.' + item.slot), "ok", {duration: 3000});
+      }
+    });
   }
 
   private validateLevels() {
