@@ -1625,7 +1625,9 @@ export class DrifSimulatorComponent implements OnInit, OnDestroy, HasUnsavedChan
     }
 
     build.rarsWithDrifs.forEach(rar => {
-      build.backpack.push(...rar.drifItems);
+      rar.drifItems.forEach(d => {
+        build.backpack.push(cloneDeep(d));
+      })
     })
   }
 
