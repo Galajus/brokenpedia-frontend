@@ -107,7 +107,7 @@
                 <div *ngFor="let slot of drifSlots">
 
                   <div
-                    *ngIf="slot === 1 || (slot === 2 && (eq.rank > 4 || eq.ornaments >= 7)) || (slot === 3 && eq.rank >= 10)">
+                    *ngIf="slot === 1 || (slot === 2 && (eq.rank >= 4 || eq.ornaments >= 7)) || (slot === 3 && eq.rank >= 10)">
 
                     <button *ngIf="!getDrifFromRarBySlot(eq, slot) && countUsedPower(eq) !== getPowerCapacityByRank(eq)"
                             style="width: 78px; margin-bottom: 8px; padding: 0" mat-flat-button
